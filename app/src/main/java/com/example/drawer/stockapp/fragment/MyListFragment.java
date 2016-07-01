@@ -79,8 +79,6 @@ public class MyListFragment extends Fragment {
 
         public void initWeight(View view){
             MyListView mList = (MyListView) view.findViewById(R.id.fragment_list);
-            Log.d("tag", "initWeight: "+mList.requestFocus());
-
             ArrayAdapter adapter = new ArrayAdapter(getActivity(),R.layout.txt_item_layout,setData());
             mList.setAdapter(adapter);
         }
