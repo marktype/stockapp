@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/select_pay_way"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="选择支付方式"
+        android:layout_below="@+id/line_two"
+        android:layout_margin="@dimen/margin_10dp"/>
+    
+    <RadioGroup
+        android:id="@+id/select_layout"
+        android:layout_below="@id/select_pay_way"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/pay_aliply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@mipmap/alibabapay"
+            android:drawableRight="@drawable/btn_radio_pay"
+            android:layout_margin="@dimen/margin_10dp"
+            android:text="支付宝支付" />
+        <RadioButton
+            android:id="@+id/wechatpay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@mipmap/share2"
+            android:drawableRight="@drawable/btn_radio_pay"
+            android:layout_margin="@dimen/margin_10dp"
+            android:text="微信支付" />
+    </RadioGroup>
+</RelativeLayout>

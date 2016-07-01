@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    >
+    <RelativeLayout
+        android:id="@+id/celue_title"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/arrowlift"
+            android:padding="@dimen/margin_10dp"/>
+        <TextView
+            android:id="@+id/back_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/lianghuacelue_txt"
+            android:gravity="center"
+            android:textColor="@color/write_color"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/margin_10dp"
+            android:textSize="@dimen/title_size"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scroll_test"
+        android:layout_width="match_parent"
+        android:layout_below="@id/celue_title"
+        android:fillViewport="true"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent">
+<ImageView
+        android:id="@+id/title_image"
+        android:layout_margin="@dimen/margin_10dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="@dimen/margin_60dp"
+        android:layout_height="@dimen/margin_60dp" />
+    <TextView
+        android:id="@+id/zuhe_name"
+        android:layout_toRightOf="@id/title_image"
+        android:text="组合名"
+
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_width="@dimen/margin_30dp"
+
+        android:layout_toRightOf="@id/zuhe_name"
+        android:layout_margin="@dimen/margin_10dp"
+        android:background="@android:color/darker_gray"
+        android:layout_height="@dimen/margin_15dp" />
+    <TextView
+        android:id="@+id/muji_time"
+        android:layout_below="@+id/zuhe_name"
+        android:text="募集时间"
+        android:layout_toRightOf="@id/title_image"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/niuren_money"
+        android:text="牛人投资金额:100000元"
+        android:layout_toRightOf="@id/title_image"
+        android:layout_below="@id/muji_time"
+        android:textSize="@dimen/margin_10dp"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/zuiduo_money"
+        android:text="最多投顾金额：80000元"
+        android:layout_toRightOf="@id/niuren_money"
+        android:layout_below="@id/muji_time"
+        android:textSize="@dimen/margin_10dp"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/content_celue"
+        android:layout_below="@id/title_image"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:maxLength="30"
+        android:text="韩军相关人士还表示，发现朝鲜试图对濒海战斗舰适用隐形技术，以针对韩方建造利用隐形技术"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+            <include layout="@layout/celue_item_layout"
+                android:id="@+id/layout_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/content_celue"></include>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@id/layout_item"
+                android:background="@android:color/darker_gray"
+                android:id="@+id/line_celue_one"/>
+            <TextView
+                android:id="@+id/run_time_txt"
+                android:text="运行期间：2016-8-10至2016-11-20"
+                android:layout_below="@id/line_celue_one"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_margin="@dimen/margin_5dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@id/run_time_txt"
+                android:background="@android:color/darker_gray"
+
+                android:id="@+id/line_celue_two"/>
+            <include layout="@layout/celueren_item_layout"
+                android:id="@+id/celue_item_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line_celue_two"></include>
+            <TextView
+                android:id="@+id/now_shouyi"
+                android:layout_below="@id/celue_item_layout"
+                android:text="当前收益"
+                android:layout_margin="@dimen/margin_10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/shouyi_image"
+                android:layout_below="@id/now_shouyi"
+                android:layout_margin="@dimen/margin_10dp"
+                android:src="@mipmap/img454693988"
+                android:layout_width="match_parent"
+                android:layout_height="150dp" />
+            <TextView
+                android:layout_below="@id/shouyi_image"
+                android:text="跟投服务"
+                android:id="@+id/gengtou_name"
+                android:layout_margin="@dimen/margin_10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <include layout="@layout/gengtou_item_layout"
+                android:id="@+id/gengtou_item_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gengtou_name"></include>
+            <TextView
+                android:layout_below="@id/gengtou_item_layout"
+                android:text="退款保障"
+                android:id="@+id/refund_name"
+                android:layout_margin="@dimen/margin_10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.example.drawer.stockapp.customview.MyListView
+                android:id="@+id/my_listview_refund"
+                android:layout_below="@id/refund_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <include layout="@layout/celue_last_item_layout"
+                android:id="@+id/last_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/my_listview_refund"/>
+            <TextView
+                android:layout_below="@id/last_item"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp" />
+        </RelativeLayout>
+    </ScrollView>
+    <TextView
+        android:id="@+id/go_to_pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="立即跟投"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/write_color"
+        android:padding="@dimen/margin_10dp"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

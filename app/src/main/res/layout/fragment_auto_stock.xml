@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.drawer.stockapp.fragment.FirstNewsFragment">
+
+    <RelativeLayout
+        android:id="@+id/all_order_title"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:id="@+id/info_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_10dp"
+            android:src="@mipmap/message"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/write_color"
+            android:textSize="@dimen/title_text_size"
+            android:layout_centerInParent="true"
+            android:text="@string/auto_stock_txt"/>
+        <ImageView
+            android:id="@+id/pop_item_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/searchicon"
+            android:padding="@dimen/margin_10dp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

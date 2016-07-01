@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    >
+    <RelativeLayout
+        android:id="@+id/person_title"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/arrowlift"
+            android:padding="@dimen/margin_10dp"/>
+        <TextView
+            android:id="@+id/back_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="个人资料"
+            android:gravity="center"
+            android:textColor="@color/write_color"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/margin_10dp"
+            android:textSize="@dimen/title_text_size"/>
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/head_image"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/person_title"
+        android:layout_marginTop="@dimen/margin_25dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="@dimen/margin_100dp"
+        android:layout_height="@dimen/margin_100dp" />
+    <include layout="@layout/user_item_layout"
+        android:id="@+id/user_info_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_15dp"
+        android:layout_below="@id/head_image"/>
+    <TextView
+        android:text="注销"
+        android:layout_below="@id/user_info_item"
+        android:layout_width="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingBottom="@dimen/margin_10dp"
+        android:paddingRight="20dp"
+        android:paddingTop="@dimen/margin_10dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/write_color"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:scrollbars="none"
+    android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/jingxuan_class_lin"
+        android:layout_width="match_parent"
+        android:padding="@dimen/margin_10dp"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/kecheng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="精选课程"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_alignParentRight="true"
+            android:src="@mipmap/arrowright"/>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/line_class_one"
+        android:layout_below="@id/jingxuan_class_lin"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@android:color/darker_gray"/>
+
+    <GridView
+        android:layout_below="@id/line_class_one"
+        android:id="@+id/gridview_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_10dp"
+        android:horizontalSpacing="@dimen/margin_10dp"
+        android:verticalSpacing="@dimen/margin_10dp"
+        android:numColumns="2"/>
+
+    <RelativeLayout
+        android:id="@+id/jingxuan_heji_lin"
+        android:layout_width="match_parent"
+        android:padding="@dimen/margin_10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gridview_layout"
+        >
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="精选合集"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/arrowright"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/heji_image_one"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_below="@+id/jingxuan_heji_lin"
+        android:src="@mipmap/img454693988"
+        android:layout_height="150dp" />
+    <ImageView
+        android:id="@+id/heji_image_two"
+        android:scaleType="centerCrop"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_below="@id/heji_image_one"
+        android:layout_width="match_parent"
+        android:src="@mipmap/img454693988"
+        android:layout_height="150dp" />
+
+    <TextView
+        android:id="@+id/tuijian_user"
+        android:text="推荐用户"
+        android:layout_below="@id/heji_image_two"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <HorizontalScrollView
+        android:id="@+id/find_scroll"
+        android:scrollbars="none"
+        android:layout_below="@id/tuijian_user"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginBottom="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/scroll_lin"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </LinearLayout>
+    </HorizontalScrollView>
+    <com.example.drawer.stockapp.customview.MyGridView
+        android:layout_below="@id/find_scroll"
+        android:id="@+id/my_gridview"
+        android:layout_margin="@dimen/margin_10dp"
+        android:horizontalSpacing="@dimen/margin_10dp"
+        android:verticalSpacing="@dimen/margin_10dp"
+        android:numColumns="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
+</ScrollView>

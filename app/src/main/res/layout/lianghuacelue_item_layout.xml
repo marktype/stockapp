@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/lianghuacelue_item_relat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/image_celue"
+            android:layout_width="@dimen/margin_5dp"
+            android:layout_height="@dimen/margin_25dp"
+            android:layout_margin="@dimen/margin_10dp"
+            android:background="@color/colorPrimary"/>
+        <TextView
+            android:id="@+id/lianghuacelue_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="量化策略组合"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/title_text_size"
+            android:layout_toRightOf="@id/image_celue"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@mipmap/arrowright"
+            android:text="更多"
+            android:layout_margin="@dimen/margin_10dp"
+            android:textSize="@dimen/activity_vertical_margin"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line_celue"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/lianghuacelue_item_relat"
+        android:background="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:id="@+id/celue_circle"
+        android:orientation="vertical"
+       android:layout_marginTop="@dimen/margin_25dp"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_below="@id/line_celue"
+        android:background="@drawable/circle_blue_shape"
+       android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="招募进度"
+            android:textSize="@dimen/margin_13dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="@dimen/title_size"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/celue_persent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="90%"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:textSize="@dimen/margin_15dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/celue_title"
+        android:text="alpha对冲策略1号"
+        android:textSize="@dimen/margin_15dp"
+        android:layout_below="@id/line_celue"
+        android:layout_marginTop="@dimen/title_size"
+        android:layout_toRightOf="@id/celue_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/celue_time_day"
+        android:text="历史业绩"
+        android:textSize="@dimen/margin_10dp"
+        android:layout_below="@id/line_celue"
+        android:layout_marginTop="@dimen/title_size"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:padding="@dimen/margin_5dp"
+        android:background="@drawable/rect_write_black_shape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/celue_content"
+        android:text="把握市场，哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
+        android:layout_toRightOf="@id/celue_circle"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:maxLength="30"
+        android:layout_below="@id/celue_time_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/celue_three_item_relat"
+        android:layout_toRightOf="@id/celue_circle"
+        android:layout_below="@id/celue_content"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <include layout="@layout/layout_celue_item"></include>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/line_celue_two"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/celue_three_item_relat"
+        android:background="@android:color/darker_gray"/>
+    <ImageView
+        android:id="@+id/celue_image"
+        android:layout_width="@dimen/margin_40dp"
+        android:layout_height="@dimen/margin_40dp"
+        android:layout_below="@id/line_celue_two"
+        android:layout_margin="@dimen/margin_10dp"
+        android:src="@mipmap/ic_launcher"/>
+    <TextView
+        android:id="@+id/celue_people_name"
+        android:text="顾婷婷"
+        android:layout_below="@id/line_celue_two"
+        android:layout_toRightOf="@id/celue_image"
+        android:layout_marginTop="@dimen/title_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/line_celue_three"
+        android:layout_width="@dimen/title_size"
+        android:layout_height="@dimen/title_size"
+        android:layout_toRightOf="@id/celue_people_name"
+        android:layout_margin="@dimen/title_size"
+        android:layout_below="@id/line_celue_two"
+        android:background="@android:color/darker_gray"/>
+    <TextView
+        android:id="@+id/celue_name_other"
+        android:text="立即跟投"
+        android:textSize="@dimen/margin_10dp"
+       android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:background="@drawable/rect_write_black_shape"
+        android:padding="@dimen/margin_5dp"
+        android:layout_below="@id/line_celue_two"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

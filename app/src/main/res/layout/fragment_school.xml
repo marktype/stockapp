@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:id="@+id/all_title"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:id="@+id/my_class_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:src="@mipmap/message"/>
+        <RadioGroup
+            android:id="@+id/class_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/margin_1dp"
+            android:orientation="horizontal"
+            android:background="@drawable/rect_write_shape"
+            android:gravity="center_vertical">
+            <RadioButton
+                android:id="@+id/find_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:padding="@dimen/margin_4dp"
+                android:text="@string/find_txt"
+                android:checked="true"
+                android:textColor="@drawable/text_selector"
+                android:background="@drawable/bg_selector"
+                android:textSize="@dimen/title_text_size" />
+            <RadioButton
+                android:id="@+id/class_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:padding="@dimen/margin_4dp"
+                android:text="@string/my_class_txt"
+                android:textColor="@drawable/text_selector"
+                android:background="@drawable/bg_selector"
+                android:textSize="@dimen/title_text_size" />
+        </RadioGroup>
+        <ImageView
+            android:id="@+id/search_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/searchicon"
+            android:padding="@dimen/margin_10dp" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/class_content_pager"
+        android:layout_below="@id/all_title"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

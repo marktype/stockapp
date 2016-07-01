@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/drawer_head_info_relat"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:layout_height="@dimen/margin_80dp">
+        <ImageView
+            android:id="@+id/head_img"
+            android:layout_width="@dimen/margin_60dp"
+            android:layout_height="@dimen/margin_60dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_margin="@dimen/margin_10dp"/>
+        <TextView
+            android:id="@+id/user_name"
+            android:text="用户名"
+            android:layout_toRightOf="@+id/head_img"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/margin_10dp"
+            android:src="@mipmap/arrowright"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/fensi_num"
+        android:text="粉丝"
+        android:layout_margin="@dimen/margin_15dp"
+
+        android:layout_below="@id/drawer_head_info_relat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/gunazhu_num"
+        android:text="关注"
+        android:layout_margin="@dimen/margin_15dp"
+        android:layout_toRightOf="@id/fensi_num"
+        android:layout_below="@id/drawer_head_info_relat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/fensi_num"
+        android:background="@android:color/darker_gray"/>
+    <TextView
+        android:id="@+id/trade_now"
+        android:text="@string/trade_now"
+        android:layout_below="@id/fensi_num"
+        android:padding="@dimen/margin_15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/my_zuhe_now"
+        android:text="@string/my_zuhe_txt"
+        android:layout_below="@id/trade_now"
+        android:padding="@dimen/margin_15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/money_now"
+        android:text="@string/money_txt"
+        android:layout_below="@id/my_zuhe_now"
+        android:padding="@dimen/margin_15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/trade_quan_now"
+        android:text="@string/trade_quan"
+        android:layout_below="@id/money_now"
+        android:padding="@dimen/margin_15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/cellect_now"
+        android:text="@string/cellect_txt"
+        android:layout_below="@id/trade_quan_now"
+        android:padding="@dimen/margin_15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/exit_now"
+        android:text="@string/exit_txt"
+        android:layout_below="@id/cellect_now"
+        android:padding="@dimen/margin_15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

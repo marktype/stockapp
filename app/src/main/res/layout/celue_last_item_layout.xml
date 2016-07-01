@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/wisdom_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:padding="@dimen/margin_1dp"
+        android:orientation="horizontal"
+        android:background="@drawable/rect_write_black_shape"
+        android:gravity="center_vertical">
+        <RadioButton
+            android:id="@+id/celue_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:padding="@dimen/margin_4dp"
+            android:text="调仓记录"
+            android:checked="true"
+            android:textColor="@drawable/text_selector"
+            android:background="@drawable/bg_selector"
+            android:textSize="@dimen/margin_15dp"/>
+        <RadioButton
+            android:id="@+id/zuhe_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:padding="@dimen/margin_4dp"
+            android:text="当前持仓"
+            android:textColor="@drawable/text_selector"
+            android:background="@drawable/bg_selector"
+            android:textSize="@dimen/margin_15dp" />
+        <RadioButton
+            android:id="@+id/my_celue_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:padding="@dimen/margin_4dp"
+            android:text="跟投人"
+            android:textColor="@drawable/text_selector"
+            android:background="@drawable/bg_selector"
+            android:textSize="@dimen/margin_15dp" />
+        <RadioButton
+            android:id="@+id/my_zuhe_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:padding="@dimen/margin_4dp"
+            android:text="交流区"
+            android:textColor="@drawable/text_selector"
+            android:background="@drawable/bg_selector"
+            android:textSize="@dimen/margin_15dp" />
+    </RadioGroup>
+    <FrameLayout
+        android:id="@+id/fragment_layout"
+        android:layout_below="@id/wisdom_group"
+        android:background="@color/colorAccent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+</RelativeLayout>

@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">爱猫爪</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lianghuacelue_txt">量化策略</string>
+    <string name="niurenzuhe_txt">牛人组合</string>
+    <string name="my_zuhe_txt">我的组合</string>
+    <string name="auto_stock_txt">自选股</string>
+    <string name="find_txt">发现</string>
+    <string name="my_class_txt">我的课堂</string>
+    <string name="zixun_txt">资讯</string>
+    <string name="dongtai_txt">动态</string>
+    <string name="trade_now">实盘交易</string>
+
+    <string name="money_txt">钱包</string>
+    <string name="trade_quan">交易券</string>
+    <string name="cellect_txt">收藏</string>
+    <string name="exit_txt">退出登录</string>
+    <string name="dongtai_main_body">动态正文</string>
+    <string name="search_txt">搜索</string>
+    <string name="take_group_txt">订阅组合</string>
+    <string name="login_txt">登录</string>
+    <string name="register_txt">注册</string>
+    <string name="register_success_txt">注册成功</string>
+    <string name="forget_password_txt">忘记密码</string>
+    <string name="sure_txt">确认修改</string>
+    <string name="set_up_txt">创建组合</string>
+    <string name="pay_txt">支付</string>
+
+
+</resources>

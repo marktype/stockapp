@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v4.app.FragmentTabHost
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:layout_marginTop="@dimen/title_height"
+    android:id="@android:id/tabhost">
+
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TabWidget android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"/>
+        <FrameLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@android:id/tabcontent"
+            android:layout_above="@android:id/tabs"/>
+    </RelativeLayout>
+</android.support.v4.app.FragmentTabHost>
+
+    <FrameLayout
+        android:id="@+id/drawerlayout_start"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="@android:color/white"
+        >
+        <include layout="@layout/drawerlayout_content_layout"></include>
+    </FrameLayout>
+
+</android.support.v4.widget.DrawerLayout>

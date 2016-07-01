@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/history_his"
+        android:text="历史业绩"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/celue_item_head_imgae"
+        android:layout_below="@id/history_his"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="@dimen/margin_60dp"
+        android:layout_height="@dimen/margin_60dp" />
+    <TextView
+        android:id="@+id/people_name"
+        android:layout_toRightOf="@id/celue_item_head_imgae"
+        android:text="策略人"
+        android:layout_below="@id/history_his"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/from_where"
+        android:layout_toRightOf="@id/celue_item_head_imgae"
+        android:text="来自哪儿"
+        android:layout_below="@id/people_name"
+        android:layout_marginTop="@dimen/title_size"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/from_name"
+        android:text="称号"
+        android:layout_below="@id/people_name"
+        android:layout_toRightOf="@id/from_where"
+        android:layout_marginTop="@dimen/title_size"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/pie_image_liner"
+        android:layout_below="@id/celue_item_head_imgae"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+
+        <com.example.drawer.stockapp.customview.CanvasViewTwo
+            android:id="@+id/chart1"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.example.drawer.stockapp.customview.CanvasViewTwo
+            android:id="@+id/chart2"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.example.drawer.stockapp.customview.CanvasViewTwo
+            android:id="@+id/chart3"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/liner_pie_txt"
+        android:layout_below="@+id/pie_image_liner"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="平均月收益"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="组合成功率"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="选股成功率"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</RelativeLayout>

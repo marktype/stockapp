@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:id="@+id/all_celue_title"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/arrowlift"
+            android:padding="@dimen/margin_10dp"/>
+        <TextView
+            android:id="@+id/back_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="title"
+            android:gravity="center"
+            android:textColor="@color/write_color"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/margin_10dp"
+            android:textSize="@dimen/title_size"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/celue_scroll"
+        android:layout_below="@id/all_celue_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <include layout="@layout/celue_persent_info_layout"
+            android:id="@+id/persent_celue"/>
+        <include layout="@layout/month_rank_layout"
+            android:id="@+id/month_layout"
+            android:layout_margin="@dimen/margin_10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/persent_celue"/>
+            <TextView
+                android:id="@+id/advice_txt"
+                android:text="主理人建议"
+                android:layout_below="@id/month_layout"
+                android:textSize="@dimen/activity_vertical_margin"
+                android:textColor="@android:color/background_dark"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/advice_content"
+                android:layout_below="@id/advice_txt"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="你正在伏案工作，突然间办公桌开始缓慢地升空，怎么够都够不着。这正是荷兰一家设计公司的设计成果，也是该公司老板为避免员工加班想出的点子。"/>
+            <TextView
+                android:id="@+id/advice_image_txt"
+                android:text="Matrix"
+                android:layout_alignParentRight="true"
+                android:drawableTop="@mipmap/ic_launcher"
+                android:layout_below="@id/month_layout"
+                android:layout_margin="@dimen/margin_15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/yeji_rank_line"
+                android:layout_below="@id/advice_content"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:background="@android:color/darker_gray"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_15dp" />
+            <TextView
+                android:id="@+id/yeji_rank"
+                android:layout_below="@id/yeji_rank_line"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:text="业绩评级"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:textSize="@dimen/activity_horizontal_margin"
+                android:textColor="@android:color/background_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/yeji_rank_time"
+                android:layout_below="@id/yeji_rank_line"
+                android:layout_toRightOf="@id/yeji_rank"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:text="(最后评估时间: 2016-06-20 10:30:23)"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:id="@+id/line_yeji"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:layout_below="@id/yeji_rank_time"
+                android:background="@android:color/darker_gray"/>
+            <com.github.mikephil.charting.charts.RadarChart
+                android:id="@+id/chart1"
+                android:layout_below="@id/line_yeji"
+                android:layout_width="match_parent"
+                android:layout_height="320dp" />
+            <RatingBar
+                android:id="@+id/celue_seekbar"
+                android:layout_below="@id/chart1"
+                android:layout_centerHorizontal="true"
+                android:numStars="5"
+                android:rating="3.5"
+                android:layout_margin="@dimen/margin_5dp"
+                style="@style/MyRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/line_two"
+                android:layout_below="@id/celue_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_10dp"
+                android:background="@android:color/darker_gray"/>
+            <include layout="@layout/celue_diaocang_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/dioacang_layout"
+                android:layout_below="@id/line_two"/>
+            <TextView
+                android:id="@+id/line_three"
+                android:layout_below="@id/dioacang_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_10dp"
+                android:background="@android:color/darker_gray"/>
+            <TextView
+                android:id="@+id/stock_config"
+                android:text="股票配置"
+                android:layout_below="@id/line_three"
+                android:layout_margin="@dimen/margin_10dp"
+                android:textSize="@dimen/activity_horizontal_margin"
+                android:textColor="@android:color/background_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/stock_name"
+                android:text="沪深"
+                android:textColor="@color/write_color"
+                android:background="@color/colorAccent"
+                android:layout_toRightOf="@id/stock_config"
+                android:layout_below="@id/line_three"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:layout_marginLeft="@dimen/margin_8dp"
+                android:padding="@dimen/margin_3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.example.drawer.stockapp.customview.CanvasView
+                android:id="@+id/canvas_view"
+                android:layout_below="@id/stock_config"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_below="@id/canvas_view"
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
+        </RelativeLayout>
+
+    </ScrollView>
+    <TextView
+        android:id="@+id/order_txt"
+        android:text="立即订阅"
+        android:gravity="center"
+        android:padding="@dimen/margin_15dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/write_color"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/goal_shouyi_icon"
+        android:layout_width="@dimen/title_size"
+        android:background="@android:color/darker_gray"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_height="@dimen/title_size" />
+    <TextView
+        android:id="@+id/goal_shouyi"
+        android:text="目标收益:15%"
+        android:layout_toRightOf="@id/goal_shouyi_icon"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/max_long_time_icon"
+        android:layout_toRightOf="@id/goal_shouyi"
+        android:layout_width="@dimen/title_size"
+        android:background="@android:color/darker_gray"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_height="@dimen/title_size" />
+    <TextView
+        android:id="@+id/max_long_time"
+        android:text="最长期限：90天"
+        android:layout_toRightOf="@id/max_long_time_icon"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/zhishunxian_icon"
+        android:layout_width="@dimen/title_size"
+        android:layout_below="@id/goal_shouyi_icon"
+        android:background="@android:color/darker_gray"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_height="@dimen/title_size" />
+    <TextView
+        android:id="@+id/zhishunxian_txt"
+        android:text="止损线：-10%"
+        android:layout_below="@id/goal_shouyi_icon"
+        android:layout_toRightOf="@id/goal_shouyi_icon"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/shouyi_icon"
+        android:layout_toRightOf="@id/goal_shouyi"
+        android:layout_below="@id/max_long_time_icon"
+        android:layout_width="@dimen/title_size"
+        android:background="@android:color/darker_gray"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_height="@dimen/title_size" />
+    <TextView
+        android:id="@+id/shouyi_txt"
+        android:text="收益分成：40%"
+        android:layout_below="@id/max_long_time_icon"
+        android:layout_toRightOf="@id/max_long_time_icon"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/cellect_icon"
+        android:text="收藏"
+        android:gravity="bottom"
+        android:drawableLeft="@mipmap/star_empty"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/margin_10dp"
+        android:padding="@dimen/margin_5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

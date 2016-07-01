@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="@dimen/margin_10dp"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_10dp"
+            android:layout_height="wrap_content"
+            android:text="月收益排名（沪深）"/>
+        <TextView
+            android:id="@+id/rank_parsent"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="跑赢100%的组合"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="1px"
+        android:layout_margin="@dimen/margin_5dp"
+        android:layout_height="@dimen/margin_40dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_10dp"
+            android:layout_height="wrap_content"
+            android:text="是余额宝收益的"/>
+        <TextView
+            android:id="@+id/rank_times"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="29倍"/>
+    </LinearLayout>
+</LinearLayout>
