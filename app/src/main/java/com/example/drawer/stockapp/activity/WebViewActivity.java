@@ -4,9 +4,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.webkit.WebView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.customview.MyListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WebViewActivity extends BascActivity {
     private String url = "https://www.baidu.com/";
@@ -34,6 +39,9 @@ public class WebViewActivity extends BascActivity {
      */
     public void initWight(){
         ImageView mBackImg = (ImageView) findViewById(R.id.web_image_back);
+        MyListView myListView = (MyListView) findViewById(R.id.comment_listview);
+        ArrayAdapter adapter = new ArrayAdapter(this,R.layout.txt_item_layout,setCommentData());
+        myListView.setAdapter(adapter);
 
         mBackImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,5 +49,13 @@ public class WebViewActivity extends BascActivity {
                 finish();
             }
         });
+    }
+
+    public List<String> setCommentData(){
+        List<String> list = new ArrayList<>();
+        for(int i = 0;i<5;i++){
+            list.add("评论"+i);
+        }
+        return list;
     }
 }
