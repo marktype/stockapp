@@ -2,7 +2,6 @@ package com.example.drawer.stockapp.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +80,7 @@ public class MyListFragment extends Fragment {
             MyListView mList = (MyListView) view.findViewById(R.id.fragment_list);
             ArrayAdapter adapter = new ArrayAdapter(getActivity(),R.layout.txt_item_layout,setData());
             mList.setAdapter(adapter);
+
         }
 
 
