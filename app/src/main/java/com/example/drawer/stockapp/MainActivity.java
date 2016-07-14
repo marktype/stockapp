@@ -33,6 +33,7 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED); //关闭手势滑动
         initTab();
         initWight();
+
     }
 
     public void initWight(){

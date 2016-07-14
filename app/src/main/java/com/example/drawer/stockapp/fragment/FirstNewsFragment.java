@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +28,12 @@ import com.example.drawer.stockapp.activity.WebViewUpTitleActivity;
 import com.example.drawer.stockapp.adapter.IndexAdapter;
 import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
 import com.example.drawer.stockapp.adapter.TrendsAdapter;
+import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.listener.OnFragmentInteractionListener;
-import com.example.drawer.stockapp.model.HeadIndex;
+import com.example.drawer.stockapp.model.HeadMassageInfo;
 import com.example.drawer.stockapp.model.NewsInfo;
 import com.example.drawer.stockapp.model.TrendsInfo;
+import com.google.gson.Gson;
 import com.scxh.slider.library.SliderLayout;
 import com.scxh.slider.library.SliderTypes.BaseSliderView;
 import com.scxh.slider.library.SliderTypes.TextSliderView;
@@ -52,7 +56,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private View mView,zixunView,mSliderVIew,mScrollView,dongtaiView;
     private ViewPager mPager;
     private RadioButton mZinXun,mDongTai;
-    private String[] images = {"http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291055080-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291114570-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605042201270-L.jpg"};
+    private HeadMassageInfo headMassageInfo;
+//    private String[] images = {"http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291055080-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291114570-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605042201270-L.jpg"};
+    private String[] images = {""};
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -95,6 +101,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_first_news, container, false);
         initWight();
+        getMessageInfo();
         initData();
         return mView;
     }
@@ -104,6 +111,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
      * 初始化控件
      */
     public void initWight(){
+        Log.d("tag", "initWight: ");
         ImageView mImgHead = (ImageView) mView.findViewById(R.id.info_img);   //点击头像
         ImageView mMessage = (ImageView) mView.findViewById(R.id.pop_item_img);
 
@@ -113,8 +121,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
         mPager = (ViewPager) mView.findViewById(R.id.zixun_content_pager);   //viewpager
 
-
-
         mPager.setOnPageChangeListener(new TabOnPageChangeListener());
         mGroup.setOnCheckedChangeListener(new RadioGroupListener() );
 
@@ -123,6 +129,27 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mMessage.setOnClickListener(this);
 
 
+    }
+
+    /**
+     * 获取资讯信息
+     */
+    public void getMessageInfo(){
+        Log.d("tag", "getMessageInfo: ");
+       String message =  HttpManager.getHttpData(HttpManager.Information_URL);
+        Log.d("tag","--tag-"+message);
+        if (!TextUtils.isEmpty(message)){
+            Gson gson = new Gson();
+            headMassageInfo = gson.fromJson(message, HeadMassageInfo.class);
+            Log.d("tag","---"+headMassageInfo.getHead().getMsg());
+            if (headMassageInfo.getHead().getMsg().equals("0")){
+                images = new String[1];
+                images[0] = headMassageInfo.getResult().getBannerUrl();
+                Log.d("tag","--"+images[0]);
+                initListData();
+            }
+
+        }
 
     }
 
@@ -130,6 +157,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
      * 初始化适配器数据
      */
     public void initData(){
+        Log.d("tag", "initData: ");
        List<View> viewList = new ArrayList<View>();
         LayoutInflater mInflater=LayoutInflater.from(getActivity());
         mSliderVIew = mInflater.inflate(R.layout.imageslider_layout, null);    //第一个head imageSlider
@@ -147,7 +175,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList);
         mPager.setAdapter(adapter);
 
-        initListData();
+//        initListData();
 
         ListView mDongTaiList = (ListView) dongtaiView.findViewById(R.id.fondtai_listview);
         TrendsAdapter trendsAdapter = new TrendsAdapter(getActivity());
@@ -172,19 +200,17 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
     //初始化listview数据（资讯）
     public void initListData(){
-
+        Log.d("tag", "initListData: ");
         getSliderLayoutView(images,null);
 
         ListView mlist = (ListView) zixunView.findViewById(R.id.listview_zixun);
         mlist.addHeaderView(mSliderVIew);
 
         LinearLayout layout = (LinearLayout) mScrollView.findViewById(R.id.first_lin);   //scrollview下的布局
-//        HorizontalScrollView scroll = (HorizontalScrollView) mScrollView.findViewById(R.id.scroll_index);
 
-        ArrayList<HeadIndex> list = setIndexData();
-        for (int i = 0;i<list.size();i++){
-            HeadIndex index = list.get(i);
-
+        List<HeadMassageInfo.ResultBean.MarketDataBean> marketDataBeen = headMassageInfo.getResult().getMarketData();
+        for (int i = 0;i<marketDataBeen.size();i++){
+            double addOrDec = marketDataBeen.get(i).getVariabilityPoints();
             LinearLayout layout1 = new LinearLayout(getActivity());
             ListView.LayoutParams lay = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layout1.setLayoutParams(lay);
@@ -195,7 +221,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             LinearLayout.LayoutParams aaaa = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT , LinearLayout.LayoutParams.WRAP_CONTENT);
             aaaa.setMargins(10,10,10,10);
             txt.setLayoutParams(aaaa);
-            txt.setText(index.getIndexName());
+            txt.setText( marketDataBeen.get(i).getName());
             txt.setGravity(Gravity.CENTER);
 
             layout1.addView(txt);
@@ -203,9 +229,13 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             LinearLayout.LayoutParams aaaa1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             aaaa1.setMargins(10,10,10,10);
             txt1.setLayoutParams(aaaa1);
-            txt1.setText(index.getIndexNum());
+            txt1.setText( marketDataBeen.get(i).getPoints()+"");
             txt1.setGravity(Gravity.CENTER);
-            txt1.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
+            if (addOrDec>0){
+                txt1.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
+            }else {
+                txt1.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
+            }
             txt1.setTextSize(18);
 
             layout1.addView(txt1);
@@ -214,14 +244,19 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             LinearLayout.LayoutParams aaaa2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT , LinearLayout.LayoutParams.WRAP_CONTENT);
             aaaa2.setMargins(10,10,10,10);
             txt2.setLayoutParams(aaaa2);
-            txt2.setText(index.getIndexPersent());
+            txt2.setText( addOrDec+""+ marketDataBeen.get(i).getVariabilityRate()+"%");
             txt2.setGravity(Gravity.CENTER);
-            txt2.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
+            if (addOrDec>0){
+                txt2.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
+            }else {
+                txt2.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
+            }
             layout1.addView(txt2);
 
             layout.addView(layout1);
         }
         mlist.addHeaderView(mScrollView);
+
 
         IndexAdapter indexAdapter = new IndexAdapter(getActivity());
         indexAdapter.setData(setNewsInfo());
@@ -249,21 +284,21 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
     }
 
-    /**
-     * 初始化指数数据
-     * @return
-     */
-    public ArrayList<HeadIndex> setIndexData(){
-        ArrayList<HeadIndex> indices = new ArrayList<>();
-        for (int i = 0;i<5;i++){
-            HeadIndex headIndex = new HeadIndex();
-            headIndex.setIndexName("上证指数"+i);
-            headIndex.setIndexNum("123456.23");
-            headIndex.setIndexPersent("+9.2+0.23%");
-            indices.add(headIndex);
-        }
-        return indices;
-    }
+//    /**
+//     * 初始化指数数据
+//     * @return
+//     */
+//    public ArrayList<HeadIndex> setIndexData(){
+//        ArrayList<HeadIndex> indices = new ArrayList<>();
+//        for (int i = 0;i<5;i++){
+//            HeadIndex headIndex = new HeadIndex();
+//            headIndex.setIndexName("上证指数"+i);
+//            headIndex.setIndexNum("123456.23");
+//            headIndex.setIndexPersent("+9.2+0.23%");
+//            indices.add(headIndex);
+//        }
+//        return indices;
+//    }
 
     /**
      * 初始化新闻数据
@@ -271,12 +306,14 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
      */
     public ArrayList<NewsInfo> setNewsInfo(){
         ArrayList<NewsInfo> newsInfos = new ArrayList<>();
-        for (int i = 0;i<5;i++){
+        List<HeadMassageInfo.ResultBean.NewsBean> newsBeen = headMassageInfo.getResult().getNews();
+        for (int i = 0;i<newsBeen.size();i++){
             NewsInfo info = new NewsInfo();
-            info.setTitle("美图自拍神器m5首发 2599元 0首付月还99"+i);
-            info.setTime("12:2"+i);
-            info.setPeopleNum("123"+i);
-            info.setImage("https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1916807876,626683245&fm=80");
+            HeadMassageInfo.ResultBean.NewsBean newsBean = newsBeen.get(i);
+            info.setTitle(newsBean.getTitle());
+            info.setTime(newsBean.getUpdateTime());
+            info.setPeopleNum(newsBean.getComments()+"");
+            info.setImage(newsBean.getBannerUrl());
             newsInfos.add(info);
         }
         return newsInfos;
