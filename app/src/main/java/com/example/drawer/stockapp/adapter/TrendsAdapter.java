@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.customview.MyGridView;
 import com.example.drawer.stockapp.model.TrendsInfo;
 import com.squareup.picasso.Picasso;
 
@@ -52,7 +53,7 @@ public class TrendsAdapter extends BaseAdapter {
             viewHolder.head = (ImageView) view.findViewById(R.id.dongtai_image);
             viewHolder.name = (TextView) view.findViewById(R.id.dongtai_name);
             viewHolder.content = (TextView) view.findViewById(R.id.dongtai_content);
-            viewHolder.contentImage = (ImageView) view.findViewById(R.id.dongtai_cntent_image);
+            viewHolder.contentImage = (MyGridView) view.findViewById(R.id.dongtai_cntent_image);
             viewHolder.time = (TextView) view.findViewById(R.id.dongtai_time);
             view.setTag(viewHolder);
         }else {
@@ -62,9 +63,9 @@ public class TrendsAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(info.getImage())){
             Picasso.with(context).load(info.getImage()).into(viewHolder.head);
         }
-        if (!TextUtils.isEmpty(info.getContentImage())){
-            Picasso.with(context).load(info.getContentImage()).into(viewHolder.contentImage);
-        }
+        ImageAdapter adapter = new ImageAdapter(context);
+        adapter.setData(info.getContentImage());
+        viewHolder.contentImage.setAdapter(adapter);
         viewHolder.name.setText(info.getName());
         viewHolder.content.setText(info.getContent());
         viewHolder.time.setText(info.getTime());
@@ -75,7 +76,7 @@ public class TrendsAdapter extends BaseAdapter {
         TextView name;
         ImageView head;
         TextView content;
-        ImageView contentImage;
+        MyGridView contentImage;
         TextView time;
     }
 }

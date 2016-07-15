@@ -2,8 +2,10 @@ package com.example.drawer.stockapp.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -15,7 +17,11 @@ import com.example.drawer.stockapp.customview.CanvasView;
 import com.example.drawer.stockapp.customview.CanvasViewTwo;
 import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.fragment.MyListFragment;
+import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.NewsInfo;
+import com.example.drawer.stockapp.model.StargDetial;
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,16 +32,49 @@ import java.util.HashMap;
 public class DetilCelueActivity extends BascActivity implements View.OnClickListener{
     private HashMap<String, Object> map;
     private ArrayList<HashMap<String, Object>> data;
+    private StargDetial stargDetial;
+    private TextView mGroupTxt,mRecuitmentTime,mNiurenMoney,mMostMoney,mContent,mTarget,mMostDay,mStopLose,mShouyiDiver,mRunTime,mCelueTxt,mFormWhere,mFormName;
+    private ImageView mTitleImage,mNiuRenImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detil_celue);
         initWeight();
+        getCelueDetail();
     }
-
+    /**
+     * 设置控件数据
+     */
+    public void setWidghtData(){
+        StargDetial.ResultBean.StrategyDetailBean strategy = stargDetial.getResult().getStrategyDetail();
+        mGroupTxt.setText(strategy.getName());
+        if (!TextUtils.isEmpty(strategy.getImgUrl()))
+        Picasso.with(this).load(strategy.getImgUrl()).into(mTitleImage);
+        mRecuitmentTime.setText("募集时间："+strategy.getRecuitmentStartTDay()+"-"+strategy.getRecuitmentEndTimeDay());
+        mNiurenMoney.setText(strategy.getStarInvestment()+"");
+        mMostMoney.setText(strategy.getMostFollow()+"");
+        mContent.setText(strategy.getDesc());
+    }
     public void initWeight(){
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         TextView mPay = (TextView) findViewById(R.id.go_to_pay);
+        mGroupTxt = (TextView) findViewById(R.id.zuhe_name);    //组合名称
+        mTitleImage = (ImageView) findViewById(R.id.title_image);   //头像图
+        mRecuitmentTime = (TextView) findViewById(R.id.muji_time);    //募集时间
+        mNiurenMoney = (TextView) findViewById(R.id.niuren_money);    //牛人投资金额
+        mMostMoney = (TextView) findViewById(R.id.zuiduo_money);   //最多跟投
+        mContent = (TextView) findViewById(R.id.content_celue);    //内容描述
+        mTarget = (TextView) findViewById(R.id.goal_shouyi);    //目标收益
+        mMostDay = (TextView) findViewById(R.id.max_long_time);   //最长期限
+        mStopLose = (TextView) findViewById(R.id.zhishunxian_txt);   //止损线
+        mShouyiDiver = (TextView) findViewById(R.id.shouyi_txt);   //收益分成
+        mRunTime = (TextView) findViewById(R.id.run_time_txt);     //运行时间
+        mNiuRenImage = (ImageView) findViewById(R.id.celue_item_head_imgae);    //历史牛人头像
+        mCelueTxt = (TextView) findViewById(R.id.people_name);     //策略人名称
+        mFormWhere = (TextView) findViewById(R.id.from_where);      //来自哪儿
+        mFormName = (TextView) findViewById(R.id.from_name);       //称号
+
+
 
         CanvasViewTwo mChartOne = (CanvasViewTwo) findViewById(R.id.chart1);
         CanvasViewTwo mChartTwo = (CanvasViewTwo) findViewById(R.id.chart2);
@@ -63,6 +102,44 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         mPay.setOnClickListener(this);
 
     }
+
+
+    /**
+     * 获取策略详情
+     */
+    public void getCelueDetail(){
+        new AsyncTask(){
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                HashMap<String,Object> hashMap = new HashMap<>();
+                HashMap<String,String> map = new HashMap<>();
+                map.put("PageIndex", "0");
+                map.put("PageCount", "0");
+                map.put("PageSize", "0");
+                hashMap.put("PageInfo",map);
+                hashMap.put("Id","0");
+                String message = HttpManager.newInstance().getHttpDataByThreeLayer("",hashMap,HttpManager.StrategyDetail_URL);
+                return message;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                String message = (String) o;
+                if (!TextUtils.isEmpty(message)){
+                    Gson gson = new Gson();
+                    stargDetial = gson.fromJson(message, StargDetial.class);
+                    if (stargDetial.getHead().getStatus()==0){
+
+
+                    }
+
+                }
+            }
+        }.execute();
+    }
+
 
     @Override
     public void onClick(View view) {

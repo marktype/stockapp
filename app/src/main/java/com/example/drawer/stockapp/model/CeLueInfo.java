@@ -15,6 +15,15 @@ public class CeLueInfo {
     private String name;      //名字
     private String otherInfo;    //内容
     private int type;   //类型
+    private String levelImage;    //等级图片
+
+    public String getLevelImage() {
+        return levelImage;
+    }
+
+    public void setLevelImage(String levelImage) {
+        this.levelImage = levelImage;
+    }
 
     public String getMinGengTou() {
         return minGengTou;

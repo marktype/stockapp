@@ -1,9 +1,11 @@
 package com.example.drawer.stockapp.fragment;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +25,15 @@ import com.example.drawer.stockapp.adapter.CeLueAdapter;
 import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
 import com.example.drawer.stockapp.adapter.MyZuHeAdapter;
 import com.example.drawer.stockapp.adapter.NiuRenAdapter;
+import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.CeLueInfo;
+import com.example.drawer.stockapp.model.CeLueListInfo;
 import com.example.drawer.stockapp.model.NiuRenInfo;
+import com.example.drawer.stockapp.model.NiuRenListInfo;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -45,6 +52,10 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private View mView,liangHuaZuHeView,niuRenZuHeView,myZuHeView;
     private ViewPager mPager;
     private RadioButton mLiangHuaCelue,mNiuRenZuHe,mMyZuHe;
+    private CeLueAdapter ceLueAdapter;
+    private CeLueListInfo ceLueListInfo;
+    private NiuRenListInfo niuRenListInfo;
+    private ListView listView,niurenList;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -85,9 +96,12 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_auto_wisdom, container, false);
-        initWight();
-        initData();
+        if (mView == null){
+            mView = inflater.inflate(R.layout.fragment_auto_wisdom, container, false);
+            initWight();
+            initData();
+        }
+
         return mView;
     }
 
@@ -128,17 +142,20 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList);
         mPager.setAdapter(adapter);
         //量化策略
-        ListView listView = (ListView) liangHuaZuHeView.findViewById(R.id.lianghuacelue_list);
+        listView = (ListView) liangHuaZuHeView.findViewById(R.id.lianghuacelue_list);
         listView.setOnItemClickListener(this);
-        CeLueAdapter ceLueAdapter = new CeLueAdapter(getActivity());
-        ceLueAdapter.setData(setLianghuaCelueData());
-        listView.setAdapter(ceLueAdapter);
+        ceLueAdapter = new CeLueAdapter(getActivity());
+        getCelueInfo();
+
+
+
         //牛人组合
-        ListView niurenList = (ListView) niuRenZuHeView.findViewById(R.id.niuren_listview);
+        niurenList = (ListView) niuRenZuHeView.findViewById(R.id.niuren_listview);
         niurenList.setOnItemClickListener(this);
         NiuRenAdapter niuRenAdapter = new NiuRenAdapter(getActivity());
-        niuRenAdapter.setData(setNiuRenData());
-        niurenList.setAdapter(niuRenAdapter);
+        getNiuRenListData(niuRenAdapter);
+
+
 
         //我的组合
         ListView myList = (ListView) myZuHeView.findViewById(R.id.my_zuhe_listview);
@@ -146,33 +163,121 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         mAddImg.setOnClickListener(this);
         myList.setOnItemClickListener(this);
         MyZuHeAdapter myZuHeAdapter = new MyZuHeAdapter(getActivity());
+        getMyListData();
+
         myZuHeAdapter.setData(setMyZuHeData());
         myList.setAdapter(myZuHeAdapter);
     }
 
     /**
+     * 获取量化策略列表
+     */
+    public void getCelueInfo(){
+        new AsyncTask(){
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("PageIndex", "0");
+                map.put("PageCount", "0");
+                map.put("PageSize", "0");
+                String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.StrategyList_URL);
+                return message;
+
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                String message = (String) o;
+                if (!TextUtils.isEmpty(message)){
+                    Gson gson = new Gson();
+                    ceLueListInfo = gson.fromJson(message, CeLueListInfo.class);
+                    if (ceLueListInfo.getHead().getStatus()==0) {
+                        ceLueAdapter.setData(setLianghuaCelueData());
+                        listView.setAdapter(ceLueAdapter);
+                    }
+                }
+
+            }
+        }.execute();
+    }
+
+    /**
+     * 获取牛人组合列表数据
+     */
+    public void getNiuRenListData(final NiuRenAdapter niuRenAdapter){
+        new AsyncTask(){
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("PageIndex", "0");
+                map.put("PageCount", "0");
+                map.put("PageSize", "0");
+                String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.StarPorfolio_URL);
+                return message;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                String message = (String) o;
+                if (!TextUtils.isEmpty(message)){
+                    Gson gson = new Gson();
+                    niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
+                    if (niuRenListInfo.getHead().getStatus()==0) {
+                        niuRenAdapter.setData(setNiuRenData());
+                        niurenList.setAdapter(niuRenAdapter);
+                    }
+                }
+            }
+        }.execute();
+    }
+
+    /**
+     * 我的组合列表
+     */
+    public void getMyListData(){
+        new AsyncTask(){
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                HashMap<String,Object> hashMap = new HashMap<>();
+                HashMap<String,String> map = new HashMap<>();
+                map.put("PageIndex", "0");
+                map.put("PageCount", "0");
+                map.put("PageSize", "0");
+                hashMap.put("PageInfo",map);
+                hashMap.put("Id","0");
+                String message = HttpManager.newInstance().getHttpDataByThreeLayer("",hashMap,HttpManager.MyPorfolio_URL);
+                return message;
+            }
+        }.execute();
+    }
+    /**
      * 初始化量化策略数据
      */
     public ArrayList<CeLueInfo> setLianghuaCelueData(){
         ArrayList<CeLueInfo> ceLueInfos = new ArrayList<>();
-        for (int i = 0;i<5;i++){
+        ArrayList<CeLueListInfo.ResultBean.StrategiesBean> strategiesBeen = ceLueListInfo.getResult().getStrategies();
+        for (int i = 0;i<strategiesBeen.size();i++){
+            CeLueListInfo.ResultBean.StrategiesBean ben = strategiesBeen.get(i);
+
             CeLueInfo info = new CeLueInfo();
             if (i == 0){
                 info.setType(1);
             }
-            if (i == 4){
-                info.setType(2);
-            }
-            info.setCeluePersent("52.23%");
-            info.setTitle("alpha对冲策略1号");
-            info.setJingZhiNum("12%");
-            info.setMaxNum("30天");
-            info.setRateNum("11.02%");
-            info.setName("哈哈"+i);
-            info.setMinGengTou("10000");
-            info.setOtherInfo("此前，朝鲜濒海战斗舰配备手动操作的30毫米机关炮。朝鲜配置的加特林机枪口径为12.7毫米，射速可达每分钟2千发，最远"+i);
-            info.setHeadImage("http://pic.sc.chinaz.com/Files/pic/pic9/201604/apic20161_s.jpg");
-
+            info.setCeluePersent(ben.getRecruitment()+"%");
+            info.setTitle(ben.getName());
+            info.setJingZhiNum(ben.getTargetReturns()+"%");
+            info.setMaxNum(ben.getMaxDay()+"天");
+            info.setRateNum(ben.getShareRatio()+"%");
+            info.setName(ben.getUserName());
+            info.setMinGengTou(ben.getMinFollow()+"");
+            info.setOtherInfo(ben.getDesc());
+            info.setHeadImage(ben.getUserImgUrl());
+            info.setLevelImage(ben.getUserLevelImgUrl());
             ceLueInfos.add(info);
         }
         return ceLueInfos;
@@ -184,19 +289,21 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      */
     public ArrayList<NiuRenInfo> setNiuRenData(){
         ArrayList<NiuRenInfo> niuRenInfos = new ArrayList<>();
-        for (int i= 0;i<5;i++){
+        ArrayList<NiuRenListInfo.ResultBean.StarPorfolioBean> starPorfolioBeen = niuRenListInfo.getResult().getStarPorfolio();
+        for (int i= 0;i<starPorfolioBeen.size();i++){
+            NiuRenListInfo.ResultBean.StarPorfolioBean ben = starPorfolioBeen.get(i);
             NiuRenInfo info = new NiuRenInfo();
             info.setNiurenHead("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2516161713,321762461&fm=58");
-            info.setNiurenName("牛人"+i);
+            info.setNiurenName(ben.getUserName());
             info.setNiurenRoundImage("http://img2.imgtn.bdimg.com/it/u=1689964256,2679873424&fm=21&gp=0.jpg");
-            info.setShouyiRate("总收益率 231.12%");
-            info.setVictorRate("100%");
-            info.setShouyiByMonth("20.23%");
-            info.setStockNum(123);
-            info.setCangweiRate("50.54%");
-            info.setDayNum(233);
-            info.setTradeTime("2.15");
-            info.setStockType("A股模拟交易");
+            info.setShouyiRate(ben.getTotleReturns()+"%");
+            info.setVictorRate(ben.getWinRatio()+"%");
+            info.setShouyiByMonth(ben.getMonthlyAverage()+"%");
+            info.setStockNum(ben.getHolding());
+            info.setCangweiRate(ben.getPosition()+"%");
+            info.setDayNum(ben.getAveragePosition());
+            info.setTradeTime(ben.getAverageTrading()+"");
+            info.setStockType(ben.getTitle());
             niuRenInfos.add(info);
         }
         return niuRenInfos;
@@ -222,6 +329,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     public void onDetach() {
         super.onDetach();
     }
+
+
 
     /**
      * 策略组合点击事件

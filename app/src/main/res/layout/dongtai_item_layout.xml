@@ -24,14 +24,25 @@
         android:layout_margin="@dimen/margin_10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <ImageView
+    <!--<ImageView-->
+        <!--android:id="@+id/dongtai_cntent_image"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_toRightOf="@id/dongtai_image"-->
+        <!--android:layout_below="@id/dongtai_content"-->
+        <!--android:layout_marginLeft="@dimen/margin_10dp"-->
+        <!--/>-->
+    <com.example.drawer.stockapp.customview.MyGridView
         android:id="@+id/dongtai_cntent_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:numColumns="3"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:verticalSpacing="@dimen/margin_5dp"
+        android:horizontalSpacing="@dimen/margin_5dp"
         android:layout_toRightOf="@id/dongtai_image"
         android:layout_below="@id/dongtai_content"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/dongtai_time"
         android:layout_width="wrap_content"

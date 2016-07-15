@@ -60,6 +60,7 @@ public class CeLueAdapter extends BaseAdapter {
             viewHolder.gengtouTxt = (TextView) view.findViewById(R.id.gengtou_num);
             viewHolder.layout = (RelativeLayout) view.findViewById(R.id.lianghuacelue_item_relat);
             viewHolder.zuheName = (TextView) view.findViewById(R.id.lianghuacelue_title);
+            viewHolder.levelImage = (ImageView) view.findViewById(R.id.line_celue_three);
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();
@@ -67,8 +68,6 @@ public class CeLueAdapter extends BaseAdapter {
         CeLueInfo info = (CeLueInfo) getItem(i);
         if (info.getType() == 1){
             viewHolder.zuheName.setText("量化策略组合");
-        }else if (info.getType() == 2){
-            viewHolder.zuheName.setText("推荐组合");
         }else {
             viewHolder.layout.setVisibility(View.GONE);
         }
@@ -82,7 +81,7 @@ public class CeLueAdapter extends BaseAdapter {
         viewHolder.name.setText(info.getName());
         viewHolder.gengtouTxt.setText(info.getMinGengTou());
         Picasso.with(context).load(info.getHeadImage()).into(viewHolder.headImage);
-
+        Picasso.with(context).load(info.getLevelImage()).into(viewHolder.levelImage);
 
         return view;
     }
@@ -94,7 +93,7 @@ public class CeLueAdapter extends BaseAdapter {
         TextView jingzhi;
         TextView maxNum;
         TextView rateNum;
-        ImageView headImage;
+        ImageView headImage,levelImage;
         TextView name;
         TextView gengtouTxt;
         TextView zuheName;

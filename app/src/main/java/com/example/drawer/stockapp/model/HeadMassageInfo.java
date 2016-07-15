@@ -4,12 +4,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by 欢大哥 on 2016/7/13.
  */
 public class HeadMassageInfo implements Parcelable {
+
 
     /**
      * Status : 0
@@ -17,12 +17,6 @@ public class HeadMassageInfo implements Parcelable {
      */
 
     private HeadBean Head;
-    /**
-     * BannerUrl : http://www.supwin.com/media/1009/logo.png
-     * MarketData : [{"Id":"0","Name":"上证指数","Code":"000001","Points":2913.51,"VariabilityPoints":-3.11,"VariabilityRate":-0.11,"UpdateTime":"2016-07-07 12:00:00"},{"Id":"1","Name":"深圳成指","Code":"399001","Points":1029.14,"VariabilityPoints":49.21,"VariabilityRate":0.48,"UpdateTime":"2016-07-07 12:00:00"},{"Id":"2","Name":"创业板指数","Code":"399006","Points":2168.82,"VariabilityPoints":9.02,"VariabilityRate":0.42,"UpdateTime":"2016-07-07 12:00:00"}]
-     * News : [{"Id":"0","Title":"任正非向高层汇报：为何华为现在感到迷茫","BannerUrl":"http://www.supwin.com/media/1009/logo.png","UpdateTime":"2016-07-07","Comments":5347,"Forward":532,"Likes":2011,"Favorites":300},{"Id":"1","Title":"习近平指示军队武警大力支持地方防汛救灾","BannerUrl":"http://www.supwin.com/media/1009/logo.png","UpdateTime":"2016-07-07","Comments":29112,"Forward":532,"Likes":2011,"Favorites":300}]
-     */
-
     private ResultBean Result;
 
     public HeadBean getHead() {
@@ -41,60 +35,10 @@ public class HeadMassageInfo implements Parcelable {
         this.Result = Result;
     }
 
-    public static class HeadBean implements Parcelable {
-        private int Status;
-        private String Msg;
 
-        public int getStatus() {
-            return Status;
-        }
-
-        public void setStatus(int Status) {
-            this.Status = Status;
-        }
-
-        public String getMsg() {
-            return Msg;
-        }
-
-        public void setMsg(String Msg) {
-            this.Msg = Msg;
-        }
-
-        public HeadBean() {
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(this.Status);
-            dest.writeString(this.Msg);
-        }
-
-        protected HeadBean(Parcel in) {
-            this.Status = in.readInt();
-            this.Msg = in.readString();
-        }
-
-        public static final Creator<HeadBean> CREATOR = new Creator<HeadBean>() {
-            @Override
-            public HeadBean createFromParcel(Parcel source) {
-                return new HeadBean(source);
-            }
-
-            @Override
-            public HeadBean[] newArray(int size) {
-                return new HeadBean[size];
-            }
-        };
-    }
 
     public static class ResultBean implements Parcelable {
-        private String BannerUrl;
+        private ArrayList<String> BannerUrl;
         /**
          * Id : 0
          * Name : 上证指数
@@ -119,15 +63,15 @@ public class HeadMassageInfo implements Parcelable {
 
         private ArrayList<NewsBean> News;
 
-        public String getBannerUrl() {
+        public ArrayList<String> getBannerUrl() {
             return BannerUrl;
         }
 
-        public void setBannerUrl(String BannerUrl) {
+        public void setBannerUrl(ArrayList<String> BannerUrl) {
             this.BannerUrl = BannerUrl;
         }
 
-        public List<MarketDataBean> getMarketData() {
+        public ArrayList<MarketDataBean> getMarketData() {
             return MarketData;
         }
 
@@ -135,7 +79,7 @@ public class HeadMassageInfo implements Parcelable {
             this.MarketData = MarketData;
         }
 
-        public List<NewsBean> getNews() {
+        public ArrayList<NewsBean> getNews() {
             return News;
         }
 
@@ -355,7 +299,7 @@ public class HeadMassageInfo implements Parcelable {
                 this.Favorites = in.readInt();
             }
 
-            public static final Parcelable.Creator<NewsBean> CREATOR = new Parcelable.Creator<NewsBean>() {
+            public static final Creator<NewsBean> CREATOR = new Creator<NewsBean>() {
                 @Override
                 public NewsBean createFromParcel(Parcel source) {
                     return new NewsBean(source);
@@ -375,18 +319,20 @@ public class HeadMassageInfo implements Parcelable {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.BannerUrl);
-            dest.writeTypedList(this.MarketData);
-            dest.writeTypedList(this.News);
+            dest.writeStringList(this.BannerUrl);
+            dest.writeList(this.MarketData);
+            dest.writeList(this.News);
         }
 
         public ResultBean() {
         }
 
         protected ResultBean(Parcel in) {
-            this.BannerUrl = in.readString();
-            this.MarketData = in.createTypedArrayList(MarketDataBean.CREATOR);
-            this.News = in.createTypedArrayList(NewsBean.CREATOR);
+            this.BannerUrl = in.createStringArrayList();
+            this.MarketData = new ArrayList<MarketDataBean>();
+            in.readList(this.MarketData, MarketDataBean.class.getClassLoader());
+            this.News = new ArrayList<NewsBean>();
+            in.readList(this.News, NewsBean.class.getClassLoader());
         }
 
         public static final Creator<ResultBean> CREATOR = new Creator<ResultBean>() {

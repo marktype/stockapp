@@ -2,6 +2,7 @@ package com.example.drawer.stockapp.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -30,6 +31,7 @@ import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
 import com.example.drawer.stockapp.adapter.TrendsAdapter;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.listener.OnFragmentInteractionListener;
+import com.example.drawer.stockapp.model.DynamicsInfo;
 import com.example.drawer.stockapp.model.HeadMassageInfo;
 import com.example.drawer.stockapp.model.NewsInfo;
 import com.example.drawer.stockapp.model.TrendsInfo;
@@ -39,6 +41,7 @@ import com.scxh.slider.library.SliderTypes.BaseSliderView;
 import com.scxh.slider.library.SliderTypes.TextSliderView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,6 +60,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private ViewPager mPager;
     private RadioButton mZinXun,mDongTai;
     private HeadMassageInfo headMassageInfo;
+    private DynamicsInfo dynamicsInfo;
+    private TrendsAdapter trendsAdapter;
+    private ListView mDongTaiList;
 //    private String[] images = {"http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291055080-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291114570-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605042201270-L.jpg"};
     private String[] images = {""};
     // TODO: Rename and change types of parameters
@@ -99,10 +105,13 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_first_news, container, false);
-        initWight();
-        getMessageInfo();
-        initData();
+        if (mView == null){
+            mView = inflater.inflate(R.layout.fragment_first_news, container, false);
+            initWight();
+            getMessageInfo();
+            initData();
+            dymnicesData();
+        }
         return mView;
     }
 
@@ -135,22 +144,35 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
      * 获取资讯信息
      */
     public void getMessageInfo(){
-        Log.d("tag", "getMessageInfo: ");
-       String message =  HttpManager.getHttpData(HttpManager.Information_URL);
-        Log.d("tag","--tag-"+message);
-        if (!TextUtils.isEmpty(message)){
-            Gson gson = new Gson();
-            headMassageInfo = gson.fromJson(message, HeadMassageInfo.class);
-            Log.d("tag","---"+headMassageInfo.getHead().getMsg());
-            if (headMassageInfo.getHead().getMsg().equals("0")){
-                images = new String[1];
-                images[0] = headMassageInfo.getResult().getBannerUrl();
-                Log.d("tag","--"+images[0]);
-                initListData();
+        new AsyncTask(){
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                String message = HttpManager.newInstance().getHttpData(HttpManager.Information_URL);
+                return message;
             }
 
-        }
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                String message = (String) o;
+//                String message =  HttpManager.newInstance().getHttpInfo();
+                if (!TextUtils.isEmpty(message)){
+                    Gson gson = new Gson();
+                    headMassageInfo = gson.fromJson(message, HeadMassageInfo.class);
+                    Log.d("tag","---"+headMassageInfo.getHead().getStatus());
+                    if (headMassageInfo.getHead().getStatus()==0){
+                        ArrayList<String> size = headMassageInfo.getResult().getBannerUrl();
+                        images = new String[size.size()];
+                        for (int i = 0;i<size.size();i++){
+                            images[i] = headMassageInfo.getResult().getBannerUrl().get(i);
+                        }
+                        initListData();
+                    }
 
+                }
+            }
+        }.execute();
     }
 
     /**
@@ -177,11 +199,11 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
 //        initListData();
 
-        ListView mDongTaiList = (ListView) dongtaiView.findViewById(R.id.fondtai_listview);
-        TrendsAdapter trendsAdapter = new TrendsAdapter(getActivity());
-        trendsAdapter.setData(initdongtaiData());
-        mDongTaiList.setAdapter(trendsAdapter);
-
+        mDongTaiList = (ListView) dongtaiView.findViewById(R.id.fondtai_listview);
+        trendsAdapter = new TrendsAdapter(getActivity());
+//        trendsAdapter.setData(initdongtaiData());
+//        mDongTaiList.setAdapter(trendsAdapter);
+//
         mDongTaiList.setOnItemClickListener(this);
         //获取焦点，跳转搜索页面
         mSearchTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -244,11 +266,12 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             LinearLayout.LayoutParams aaaa2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT , LinearLayout.LayoutParams.WRAP_CONTENT);
             aaaa2.setMargins(10,10,10,10);
             txt2.setLayoutParams(aaaa2);
-            txt2.setText( addOrDec+""+ marketDataBeen.get(i).getVariabilityRate()+"%");
             txt2.setGravity(Gravity.CENTER);
             if (addOrDec>0){
+                txt2.setText( "+"+addOrDec+"+"+ marketDataBeen.get(i).getVariabilityRate()+"%");
                 txt2.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
             }else {
+                txt2.setText( ""+addOrDec+""+ marketDataBeen.get(i).getVariabilityRate()+"%");
                 txt2.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
             }
             layout1.addView(txt2);
@@ -269,36 +292,101 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     /**
      * 初始化动态数据
      */
+    public void dymnicesData(){
+
+        new AsyncTask(){
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                HashMap<String,String> map = new HashMap<>();
+                 map.put("PageIndex", "0");
+                 map.put("PageCount", "0");
+                map.put("PageSize", "0");
+                String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.SHARE_LIST_URL);
+
+                return message;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                String message = (String) o;
+                if (!TextUtils.isEmpty(message)){
+                    Gson gson = new Gson();
+                    dynamicsInfo = gson.fromJson(message, DynamicsInfo.class);
+                    if (dynamicsInfo.getHead().getStatus()==0){
+                        trendsAdapter.setData(initdongtaiData());
+                        mDongTaiList.setAdapter(trendsAdapter);
+
+
+                    }
+
+                }
+            }
+        }.execute();
+    }
+    /**
+     * 初始化动态数据
+     */
     public ArrayList<TrendsInfo> initdongtaiData(){
         ArrayList<TrendsInfo> trendsInfos = new ArrayList<>();
-        for (int i = 0;i<5;i++){
+        ArrayList<DynamicsInfo.ResultBean.ShareBean> share = dynamicsInfo.getResult().getShare();
+        for (int i = 0;i<share.size();i++){
             TrendsInfo info = new TrendsInfo();
-            info.setImage("https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2660111638,591810007&fm=80");
-            info.setName("巴菲特"+i);
-            info.setContent("每个人心目中都有一个寻宝梦，试想一下在树林中不经意被一个宝箱绊倒那是一件多么值得兴奋的事情啊，世界上很多人为了去寻找宝藏，不惜花光一生所有积蓄。");
-            info.setContentImage("https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2568463196,458599714&fm=80");
-            info.setTime("6月15号 13:3"+i);
+            ArrayList<String> list = new ArrayList<>();
+            DynamicsInfo.ResultBean.ShareBean ben = share.get(i);
+            info.setImage(ben.getImgUrl());
+            info.setName(ben.getUserName());
+            info.setContent(ben.getContent());
+            for (int j = 0;j<ben.getImgs().size();j++){
+                list.add(ben.getImgs().get(j));
+            }
+            info.setContentImage(list);
+            info.setTime(ben.getUpdateTime());
             trendsInfos.add(info);
         }
         return trendsInfos;
 
     }
 
-//    /**
-//     * 初始化指数数据
-//     * @return
-//     */
-//    public ArrayList<HeadIndex> setIndexData(){
-//        ArrayList<HeadIndex> indices = new ArrayList<>();
-//        for (int i = 0;i<5;i++){
-//            HeadIndex headIndex = new HeadIndex();
-//            headIndex.setIndexName("上证指数"+i);
-//            headIndex.setIndexNum("123456.23");
-//            headIndex.setIndexPersent("+9.2+0.23%");
-//            indices.add(headIndex);
-//        }
-//        return indices;
-//    }
+    /**
+     * 获取动态评论
+     */
+    public void commentList(){
+        new AsyncTask(){
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                HashMap<String,Object> hashMap = new HashMap<>();
+               HashMap<String,String> map = new HashMap<>();
+                map.put("PageIndex", "0");
+                map.put("PageCount", "0");
+                map.put("PageSize", "0");
+                hashMap.put("PageInfo",map);
+                hashMap.put("Id","0");
+                hashMap.put("Type","0");
+                String message = HttpManager.newInstance().getHttpDataByThreeLayer("",hashMap,HttpManager.COMMENT_LIST_URL);
+                return message;
+            }
+        }.execute();
+    }
+
+    /**
+     * 获取新闻详情
+     */
+    public void newInfo(){
+        new AsyncTask(){
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("Id", "0");
+                String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.CommentsList_URL);
+                return message;
+
+            }
+        }.execute();
+    }
 
     /**
      * 初始化新闻数据
@@ -383,10 +471,16 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()){
             case R.id.listview_zixun:
+                newInfo();
+
+
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
                 startActivity(intent);
                 break;
             case R.id.fondtai_listview:
+
+                commentList();
+
                 intent = new Intent(getActivity(), WebViewUpTitleActivity.class);
                 startActivity(intent);
                 break;

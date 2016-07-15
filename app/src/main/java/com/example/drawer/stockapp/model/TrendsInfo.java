@@ -1,5 +1,7 @@
 package com.example.drawer.stockapp.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by 欢大哥 on 2016/6/15.
  */
@@ -7,7 +9,7 @@ public class TrendsInfo {
     private String image ;    //头像
     private String name;     //名字
     private String content;    //内容
-    private String contentImage;   //内容图片
+    private ArrayList<String> contentImage;   //内容图片
     private String time;   //时间
 
     public String getImage() {
@@ -34,11 +36,11 @@ public class TrendsInfo {
         this.content = content;
     }
 
-    public String getContentImage() {
+    public ArrayList<String> getContentImage() {
         return contentImage;
     }
 
-    public void setContentImage(String contentImage) {
+    public void setContentImage(ArrayList<String> contentImage) {
         this.contentImage = contentImage;
     }
 
