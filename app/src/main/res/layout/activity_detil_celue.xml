@@ -65,6 +65,7 @@
         android:text="募集时间"
         android:layout_toRightOf="@id/title_image"
         android:layout_marginLeft="@dimen/margin_10dp"
+        android:textSize="@dimen/margin_10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />

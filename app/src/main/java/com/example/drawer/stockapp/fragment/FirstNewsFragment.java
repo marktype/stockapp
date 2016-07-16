@@ -371,22 +371,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         }.execute();
     }
 
-    /**
-     * 获取新闻详情
-     */
-    public void newInfo(){
-        new AsyncTask(){
 
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                HashMap<String,String> map = new HashMap<>();
-                map.put("Id", "0");
-                String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.CommentsList_URL);
-                return message;
-
-            }
-        }.execute();
-    }
 
     /**
      * 初始化新闻数据
@@ -471,9 +456,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()){
             case R.id.listview_zixun:
-                newInfo();
-
-
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
                 startActivity(intent);
                 break;

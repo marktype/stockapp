@@ -61,22 +61,20 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:text="你正在伏案工作，突然间办公桌开始缓慢地升空，怎么够都够不着。这正是荷兰一家设计公司的设计成果，也是该公司老板为避免员工加班想出的点子。"/>
-            <TextView
+            <ImageView
                 android:id="@+id/advice_image_txt"
-                android:text="Matrix"
                 android:layout_alignParentRight="true"
-                android:drawableTop="@mipmap/ic_launcher"
                 android:layout_below="@id/month_layout"
                 android:layout_margin="@dimen/margin_15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="@dimen/margin_60dp"
+                android:layout_height="@dimen/margin_60dp" />
             <TextView
                 android:id="@+id/yeji_rank_line"
                 android:layout_below="@id/advice_content"
                 android:layout_marginTop="@dimen/margin_15dp"
                 android:background="@android:color/darker_gray"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_15dp" />
+                android:layout_height="@dimen/margin_10dp" />
             <TextView
                 android:id="@+id/yeji_rank"
                 android:layout_below="@id/yeji_rank_line"
@@ -95,7 +93,7 @@
                 android:text="(最后评估时间: 2016-06-20 10:30:23)"
                 android:layout_marginLeft="@dimen/margin_10dp"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="@dimen/activity_horizontal_margin"
+                android:textSize="@dimen/margin_13dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -110,7 +108,7 @@
                 android:id="@+id/chart1"
                 android:layout_below="@id/line_yeji"
                 android:layout_width="match_parent"
-                android:layout_height="320dp" />
+                android:layout_height="300dp" />
             <RatingBar
                 android:id="@+id/celue_seekbar"
                 android:layout_below="@id/chart1"

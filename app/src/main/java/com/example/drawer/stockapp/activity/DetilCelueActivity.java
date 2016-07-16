@@ -29,12 +29,14 @@ import java.util.HashMap;
 /**
  * 策略组合详情
  */
-public class DetilCelueActivity extends BascActivity implements View.OnClickListener{
+public class DetilCelueActivity extends BascActivity implements View.OnClickListener {
     private HashMap<String, Object> map;
     private ArrayList<HashMap<String, Object>> data;
     private StargDetial stargDetial;
-    private TextView mGroupTxt,mRecuitmentTime,mNiurenMoney,mMostMoney,mContent,mTarget,mMostDay,mStopLose,mShouyiDiver,mRunTime,mCelueTxt,mFormWhere,mFormName;
-    private ImageView mTitleImage,mNiuRenImage;
+    private TextView mGroupTxt, mRecuitmentTime, mNiurenMoney, mMostMoney, mContent, mTarget, mMostDay, mStopLose, mShouyiDiver, mRunTime, mCelueTxt, mFormWhere, mFormName;
+    private ImageView mTitleImage, mNiuRenImage, mshouyiImage, mImageOne, mImageTwo, mImageThree;
+    private CanvasViewTwo mChartOne, mChartTwo, mChartThree;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,20 +44,49 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         initWeight();
         getCelueDetail();
     }
+
     /**
      * 设置控件数据
      */
-    public void setWidghtData(){
+    public void setWidghtData() {
         StargDetial.ResultBean.StrategyDetailBean strategy = stargDetial.getResult().getStrategyDetail();
+        StargDetial.ResultBean.StarInfoBean starInfoBean = stargDetial.getResult().getStarInfo();
+        ArrayList<StargDetial.ResultBean.FollowInfoBean> followInfoBean = stargDetial.getResult().getFollowInfo();
         mGroupTxt.setText(strategy.getName());
         if (!TextUtils.isEmpty(strategy.getImgUrl()))
-        Picasso.with(this).load(strategy.getImgUrl()).into(mTitleImage);
-        mRecuitmentTime.setText("募集时间："+strategy.getRecuitmentStartTDay()+"-"+strategy.getRecuitmentEndTimeDay());
-        mNiurenMoney.setText(strategy.getStarInvestment()+"");
-        mMostMoney.setText(strategy.getMostFollow()+"");
+            Picasso.with(this).load(strategy.getImgUrl()).into(mTitleImage);
+        mRecuitmentTime.setText("募集时间：" + strategy.getRecuitmentStartTDay() + " - " + strategy.getRecuitmentEndTimeDay());
+        mNiurenMoney.setText("牛人投资金额:"+strategy.getStarInvestment());
+        mMostMoney.setText("最多投顾金额："+strategy.getMostFollow());
         mContent.setText(strategy.getDesc());
+        mTarget.setText("目标收益:"+strategy.getTargetReturns() + "%");
+        mMostDay.setText("最长期限："+strategy.getMaxDay()+"天");
+        mStopLose.setText("止损线："+strategy.getStopLoss() + "%");
+        mShouyiDiver.setText("收益分成："+strategy.getShareRatio() + "%");
+        mRunTime.setText("运行期间：" + strategy.getRunStartDay() + " - " + strategy.getRunEndDay());
+        if (!TextUtils.isEmpty(starInfoBean.getImgUrl())) {
+            Picasso.with(this).load(starInfoBean.getImgUrl()).into(mNiuRenImage);
+        }
+        mCelueTxt.setText(starInfoBean.getName());
+        mFormWhere.setText(starInfoBean.getTitle());
+
+        setCanvasData(mChartOne, starInfoBean.getMonthlyAverage());
+        setCanvasData(mChartTwo, starInfoBean.getPorfolioSucc());
+        setCanvasData(mChartThree, starInfoBean.getStockPick());
+
+        if (!TextUtils.isEmpty(stargDetial.getResult().getImgUrl())) {
+            Picasso.with(this).load(stargDetial.getResult().getImgUrl()).into(mshouyiImage);
+        }
+        if (!TextUtils.isEmpty(followInfoBean.get(0).getImgUrl())) {
+            Picasso.with(this).load(followInfoBean.get(0).getImgUrl()).into(mImageOne);
+            Picasso.with(this).load(followInfoBean.get(1).getImgUrl()).into(mImageTwo);
+            Picasso.with(this).load(followInfoBean.get(2).getImgUrl()).into(mImageThree);
+        }
+
+
     }
-    public void initWeight(){
+
+    public void initWeight() {
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         TextView mPay = (TextView) findViewById(R.id.go_to_pay);
         mGroupTxt = (TextView) findViewById(R.id.zuhe_name);    //组合名称
@@ -73,15 +104,15 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         mCelueTxt = (TextView) findViewById(R.id.people_name);     //策略人名称
         mFormWhere = (TextView) findViewById(R.id.from_where);      //来自哪儿
         mFormName = (TextView) findViewById(R.id.from_name);       //称号
+        mshouyiImage = (ImageView) findViewById(R.id.shouyi_image);   //当前收益
+        mImageOne = (ImageView) findViewById(R.id.image_one);    //实时动态
+        mImageTwo = (ImageView) findViewById(R.id.image_two);    //自动跟投
+        mImageThree = (ImageView) findViewById(R.id.image_three);    //交流经验
 
+        mChartOne = (CanvasViewTwo) findViewById(R.id.chart1);
+        mChartTwo = (CanvasViewTwo) findViewById(R.id.chart2);
+        mChartThree = (CanvasViewTwo) findViewById(R.id.chart3);
 
-
-        CanvasViewTwo mChartOne = (CanvasViewTwo) findViewById(R.id.chart1);
-        CanvasViewTwo mChartTwo = (CanvasViewTwo) findViewById(R.id.chart2);
-        CanvasViewTwo mChartThree = (CanvasViewTwo) findViewById(R.id.chart3);
-        setCanvasData(mChartOne);
-        setCanvasData(mChartTwo);
-        setCanvasData(mChartThree);
 
         RadioGroup mGroup = (RadioGroup) findViewById(R.id.wisdom_group);
 
@@ -92,9 +123,9 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         myListView.setAdapter(adapter);
 
         //调仓页面（第一次进入时加载）
-        MyListFragment fragment = MyListFragment.newInstance("调仓","");
+        MyListFragment fragment = MyListFragment.newInstance("调仓", "");
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_layout,fragment);
+        transaction.add(R.id.fragment_layout, fragment);
         transaction.commit();
 
         mBackimg.setOnClickListener(this);
@@ -107,19 +138,14 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
     /**
      * 获取策略详情
      */
-    public void getCelueDetail(){
-        new AsyncTask(){
+    public void getCelueDetail() {
+        new AsyncTask() {
 
             @Override
             protected Object doInBackground(Object[] objects) {
-                HashMap<String,Object> hashMap = new HashMap<>();
                 HashMap<String,String> map = new HashMap<>();
-                map.put("PageIndex", "0");
-                map.put("PageCount", "0");
-                map.put("PageSize", "0");
-                hashMap.put("PageInfo",map);
-                hashMap.put("Id","0");
-                String message = HttpManager.newInstance().getHttpDataByThreeLayer("",hashMap,HttpManager.StrategyDetail_URL);
+                map.put("Id", "0");
+                String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.StrategyDetail_URL);
                 return message;
             }
 
@@ -127,14 +153,12 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 String message = (String) o;
-                if (!TextUtils.isEmpty(message)){
+                if (!TextUtils.isEmpty(message)) {
                     Gson gson = new Gson();
                     stargDetial = gson.fromJson(message, StargDetial.class);
-                    if (stargDetial.getHead().getStatus()==0){
-
-
+                    if (stargDetial.getHead().getStatus() == 0) {
+                        setWidghtData();
                     }
-
                 }
             }
         }.execute();
@@ -143,22 +167,24 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.back_img:
                 finish();
                 break;
             case R.id.go_to_pay:
-                Intent intent = new Intent(this,FollowActivity.class);
+                Intent intent = new Intent(this, FollowActivity.class);
                 startActivity(intent);
                 break;
         }
     }
+
     //设置历史业绩中的比例和颜色
-    public void setCanvasData( CanvasViewTwo canvasView){
+    public void setCanvasData(CanvasViewTwo canvasView, double num) {
         data = new ArrayList<>();
-        setDataToView("30%", "#DBBD44", 0.3f);
+        setDataToView(num + "%", "#DBBD44", (float) (num / 100));
         canvasView.setData(data);
     }
+
     private void setDataToView(String title, String color, float weight) {
         map = new HashMap<>();
         map.put(CanvasView.TITLE, title);
@@ -169,11 +195,12 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
 
     /**
      * 设置退款保障数据
+     *
      * @return
      */
-    public ArrayList<NewsInfo> setReturnData(){
+    public ArrayList<NewsInfo> setReturnData() {
         ArrayList<NewsInfo> list = new ArrayList<>();
-        for (int i = 0;i<4;i++){
+        for (int i = 0; i < 4; i++) {
             NewsInfo info = new NewsInfo();
             info.setImage("http://h.hiphotos.baidu.com/baike/w%3D268%3Bg%3D0/sign=8a22955c22a446237ecaa264a0191533/3ac79f3df8dcd1005da11707708b4710b9122fd3.jpg");
             info.setTitle("ThinkPHP是为了简化企业级应用开发和敏捷WEB应用开发而诞生的。最早诞生于2006年初，2007年元旦正式更名为ThinkPHP，并且遵循Apache2开源协议发布。");
@@ -181,6 +208,7 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         }
         return list;
     }
+
     /**
      * 此处建立了4个fragment，但后来调用不需要也能实现，若是需求中都是用的listview列表形式，则可以删除其余3个fragment
      * 一个fragment中的listview设置不同的适配器
@@ -192,26 +220,26 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             switch (i) {
                 case R.id.celue_txt:
-                    MyListFragment fragment = MyListFragment.newInstance("调仓","");
-                    transaction.replace(R.id.fragment_layout,fragment);
+                    MyListFragment fragment = MyListFragment.newInstance("调仓", "");
+                    transaction.replace(R.id.fragment_layout, fragment);
                     break;
                 case R.id.zuhe_txt:
 //                    MyListFragmentTwo fragmentTwo = MyListFragmentTwo.newInstance("持仓","");
 //                    transaction.replace(R.id.fragment_layout,fragmentTwo);
-                    fragment = MyListFragment.newInstance("持仓","");
-                    transaction.replace(R.id.fragment_layout,fragment);
+                    fragment = MyListFragment.newInstance("持仓", "");
+                    transaction.replace(R.id.fragment_layout, fragment);
                     break;
                 case R.id.my_celue_txt:
 //                    MyListFragmentThree fragmentThree = MyListFragmentThree.newInstance("跟投人","");
 //                    transaction.replace(R.id.fragment_layout,fragmentThree);
-                    fragment = MyListFragment.newInstance("跟投人","");
-                    transaction.replace(R.id.fragment_layout,fragment);
+                    fragment = MyListFragment.newInstance("跟投人", "");
+                    transaction.replace(R.id.fragment_layout, fragment);
                     break;
                 case R.id.my_zuhe_txt:
 //                    MyListFragmentFour fragmentFour = MyListFragmentFour.newInstance("交流区","");
 //                    transaction.replace(R.id.fragment_layout,fragmentFour);
-                    fragment = MyListFragment.newInstance("交流区","");
-                    transaction.replace(R.id.fragment_layout,fragment);
+                    fragment = MyListFragment.newInstance("交流区", "");
+                    transaction.replace(R.id.fragment_layout, fragment);
                     break;
             }
             transaction.commit();
