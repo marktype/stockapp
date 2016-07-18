@@ -19,7 +19,6 @@
             android:id="@+id/back_txt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="title"
             android:gravity="center"
             android:textColor="@color/write_color"
             android:layout_centerInParent="true"
@@ -60,7 +59,7 @@
                 android:layout_marginLeft="@dimen/margin_10dp"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:text="你正在伏案工作，突然间办公桌开始缓慢地升空，怎么够都够不着。这正是荷兰一家设计公司的设计成果，也是该公司老板为避免员工加班想出的点子。"/>
+                android:text=""/>
             <ImageView
                 android:id="@+id/advice_image_txt"
                 android:layout_alignParentRight="true"
@@ -174,9 +173,10 @@
     </ScrollView>
     <TextView
         android:id="@+id/order_txt"
-        android:text="立即订阅"
+        android:text="@string/order_txt"
         android:gravity="center"
         android:padding="@dimen/margin_15dp"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:textColor="@color/write_color"
         android:background="@color/colorPrimary"

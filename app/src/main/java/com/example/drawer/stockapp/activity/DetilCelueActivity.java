@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.ReturnAdapter;
@@ -113,6 +114,7 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         mChartTwo = (CanvasViewTwo) findViewById(R.id.chart2);
         mChartThree = (CanvasViewTwo) findViewById(R.id.chart3);
 
+        TextView mCollect = (TextView) findViewById(R.id.cellect_icon);     //收藏
 
         RadioGroup mGroup = (RadioGroup) findViewById(R.id.wisdom_group);
 
@@ -131,6 +133,7 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         mBackimg.setOnClickListener(this);
         mGroup.setOnCheckedChangeListener(new RadioGroupListener());
         mPay.setOnClickListener(this);
+        mCollect.setOnClickListener(this);
 
     }
 
@@ -174,6 +177,9 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
             case R.id.go_to_pay:
                 Intent intent = new Intent(this, FollowActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.cellect_icon:
+                Toast.makeText(this,"收藏成功",Toast.LENGTH_SHORT).show();
                 break;
         }
     }

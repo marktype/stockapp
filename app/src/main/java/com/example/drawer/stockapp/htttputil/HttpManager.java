@@ -25,15 +25,18 @@ import okhttp3.Response;
  */
 public class HttpManager {
     private static HttpManager instance;
-    private HttpManager(){
+
+    private HttpManager() {
 
     }
-    public static HttpManager newInstance(){
-        if (instance == null){
+
+    public static HttpManager newInstance() {
+        if (instance == null) {
             instance = new HttpManager();
         }
         return instance;
     }
+
     public static final String BASE_URL = "http://183.60.47.101:8012/";      //基地址
     public static final String UID = "5451221";
     public static final String LANG = "zh-cn";
@@ -94,20 +97,7 @@ public class HttpManager {
     public static final String ExceCollFavorites_URL = BASE_URL + "School/ExceCollFavorites";      //课堂收藏
 
 
-
-    public String httpInfo = null;
-
-    public String getHttpInfo() {
-        return httpInfo;
-    }
-
-    public void setHttpInfo(String httpInfo) {
-        this.httpInfo = httpInfo;
-    }
-
-
-
-    public String getHttpData(String url){
+    public String getHttpData(String url) {
         RequestBody formBody = RequestBody.create(JSON, "");
         OkHttpClient mOkHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
@@ -116,20 +106,20 @@ public class HttpManager {
                 .build();
 //        Call call = mOkHttpClient.newCall(request);
         //发送请求获取响应
-        Response response=null;
-        try{
-        //请求加入调度
-        response = mOkHttpClient.newCall(request).execute();
-        //判断请求是否成功
-        if(response.isSuccessful()){
-            //打印服务端返回结果
-            String info = response.body().string();
-            Log.d("tag", "getHttpData: 2222222--"+info);
-            return info;
+        Response response = null;
+        try {
+            //请求加入调度
+            response = mOkHttpClient.newCall(request).execute();
+            //判断请求是否成功
+            if (response.isSuccessful()) {
+                //打印服务端返回结果
+                String info = response.body().string();
+                Log.d("tag", "getHttpData: 2222222--" + info);
+                return info;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
 //        call.enqueue(new Callback() {
 //            @Override
 //            public void onFailure(Call call, IOException e) {
@@ -209,15 +199,15 @@ public class HttpManager {
                 .build();
 
         //发送请求获取响应
-        Response response=null;
-        try{
+        Response response = null;
+        try {
             //请求加入调度
             response = mOkHttpClient.newCall(request).execute();
             //判断请求是否成功
-            if(response.isSuccessful()){
+            if (response.isSuccessful()) {
                 //打印服务端返回结果
                 String info = response.body().string();
-                Log.d("tag", "getHttpData: 2222222--"+info);
+                Log.d("tag", "getHttpData: 2222222--" + info);
                 return info;
             }
         } catch (IOException e) {
@@ -323,15 +313,15 @@ public class HttpManager {
                 .build();
 
         //发送请求获取响应(同步请求)
-        Response response=null;
-        try{
+        Response response = null;
+        try {
             //请求加入调度
             response = mOkHttpClient.newCall(request).execute();
             //判断请求是否成功
-            if(response.isSuccessful()){
+            if (response.isSuccessful()) {
                 //打印服务端返回结果
                 String info = response.body().string();
-                Log.d("tag", "getHttpData: 2222222--"+info);
+                Log.d("tag", "getHttpData: 2222222--" + info);
                 return info;
             }
         } catch (IOException e) {
@@ -434,15 +424,15 @@ public class HttpManager {
                 .build();
 
         //发送请求获取响应(同步请求)
-        Response response=null;
-        try{
+        Response response = null;
+        try {
             //请求加入调度
             response = mOkHttpClient.newCall(request).execute();
             //判断请求是否成功
-            if(response.isSuccessful()){
+            if (response.isSuccessful()) {
                 //打印服务端返回结果
                 String info = response.body().string();
-                Log.d("tag", "getHttpData: 2222222--"+info);
+                Log.d("tag", "getHttpData: 2222222--" + info);
                 return info;
             }
         } catch (IOException e) {
@@ -464,6 +454,6 @@ public class HttpManager {
 //            }
 //        });
 
-    return "";
+        return "";
     }
 }

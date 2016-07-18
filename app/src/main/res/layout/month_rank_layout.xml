@@ -21,7 +21,7 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="跑赢100%的组合"/>
+            android:text="跑赢0%的组合"/>
     </LinearLayout>
     <TextView
         android:layout_width="1px"
@@ -44,6 +44,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="29倍"/>
+            android:text="0倍"/>
     </LinearLayout>
 </LinearLayout>

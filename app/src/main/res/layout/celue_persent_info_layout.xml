@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/guanzhu_num"
-        android:text="关注人数 12354"
+        android:text="关注人数 0"
         android:textColor="@color/write_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         android:id="@+id/build_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="创建时间 2016.06.20"
+        android:text=""
         android:layout_toRightOf="@id/guanzhu_num"
         android:layout_margin="@dimen/margin_10dp"
         android:textColor="@color/write_color"/>
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/jingzhi_num"
-            android:text="0.45%"
+            android:text="0.00%"
             android:textColor="@color/write_color"
             android:layout_below="@id/title_one_name"
             android:layout_width="wrap_content"
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/max_num"
-            android:text="2.45%"
+            android:text="0.00%"
             android:textColor="@color/write_color"
             android:layout_below="@id/title_two_name"
             android:layout_toRightOf="@id/line_item"
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/rate_num"
-            android:text="3.2155"
+            android:text="0.0000"
             android:textColor="@color/write_color"
             android:layout_below="@id/title_three_name"
             android:layout_toRightOf="@id/line_item_two"
@@ -106,7 +106,7 @@
 
     <TextView
         android:id="@+id/persent_num"
-        android:text="221.55%"
+        android:text="0.000%"
         android:textSize="@dimen/margin_60dp"
         android:layout_below="@id/relate_layout"
         android:layout_width="wrap_content"

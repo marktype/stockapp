@@ -27,6 +27,7 @@
     <string name="sure_txt">确认修改</string>
     <string name="set_up_txt">创建组合</string>
     <string name="pay_txt">支付</string>
+    <string name="order_txt">立即订阅</string>
 
 
 </resources>
