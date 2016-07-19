@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:id="@+id/lianghuacelue_item_relat"
@@ -71,24 +72,14 @@
     <TextView
         android:id="@+id/celue_title"
         android:text="alpha对冲策略1号"
-        android:textSize="@dimen/margin_15dp"
+        android:textSize="@dimen/content_text_size"
+        android:textColor="@android:color/background_dark"
         android:layout_below="@id/line_celue"
         android:layout_marginTop="@dimen/title_size"
         android:layout_toRightOf="@id/celue_circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/celue_time_day"
-        android:text="历史业绩"
-        android:textSize="@dimen/margin_10dp"
-        android:layout_below="@id/line_celue"
-        android:layout_marginTop="@dimen/title_size"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:padding="@dimen/margin_5dp"
-        android:background="@drawable/rect_write_black_shape"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
 
     <TextView
         android:id="@+id/celue_content"
@@ -96,7 +87,7 @@
         android:layout_toRightOf="@id/celue_circle"
         android:layout_marginRight="@dimen/margin_10dp"
         android:maxLength="30"
-        android:layout_below="@id/celue_time_day"
+        android:layout_below="@id/celue_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <LinearLayout
@@ -115,13 +106,15 @@
         android:layout_height="1px"
         android:layout_below="@id/celue_three_item_relat"
         android:background="@android:color/darker_gray"/>
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/celue_image"
         android:layout_width="@dimen/margin_40dp"
         android:layout_height="@dimen/margin_40dp"
         android:layout_below="@id/line_celue_two"
         android:layout_margin="@dimen/margin_10dp"
-        android:src="@mipmap/ic_launcher"/>
+        app:civ_border_width="@dimen/margin_1dp"
+        app:civ_border_color="@color/write_color"
+        />
     <TextView
         android:id="@+id/celue_people_name"
         android:text="顾婷婷"
@@ -149,6 +142,19 @@
         android:padding="@dimen/margin_5dp"
         android:layout_below="@id/line_celue_two"
         android:layout_marginTop="@dimen/margin_15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/celue_time_day"
+        android:text="历史业绩"
+        android:textSize="@dimen/margin_10dp"
+        android:layout_below="@id/line_celue_two"
+        android:layout_marginTop="@dimen/margin_15dp"
+
+        android:layout_toLeftOf="@id/celue_name_other"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:padding="@dimen/margin_5dp"
+        android:background="@drawable/rect_write_black_shape"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

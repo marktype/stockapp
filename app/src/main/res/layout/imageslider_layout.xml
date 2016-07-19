@@ -20,20 +20,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="12dp"
             android:gravity="right"
-            custom:selected_color="#0095BF"
-            custom:selected_height="6dp"
+            custom:selected_color="#FFFFFF"
+            custom:selected_height="2dp"
             custom:selected_padding_left="5dp"
             custom:selected_padding_right="5dp"
-            custom:selected_width="6dp"
-            custom:shape="oval"
-            custom:unselected_color="#FF0000"
-            custom:unselected_height="6dp"
+            custom:selected_width="16dp"
+            custom:shape="rect"
+            custom:unselected_height="2dp"
             custom:unselected_padding_left="5dp"
             custom:unselected_padding_right="5dp"
-            custom:unselected_width="6dp" />
+            custom:unselected_width="16dp" />
         <!--<ProgressBar-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
@@ -41,16 +40,16 @@
         <!--android:layout_centerInParent="true"/>-->
     </RelativeLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
 
-        android:id="@+id/slider_edit"
-        android:padding="@dimen/margin_10dp"
-        android:layout_margin="@dimen/margin_10dp"
-        android:alpha="0.5"
-        android:textColor="@color/write_color"
-        android:hint="搜索"
-        android:gravity="center"
-        android:background="@drawable/rect_gray_shape"/>
+        <!--android:id="@+id/slider_edit"-->
+        <!--android:padding="@dimen/margin_10dp"-->
+        <!--android:layout_margin="@dimen/margin_10dp"-->
+        <!--android:alpha="0.5"-->
+        <!--android:textColor="@color/write_color"-->
+        <!--android:hint="搜索"-->
+        <!--android:gravity="center"-->
+        <!--android:background="@drawable/rect_gray_shape"/>-->
 </FrameLayout>

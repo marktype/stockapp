@@ -7,64 +7,68 @@
     <RelativeLayout
         android:id="@+id/all_order_title"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
-        android:layout_height="@dimen/title_height">
+        android:layout_height="@dimen/title_height"
+        android:background="@color/colorPrimary">
+
         <ImageView
             android:id="@+id/info_img"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:padding="@dimen/margin_10dp"
             android:layout_marginRight="@dimen/margin_10dp"
-            android:src="@mipmap/user"/>
+            android:padding="@dimen/margin_10dp"
+            android:src="@mipmap/user" />
+
         <RadioGroup
             android:id="@+id/first_group"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:padding="@dimen/margin_1dp"
-            android:orientation="horizontal"
-            android:background="@drawable/rect_write_shape"
-            android:gravity="center_vertical">
-        <RadioButton
-            android:id="@+id/zixun_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@null"
 
-            android:padding="@dimen/margin_4dp"
-            android:text="@string/zixun_txt"
-            android:checked="true"
-            android:textColor="@drawable/text_selector"
-            android:background="@drawable/bg_selector"
-            android:textSize="@dimen/title_text_size" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_1dp">
+
+            <RadioButton
+                android:id="@+id/zixun_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_line_selector"
+                android:button="@null"
+                android:checked="true"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:padding="@dimen/margin_4dp"
+                android:text="@string/zixun_txt"
+                android:textColor="@drawable/text_selector"
+                android:textSize="@dimen/title_text_size" />
+
             <RadioButton
                 android:id="@+id/dongtai_txt"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_line_selector"
                 android:button="@null"
-
                 android:padding="@dimen/margin_4dp"
                 android:text="@string/dongtai_txt"
                 android:textColor="@drawable/text_selector"
-                android:background="@drawable/bg_selector"
                 android:textSize="@dimen/title_text_size" />
         </RadioGroup>
+
         <ImageView
             android:id="@+id/pop_item_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/message"
             android:layout_marginRight="@dimen/margin_10dp"
-            android:padding="@dimen/margin_10dp" />
+            android:padding="@dimen/margin_10dp"
+            android:src="@mipmap/message" />
     </RelativeLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/zixun_content_pager"
-        android:layout_below="@id/all_order_title"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/all_order_title"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

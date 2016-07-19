@@ -18,11 +18,10 @@
         <RadioGroup
             android:id="@+id/class_group"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:padding="@dimen/margin_1dp"
             android:orientation="horizontal"
-            android:background="@drawable/rect_write_shape"
             android:gravity="center_vertical">
             <RadioButton
                 android:id="@+id/find_txt"
@@ -32,8 +31,9 @@
                 android:padding="@dimen/margin_4dp"
                 android:text="@string/find_txt"
                 android:checked="true"
+                android:layout_marginRight="@dimen/margin_10dp"
                 android:textColor="@drawable/text_selector"
-                android:background="@drawable/bg_selector"
+                android:background="@drawable/button_line_selector"
                 android:textSize="@dimen/title_text_size" />
             <RadioButton
                 android:id="@+id/class_txt"
@@ -43,7 +43,7 @@
                 android:padding="@dimen/margin_4dp"
                 android:text="@string/my_class_txt"
                 android:textColor="@drawable/text_selector"
-                android:background="@drawable/bg_selector"
+                android:background="@drawable/button_line_selector"
                 android:textSize="@dimen/title_text_size" />
         </RadioGroup>
         <ImageView

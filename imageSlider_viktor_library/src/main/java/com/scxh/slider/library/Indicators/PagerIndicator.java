@@ -1,7 +1,5 @@
 package com.scxh.slider.library.Indicators;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
@@ -18,6 +16,8 @@ import android.widget.LinearLayout;
 import com.scxh.slider.library.R;
 import com.scxh.slider.library.Tricks.InfinitePagerAdapter;
 import com.scxh.slider.library.Tricks.ViewPagerEx;
+
+import java.util.ArrayList;
 
 /**
  * Pager Indicator.

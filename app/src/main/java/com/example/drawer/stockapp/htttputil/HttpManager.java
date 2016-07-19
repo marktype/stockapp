@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -97,6 +98,12 @@ public class HttpManager {
     public static final String ExceCollFavorites_URL = BASE_URL + "School/ExceCollFavorites";      //课堂收藏
 
 
+    /**
+     * 只用传url
+     *
+     * @param url
+     * @return
+     */
     public String getHttpData(String url) {
         RequestBody formBody = RequestBody.create(JSON, "");
         OkHttpClient mOkHttpClient = new OkHttpClient();
@@ -193,6 +200,7 @@ public class HttpManager {
 
         RequestBody formBody = RequestBody.create(JSON, str);
         OkHttpClient mOkHttpClient = new OkHttpClient();
+        mOkHttpClient.newBuilder().connectTimeout(10000, TimeUnit.MILLISECONDS);      //设置链接超时
         Request request = new Request.Builder()
                 .url(url)
                 .post(formBody)
@@ -203,12 +211,15 @@ public class HttpManager {
         try {
             //请求加入调度
             response = mOkHttpClient.newCall(request).execute();
+
             //判断请求是否成功
             if (response.isSuccessful()) {
                 //打印服务端返回结果
                 String info = response.body().string();
                 Log.d("tag", "getHttpData: 2222222--" + info);
                 return info;
+            } else {
+                Log.d("tag", "body-code--" + response.code() + "--string ---" + response.message());
             }
         } catch (IOException e) {
             e.printStackTrace();

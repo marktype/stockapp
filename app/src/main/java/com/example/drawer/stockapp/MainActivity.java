@@ -17,6 +17,7 @@ import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.activity.UserInfoActivity;
 import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.fragment.FirstNewsFragment;
+import com.example.drawer.stockapp.fragment.MyFragment;
 import com.example.drawer.stockapp.fragment.SchoolFragment;
 import com.example.drawer.stockapp.listener.OnFragmentInteractionListener;
 
@@ -71,6 +72,7 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(setTabMenu("智能投顾", R.drawable.tab_item2_selector)), AutoWisdomFragment.class, null);
 //        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(setTabMenu("自选股", R.drawable.tab_item3_selector)), AutoStockFragment.class, null);   //暂时隐藏
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(setTabMenu("学堂", R.drawable.tab_item4_selector)), SchoolFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab5").setIndicator(setTabMenu("我的", R.drawable.tab_item4_selector)), MyFragment.class, null);
 
     }
 

@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -23,7 +22,6 @@ import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.MessageActivity;
-import com.example.drawer.stockapp.activity.SerchActivity;
 import com.example.drawer.stockapp.activity.WebViewActivity;
 import com.example.drawer.stockapp.activity.WebViewUpTitleActivity;
 import com.example.drawer.stockapp.adapter.IndexAdapter;
@@ -36,6 +34,7 @@ import com.example.drawer.stockapp.model.HeadMassageInfo;
 import com.example.drawer.stockapp.model.NewsInfo;
 import com.example.drawer.stockapp.model.TrendsInfo;
 import com.google.gson.Gson;
+import com.scxh.slider.library.Indicators.PagerIndicator;
 import com.scxh.slider.library.SliderLayout;
 import com.scxh.slider.library.SliderTypes.BaseSliderView;
 import com.scxh.slider.library.SliderTypes.TextSliderView;
@@ -120,7 +119,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
      * 初始化控件
      */
     public void initWight(){
-        Log.d("tag", "initWight: ");
         ImageView mImgHead = (ImageView) mView.findViewById(R.id.info_img);   //点击头像
         ImageView mMessage = (ImageView) mView.findViewById(R.id.pop_item_img);
 
@@ -179,13 +177,12 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
      * 初始化适配器数据
      */
     public void initData(){
-        Log.d("tag", "initData: ");
-       List<View> viewList = new ArrayList<View>();
+        List<View> viewList = new ArrayList<View>();
         LayoutInflater mInflater=LayoutInflater.from(getActivity());
         mSliderVIew = mInflater.inflate(R.layout.imageslider_layout, null);    //第一个head imageSlider
         mScrollView = mInflater.inflate(R.layout.first_scroll_layout,null);    //第二个head（如上证指数）
 
-        final EditText mSearchTxt = (EditText) mSliderVIew.findViewById(R.id.slider_edit);    //搜索框
+//        final EditText mSearchTxt = (EditText) mSliderVIew.findViewById(R.id.slider_edit);    //搜索框
 
 
         zixunView = mInflater.inflate(R.layout.zixun_layout,null);     //资讯大框架在这儿
@@ -205,24 +202,23 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 //        mDongTaiList.setAdapter(trendsAdapter);
 //
         mDongTaiList.setOnItemClickListener(this);
-        //获取焦点，跳转搜索页面
-        mSearchTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b){
-                    Intent intent = new Intent(getActivity(), SerchActivity.class);
-                    startActivity(intent);
-                    mSearchTxt.clearFocus();
-                }
-            }
-        });
+//        //获取焦点，跳转搜索页面
+//        mSearchTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean b) {
+//                if (b){
+//                    Intent intent = new Intent(getActivity(), SerchActivity.class);
+//                    startActivity(intent);
+//                    mSearchTxt.clearFocus();
+//                }
+//            }
+//        });
 
 
     }
 
     //初始化listview数据（资讯）
     public void initListData(){
-        Log.d("tag", "initListData: ");
         getSliderLayoutView(images,null);
 
         ListView mlist = (ListView) zixunView.findViewById(R.id.listview_zixun);
@@ -256,7 +252,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             if (addOrDec>0){
                 txt1.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
             }else {
-                txt1.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
+                txt1.setTextColor(getActivity().getResources().getColor(R.color.green_color));
             }
             txt1.setTextSize(18);
 
@@ -272,7 +268,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 txt2.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
             }else {
                 txt2.setText( ""+addOrDec+""+ marketDataBeen.get(i).getVariabilityRate()+"%");
-                txt2.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
+                txt2.setTextColor(getActivity().getResources().getColor(R.color.green_color));
             }
             layout1.addView(txt2);
 
@@ -397,6 +393,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     public void getSliderLayoutView(String[] mImage, final String[] mString) {
         SliderLayout mSliderLayout = (SliderLayout) mSliderVIew.findViewById(R.id.image_slider_layout);
 
+        PagerIndicator pagerIndicator = (PagerIndicator) mSliderVIew.findViewById(R.id.custom1_indicator);
+
         mSliderLayout.removeAllSliders();
         int length = mImage.length;
         for (int i = 0; i < length; i++) {
@@ -411,7 +409,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             });
             mSliderLayout.addSlider(sliderView);
         }
-        mSliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);  //将小圆点设置到右下方
+//        mSliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);  //将小圆点设置到右下方
+        mSliderLayout.setCustomIndicator(pagerIndicator);  //将小圆点设置到右下方(自定义控件指示器)
 
     }
 
