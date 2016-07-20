@@ -104,7 +104,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (mView == null){
+        if (headMassageInfo == null){
             mView = inflater.inflate(R.layout.fragment_first_news, container, false);
             initWight();
             getMessageInfo();
@@ -154,7 +154,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 String message = (String) o;
-//                String message =  HttpManager.newInstance().getHttpInfo();
                 if (!TextUtils.isEmpty(message)){
                     Gson gson = new Gson();
                     headMassageInfo = gson.fromJson(message, HeadMassageInfo.class);

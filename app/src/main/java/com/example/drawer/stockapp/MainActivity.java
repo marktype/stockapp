@@ -67,13 +67,13 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
         tabHost.setLayoutParams(params);
         //使用fragment代替activity转换实现
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(setTabMenu("头条", R.drawable.tab_item1_selector)), FirstNewsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(setTabMenu("智能投顾", R.drawable.tab_item2_selector)), AutoWisdomFragment.class, null);
 //        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(setTabMenu("自选股", R.drawable.tab_item3_selector)), AutoStockFragment.class, null);   //暂时隐藏
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(setTabMenu("学堂", R.drawable.tab_item4_selector)), SchoolFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab5").setIndicator(setTabMenu("我的", R.drawable.tab_item4_selector)), MyFragment.class, null);
 
+        tabHost.getTabWidget().setDividerDrawable(null);     //去除tab之间的分割线
     }
 
     //通知栏高度写在dimen文件中(获取状态栏高度)

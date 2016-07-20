@@ -179,7 +179,7 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
         ArrayList<HeadIndex> indices = new ArrayList<>();
         for (int i = 0;i<10;i++){
             HeadIndex headIndex = new HeadIndex();
-            headIndex.setIndexImage("https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=434429458,1397364987&fm=80");
+            headIndex.setIndexImage("http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg");
             headIndex.setIndexName("测试名称"+i);
             headIndex.setIndexPersent("martix推荐");
             indices.add(headIndex);
@@ -216,7 +216,7 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
             txt1.setLayoutParams(aaaa1);
             txt1.setText(index.getIndexName());
             txt1.setGravity(Gravity.CENTER);
-            txt1.setTextSize(18);
+            txt1.setTextSize(16);
 
             layout1.addView(txt1);
 
@@ -239,7 +239,7 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
         ArrayList<HeadIndex> headIndices = new ArrayList<>();
         for (int i = 0;i<2;i++){
             HeadIndex headIndex = new HeadIndex();
-            headIndex.setIndexImage("https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=987454709,2145354371&fm=80");
+            headIndex.setIndexImage("http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg");
             headIndex.setIndexName("测试标题"+i);
             headIndex.setIndexNum("56");
             headIndex.setIndexPersent("22");
@@ -254,7 +254,7 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
         ArrayList<HeadIndex> headIndices = new ArrayList<>();
         for (int i = 0;i<4;i++){
             HeadIndex headIndex = new HeadIndex();
-            headIndex.setIndexImage("https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=987454709,2145354371&fm=80");
+            headIndex.setIndexImage("http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg");
             headIndex.setIndexName("测试标题"+i);
             headIndex.setIndexNum("55");
             headIndex.setIndexPersent("25");

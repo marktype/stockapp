@@ -26,7 +26,7 @@
             <RadioButton
                 android:id="@+id/find_txt"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:button="@null"
                 android:padding="@dimen/margin_4dp"
                 android:text="@string/find_txt"
@@ -38,7 +38,7 @@
             <RadioButton
                 android:id="@+id/class_txt"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:button="@null"
                 android:padding="@dimen/margin_4dp"
                 android:text="@string/my_class_txt"

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -121,6 +120,7 @@ public class HttpManager {
             if (response.isSuccessful()) {
                 //打印服务端返回结果
                 String info = response.body().string();
+                Log.d("tag", "getHttpData: 1111111--" + url);
                 Log.d("tag", "getHttpData: 2222222--" + info);
                 return info;
             }
@@ -200,7 +200,7 @@ public class HttpManager {
 
         RequestBody formBody = RequestBody.create(JSON, str);
         OkHttpClient mOkHttpClient = new OkHttpClient();
-        mOkHttpClient.newBuilder().connectTimeout(10000, TimeUnit.MILLISECONDS);      //设置链接超时
+//        mOkHttpClient.newBuilder().connectTimeout(10000, TimeUnit.MILLISECONDS);      //设置链接超时
         Request request = new Request.Builder()
                 .url(url)
                 .post(formBody)
@@ -216,6 +216,7 @@ public class HttpManager {
             if (response.isSuccessful()) {
                 //打印服务端返回结果
                 String info = response.body().string();
+                Log.d("tag", "getHttpData: 1111111--" + url);
                 Log.d("tag", "getHttpData: 2222222--" + info);
                 return info;
             } else {
@@ -332,6 +333,7 @@ public class HttpManager {
             if (response.isSuccessful()) {
                 //打印服务端返回结果
                 String info = response.body().string();
+                Log.d("tag", "getHttpData: 1111111--" + url);
                 Log.d("tag", "getHttpData: 2222222--" + info);
                 return info;
             }
@@ -443,6 +445,7 @@ public class HttpManager {
             if (response.isSuccessful()) {
                 //打印服务端返回结果
                 String info = response.body().string();
+                Log.d("tag", "getHttpData: 1111111--" + url);
                 Log.d("tag", "getHttpData: 2222222--" + info);
                 return info;
             }

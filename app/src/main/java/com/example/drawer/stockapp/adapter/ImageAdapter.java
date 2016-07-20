@@ -25,6 +25,7 @@ public class ImageAdapter extends BaseAdapter{
     public void setData(ArrayList<String> list){
         this.list = list;
         notifyDataSetChanged();
+        notifyDataSetInvalidated();
     }
     @Override
     public int getCount() {
@@ -54,7 +55,8 @@ public class ImageAdapter extends BaseAdapter{
         }
         String str = (String) getItem(i);
         if (!TextUtils.isEmpty(str))
-        Picasso.with(context).load(str).into(viewHolder.head);
+        Picasso.with(context).load(str).placeholder(R.mipmap.ic_launcher).into(viewHolder.head);
+
 
         return view;
     }
