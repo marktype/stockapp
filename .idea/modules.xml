@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/StockApp.iml" filepath="$PROJECT_DIR$/StockApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/imageSlider_viktor_library/imageSlider_viktor_library.iml" filepath="$PROJECT_DIR$/imageSlider_viktor_library/imageSlider_viktor_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oneKeyShareNew/oneKeyShareNew.iml" filepath="$PROJECT_DIR$/oneKeyShareNew/oneKeyShareNew.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shareSDK/shareSDK.iml" filepath="$PROJECT_DIR$/shareSDK/shareSDK.iml" />
     </modules>
   </component>
 </project>

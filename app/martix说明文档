@@ -5,6 +5,8 @@ de.hdodenhof:circleimageview:2.0.0    圆形头像
 imageSlider_viktor_library     轮播图
 compile 'com.squareup.okhttp3:okhttp:3.2.0'   //网络请求
 compile 'com.google.code.gson:gson:2.6.2'    gson解析数据
+compile project(':oneKeyShareNew')    分享依赖1
+compile project(':shareSDK')    分享依赖2
 
 Gson使用
 Gson gson = new Gson();

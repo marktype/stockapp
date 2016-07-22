@@ -10,6 +10,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/imageSlider_viktor_library" />
+            <option value="$PROJECT_DIR$/oneKeyShareNew" />
+            <option value="$PROJECT_DIR$/shareSDK" />
           </set>
         </option>
         <option name="myModules">
@@ -17,6 +19,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/imageSlider_viktor_library" />
+            <option value="$PROJECT_DIR$/oneKeyShareNew" />
+            <option value="$PROJECT_DIR$/shareSDK" />
           </set>
         </option>
       </GradleProjectSettings>
