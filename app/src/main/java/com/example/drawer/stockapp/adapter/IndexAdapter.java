@@ -53,6 +53,7 @@ public class IndexAdapter extends BaseAdapter {
             viewHolder.time = (TextView) view.findViewById(R.id.index_num);
             viewHolder.persent = (TextView) view.findViewById(R.id.index_persent);
             viewHolder.headImahe = (ImageView) view.findViewById(R.id.head_zixun_item);
+
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();

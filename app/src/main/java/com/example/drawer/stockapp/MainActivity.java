@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.activity.BascActivity;
@@ -57,9 +58,22 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
         return v;
     }
 
+    //自定义tab
+    public View setTabMenuTwo(String name, int image) {
+        View v = LayoutInflater.from(this).inflate(R.layout.tab_own_item_two_layout, null);
+        TextView menuText = (TextView) v.findViewById(R.id.tab_menu_txt);
+        ImageView menuImg = (ImageView) v.findViewById(R.id.tab_image);
+        menuText.setText(name);
+        menuImg.setImageResource(image);
+        return v;
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     public void initTab(){
-        FragmentTabHost tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        final FragmentTabHost tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         //设置距离顶部状态栏高度
         DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT,
                 DrawerLayout.LayoutParams.MATCH_PARENT);
@@ -70,10 +84,27 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(setTabMenu("头条", R.drawable.tab_item1_selector)), FirstNewsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(setTabMenu("智能投顾", R.drawable.tab_item2_selector)), AutoWisdomFragment.class, null);
 //        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(setTabMenu("自选股", R.drawable.tab_item3_selector)), AutoStockFragment.class, null);   //暂时隐藏
-        tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(setTabMenu("学堂", R.drawable.tab_item4_selector)), SchoolFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab5").setIndicator(setTabMenu("我的", R.drawable.tab_item4_selector)), MyFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(setTabMenuTwo("学堂", R.drawable.tab_item4_selector)), SchoolFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab5").setIndicator(setTabMenu("我的", R.drawable.tab_item5_selector)), MyFragment.class, null);
 
         tabHost.getTabWidget().setDividerDrawable(null);     //去除tab之间的分割线
+
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String s) {
+                if (s.equals("tab4")){
+                    tabHost.getTabWidget().getChildTabViewAt(0).setBackground(getResources().getDrawable(R.mipmap.tab_bg));
+                    tabHost.getTabWidget().getChildTabViewAt(1).setBackground(getResources().getDrawable(R.mipmap.tab_bg));
+                    tabHost.getTabWidget().getChildTabViewAt(2).setBackground(getResources().getDrawable(R.mipmap.tab_bg));
+                    tabHost.getTabWidget().getChildTabViewAt(3).setBackground(getResources().getDrawable(R.mipmap.tab_bg));
+                }else {
+                    tabHost.getTabWidget().getChildTabViewAt(0).setBackground(getResources().getDrawable(R.drawable.top_line));
+                    tabHost.getTabWidget().getChildTabViewAt(1).setBackground(getResources().getDrawable(R.drawable.top_line));
+                    tabHost.getTabWidget().getChildTabViewAt(2).setBackground(getResources().getDrawable(R.drawable.top_line));
+                    tabHost.getTabWidget().getChildTabViewAt(3).setBackground(getResources().getDrawable(R.drawable.top_line));
+                }
+            }
+        });
     }
 
     //通知栏高度写在dimen文件中(获取状态栏高度)

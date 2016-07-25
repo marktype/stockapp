@@ -1,45 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    >
+    android:layout_height="100dp">
 
-    <ImageView
-        android:id="@+id/head_zixun_item"
-        android:layout_margin="@dimen/margin_10dp"
-        android:scaleType="centerCrop"
-        android:layout_alignParentRight="true"
-        android:layout_width="100dp"
-        android:layout_height="80dp" />
-
-    <TextView
-        android:id="@+id/index_name"
-        android:layout_toLeftOf="@id/head_zixun_item"
-        android:layout_margin="@dimen/margin_10dp"
-        android:text="上证指数"
-        android:layout_gravity="center"
-        android:textSize="@dimen/activity_vertical_margin"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/index_num"
+        android:layout_height="100dp"
+        android:layout_marginLeft="@dimen/margin_20dp"
+        android:layout_marginRight="@dimen/margin_20dp"
+        android:background="@color/write_color">
 
-        android:layout_alignParentBottom="true"
-        android:text="12:24"
-        android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginBottom="@dimen/margin_15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/index_persent"
-        android:text="13245"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@id/head_zixun_item"
-        android:layout_margin="@dimen/margin_10dp"
-        android:drawableRight="@mipmap/pinglun"
-        android:drawablePadding="@dimen/margin_8dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/head_zixun_item"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/margin_10dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/index_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_10dp"
+            android:layout_toLeftOf="@id/head_zixun_item"
+            android:text="上证指数"
+            android:textSize="@dimen/activity_vertical_margin" />
+
+        <TextView
+            android:id="@+id/index_num"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/margin_15dp"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:text="12:24" />
+
+        <TextView
+            android:id="@+id/index_persent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_10dp"
+            android:layout_toLeftOf="@id/head_zixun_item"
+            android:drawablePadding="@dimen/margin_8dp"
+            android:drawableRight="@mipmap/pinglun"
+            android:text="13245" />
+    </RelativeLayout>
 </RelativeLayout>

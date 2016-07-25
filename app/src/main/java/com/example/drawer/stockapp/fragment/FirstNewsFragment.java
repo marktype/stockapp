@@ -162,7 +162,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         ArrayList<String> size = headMassageInfo.getResult().getBannerUrl();
                         images = new String[size.size()];
                         for (int i = 0;i<size.size();i++){
-                            images[i] = headMassageInfo.getResult().getBannerUrl().get(i);
+//                            images[i] = headMassageInfo.getResult().getBannerUrl().get(i);
+                            images[i] = "http://m2.quanjing.com/2m/ivary_photorf001/stp005_00051.jpg";     //bar图
                         }
                         initListData();
                     }
@@ -179,7 +180,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         List<View> viewList = new ArrayList<View>();
         LayoutInflater mInflater=LayoutInflater.from(getActivity());
         mSliderVIew = mInflater.inflate(R.layout.imageslider_layout, null);    //第一个head imageSlider
-        mScrollView = mInflater.inflate(R.layout.first_scroll_layout,null);    //第二个head（如上证指数）
+//        mScrollView = mInflater.inflate(R.layout.first_scroll_layout,null);    //第二个head（如上证指数）
+
 
 //        final EditText mSearchTxt = (EditText) mSliderVIew.findViewById(R.id.slider_edit);    //搜索框
 
@@ -223,13 +225,14 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         ListView mlist = (ListView) zixunView.findViewById(R.id.listview_zixun);
         mlist.addHeaderView(mSliderVIew);
 
-        LinearLayout layout = (LinearLayout) mScrollView.findViewById(R.id.first_lin);   //scrollview下的布局
+        LinearLayout layout = (LinearLayout) mSliderVIew.findViewById(R.id.first_lin);   //scrollview下的布局
 
         List<HeadMassageInfo.ResultBean.MarketDataBean> marketDataBeen = headMassageInfo.getResult().getMarketData();
         for (int i = 0;i<marketDataBeen.size();i++){
             double addOrDec = marketDataBeen.get(i).getVariabilityPoints();
             LinearLayout layout1 = new LinearLayout(getActivity());
-            ListView.LayoutParams lay = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams lay = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            lay.weight = 1;
             layout1.setLayoutParams(lay);
             layout1.setGravity(Gravity.CENTER);
             layout1.setOrientation(LinearLayout.VERTICAL);
@@ -273,7 +276,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
             layout.addView(layout1);
         }
-        mlist.addHeaderView(mScrollView);
+//        mlist.addHeaderView(mScrollView);
 
 
         IndexAdapter indexAdapter = new IndexAdapter(getActivity());

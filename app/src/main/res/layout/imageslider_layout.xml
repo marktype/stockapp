@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="60dp"
             android:gravity="right"
             custom:selected_color="#FFFFFF"
             custom:selected_height="2dp"
@@ -40,16 +40,16 @@
         <!--android:layout_centerInParent="true"/>-->
     </RelativeLayout>
 
-    <!--<EditText-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
 
-        <!--android:id="@+id/slider_edit"-->
-        <!--android:padding="@dimen/margin_10dp"-->
-        <!--android:layout_margin="@dimen/margin_10dp"-->
-        <!--android:alpha="0.5"-->
-        <!--android:textColor="@color/write_color"-->
-        <!--android:hint="搜索"-->
-        <!--android:gravity="center"-->
-        <!--android:background="@drawable/rect_gray_shape"/>-->
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/first_lin"
+            android:layout_marginTop="150dp"
+            android:background="@color/write_color"
+            android:layout_marginLeft="@dimen/margin_20dp"
+            android:layout_marginRight="@dimen/margin_20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+</RelativeLayout>

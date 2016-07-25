@@ -2,7 +2,7 @@
 com.readystatesoftware.systembartint:systembartint:1.0.3  状态栏颜色设置
 com.github.PhilJay:MPAndroidChart:v2.2.5    饼图、折现图等
 de.hdodenhof:circleimageview:2.0.0    圆形头像
-imageSlider_viktor_library     轮播图
+imageSlider_viktor_library     轮播图(中的TextSliderView类可改变指示器背景颜色)
 compile 'com.squareup.okhttp3:okhttp:3.2.0'   //网络请求
 compile 'com.google.code.gson:gson:2.6.2'    gson解析数据
 compile project(':oneKeyShareNew')    分享依赖1
