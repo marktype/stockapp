@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.CelueDatilActivity;
@@ -30,7 +31,13 @@ import com.example.drawer.stockapp.model.CeLueInfo;
 import com.example.drawer.stockapp.model.CeLueListInfo;
 import com.example.drawer.stockapp.model.NiuRenInfo;
 import com.example.drawer.stockapp.model.NiuRenListInfo;
+import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.google.gson.Gson;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.scxh.slider.library.Indicators.PagerIndicator;
+import com.scxh.slider.library.SliderLayout;
+import com.scxh.slider.library.SliderTypes.BaseSliderView;
+import com.scxh.slider.library.SliderTypes.TextSliderView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +56,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static final String CELUENAME = "celuename";
-    private View mView,liangHuaZuHeView,niuRenZuHeView,myZuHeView;
+    private View mView,liangHuaZuHeView,niuRenZuHeView,myZuHeView,mSliderVIew;
     private ViewPager mPager;
     private RadioButton mLiangHuaCelue,mNiuRenZuHe,mMyZuHe;
     private CeLueAdapter ceLueAdapter;
@@ -59,7 +66,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
 
     public AutoWisdomFragment() {
         // Required empty public constructor
@@ -86,6 +92,9 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+//        ManagerUtil.setStataBarColor(getActivity());
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -105,10 +114,26 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         return mView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
+        ManagerUtil.setStataBarColor(getActivity(),tintManager);
+    }
+
     /**
      * 初始化控件
      */
     public void initWight(){
+
+        RelativeLayout mTitle = (RelativeLayout) mView.findViewById(R.id.all_title);
+        //设置距离顶部状态栏高度
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                100);
+        params.setMargins(0, ManagerUtil.getStatusBarHeight(getActivity()),0,0);
+        mTitle.setLayoutParams(params);
+
+
         RadioGroup mGroup = (RadioGroup) mView.findViewById(R.id.wisdom_group);
         ImageView mMessage = (ImageView) mView.findViewById(R.id.wisdom_info);
         ImageView mSearch = (ImageView) mView.findViewById(R.id.pop_item_img);
@@ -147,7 +172,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         ceLueAdapter = new CeLueAdapter(getActivity());
         getCelueInfo();
 
-
+        mSliderVIew = mInflater.inflate(R.layout.imageslider_layout_two, null);    //第一个head imageSlider
+        listView.addHeaderView(mSliderVIew);
 
         //牛人组合
         niurenList = (ListView) niuRenZuHeView.findViewById(R.id.niuren_listview);
@@ -167,6 +193,38 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 
         myZuHeAdapter.setData(setMyZuHeData());
         myList.setAdapter(myZuHeAdapter);
+
+        getSliderLayoutView(images,null);
+    }
+
+
+     private String[] images = {"http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291055080-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291114570-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605042201270-L.jpg"};
+    /**
+     * imageSlider控件加入
+     * */
+    public void getSliderLayoutView(String[] mImage, final String[] mString) {
+        SliderLayout mSliderLayout = (SliderLayout) mSliderVIew.findViewById(R.id.image_slider_layout);
+        mSliderLayout.setMinimumHeight(180);
+
+        PagerIndicator pagerIndicator = (PagerIndicator) mSliderVIew.findViewById(R.id.custom1_indicator);
+
+        mSliderLayout.removeAllSliders();
+        int length = mImage.length;
+        for (int i = 0; i < length; i++) {
+            TextSliderView sliderView = new TextSliderView(getContext());   //向SliderLayout中添加控件
+            sliderView.image(mImage[i]);
+//            sliderView.description(mString[i]);
+            final int finalI = i;
+            sliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                @Override
+                public void onSliderClick(BaseSliderView slider) {
+                }
+            });
+            mSliderLayout.addSlider(sliderView);
+        }
+//        mSliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);  //将小圆点设置到右下方
+        mSliderLayout.setCustomIndicator(pagerIndicator);  //将小圆点设置到右下方(自定义控件指示器)
+
     }
 
     /**

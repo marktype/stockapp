@@ -8,16 +8,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
@@ -27,13 +30,16 @@ import com.example.drawer.stockapp.activity.WebViewUpTitleActivity;
 import com.example.drawer.stockapp.adapter.IndexAdapter;
 import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
 import com.example.drawer.stockapp.adapter.TrendsAdapter;
+import com.example.drawer.stockapp.customview.view.XListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.listener.OnFragmentInteractionListener;
 import com.example.drawer.stockapp.model.DynamicsInfo;
 import com.example.drawer.stockapp.model.HeadMassageInfo;
 import com.example.drawer.stockapp.model.NewsInfo;
 import com.example.drawer.stockapp.model.TrendsInfo;
+import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.google.gson.Gson;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.scxh.slider.library.Indicators.PagerIndicator;
 import com.scxh.slider.library.SliderLayout;
 import com.scxh.slider.library.SliderTypes.BaseSliderView;
@@ -43,6 +49,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.example.drawer.stockapp.R.drawable.text_selector;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -50,7 +58,7 @@ import java.util.List;
  * Use the {@link FirstNewsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FirstNewsFragment extends Fragment implements View.OnClickListener,AdapterView.OnItemClickListener{
+public class FirstNewsFragment extends Fragment implements View.OnClickListener,AdapterView.OnItemClickListener,XListView.IXListViewListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,7 +69,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private HeadMassageInfo headMassageInfo;
     private DynamicsInfo dynamicsInfo;
     private TrendsAdapter trendsAdapter;
+    private RelativeLayout mTitleRelat;
     private ListView mDongTaiList;
+    private ImageView mImgHead,mMessage;
 //    private String[] images = {"http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291055080-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291114570-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605042201270-L.jpg"};
     private String[] images = {""};
     // TODO: Rename and change types of parameters
@@ -119,8 +129,17 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
      * 初始化控件
      */
     public void initWight(){
-        ImageView mImgHead = (ImageView) mView.findViewById(R.id.info_img);   //点击头像
-        ImageView mMessage = (ImageView) mView.findViewById(R.id.pop_item_img);
+        mTitleRelat = (RelativeLayout) mView.findViewById(R.id.all_order_title);    //title布局
+        //设置距离顶部状态栏高度
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                100);
+        params.setMargins(0, ManagerUtil.getStatusBarHeight(getActivity()),0,0);
+        mTitleRelat.setLayoutParams(params);
+
+        mImgHead = (ImageView) mView.findViewById(R.id.info_img);   //点击头像
+        mMessage = (ImageView) mView.findViewById(R.id.pop_item_img);
+
+
 
         RadioGroup mGroup = (RadioGroup) mView.findViewById(R.id.first_group);
         mZinXun = (RadioButton) mView.findViewById(R.id.zixun_txt);
@@ -180,10 +199,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         List<View> viewList = new ArrayList<View>();
         LayoutInflater mInflater=LayoutInflater.from(getActivity());
         mSliderVIew = mInflater.inflate(R.layout.imageslider_layout, null);    //第一个head imageSlider
-//        mScrollView = mInflater.inflate(R.layout.first_scroll_layout,null);    //第二个head（如上证指数）
 
-
-//        final EditText mSearchTxt = (EditText) mSliderVIew.findViewById(R.id.slider_edit);    //搜索框
+        tintManager = new SystemBarTintManager(getActivity());
+        tintManager.setStatusBarTintEnabled(true);
 
 
         zixunView = mInflater.inflate(R.layout.zixun_layout,null);     //资讯大框架在这儿
@@ -199,30 +217,17 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
         mDongTaiList = (ListView) dongtaiView.findViewById(R.id.fondtai_listview);
         trendsAdapter = new TrendsAdapter(getActivity());
-//        trendsAdapter.setData(initdongtaiData());
-//        mDongTaiList.setAdapter(trendsAdapter);
-//
         mDongTaiList.setOnItemClickListener(this);
-//        //获取焦点，跳转搜索页面
-//        mSearchTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean b) {
-//                if (b){
-//                    Intent intent = new Intent(getActivity(), SerchActivity.class);
-//                    startActivity(intent);
-//                    mSearchTxt.clearFocus();
-//                }
-//            }
-//        });
 
 
     }
-
+    private XListView mlist;
     //初始化listview数据（资讯）
     public void initListData(){
         getSliderLayoutView(images,null);
 
-        ListView mlist = (ListView) zixunView.findViewById(R.id.listview_zixun);
+        mlist = (XListView) zixunView.findViewById(R.id.listview_zixun);
+        mlist.setPullLoadEnable(true);    //设置上拉加载
         mlist.addHeaderView(mSliderVIew);
 
         LinearLayout layout = (LinearLayout) mSliderVIew.findViewById(R.id.first_lin);   //scrollview下的布局
@@ -276,7 +281,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
             layout.addView(layout1);
         }
-//        mlist.addHeaderView(mScrollView);
 
 
         IndexAdapter indexAdapter = new IndexAdapter(getActivity());
@@ -284,8 +288,78 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mlist.setAdapter(indexAdapter);
 
         mlist.setOnItemClickListener(this);
+        mlist.setXListViewListener(this);
 
+        mlist.setOnScrollListener(new XListView.OnXScrollListener() {
+            @Override
+            public void onXScrolling(View view) {
+
+            }
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                mCurrentfirstVisibleItem = i;
+                View firstView = absListView.getChildAt(0);
+                if (null != firstView) {
+                    ItemRecod itemRecord = (ItemRecod) recordSp.get(i);
+                    if (null == itemRecord) {
+                        itemRecord = new ItemRecod();
+                    }
+                    itemRecord.height = firstView.getHeight();
+                    itemRecord.top = firstView.getTop();
+                    recordSp.append(i, itemRecord);
+                }
+                //设置滑动颜色渐变
+                if (getScrollY()<510){
+                    mTitleRelat.getBackground().setAlpha(getScrollY()/2);
+                    tintManager.setTintAlpha((float) getScrollY()/510);
+                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(),false);
+                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(),false);
+                    mZinXun.setTextColor(getActivity().getResources().getColor(R.drawable.text_white_selector));
+                    mImgHead.setImageResource(R.mipmap.message_white);
+                    mMessage.setImageResource(R.mipmap.search_white);
+                }else {
+                    mTitleRelat.setBackgroundResource(R.color.write_color);
+                    tintManager.setStatusBarTintResource(R.color.write_color);
+                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(),true);
+                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(),true);
+                    mZinXun.setTextColor(getActivity().getResources().getColor(R.drawable.text_selector));
+                    mImgHead.setImageResource(R.mipmap.message_black);
+                    mMessage.setImageResource(R.mipmap.searchblack);
+                }
+            }
+
+
+            //获取偏移距离
+            private int getScrollY() {
+                int height = 0;
+                for (int i = 0; i < mCurrentfirstVisibleItem; i++) {
+                    ItemRecod itemRecod = (ItemRecod) recordSp.get(i);
+                    height += itemRecod.height;
+                }
+                ItemRecod itemRecod = (ItemRecod) recordSp.get(mCurrentfirstVisibleItem);
+                if (null == itemRecod) {
+                    itemRecod = new ItemRecod();
+                }
+                return height - itemRecod.top;
+            }
+
+
+            class ItemRecod {
+                int height = 0;
+                int top = 0;
+            }
+
+        });
     }
+    protected SystemBarTintManager tintManager;
+    private int mCurrentfirstVisibleItem = 0;
+    private SparseArray recordSp = new SparseArray(0);
+
 
     /**
      * 初始化动态数据
@@ -378,13 +452,18 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     public ArrayList<NewsInfo> setNewsInfo(){
         ArrayList<NewsInfo> newsInfos = new ArrayList<>();
         List<HeadMassageInfo.ResultBean.NewsBean> newsBeen = headMassageInfo.getResult().getNews();
-        for (int i = 0;i<newsBeen.size();i++){
+        for (int i = 0;i<10;i++){
             NewsInfo info = new NewsInfo();
-            HeadMassageInfo.ResultBean.NewsBean newsBean = newsBeen.get(i);
+            HeadMassageInfo.ResultBean.NewsBean newsBean = newsBeen.get(0);
             info.setTitle(newsBean.getTitle());
             info.setTime(newsBean.getUpdateTime());
             info.setPeopleNum(newsBean.getComments()+"");
             info.setImage(newsBean.getBannerUrl());
+            if (i==5||i==9){
+                info.setType(2);
+            }else {
+                info.setType(1);
+            }
             newsInfos.add(info);
         }
         return newsInfos;
@@ -469,6 +548,23 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 break;
         }
     }
+
+    @Override
+    public void onRefresh() {
+        onLoad();
+    }
+
+    @Override
+    public void onLoadMore() {
+        onLoad();
+    }
+    private void onLoad() {
+        mlist.stopRefresh();
+        mlist.stopLoadMore();
+        mlist.setRefreshTime("刚刚");
+    }
+
+
 
     private class RadioGroupListener implements RadioGroup.OnCheckedChangeListener {
 

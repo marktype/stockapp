@@ -1,11 +1,9 @@
 package com.example.drawer.stockapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,19 +20,18 @@ import com.example.drawer.stockapp.fragment.MyFragment;
 import com.example.drawer.stockapp.fragment.SchoolFragment;
 import com.example.drawer.stockapp.listener.OnFragmentInteractionListener;
 
-import java.lang.reflect.Field;
-
 public class MainActivity extends BascActivity implements OnFragmentInteractionListener,View.OnClickListener {
     private DrawerLayout mDrawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
         setContentView(R.layout.activity_main);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED); //关闭手势滑动
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED); //关闭手势滑动
         initTab();
-        initWight();
+//        initWight();
 
     }
 
@@ -74,11 +71,11 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
 
     public void initTab(){
         final FragmentTabHost tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        //设置距离顶部状态栏高度
-        DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT,
-                DrawerLayout.LayoutParams.MATCH_PARENT);
-        params.setMargins(0,getStatusBarHeight(this),0,0);
-        tabHost.setLayoutParams(params);
+//        //设置距离顶部状态栏高度
+//        DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT,
+//                DrawerLayout.LayoutParams.MATCH_PARENT);
+//        params.setMargins(0,getStatusBarHeight(this),0,0);
+//        tabHost.setLayoutParams(params);
         //使用fragment代替activity转换实现
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(setTabMenu("头条", R.drawable.tab_item1_selector)), FirstNewsFragment.class, null);
@@ -107,27 +104,11 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
         });
     }
 
-    //通知栏高度写在dimen文件中(获取状态栏高度)
-    public static int getStatusBarHeight(Context context){
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, statusBarHeight = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            statusBarHeight = context.getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-        return statusBarHeight;
-    }
+
 
     @Override
     public void onFragmentInteraction() {
-        mDrawerLayout.openDrawer(Gravity.LEFT);
+//        mDrawerLayout.openDrawer(Gravity.LEFT);
     }
 
 
@@ -135,9 +116,9 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
     @Override
     protected void onStop() {
         super.onStop();
-        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-            mDrawerLayout.closeDrawer(Gravity.LEFT);
-        }
+//        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+//            mDrawerLayout.closeDrawer(Gravity.LEFT);
+//        }
     }
 
     @Override

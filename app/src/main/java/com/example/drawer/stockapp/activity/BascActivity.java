@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.drawer.stockapp.R;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
@@ -26,7 +25,9 @@ public class BascActivity extends AppCompatActivity {
         }
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.colorPrimary);
+//        tintManager.setStatusBarTintResource(R.color.write_color);
+//        ManagerUtil.FlymeSetStatusBarLightMode(this.getWindow(),true);
+//        ManagerUtil.MIUISetStatusBarLightMode(this.getWindow(),true);
     }
 
     protected  void setStatusColor(int color){

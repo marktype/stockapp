@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
@@ -58,19 +57,19 @@ public class CeLueAdapter extends BaseAdapter {
             viewHolder.rateNum = (TextView) view.findViewById(R.id.rate_num);
             viewHolder.name = (TextView) view.findViewById(R.id.celue_people_name);
             viewHolder.gengtouTxt = (TextView) view.findViewById(R.id.gengtou_num);
-            viewHolder.layout = (RelativeLayout) view.findViewById(R.id.lianghuacelue_item_relat);
-            viewHolder.zuheName = (TextView) view.findViewById(R.id.lianghuacelue_title);
+//            viewHolder.layout = (RelativeLayout) view.findViewById(R.id.lianghuacelue_item_relat);
+//            viewHolder.zuheName = (TextView) view.findViewById(R.id.lianghuacelue_title);
             viewHolder.levelImage = (ImageView) view.findViewById(R.id.line_celue_three);
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
         CeLueInfo info = (CeLueInfo) getItem(i);
-        if (info.getType() == 1){
-            viewHolder.zuheName.setText("量化策略组合");
-        }else {
-            viewHolder.layout.setVisibility(View.GONE);
-        }
+//        if (info.getType() == 1){
+//            viewHolder.zuheName.setText("量化策略组合");
+//        }else {
+//            viewHolder.layout.setVisibility(View.GONE);
+//        }
 
         viewHolder.persent.setText(info.getCeluePersent());
         viewHolder.title.setText(info.getTitle());
@@ -96,7 +95,7 @@ public class CeLueAdapter extends BaseAdapter {
         ImageView headImage,levelImage;
         TextView name;
         TextView gengtouTxt;
-        TextView zuheName;
-        RelativeLayout layout;
+//        TextView zuheName;
+//        RelativeLayout layout;
     }
 }

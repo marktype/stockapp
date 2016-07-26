@@ -4,13 +4,11 @@
     android:layout_height="match_parent">
 
 
-    <ListView
-        android:layout_marginTop="@dimen/margin_5dp"
+    <com.example.drawer.stockapp.customview.view.XListView
         android:id="@+id/listview_zixun"
         android:divider="@android:color/transparent"
-        android:dividerHeight="@dimen/margin_5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </ListView>
+    </com.example.drawer.stockapp.customview.view.XListView>
 </LinearLayout>

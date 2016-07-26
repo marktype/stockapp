@@ -3,12 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.drawer.stockapp.fragment.FirstNewsFragment">
-
+    <!--  android:layout_below="@id/all_order_title" -->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/zixun_content_pager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
     <RelativeLayout
         android:id="@+id/all_order_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:background="@color/colorPrimary">
+        android:background="@android:color/transparent">
 
         <ImageView
             android:id="@+id/info_img"
@@ -16,40 +21,42 @@
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/margin_10dp"
             android:padding="@dimen/margin_10dp"
-            android:src="@mipmap/user" />
+            android:src="@mipmap/message_white" />
 
         <RadioGroup
             android:id="@+id/first_group"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
-
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="@dimen/margin_1dp">
+            android:padding="@dimen/margin_10dp">
 
             <RadioButton
                 android:id="@+id/zixun_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/button_line_selector"
                 android:button="@null"
                 android:checked="true"
+                android:gravity="center_horizontal"
+                android:background="@drawable/title_bg_selecter"
                 android:layout_marginRight="@dimen/margin_10dp"
                 android:padding="@dimen/margin_4dp"
                 android:text="@string/zixun_txt"
-                android:textColor="@drawable/text_selector"
+                android:textColor="@drawable/text_white_selector"
                 android:textSize="@dimen/title_text_size" />
 
             <RadioButton
                 android:id="@+id/dongtai_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/button_line_selector"
                 android:button="@null"
+                android:gravity="center_horizontal"
+                android:checked="false"
                 android:padding="@dimen/margin_4dp"
+                android:background="@drawable/title_bg_selecter"
                 android:text="@string/dongtai_txt"
-                android:textColor="@drawable/text_selector"
+                android:textColor="@drawable/text_white_selector"
                 android:textSize="@dimen/title_text_size" />
         </RadioGroup>
 
@@ -61,14 +68,9 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_10dp"
             android:padding="@dimen/margin_10dp"
-            android:src="@mipmap/message" />
+            android:src="@mipmap/search_white" />
     </RelativeLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/zixun_content_pager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/all_order_title"
-        android:layout_centerInParent="true" />
+
 
 </RelativeLayout>

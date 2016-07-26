@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/all_title"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/write_color"
         android:layout_height="@dimen/title_height">
         <ImageView
             android:id="@+id/wisdom_info"
@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:padding="@dimen/margin_10dp"
             android:layout_marginRight="@dimen/margin_10dp"
-            android:src="@mipmap/message"/>
+            android:src="@mipmap/message_black"/>
         <RadioGroup
             android:id="@+id/wisdom_group"
             android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
                 android:text="@string/lianghuacelue_txt"
                 android:checked="true"
                 android:textColor="@drawable/text_selector"
-                android:background="@drawable/button_line_selector"
+                android:background="@drawable/title_bg_selecter"
                 android:textSize="@dimen/title_text_size" />
             <RadioButton
                 android:id="@+id/zuhe_txt"
@@ -45,7 +45,7 @@
                 android:padding="@dimen/margin_4dp"
                 android:text="@string/niurenzuhe_txt"
                 android:textColor="@drawable/text_selector"
-                android:background="@drawable/button_line_selector"
+                android:background="@drawable/title_bg_selecter"
                 android:textSize="@dimen/title_text_size" />
             <RadioButton
                 android:id="@+id/my_zuhe_txt"
@@ -55,7 +55,7 @@
                 android:padding="@dimen/margin_4dp"
                 android:text="@string/my_zuhe_txt"
                 android:textColor="@drawable/text_selector"
-                android:background="@drawable/button_line_selector"
+                android:background="@drawable/title_bg_selecter"
                 android:textSize="@dimen/title_text_size" />
         </RadioGroup>
         <ImageView
@@ -64,7 +64,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/searchicon"
+            android:src="@mipmap/searchblack"
             android:padding="@dimen/margin_10dp" />
     </RelativeLayout>
 

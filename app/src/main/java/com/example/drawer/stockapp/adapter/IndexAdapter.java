@@ -18,10 +18,14 @@ import java.util.ArrayList;
  * Created by 欢大哥 on 2016/6/15.
  */
 public class IndexAdapter extends BaseAdapter {
+    private static final int TYPE_ONE_IMAGE = 1;
+    private static final int TYPE_THREE_IMAGE = 2;
     private Context context;
-    private ArrayList<NewsInfo> list ;
+    private ArrayList<NewsInfo> list;
+    private LayoutInflater mInflater;
     public IndexAdapter(Context context){
         this.context = context;
+        mInflater = LayoutInflater.from(context);
     }
     public void setData(ArrayList<NewsInfo> list){
         this.list = list;
@@ -44,25 +48,57 @@ public class IndexAdapter extends BaseAdapter {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return list.get(position).getType();
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 3;
+    }
+
+    @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
-        if (view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.index_item,null);
-            viewHolder = new ViewHolder();
-            viewHolder.name = (TextView) view.findViewById(R.id.index_name);
-            viewHolder.time = (TextView) view.findViewById(R.id.index_num);
-            viewHolder.persent = (TextView) view.findViewById(R.id.index_persent);
-            viewHolder.headImahe = (ImageView) view.findViewById(R.id.head_zixun_item);
+        ViewHolderTwo viewHolderTwo;
+        int type = getItemViewType(i);
+        if (type == TYPE_ONE_IMAGE){
+            if (view == null){
+                view = mInflater.inflate(R.layout.index_item,null);
+                viewHolder = new ViewHolder();
+                viewHolder.name = (TextView) view.findViewById(R.id.index_name);
+                viewHolder.time = (TextView) view.findViewById(R.id.index_num);
+                viewHolder.persent = (TextView) view.findViewById(R.id.index_persent);
+                viewHolder.headImahe = (ImageView) view.findViewById(R.id.head_zixun_item);
 
-            view.setTag(viewHolder);
-        }else {
-            viewHolder = (ViewHolder) view.getTag();
+                view.setTag(viewHolder);
+            }else {
+                viewHolder = (ViewHolder) view.getTag();
+            }
+            NewsInfo headIndex = (NewsInfo) getItem(i);
+            viewHolder.name.setText(headIndex.getTitle());
+            viewHolder.time.setText(headIndex.getTime());
+            viewHolder.persent.setText(headIndex.getPeopleNum());
+            Picasso.with(context).load(headIndex.getImage()).into(viewHolder.headImahe);
+        }else if (type == TYPE_THREE_IMAGE){
+            if (view == null){
+                view = mInflater.inflate(R.layout.zixun_list_three_image_item,null);
+                viewHolderTwo = new ViewHolderTwo();
+                viewHolderTwo.title = (TextView) view.findViewById(R.id.title_txt);
+                viewHolderTwo.xontent = (TextView) view.findViewById(R.id.content_txt);
+                viewHolderTwo.oneImage = (ImageView) view.findViewById(R.id.news_image_one);
+                viewHolderTwo.twoImage = (ImageView) view.findViewById(R.id.news_image_two);
+                viewHolderTwo.threeImage = (ImageView) view.findViewById(R.id.news_image_three);
+                viewHolderTwo.commentNum = (TextView) view.findViewById(R.id.index_persent_three);
+                viewHolderTwo.timeThree = (TextView) view.findViewById(R.id.index_num_three);
+                view.setTag(viewHolderTwo);
+            }else {
+                viewHolderTwo = (ViewHolderTwo) view.getTag();
+            }
+
         }
-        NewsInfo headIndex = (NewsInfo) getItem(i);
-        viewHolder.name.setText(headIndex.getTitle());
-        viewHolder.time.setText(headIndex.getTime());
-        viewHolder.persent.setText(headIndex.getPeopleNum());
-        Picasso.with(context).load(headIndex.getImage()).into(viewHolder.headImahe);
+
+
 
         return view;
     }
@@ -73,4 +109,13 @@ public class IndexAdapter extends BaseAdapter {
        TextView persent;
        ImageView headImahe;
    }
+    private class ViewHolderTwo{
+        TextView title;
+        TextView xontent;
+        TextView timeThree;
+        TextView commentNum;
+        ImageView oneImage;
+        ImageView twoImage;
+        ImageView threeImage;
+    }
 }

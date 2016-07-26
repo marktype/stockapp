@@ -9,6 +9,15 @@ public class NewsInfo {
     private String title;
     private String time;
     private String peopleNum;
+    private int type;    //布局类型
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public String getImage() {
         return Image;

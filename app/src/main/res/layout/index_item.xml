@@ -8,6 +8,7 @@
         android:layout_height="100dp"
         android:layout_marginLeft="@dimen/margin_20dp"
         android:layout_marginRight="@dimen/margin_20dp"
+        android:layout_marginTop="@dimen/margin_5dp"
         android:background="@color/write_color">
 
         <ImageView
