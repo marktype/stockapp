@@ -124,6 +124,12 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         return mView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
+        ManagerUtil.setStataBarColorWhite(getActivity(),tintManager);
+    }
 
     /**
      * 初始化控件
@@ -312,33 +318,34 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                     itemRecord.height = firstView.getHeight();
                     itemRecord.top = firstView.getTop();
                     recordSp.append(i, itemRecord);
-                }
-                //设置滑动颜色渐变
-                if (getScrollY()<510){
-                    mTitleRelat.getBackground().setAlpha(getScrollY()/2);
-                    tintManager.setTintAlpha((float) getScrollY()/510);
-                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(),false);
-                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(),false);
-                    mZinXun.setTextColor(getActivity().getResources().getColor(R.drawable.text_white_selector));
-                    mImgHead.setImageResource(R.mipmap.message_white);
-                    mMessage.setImageResource(R.mipmap.search_white);
-                }else {
-                    mTitleRelat.setBackgroundResource(R.color.write_color);
-                    tintManager.setStatusBarTintResource(R.color.write_color);
-                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(),true);
-                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(),true);
-                    mZinXun.setTextColor(getActivity().getResources().getColor(R.drawable.text_selector));
-                    mImgHead.setImageResource(R.mipmap.message_black);
-                    mMessage.setImageResource(R.mipmap.searchblack);
+
+                    //设置滑动颜色渐变
+                    if (getScrollY() < 510) {
+                        mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
+                        tintManager.setTintAlpha((float) getScrollY() / 510);
+                        ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
+                        ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
+                        mZinXun.setTextColor(getActivity().getResources().getColor(R.drawable.text_white_selector));
+                        mImgHead.setImageResource(R.mipmap.message_white);
+                        mMessage.setImageResource(R.mipmap.search_white);
+                    } else {
+                        mTitleRelat.setBackgroundResource(R.color.write_color);
+                        tintManager.setStatusBarTintResource(R.color.write_color);
+                        ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
+                        ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
+                        mZinXun.setTextColor(getActivity().getResources().getColor(R.drawable.text_selector));
+                        mImgHead.setImageResource(R.mipmap.message_black);
+                        mMessage.setImageResource(R.mipmap.searchblack);
+                    }
                 }
             }
-
 
             //获取偏移距离
             private int getScrollY() {
                 int height = 0;
                 for (int i = 0; i < mCurrentfirstVisibleItem; i++) {
                     ItemRecod itemRecod = (ItemRecod) recordSp.get(i);
+                    if (itemRecod != null)
                     height += itemRecod.height;
                 }
                 ItemRecod itemRecod = (ItemRecod) recordSp.get(mCurrentfirstVisibleItem);

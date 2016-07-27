@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
@@ -29,6 +30,8 @@ import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
 import com.example.drawer.stockapp.adapter.SelectClassAdapter;
 import com.example.drawer.stockapp.customview.MyGridView;
 import com.example.drawer.stockapp.model.HeadIndex;
+import com.example.drawer.stockapp.utils.ManagerUtil;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -95,10 +98,27 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
         return mView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
+//        tintManager.setStatusBarTintColor(R.color.colorPrimary);
+        ManagerUtil.setStataBarColorWhite(getActivity(),tintManager);
+
+    }
+
     /**
      * 初始化控件
      */
     public void initWight(){
+        RelativeLayout mTitle = (RelativeLayout) mView.findViewById(R.id.all_title);
+        //设置距离顶部状态栏高度
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                100);
+        params.setMargins(0, ManagerUtil.getStatusBarHeight(getActivity()),0,0);
+        mTitle.setLayoutParams(params);
+
+
         RadioGroup mGroup = (RadioGroup) mView.findViewById(R.id.class_group);
         ImageView mMessage = (ImageView) mView.findViewById(R.id.my_class_img);
         ImageView mSearch = (ImageView) mView.findViewById(R.id.search_img);

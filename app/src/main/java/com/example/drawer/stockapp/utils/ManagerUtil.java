@@ -130,9 +130,19 @@ public class ManagerUtil {
      * @param activity
      */
     public static void setStataBarColor(Activity activity,SystemBarTintManager tintManager){
-//        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.write_color);
         FlymeSetStatusBarLightMode(activity.getWindow(),true);
         MIUISetStatusBarLightMode(activity.getWindow(),true);
+    }
+    /**
+     * 设置状态栏颜色，字体（黑底白字）透明
+     * @param activity
+     */
+    public static void setStataBarColorWhite(Activity activity,SystemBarTintManager tintManager){
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
+        FlymeSetStatusBarLightMode(activity.getWindow(),false);
+        MIUISetStatusBarLightMode(activity.getWindow(),false);
     }
 }

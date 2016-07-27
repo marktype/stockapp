@@ -1,6 +1,7 @@
 package com.example.drawer.stockapp.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.customview.CanvasView;
+import com.example.drawer.stockapp.customview.CanvasViewThree;
 import com.example.drawer.stockapp.model.CeLueInfo;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by 欢大哥 on 2016/6/15.
@@ -57,9 +61,10 @@ public class CeLueAdapter extends BaseAdapter {
             viewHolder.rateNum = (TextView) view.findViewById(R.id.rate_num);
             viewHolder.name = (TextView) view.findViewById(R.id.celue_people_name);
             viewHolder.gengtouTxt = (TextView) view.findViewById(R.id.gengtou_num);
+            viewHolder.canvasViewThree = (CanvasViewThree) view.findViewById(R.id.chart1);
 //            viewHolder.layout = (RelativeLayout) view.findViewById(R.id.lianghuacelue_item_relat);
 //            viewHolder.zuheName = (TextView) view.findViewById(R.id.lianghuacelue_title);
-            viewHolder.levelImage = (ImageView) view.findViewById(R.id.line_celue_three);
+//            viewHolder.levelImage = (ImageView) view.findViewById(R.id.line_celue_three);
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();
@@ -71,7 +76,7 @@ public class CeLueAdapter extends BaseAdapter {
 //            viewHolder.layout.setVisibility(View.GONE);
 //        }
 
-        viewHolder.persent.setText(info.getCeluePersent());
+        viewHolder.persent.setText(info.getCeluePersent()+"%");
         viewHolder.title.setText(info.getTitle());
         viewHolder.content.setText(info.getOtherInfo());
         viewHolder.jingzhi.setText(info.getJingZhiNum()+"");
@@ -80,7 +85,8 @@ public class CeLueAdapter extends BaseAdapter {
         viewHolder.name.setText(info.getName());
         viewHolder.gengtouTxt.setText(info.getMinGengTou());
         Picasso.with(context).load(info.getHeadImage()).into(viewHolder.headImage);
-        Picasso.with(context).load(info.getLevelImage()).into(viewHolder.levelImage);
+//        Picasso.with(context).load(info.getLevelImage()).into(viewHolder.levelImage);
+        setCanvasData(viewHolder.canvasViewThree,info.getCeluePersent());
 
         return view;
     }
@@ -95,7 +101,25 @@ public class CeLueAdapter extends BaseAdapter {
         ImageView headImage,levelImage;
         TextView name;
         TextView gengtouTxt;
+        CanvasViewThree canvasViewThree;
 //        TextView zuheName;
 //        RelativeLayout layout;
+    }
+
+    private ArrayList<HashMap<String, Object>> data;
+    private HashMap<String, Object> map;
+    //设置历史业绩中的比例和颜色
+    public void setCanvasData(CanvasViewThree canvasView, double num) {
+        data = new ArrayList<>();
+        setDataToView(num + "%", "#DBBD44", (float) (num / 100));
+        canvasView.setData(data);
+    }
+
+    private void setDataToView(String title, String color, float weight) {
+        map = new HashMap<>();
+        map.put(CanvasView.TITLE, title);
+        map.put(CanvasView.COLOR, Color.parseColor(color));
+        map.put(CanvasView.WEIGHT, weight);
+        data.add(map);
     }
 }

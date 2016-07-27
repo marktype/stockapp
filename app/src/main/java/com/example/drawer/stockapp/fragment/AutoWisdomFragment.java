@@ -105,7 +105,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (mView == null){
+        if (ceLueListInfo == null){
             mView = inflater.inflate(R.layout.fragment_auto_wisdom, container, false);
             initWight();
             initData();
@@ -118,6 +118,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     public void onResume() {
         super.onResume();
         SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
+
         ManagerUtil.setStataBarColor(getActivity(),tintManager);
     }
 
@@ -170,6 +171,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         listView = (ListView) liangHuaZuHeView.findViewById(R.id.lianghuacelue_list);
         listView.setOnItemClickListener(this);
         ceLueAdapter = new CeLueAdapter(getActivity());
+
         getCelueInfo();
 
         mSliderVIew = mInflater.inflate(R.layout.imageslider_layout_two, null);    //第一个head imageSlider
@@ -196,6 +198,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 
         getSliderLayoutView(images,null);
     }
+
+
 
 
      private String[] images = {"http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291055080-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291114570-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605042201270-L.jpg"};
@@ -326,7 +330,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             if (i == 0){
                 info.setType(1);
             }
-            info.setCeluePersent(ben.getRecruitment()+"%");
+            info.setCeluePersent(ben.getRecruitment());
             info.setTitle(ben.getName());
             info.setJingZhiNum(ben.getTargetReturns()+"%");
             info.setMaxNum(ben.getMaxDay()+"天");

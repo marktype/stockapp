@@ -21,6 +21,7 @@ import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.StarDetailInfo;
 import com.example.drawer.stockapp.model.StockBean;
+import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -55,6 +56,10 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_celue_datil);
+
+        ManagerUtil.MIUISetStatusBarLightMode(getWindow(),true);
+        ManagerUtil.FlymeSetStatusBarLightMode(getWindow(),true);
+
         initWight();
         getStargeDetialData();
     }

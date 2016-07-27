@@ -17,6 +17,7 @@
             android:id="@+id/kecheng"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
             android:text="精选课程"/>
 
         <ImageView
@@ -51,7 +52,7 @@
         android:layout_below="@id/gridview_layout"
         >
         <TextView
-
+            android:textColor="@android:color/darker_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="精选合集"/>
@@ -85,6 +86,7 @@
     <TextView
         android:id="@+id/tuijian_user"
         android:text="推荐用户"
+        android:textColor="@android:color/darker_gray"
         android:layout_below="@id/heji_image_two"
         android:layout_margin="@dimen/margin_10dp"
         android:layout_width="wrap_content"

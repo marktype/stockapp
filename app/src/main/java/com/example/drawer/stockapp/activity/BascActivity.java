@@ -25,7 +25,7 @@ public class BascActivity extends AppCompatActivity {
         }
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
-//        tintManager.setStatusBarTintResource(R.color.write_color);
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
 //        ManagerUtil.FlymeSetStatusBarLightMode(this.getWindow(),true);
 //        ManagerUtil.MIUISetStatusBarLightMode(this.getWindow(),true);
     }

@@ -1,13 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@android:color/holo_orange_dark"
+    android:background="@mipmap/celue_detial_top"
     android:layout_height="match_parent">
-
+    <RelativeLayout
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:id="@+id/all_celue_title"
+        android:layout_width="match_parent"
+        android:background="@android:color/transparent"
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/arrowlift"
+            android:padding="@dimen/margin_10dp"/>
+        <TextView
+            android:id="@+id/back_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/margin_10dp"
+            android:textSize="@dimen/title_size"/>
+        <ImageView
+            android:id="@+id/changjianwenti_txt"
+            android:src="@mipmap/help"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_20dp"
+            android:padding="@dimen/margin_10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
     <TextView
         android:id="@+id/guanzhu_num"
         android:text="关注人数 0"
-        android:textColor="@color/write_color"
+        android:layout_below="@id/all_celue_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_10dp"/>
@@ -15,10 +44,10 @@
         android:id="@+id/build_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
+        android:layout_below="@id/all_celue_title"
         android:layout_toRightOf="@id/guanzhu_num"
         android:layout_margin="@dimen/margin_10dp"
-        android:textColor="@color/write_color"/>
+        />
     <TextView
         android:id="@+id/txt_name"
         android:layout_width="wrap_content"
@@ -37,14 +66,14 @@
         <TextView
             android:id="@+id/title_one_name"
             android:text="日"
-            android:textColor="@color/write_color"
+
             android:layout_margin="@dimen/margin_10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/jingzhi_num"
             android:text="0.00%"
-            android:textColor="@color/write_color"
+
             android:layout_below="@id/title_one_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -58,7 +87,7 @@
         <TextView
             android:id="@+id/title_two_name"
             android:text="月"
-            android:textColor="@color/write_color"
+
             android:layout_toRightOf="@id/line_item"
            android:layout_marginBottom="@dimen/margin_10dp"
             android:layout_marginLeft="@dimen/title_text_size"
@@ -68,7 +97,7 @@
         <TextView
             android:id="@+id/max_num"
             android:text="0.00%"
-            android:textColor="@color/write_color"
+
             android:layout_below="@id/title_two_name"
             android:layout_toRightOf="@id/line_item"
             android:layout_marginLeft="@dimen/margin_10dp"
@@ -86,7 +115,7 @@
         <TextView
             android:id="@+id/title_three_name"
             android:text="净值"
-            android:textColor="@color/write_color"
+
             android:layout_toRightOf="@id/line_item_two"
             android:layout_marginBottom="@dimen/margin_10dp"
             android:layout_marginLeft="@dimen/title_text_size"
@@ -96,7 +125,7 @@
         <TextView
             android:id="@+id/rate_num"
             android:text="0.0000"
-            android:textColor="@color/write_color"
+
             android:layout_below="@id/title_three_name"
             android:layout_toRightOf="@id/line_item_two"
             android:layout_marginLeft="@dimen/margin_10dp"
@@ -110,21 +139,14 @@
         android:textSize="@dimen/margin_60dp"
         android:layout_below="@id/relate_layout"
         android:layout_width="wrap_content"
-        android:textColor="@color/write_color"
+        android:textColor="@color/content_bg"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_height="wrap_content" />
     <TextView
         android:text="总收益"
         android:layout_alignBaseline="@id/persent_num"
         android:layout_toRightOf="@id/persent_num"
-        android:textColor="@color/write_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <ImageView
-        android:id="@+id/changjianwenti_txt"
-        android:src="@mipmap/changjianwenti"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/margin_25dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
 </RelativeLayout>

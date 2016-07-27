@@ -240,6 +240,7 @@ public class HttpManager {
 //                Log.d("tag", "getHttpDataByTwoLayer: 2222222--"+info);
 //                setHttpInfo(info);
 //            }
+//
 //        });
         return "";
     }
