@@ -72,6 +72,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private RelativeLayout mTitleRelat;
     private ListView mDongTaiList;
     private ImageView mImgHead,mMessage;
+    private Boolean isFlag = false;
 //    private String[] images = {"http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291055080-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291114570-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605042201270-L.jpg"};
     private String[] images = {""};
     // TODO: Rename and change types of parameters
@@ -208,7 +209,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
         tintManager = new SystemBarTintManager(getActivity());
         tintManager.setStatusBarTintEnabled(true);
-
+        mTitleRelat.setBackgroundResource(R.color.write_color);
+        tintManager.setStatusBarTintResource(R.color.write_color);
 
         zixunView = mInflater.inflate(R.layout.zixun_layout,null);     //资讯大框架在这儿
         dongtaiView = mInflater.inflate(R.layout.dongtai_layout,null);   //动态框架在这儿
@@ -319,8 +321,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                     itemRecord.top = firstView.getTop();
                     recordSp.append(i, itemRecord);
 
-                    //设置滑动颜色渐变
-                    if (getScrollY() < 510) {
+                    //设置滑动颜色渐变（0-511）
+                    if (getScrollY() <= 511) {
                         mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
                         tintManager.setTintAlpha((float) getScrollY() / 510);
                         ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
@@ -328,14 +330,16 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         mZinXun.setTextColor(getActivity().getResources().getColor(R.drawable.text_white_selector));
                         mImgHead.setImageResource(R.mipmap.message_white);
                         mMessage.setImageResource(R.mipmap.search_white);
-                    } else {
-                        mTitleRelat.setBackgroundResource(R.color.write_color);
-                        tintManager.setStatusBarTintResource(R.color.write_color);
+                        isFlag = true;
+                    } else if (isFlag){       //只执行一次就好
+                        mTitleRelat.getBackground().setAlpha(255);
+                        tintManager.setTintAlpha(1);
                         ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
                         ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
                         mZinXun.setTextColor(getActivity().getResources().getColor(R.drawable.text_selector));
                         mImgHead.setImageResource(R.mipmap.message_black);
                         mMessage.setImageResource(R.mipmap.searchblack);
+                        isFlag = false;
                     }
                 }
             }
