@@ -49,8 +49,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.example.drawer.stockapp.R.drawable.text_selector;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -298,6 +296,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mlist.setOnItemClickListener(this);
         mlist.setXListViewListener(this);
 
+
         mlist.setOnScrollListener(new XListView.OnXScrollListener() {
             @Override
             public void onXScrolling(View view) {
@@ -320,14 +319,20 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                     itemRecord.height = firstView.getHeight();
                     itemRecord.top = firstView.getTop();
                     recordSp.append(i, itemRecord);
-
+                    Log.d("tag","getY()-----"+getScrollY());
+                    //动态返回时此代码有用，其余时候没用
+                    if (getScrollY()>511){
+                        mZinXun.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+                        mDongTai.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
+                    }
                     //设置滑动颜色渐变（0-511）
                     if (getScrollY() <= 511) {
                         mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
                         tintManager.setTintAlpha((float) getScrollY() / 510);
                         ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
                         ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
-                        mZinXun.setTextColor(getActivity().getResources().getColor(R.drawable.text_white_selector));
+                        mZinXun.setTextColor(getActivity().getResources().getColor(R.color.write_color));
+                        mDongTai.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
                         mImgHead.setImageResource(R.mipmap.message_white);
                         mMessage.setImageResource(R.mipmap.search_white);
                         isFlag = true;
@@ -336,7 +341,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         tintManager.setTintAlpha(1);
                         ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
                         ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
-                        mZinXun.setTextColor(getActivity().getResources().getColor(R.drawable.text_selector));
+                        mZinXun.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+                        mDongTai.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
                         mImgHead.setImageResource(R.mipmap.message_black);
                         mMessage.setImageResource(R.mipmap.searchblack);
                         isFlag = false;
@@ -584,9 +590,19 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             switch (i) {
                 case R.id.zixun_txt:
                     mPager.setCurrentItem(0);//选择某一页
+                    mlist.setVisibility(View.VISIBLE);
                     break;
                 case R.id.dongtai_txt:
                     mPager.setCurrentItem(1);//选择某一页
+                    mTitleRelat.getBackground().setAlpha(255);
+                    tintManager.setTintAlpha(1);
+                    mImgHead.setImageResource(R.mipmap.message_black);
+                    mMessage.setImageResource(R.mipmap.searchblack);
+                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
+                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
+                    mZinXun.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
+                    mDongTai.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+                    mlist.setVisibility(View.GONE);      //此处为了不让滚动监听事件冲突
                     break;
 
             }
