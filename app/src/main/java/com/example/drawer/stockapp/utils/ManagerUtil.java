@@ -136,6 +136,16 @@ public class ManagerUtil {
         MIUISetStatusBarLightMode(activity.getWindow(),true);
     }
     /**
+     * 设置状态栏颜色，字体（透明底黑字）
+     * @param activity
+     */
+    public static void setStataBarColorBlack(Activity activity,SystemBarTintManager tintManager){
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
+        FlymeSetStatusBarLightMode(activity.getWindow(),true);
+        MIUISetStatusBarLightMode(activity.getWindow(),true);
+    }
+    /**
      * 设置状态栏颜色，字体（黑底白字）透明
      * @param activity
      */

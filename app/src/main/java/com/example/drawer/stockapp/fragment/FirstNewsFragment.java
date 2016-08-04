@@ -2,6 +2,7 @@ package com.example.drawer.stockapp.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -254,6 +255,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             txt.setLayoutParams(aaaa);
             txt.setText( marketDataBeen.get(i).getName());
             txt.setGravity(Gravity.CENTER);
+            txt.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
 
             layout1.addView(txt);
             TextView txt1 = new TextView(getActivity());
@@ -262,6 +264,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             txt1.setLayoutParams(aaaa1);
             txt1.setText( marketDataBeen.get(i).getPoints()+"");
             txt1.setGravity(Gravity.CENTER);
+            txt1.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
             if (addOrDec>0){
                 txt1.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
             }else {
@@ -276,6 +279,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             aaaa2.setMargins(10,10,10,10);
             txt2.setLayoutParams(aaaa2);
             txt2.setGravity(Gravity.CENTER);
+            txt2.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
             if (addOrDec>0){
                 txt2.setText( "+"+addOrDec+"+"+ marketDataBeen.get(i).getVariabilityRate()+"%");
                 txt2.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));

@@ -28,6 +28,15 @@
     <string name="set_up_txt">创建组合</string>
     <string name="pay_txt">支付</string>
     <string name="order_txt">立即订阅</string>
+    <string name="user_name_txt">昵称</string>
+    <string name="address_txt">居住地</string>
+    <string name="sex_txt">性别</string>
+    <string name="bind_phone_txt">绑定手机号</string>
+    <string name="reset_password_txt">修改密码</string>
+    <string name="my_point_txt">我的积分</string>
+    <string name="my_wallet_txt">我的钱包</string>
+    <string name="my_quan_txt">抵用券</string>
+    <string name="all_can_txt">通用</string>
 
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">松开刷新数据</string>
