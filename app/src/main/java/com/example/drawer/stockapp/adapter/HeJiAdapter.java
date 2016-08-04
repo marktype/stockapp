@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.model.HeadIndex;
@@ -50,20 +49,20 @@ public class HeJiAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.heji_item_layout,null);
             viewHolder.imageView = (ImageView) view.findViewById(R.id.heji_item_image);
-            viewHolder.txtClass = (TextView) view.findViewById(R.id.heji_class_name);
+//            viewHolder.txtClass = (TextView) view.findViewById(R.id.heji_class_name);
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
         HeadIndex info = (HeadIndex) getItem(i);
         Picasso.with(context).load(info.getIndexImage()).into(viewHolder.imageView);
-        viewHolder.txtClass.setText(info.getIndexName());
+//        viewHolder.txtClass.setText(info.getIndexName());
 
         return view;
     }
 
     private class ViewHolder{
         ImageView imageView;
-        TextView txtClass;
+//        TextView txtClass;
     }
 }

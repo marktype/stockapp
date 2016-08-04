@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/content_con_bg"
     android:layout_height="match_parent">
 
-    <ListView
+    <!--此处不能用android:dividerHeight=""属性，不然此处顶部会有个设置高度的空白-->
+    <com.example.drawer.stockapp.customview.view.XListView
         android:id="@+id/niuren_listview"
+        android:divider="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="@dimen/margin_10dp"/>
+        />
 </LinearLayout>

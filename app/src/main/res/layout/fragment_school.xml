@@ -1,13 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/xuatang_bg"
     >
 
     <RelativeLayout
         android:id="@+id/all_title"
         android:layout_width="match_parent"
-
+        android:background="@color/write_color"
         android:layout_height="@dimen/title_height">
         <ImageView
             android:id="@+id/my_class_img"
@@ -15,7 +14,7 @@
             android:layout_height="match_parent"
             android:padding="@dimen/margin_10dp"
             android:layout_marginRight="@dimen/margin_10dp"
-            android:src="@mipmap/message_white"/>
+            android:src="@mipmap/message_black"/>
         <RadioGroup
             android:id="@+id/class_group"
             android:layout_width="wrap_content"
@@ -34,7 +33,7 @@
                 android:gravity="center"
                 android:checked="true"
                 android:layout_marginRight="@dimen/margin_10dp"
-                android:textColor="@drawable/text_white_selector"
+                android:textColor="@drawable/text_selector"
                 android:background="@drawable/title_bg_selecter"
                 android:textSize="@dimen/title_text_size" />
             <RadioButton
@@ -45,7 +44,7 @@
                 android:gravity="center"
                 android:padding="@dimen/margin_4dp"
                 android:text="@string/my_class_txt"
-                android:textColor="@drawable/text_white_selector"
+                android:textColor="@drawable/text_selector"
                 android:background="@drawable/title_bg_selecter"
                 android:textSize="@dimen/title_text_size" />
         </RadioGroup>
@@ -55,7 +54,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/search_white"
+            android:src="@mipmap/searchblack"
             android:padding="@dimen/margin_10dp" />
     </RelativeLayout>
 

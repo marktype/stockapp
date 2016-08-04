@@ -10,6 +10,8 @@ import android.widget.ListView;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.HeJiAdapter;
 import com.example.drawer.stockapp.model.HeadIndex;
+import com.example.drawer.stockapp.utils.ManagerUtil;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
 
@@ -19,6 +21,7 @@ public class HeJiDetailActivity extends BascActivity implements AdapterView.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_he_ji_detail);
+        tintManager.setStatusBarTintResource(R.color.write_color);
         initWight();
     }
 
@@ -37,6 +40,13 @@ public class HeJiDetailActivity extends BascActivity implements AdapterView.OnIt
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
+        ManagerUtil.setStataBarColor(this,tintManager);
     }
 
     /**

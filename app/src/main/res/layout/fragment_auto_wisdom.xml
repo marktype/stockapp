@@ -3,11 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.drawer.stockapp.fragment.FirstNewsFragment">
-
+    <android.support.v4.view.ViewPager
+        android:id="@+id/wisdom_content_pager"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <RelativeLayout
         android:id="@+id/all_title"
         android:layout_width="match_parent"
-        android:background="@color/write_color"
+        android:background="@android:color/transparent"
         android:layout_height="@dimen/title_height">
         <ImageView
             android:id="@+id/wisdom_info"
@@ -15,7 +19,7 @@
             android:layout_height="match_parent"
             android:padding="@dimen/margin_10dp"
             android:layout_marginRight="@dimen/margin_10dp"
-            android:src="@mipmap/message_black"/>
+            android:src="@mipmap/message_white"/>
         <RadioGroup
             android:id="@+id/wisdom_group"
             android:layout_width="wrap_content"
@@ -33,7 +37,7 @@
                 android:padding="@dimen/margin_4dp"
                 android:text="@string/lianghuacelue_txt"
                 android:checked="true"
-                android:textColor="@drawable/text_selector"
+                android:textColor="@drawable/text_white_selector"
                 android:background="@drawable/title_bg_selecter"
                 android:textSize="@dimen/title_text_size" />
             <RadioButton
@@ -43,7 +47,7 @@
                 android:button="@null"
                 android:padding="@dimen/margin_4dp"
                 android:text="@string/niurenzuhe_txt"
-                android:textColor="@drawable/text_selector"
+                android:textColor="@drawable/text_white_selector"
                 android:background="@drawable/title_bg_selecter"
                 android:textSize="@dimen/title_text_size" />
             <RadioButton
@@ -53,7 +57,7 @@
                 android:button="@null"
                 android:padding="@dimen/margin_4dp"
                 android:text="@string/my_zuhe_txt"
-                android:textColor="@drawable/text_selector"
+                android:textColor="@drawable/text_white_selector"
                 android:background="@drawable/title_bg_selecter"
                 android:textSize="@dimen/title_text_size" />
         </RadioGroup>
@@ -63,15 +67,10 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/searchblack"
+            android:src="@mipmap/search_white"
             android:padding="@dimen/margin_10dp" />
     </RelativeLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/wisdom_content_pager"
-        android:layout_below="@id/all_title"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
 
 </RelativeLayout>

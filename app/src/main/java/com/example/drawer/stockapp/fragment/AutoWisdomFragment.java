@@ -6,12 +6,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -26,6 +27,7 @@ import com.example.drawer.stockapp.adapter.CeLueAdapter;
 import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
 import com.example.drawer.stockapp.adapter.MyZuHeAdapter;
 import com.example.drawer.stockapp.adapter.NiuRenAdapter;
+import com.example.drawer.stockapp.customview.view.XListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.CeLueInfo;
 import com.example.drawer.stockapp.model.CeLueListInfo;
@@ -56,13 +58,13 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static final String CELUENAME = "celuename";
-    private View mView,liangHuaZuHeView,niuRenZuHeView,myZuHeView,mSliderVIew;
+    private View mView,liangHuaZuHeView,niuRenZuHeView,myZuHeView,mSliderVIew,mSliderVIewTwo,mSliderVIewThree;
     private ViewPager mPager;
     private RadioButton mLiangHuaCelue,mNiuRenZuHe,mMyZuHe;
     private CeLueAdapter ceLueAdapter;
     private CeLueListInfo ceLueListInfo;
     private NiuRenListInfo niuRenListInfo;
-    private ListView listView,niurenList;
+    private XListView listView,niurenList,myList;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -118,8 +120,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     public void onResume() {
         super.onResume();
         SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
-
-        ManagerUtil.setStataBarColor(getActivity(),tintManager);
+        ManagerUtil.setStataBarColorWhite(getActivity(),tintManager);
     }
 
     /**
@@ -152,10 +153,37 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 
 
     }
+
+    private int mCurrentfirstVisibleItem = 0;
+    private SparseArray recordSp = new SparseArray(0);
+    private SparseArray recordSp2 = new SparseArray(0);
+    private SparseArray recordSp3 = new SparseArray(0);
+//    //获取偏移距离
+//    private int getScrollY() {
+//        int height = 0;
+//        for (int i = 0; i < mCurrentfirstVisibleItem; i++) {
+//            ItemRecod itemRecod = (ItemRecod) recordSp.get(i);
+//            if (itemRecod != null)
+//                height += itemRecod.height;
+//        }
+//        ItemRecod itemRecod = (ItemRecod) recordSp.get(mCurrentfirstVisibleItem);
+//        if (null == itemRecod) {
+//            itemRecod = new ItemRecod();
+//        }
+//        return height - itemRecod.top;
+//    }
+//
+//
+//    class ItemRecod {
+//        int height = 0;
+//        int top = 0;
+//    }
     /**
      * 初始化适配器数据
      */
     public void initData(){
+
+
         List<View> viewList = new ArrayList<View>();
         LayoutInflater mInflater=LayoutInflater.from(getActivity());
         liangHuaZuHeView = mInflater.inflate(R.layout.lianghuacelue_layout,null);      //量化策略
@@ -164,39 +192,178 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         viewList.add(liangHuaZuHeView);
         viewList.add(niuRenZuHeView);
         viewList.add(myZuHeView);
-
+        mSliderVIew = mInflater.inflate(R.layout.imageslider_layout_two, null);    //第一个head imageSlider
+        mSliderVIewTwo = mInflater.inflate(R.layout.imageslider_layout_celue_two,null);
+        mSliderVIewThree = mInflater.inflate(R.layout.imageslider_layout_celue_three,null);
         MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList);
         mPager.setAdapter(adapter);
+
+        //添加轮播图数据
+        getSliderLayoutView(images,null);
+        getSliderLayoutViewTwo(images,null);
+        getSliderLayoutViewThree(images,null);
         //量化策略
-        listView = (ListView) liangHuaZuHeView.findViewById(R.id.lianghuacelue_list);
+        listView = (XListView) liangHuaZuHeView.findViewById(R.id.lianghuacelue_list);
+        listView.setPullLoadEnable(true);    //设置上拉加载
         listView.setOnItemClickListener(this);
         ceLueAdapter = new CeLueAdapter(getActivity());
-
-        getCelueInfo();
-
-        mSliderVIew = mInflater.inflate(R.layout.imageslider_layout_two, null);    //第一个head imageSlider
         listView.addHeaderView(mSliderVIew);
+        getCelueInfo();
+        listView.setXListViewListener(new XListView.IXListViewListener() {
+            @Override
+            public void onRefresh() {
+                onLoad();
+            }
+
+            @Override
+            public void onLoadMore() {
+                onLoad();
+            }
+        });    //注册监听
+
+        listView.setOnScrollListener(new XListView.OnXScrollListener() {
+            @Override
+            public void onXScrolling(View view) {
+
+            }
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                mCurrentfirstVisibleItem = i;
+                View firstView = absListView.getChildAt(0);
+                if (null != firstView) {
+                    ItemRecod itemRecord = (ItemRecod) recordSp.get(i);
+                    if (null == itemRecord) {
+                        itemRecord = new ItemRecod();
+                    }
+                    itemRecord.height = firstView.getHeight();
+                    itemRecord.top = firstView.getTop();
+                    recordSp.append(i, itemRecord);
+
+                }
+            }
+            class ItemRecod {
+                int height = 0;
+                int top = 0;
+            }
+
+        });
+
 
         //牛人组合
-        niurenList = (ListView) niuRenZuHeView.findViewById(R.id.niuren_listview);
+        niurenList = (XListView) niuRenZuHeView.findViewById(R.id.niuren_listview);
         niurenList.setOnItemClickListener(this);
+        niurenList.setPullLoadEnable(true);    //设置上拉加载
+        niurenList.addHeaderView(mSliderVIewTwo);
         NiuRenAdapter niuRenAdapter = new NiuRenAdapter(getActivity());
         getNiuRenListData(niuRenAdapter);
+        niurenList.setXListViewListener(new XListView.IXListViewListener() {
+            @Override
+            public void onRefresh() {
+                onLoadNiu();
+            }
 
+            @Override
+            public void onLoadMore() {
+                onLoadNiu();
+            }
+        });    //注册监听
+        niurenList.setOnScrollListener(new XListView.OnXScrollListener() {
+            @Override
+            public void onXScrolling(View view) {
+
+            }
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                mCurrentfirstVisibleItem = i;
+                View firstView = absListView.getChildAt(0);
+                if (null != firstView) {
+                    ItemRecod itemRecord = (ItemRecod) recordSp2.get(i);
+                    if (null == itemRecord) {
+                        itemRecord = new ItemRecod();
+                    }
+                    itemRecord.height = firstView.getHeight();
+                    itemRecord.top = firstView.getTop();
+                    recordSp2.append(i, itemRecord);
+
+                }
+            }
+
+            class ItemRecod {
+                int height = 0;
+                int top = 0;
+            }
+        });
 
 
         //我的组合
-        ListView myList = (ListView) myZuHeView.findViewById(R.id.my_zuhe_listview);
+        myList = (XListView) myZuHeView.findViewById(R.id.my_zuhe_listview);
         ImageView mAddImg = (ImageView) myZuHeView.findViewById(R.id.add_image);
         mAddImg.setOnClickListener(this);
         myList.setOnItemClickListener(this);
+        myList.addHeaderView(mSliderVIewThree);
+        myList.setXListViewListener(new XListView.IXListViewListener() {
+            @Override
+            public void onRefresh() {
+                onLoadMy();
+            }
+
+            @Override
+            public void onLoadMore() {
+                onLoadMy();
+            }
+        });
+        myList.setOnScrollListener(new XListView.OnXScrollListener() {
+            @Override
+            public void onXScrolling(View view) {
+
+            }
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                mCurrentfirstVisibleItem = i;
+                View firstView = absListView.getChildAt(0);
+                if (null != firstView) {
+                    ItemRecod itemRecord = (ItemRecod) recordSp3.get(i);
+                    if (null == itemRecord) {
+                        itemRecord = new ItemRecod();
+                    }
+                    itemRecord.height = firstView.getHeight();
+                    itemRecord.top = firstView.getTop();
+                    recordSp3.append(i, itemRecord);
+
+                }
+            }
+
+            class ItemRecod {
+                int height = 0;
+                int top = 0;
+
+            }
+        });
         MyZuHeAdapter myZuHeAdapter = new MyZuHeAdapter(getActivity());
         getMyListData();
 
         myZuHeAdapter.setData(setMyZuHeData());
         myList.setAdapter(myZuHeAdapter);
 
-        getSliderLayoutView(images,null);
+
     }
 
 
@@ -208,9 +375,63 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      * */
     public void getSliderLayoutView(String[] mImage, final String[] mString) {
         SliderLayout mSliderLayout = (SliderLayout) mSliderVIew.findViewById(R.id.image_slider_layout);
-        mSliderLayout.setMinimumHeight(180);
+//        mSliderLayout.setMinimumHeight(180);
 
         PagerIndicator pagerIndicator = (PagerIndicator) mSliderVIew.findViewById(R.id.custom1_indicator);
+
+        mSliderLayout.removeAllSliders();
+        int length = mImage.length;
+        for (int i = 0; i < length; i++) {
+            TextSliderView sliderView = new TextSliderView(getContext());   //向SliderLayout中添加控件
+            sliderView.image(mImage[i]);
+//            sliderView.description(mString[i]);
+            final int finalI = i;
+            sliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                @Override
+                public void onSliderClick(BaseSliderView slider) {
+                }
+            });
+            mSliderLayout.addSlider(sliderView);
+        }
+//        mSliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);  //将小圆点设置到右下方
+        mSliderLayout.setCustomIndicator(pagerIndicator);  //将小圆点设置到右下方(自定义控件指示器)
+
+    }
+    /**
+     * imageSlider控件加入
+     * */
+    public void getSliderLayoutViewTwo(String[] mImage, final String[] mString) {
+        SliderLayout mSliderLayout = (SliderLayout) mSliderVIewTwo.findViewById(R.id.image_slider_layout);
+//        mSliderLayout.setMinimumHeight(180);
+
+        PagerIndicator pagerIndicator = (PagerIndicator) mSliderVIewTwo.findViewById(R.id.custom1_indicator);
+
+        mSliderLayout.removeAllSliders();
+        int length = mImage.length;
+        for (int i = 0; i < length; i++) {
+            TextSliderView sliderView = new TextSliderView(getContext());   //向SliderLayout中添加控件
+            sliderView.image(mImage[i]);
+//            sliderView.description(mString[i]);
+            final int finalI = i;
+            sliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                @Override
+                public void onSliderClick(BaseSliderView slider) {
+                }
+            });
+            mSliderLayout.addSlider(sliderView);
+        }
+//        mSliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);  //将小圆点设置到右下方
+        mSliderLayout.setCustomIndicator(pagerIndicator);  //将小圆点设置到右下方(自定义控件指示器)
+
+    }
+    /**
+     * imageSlider控件加入
+     * */
+    public void getSliderLayoutViewThree(String[] mImage, final String[] mString) {
+        SliderLayout mSliderLayout = (SliderLayout) mSliderVIewThree.findViewById(R.id.image_slider_layout);
+//        mSliderLayout.setMinimumHeight(180);
+
+        PagerIndicator pagerIndicator = (PagerIndicator) mSliderVIewThree.findViewById(R.id.custom1_indicator);
 
         mSliderLayout.removeAllSliders();
         int length = mImage.length;
@@ -358,7 +579,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setNiurenHead("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2516161713,321762461&fm=58");
             info.setNiurenName(ben.getUserName());
             info.setNiurenRoundImage("http://img2.imgtn.bdimg.com/it/u=1689964256,2679873424&fm=21&gp=0.jpg");
-            info.setShouyiRate(ben.getTotleReturns()+"%");
+            info.setShouyiRate(ben.getTotleReturns());
             info.setVictorRate(ben.getWinRatio()+"%");
             info.setShouyiByMonth(ben.getMonthlyAverage()+"%");
             info.setStockNum(ben.getHolding());
@@ -379,7 +600,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         ArrayList<NiuRenInfo> myInfoList = new ArrayList<>();
         for (int i= 0;i<4;i++){
             NiuRenInfo info = new NiuRenInfo();
-            info.setShouyiRate("+12.35%");
+            info.setShouyiRate(20.0);
             info.setStockType("沪深");
             info.setTradeTime(i+"人 关注");
             myInfoList.add(info);
@@ -438,6 +659,23 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 startActivity(intent);
                 break;
         }
+    }
+
+
+    private void onLoad() {
+        listView.stopRefresh();
+        listView.stopLoadMore();
+        listView.setRefreshTime("刚刚");
+    }
+    private void onLoadNiu() {
+        niurenList.stopRefresh();
+        niurenList.stopLoadMore();
+        niurenList.setRefreshTime("刚刚");
+    }
+    private void onLoadMy() {
+        myList.stopRefresh();
+        myList.stopLoadMore();
+        myList.setRefreshTime("刚刚");
     }
 
     /**

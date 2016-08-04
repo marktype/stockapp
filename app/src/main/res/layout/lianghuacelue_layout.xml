@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/content_con_bg"
     android:layout_height="match_parent">
 
 
-    <ListView
+    <com.example.drawer.stockapp.customview.view.XListView
         android:id="@+id/lianghuacelue_list"
-        android:scrollbars="none"
-        android:divider="@null"
+        android:divider="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

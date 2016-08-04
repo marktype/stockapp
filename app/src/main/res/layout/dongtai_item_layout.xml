@@ -1,100 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:background="@color/write_color"
-    android:layout_marginLeft="@dimen/margin_20dp"
-    android:layout_marginRight="@dimen/margin_20dp"
-    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/dongtai_image"
-        android:layout_margin="@dimen/margin_10dp"
-        android:scaleType="centerCrop"
-        android:layout_width="@dimen/margin_60dp"
-        android:layout_height="@dimen/margin_60dp" />
-    <TextView
-        android:id="@+id/dongtai_name"
-        android:text="股神"
-        android:layout_toRightOf="@id/dongtai_image"
-        android:layout_margin="@dimen/margin_10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/dongtai_content"
-        android:text="股神"
-        android:layout_below="@id/dongtai_name"
-        android:layout_toRightOf="@id/dongtai_image"
-        android:layout_margin="@dimen/margin_10dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <!--<ImageView-->
-        <!--android:id="@+id/dongtai_cntent_image"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_toRightOf="@id/dongtai_image"-->
-        <!--android:layout_below="@id/dongtai_content"-->
-        <!--android:layout_marginLeft="@dimen/margin_10dp"-->
-        <!--/>-->
-    <com.example.drawer.stockapp.customview.MyGridView
-        android:id="@+id/dongtai_cntent_image"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:numColumns="3"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:verticalSpacing="@dimen/margin_5dp"
-        android:horizontalSpacing="@dimen/margin_5dp"
-        android:layout_toRightOf="@id/dongtai_image"
-        android:layout_below="@id/dongtai_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/dongtai_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:text="6月6号 08:36"
-        android:layout_toRightOf="@id/dongtai_image"
-        android:layout_below="@id/dongtai_cntent_image"
-        />
-    <TextView
-        android:id="@+id/dongtai_line"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="@dimen/margin_5dp"
-        android:layout_below="@id/dongtai_time"
-        android:background="@android:color/darker_gray"/>
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/margin_20dp"
+        android:layout_marginRight="@dimen/margin_20dp"
+        android:background="@color/write_color">
 
-    <TextView
-        android:layout_below="@id/dongtai_line"
-        android:id="@+id/dongtai_zhuanfa"
-        android:drawableLeft="@mipmap/zhuanfa"
-        android:layout_margin="@dimen/margin_10dp"
-        android:drawablePadding="@dimen/margin_5dp"
-        android:text="2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/dongtai_pinglun"
-        android:text="2"
-        android:layout_below="@id/dongtai_line"
-        android:drawablePadding="@dimen/margin_5dp"
-        android:layout_margin="@dimen/margin_10dp"
-        android:layout_centerHorizontal="true"
-        android:drawableLeft="@mipmap/pinglun"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/dongtai_zan"
-        android:text="点赞"
-        android:layout_below="@id/dongtai_line"
-        android:drawablePadding="@dimen/margin_5dp"
-        android:layout_margin="@dimen/margin_10dp"
-        android:layout_alignParentRight="true"
-        android:drawableLeft="@mipmap/zan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/dongtai_image"
+            android:layout_width="@dimen/margin_40dp"
+            android:layout_height="@dimen/margin_40dp"
+            android:layout_margin="@dimen/margin_10dp"
+            app:civ_border_color="@color/write_color"
+            app:civ_border_width="@dimen/margin_1dp" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/dongtai_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_20dp"
+            android:layout_toRightOf="@id/dongtai_image"
+            android:text="股神" />
+        <TextView
+            android:id="@+id/dongtai_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:layout_toRightOf="@id/dongtai_name"
+            android:text="6月6号 08:36" />
+        <ImageView
+            android:id="@+id/collect_info_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/zan"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:layout_marginRight="@dimen/margin_10dp"/>
+        <TextView
+            android:id="@+id/line_one"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/dongtai_image"
+            android:background="@android:color/darker_gray"/>
+        <TextView
+            android:id="@+id/dongtai_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dongtai_name"
+            android:layout_margin="@dimen/margin_10dp"
+
+            android:text="股神" />
+
+        <com.example.drawer.stockapp.customview.MyGridView
+            android:id="@+id/dongtai_cntent_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dongtai_content"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:horizontalSpacing="@dimen/margin_5dp"
+            android:numColumns="3"
+            android:verticalSpacing="@dimen/margin_5dp" />
+
+
+
+        <TextView
+            android:id="@+id/dongtai_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/dongtai_cntent_image"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/dongtai_zhuanfa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dongtai_line"
+            android:layout_margin="@dimen/margin_10dp"
+            android:drawableLeft="@mipmap/zhuanfa"
+            android:drawablePadding="@dimen/margin_5dp"
+            android:text="2" />
+
+        <TextView
+            android:id="@+id/dongtai_pinglun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dongtai_line"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/margin_10dp"
+            android:drawableLeft="@mipmap/pinglun"
+            android:drawablePadding="@dimen/margin_5dp"
+            android:text="2" />
+
+        <TextView
+            android:id="@+id/dongtai_zan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/dongtai_line"
+            android:layout_margin="@dimen/margin_10dp"
+            android:drawableLeft="@mipmap/zan"
+            android:drawablePadding="@dimen/margin_5dp"
+            android:text="点赞" />
+
+    </RelativeLayout>
 </RelativeLayout>

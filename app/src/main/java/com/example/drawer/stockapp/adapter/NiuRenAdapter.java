@@ -50,7 +50,7 @@ public class NiuRenAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.niurenzuhe_item_layout,null);
             viewHolder.head = (ImageView) view.findViewById(R.id.niuiren_head);
             viewHolder.name = (TextView) view.findViewById(R.id.niuren_name);
-            viewHolder.tradeImage = (ImageView) view.findViewById(R.id.graph_image);
+//            viewHolder.tradeImage = (ImageView) view.findViewById(R.id.graph_image);
             viewHolder.typeTxt = (TextView) view.findViewById(R.id.type_stock);
             viewHolder.shouyiAll = (TextView) view.findViewById(R.id.shouyi_rate);
             viewHolder.victor = (TextView) view.findViewById(R.id.victor_rate);
@@ -67,9 +67,9 @@ public class NiuRenAdapter extends BaseAdapter {
 
         Picasso.with(context).load(info.getNiurenHead()).into(viewHolder.head);
         viewHolder.name.setText(info.getNiurenName());
-        Picasso.with(context).load(info.getNiurenRoundImage()).into(viewHolder.tradeImage);
+//        Picasso.with(context).load(info.getNiurenRoundImage()).into(viewHolder.tradeImage);
         viewHolder.typeTxt.setText(info.getStockType());
-        viewHolder.shouyiAll.setText(info.getShouyiRate());
+        viewHolder.shouyiAll.setText("总收益率"+info.getShouyiRate()+"%");
         viewHolder.victor.setText(info.getVictorRate());
         viewHolder.shouyiBymonth.setText(info.getShouyiByMonth());
         viewHolder.stockNum.setText(info.getStockNum()+"");
@@ -81,7 +81,7 @@ public class NiuRenAdapter extends BaseAdapter {
     }
 
     private class ViewHolder{
-        ImageView head,tradeImage;
+        ImageView head;
         TextView name,shouyiAll;
         TextView typeTxt,victor,shouyiBymonth,stockNum,cangwei,roundTime,tradeTime;
     }

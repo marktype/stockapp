@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/content_con_bg"
     android:fitsSystemWindows="true"
    >
     <RelativeLayout
         android:id="@+id/all_heji_title"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/write_color"
         android:layout_height="@dimen/title_height">
         <ImageView
             android:id="@+id/back_img"
@@ -21,7 +22,7 @@
             android:layout_height="match_parent"
             android:text="合集名称"
             android:gravity="center"
-            android:textColor="@color/write_color"
+            android:textColor="@android:color/background_dark"
             android:layout_centerInParent="true"
             android:padding="@dimen/margin_10dp"
             android:textSize="@dimen/title_text_size"/>
@@ -30,7 +31,11 @@
 
     <ListView
         android:id="@+id/heji_listview"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
         android:layout_below="@id/all_heji_title"
+        android:divider="@android:color/transparent"
         android:layout_width="match_parent"
+        android:scrollbars="none"
         android:layout_height="match_parent"/>
 </RelativeLayout>

@@ -37,6 +37,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -102,8 +104,7 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
     public void onResume() {
         super.onResume();
         SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
-//        tintManager.setStatusBarTintColor(R.color.colorPrimary);
-        ManagerUtil.setStataBarColorWhite(getActivity(),tintManager);
+        ManagerUtil.setStataBarColor(getActivity(),tintManager);
 
     }
 
@@ -200,7 +201,7 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
         for (int i = 0;i<10;i++){
             HeadIndex headIndex = new HeadIndex();
             headIndex.setIndexImage("http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg");
-            headIndex.setIndexName("测试名称"+i);
+            headIndex.setIndexName("测试"+i);
             headIndex.setIndexPersent("martix推荐");
             indices.add(headIndex);
         }
@@ -222,19 +223,21 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
             layout1.setGravity(Gravity.CENTER);
             layout1.setOrientation(LinearLayout.VERTICAL);
 
-            ImageView txt = new ImageView(getActivity());
+            CircleImageView img = new CircleImageView(getActivity());
             LinearLayout.LayoutParams aaaa = new LinearLayout.LayoutParams(100, 100);
+            img.setBorderWidth(1);
+            img.setBorderColor(getActivity().getResources().getColor(R.color.write_color));
             aaaa.setMargins(10,10,10,10);
-            txt.setLayoutParams(aaaa);
-            txt.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            Picasso.with(getActivity()).load(index.getIndexImage()).into(txt);
+            img.setLayoutParams(aaaa);
+            Picasso.with(getActivity()).load(index.getIndexImage()).into(img);
+            layout1.addView(img);
 
-            layout1.addView(txt);
             TextView txt1 = new TextView(getActivity());
             LinearLayout.LayoutParams aaaa1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             aaaa1.setMargins(10,10,10,10);
             txt1.setLayoutParams(aaaa1);
             txt1.setText(index.getIndexName());
+            txt1.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
             txt1.setGravity(Gravity.CENTER);
             txt1.setTextSize(16);
 
@@ -245,6 +248,7 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
             aaaa2.setMargins(10,10,10,10);
             txt2.setLayoutParams(aaaa2);
             txt2.setText(index.getIndexPersent());
+            txt2.setTextColor(getActivity().getResources().getColor(android.R.color.darker_gray));
             txt2.setGravity(Gravity.CENTER);
             layout1.addView(txt2);
 

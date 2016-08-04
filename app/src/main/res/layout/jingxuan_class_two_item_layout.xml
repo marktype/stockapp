@@ -24,7 +24,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/margin_10dp"
                 android:layout_marginLeft="@dimen/margin_10dp"
-                android:drawableLeft="@mipmap/zhuanfa"
+                android:drawableLeft="@mipmap/zan"
                 android:drawablePadding="@dimen/margin_10dp"
                 android:text="20"
                 android:textColor="@color/write_color" />

@@ -1,62 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<RelativeLayout
+    android:layout_marginRight="@dimen/margin_15dp"
+    android:layout_marginLeft="@dimen/margin_15dp"
+    android:layout_marginTop="@dimen/margin_10dp"
+    android:background="@color/write_color"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/ranking_num"
-        android:layout_margin="@dimen/margin_10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/ic_launcher"/>
-    <ImageView
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/niuiren_head"
-        android:layout_width="@dimen/margin_60dp"
-        android:layout_height="@dimen/margin_60dp"
-        android:layout_toRightOf="@id/ranking_num"
+        android:layout_width="@dimen/margin_40dp"
+        android:layout_height="@dimen/margin_40dp"
         android:layout_marginTop="@dimen/margin_10dp"
+        app:civ_border_width="@dimen/margin_1dp"
+        app:civ_border_color="@color/write_color"
         />
+
     <TextView
         android:id="@+id/niuren_name"
         android:text="我是牛人"
         android:layout_toRightOf="@id/niuiren_head"
-        android:layout_marginTop="@dimen/margin_30dp"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <ImageView
-        android:id="@+id/graph_image"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_width="@dimen/margin_80dp"
-        android:layout_height="@dimen/margin_60dp" />
-    <TextView
-        android:id="@+id/type_stock"
-        android:text="A股模拟交易"
-        android:layout_toRightOf="@id/ranking_num"
-        android:layout_below="@id/niuiren_head"
-        android:textSize="@dimen/title_text_size"
-        android:layout_marginTop="@dimen/margin_5dp"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:layout_marginLeft="@dimen/margin_5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/shouyi_rate"
         android:text="总收益率 456.23%"
-        android:layout_marginRight="@dimen/title_size"
+        android:layout_marginRight="@dimen/margin_10dp"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/niuiren_head"
+
         android:textSize="@dimen/margin_15dp"
-        android:textColor="@color/colorAccent"
-        android:layout_marginTop="@dimen/margin_5dp"
+        android:textColor="@android:color/background_dark"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/type_stock"
+        android:text="A股模拟交易"
+        android:layout_toRightOf="@id/niuren_name"
+        android:layout_marginLeft="@dimen/margin_5dp"
+        android:textSize="14sp"
+        android:layout_marginTop="@dimen/margin_20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <include android:layout_below="@id/type_stock"
-       android:layout_toRightOf="@id/ranking_num"
+
+    <include
+        android:id="@+id/tablayout"
+        android:layout_below="@id/niuiren_head"
         android:layout_marginTop="@dimen/margin_5dp"
-        android:layout_marginRight="@dimen/margin_10dp"
         layout="@layout/tablayout_layout"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"></include>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_below="@id/tablayout"
+        android:layout_margin="@dimen/margin_5dp"
+        android:background="@color/title_text_color"
+        android:layout_height="100dp" />
+</RelativeLayout>
 </RelativeLayout>

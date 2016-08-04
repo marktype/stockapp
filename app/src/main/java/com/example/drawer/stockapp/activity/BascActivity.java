@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
@@ -24,8 +23,8 @@ public class BascActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setTranslucentStatus(true);
         }
-        tintManager = ManagerUtil.newInstance(this);
-//        tintManager.setStatusBarTintEnabled(true);
+        tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintEnabled(true);
 //        tintManager.setStatusBarTintResource(android.R.color.transparent);
 //        ManagerUtil.FlymeSetStatusBarLightMode(this.getWindow(),true);
 //        ManagerUtil.MIUISetStatusBarLightMode(this.getWindow(),true);

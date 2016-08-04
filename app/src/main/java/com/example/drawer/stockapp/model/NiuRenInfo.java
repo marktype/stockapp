@@ -8,7 +8,7 @@ public class NiuRenInfo {
     private String niurenName;   //名字
     private String niurenRoundImage;   //曲线图片
     private String stockType;    //股票类型  (我的，例如沪深)
-    private String shouyiRate;    //总收益率  （我的 ，百分比）
+    private double shouyiRate;    //总收益率  （我的 ，百分比）
     private String victorRate;    //胜率
     private String shouyiByMonth;   //月均收益
     private int stockNum;     //持股数
@@ -48,11 +48,11 @@ public class NiuRenInfo {
         this.stockType = stockType;
     }
 
-    public String getShouyiRate() {
+    public double getShouyiRate() {
         return shouyiRate;
     }
 
-    public void setShouyiRate(String shouyiRate) {
+    public void setShouyiRate(double shouyiRate) {
         this.shouyiRate = shouyiRate;
     }
 
