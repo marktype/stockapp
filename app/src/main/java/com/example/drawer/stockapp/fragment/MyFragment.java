@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.AttentionActivity;
+import com.example.drawer.stockapp.activity.MyWalletActivity;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
@@ -55,7 +57,8 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         mCollect.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));
 
         LinearLayout mAttention = (LinearLayout) mView.findViewById(R.id.attention_lin);
-
+        RelativeLayout mMyWallet = (RelativeLayout) mView.findViewById(R.id.my_wallet_lin);
+        mMyWallet.setOnClickListener(this);
         mAttention.setOnClickListener(this);
     }
 
@@ -73,6 +76,11 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 Intent intent = new Intent(getContext(), AttentionActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.my_wallet_lin:
+                intent = new Intent(getContext(), MyWalletActivity.class);
+                startActivity(intent);
+                break;
+
         }
     }
 }

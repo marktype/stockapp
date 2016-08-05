@@ -128,8 +128,10 @@
             android:name=".activity.RegisterSuccessActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
-        <activity android:name=".activity.MyWalletActivity" />
-        <activity android:name=".activity.AttentionActivity"></activity>
+        <activity android:name=".activity.MyWalletActivity"
+            android:theme="@style/MyAppTheme"/>
+        <activity android:name=".activity.AttentionActivity"
+            android:theme="@style/MyAppTheme"></activity>
     </application>
 
 </manifest>

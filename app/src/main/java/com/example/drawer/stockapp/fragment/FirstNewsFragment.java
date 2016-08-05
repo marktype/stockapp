@@ -185,7 +185,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                     headMassageInfo = gson.fromJson(message, HeadMassageInfo.class);
                     Log.d("tag","---"+headMassageInfo.getHead().getStatus());
                     if (headMassageInfo.getHead().getStatus()==0){
-                        ArrayList<String> size = headMassageInfo.getResult().getBannerUrl();
+                        ArrayList<HeadMassageInfo.ResultBean.BannerUrlBean> size = headMassageInfo.getResult().getBannerUrl();
                         images = new String[size.size()];
                         for (int i = 0;i<size.size();i++){
 //                            images[i] = headMassageInfo.getResult().getBannerUrl().get(i);
@@ -480,7 +480,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             info.setTitle(newsBean.getTitle());
             info.setTime(newsBean.getUpdateTime());
             info.setPeopleNum(newsBean.getComments()+"");
-            info.setImage(newsBean.getBannerUrl());
+            info.setImage(newsBean.getBannerUrl().get(0));
             if (i==5||i==9){
                 info.setType(2);
             }else {
