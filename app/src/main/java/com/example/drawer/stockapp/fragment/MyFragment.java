@@ -1,14 +1,17 @@
 package com.example.drawer.stockapp.fragment;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.activity.AttentionActivity;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
@@ -22,7 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  *
  * create an instance of this fragment.
  */
-public class MyFragment extends Fragment {
+public class MyFragment extends Fragment implements View.OnClickListener{
         private View mView;
 
 
@@ -51,8 +54,9 @@ public class MyFragment extends Fragment {
         TextView mCollect = (TextView) mView.findViewById(R.id.collect_num_txt);
         mCollect.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));
 
+        LinearLayout mAttention = (LinearLayout) mView.findViewById(R.id.attention_lin);
 
-
+        mAttention.setOnClickListener(this);
     }
 
     @Override
@@ -62,4 +66,13 @@ public class MyFragment extends Fragment {
         ManagerUtil.setStataBarColorBlack(getActivity(),tintManager);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.attention_lin:
+                Intent intent = new Intent(getContext(), AttentionActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
 }

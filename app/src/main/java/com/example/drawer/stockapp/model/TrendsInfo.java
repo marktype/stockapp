@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Created by 欢大哥 on 2016/6/15.
+ * 关注列表
  */
 public class TrendsInfo {
     private String image ;    //头像

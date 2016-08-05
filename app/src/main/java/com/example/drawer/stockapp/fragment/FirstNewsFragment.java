@@ -179,6 +179,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 String message = (String) o;
+                Log.d("tag","message--"+message);
                 if (!TextUtils.isEmpty(message)){
                     Gson gson = new Gson();
                     headMassageInfo = gson.fromJson(message, HeadMassageInfo.class);
