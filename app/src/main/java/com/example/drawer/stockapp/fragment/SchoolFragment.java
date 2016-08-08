@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,6 +28,7 @@ import com.example.drawer.stockapp.activity.WebViewUpTitleActivity;
 import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
 import com.example.drawer.stockapp.adapter.SelectClassAdapter;
 import com.example.drawer.stockapp.customview.MyGridView;
+import com.example.drawer.stockapp.customview.PagerSlidingTabStrip;
 import com.example.drawer.stockapp.model.HeadIndex;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -57,7 +57,7 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private PagerSlidingTabStrip tabs;
 
     public SchoolFragment() {
         // Required empty public constructor
@@ -120,17 +120,18 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
         mTitle.setLayoutParams(params);
 
 
-        RadioGroup mGroup = (RadioGroup) mView.findViewById(R.id.class_group);
+//        RadioGroup mGroup = (RadioGroup) mView.findViewById(R.id.class_group);
         ImageView mMessage = (ImageView) mView.findViewById(R.id.my_class_img);
         ImageView mSearch = (ImageView) mView.findViewById(R.id.search_img);
 
-        mFind = (RadioButton) mView.findViewById(R.id.find_txt);
-        mClass = (RadioButton) mView.findViewById(R.id.class_txt);
+//        mFind = (RadioButton) mView.findViewById(R.id.find_txt);
+//        mClass = (RadioButton) mView.findViewById(R.id.class_txt);
+        tabs = (PagerSlidingTabStrip) mView.findViewById(R.id.class_group);
 
         mPager = (ViewPager) mView.findViewById(R.id.class_content_pager);   //viewpager
 
         mPager.setOnPageChangeListener(new TabOnPageChangeListener());
-        mGroup.setOnCheckedChangeListener(new RadioGroupListener() );
+//        mGroup.setOnCheckedChangeListener(new RadioGroupListener() );
         mMessage.setOnClickListener(this);
         mSearch.setOnClickListener(this);
 
@@ -145,9 +146,12 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
         myClassView = mInflater.inflate(R.layout.my_class_layout,null);   //我的课程布局
         viewList.add(findView);
         viewList.add(myClassView);
-
-        MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList);
+        ArrayList<String> titles = new ArrayList<>();
+        titles.add("发现");
+        titles.add("我的课堂");
+        MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList,titles);
         mPager.setAdapter(adapter);
+        tabs.setViewPager(mPager);
 
         setMyClassData();
 
@@ -377,30 +381,30 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
         public void onPageSelected(int position) {
             switch (position) {
                 case 0:
-                    mFind.setChecked(true);
+//                    mFind.setChecked(true);
                     break;
                 case 1:
-                    mClass.setChecked(true);
+//                    mClass.setChecked(true);
                     break;
 
             }
         }
     }
 
-    private class RadioGroupListener implements RadioGroup.OnCheckedChangeListener {
-
-        @Override
-        public void onCheckedChanged(RadioGroup radioGroup, int i) {
-            switch (i) {
-                case R.id.find_txt:
-                    mPager.setCurrentItem(0);//选择某一页
-                    break;
-                case R.id.class_txt:
-                    mPager.setCurrentItem(1);//选择某一页
-                    break;
-
-            }
-        }
-    }
+//    private class RadioGroupListener implements RadioGroup.OnCheckedChangeListener {
+//
+//        @Override
+//        public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//            switch (i) {
+//                case R.id.find_txt:
+//                    mPager.setCurrentItem(0);//选择某一页
+//                    break;
+//                case R.id.class_txt:
+//                    mPager.setCurrentItem(1);//选择某一页
+//                    break;
+//
+//            }
+//        }
+//    }
 
 }

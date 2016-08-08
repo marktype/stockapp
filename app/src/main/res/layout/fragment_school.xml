@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:id="@+id/all_title"
@@ -15,39 +15,54 @@
             android:padding="@dimen/margin_10dp"
             android:layout_marginRight="@dimen/margin_10dp"
             android:src="@mipmap/message_black"/>
-        <RadioGroup
+        <com.example.drawer.stockapp.customview.PagerSlidingTabStrip
             android:id="@+id/class_group"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:padding="@dimen/margin_1dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-            <RadioButton
-                android:id="@+id/find_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:button="@null"
-                android:padding="@dimen/margin_4dp"
-                android:text="@string/find_txt"
-                android:gravity="center"
-                android:checked="true"
-                android:layout_marginRight="@dimen/margin_10dp"
-                android:textColor="@drawable/text_selector"
-                android:background="@drawable/title_bg_selecter"
-                android:textSize="@dimen/title_text_size" />
-            <RadioButton
-                android:id="@+id/class_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:button="@null"
-                android:gravity="center"
-                android:padding="@dimen/margin_4dp"
-                android:text="@string/my_class_txt"
-                android:textColor="@drawable/text_selector"
-                android:background="@drawable/title_bg_selecter"
-                android:textSize="@dimen/title_text_size" />
-        </RadioGroup>
+            android:layout_height="40dp"
+            android:textColor="@color/title_text_un_color"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            app:pstsDividerColor="@android:color/transparent"
+            app:pstsIndicatorColor="@color/content_bg"
+            app:pstsIndicatorHeight="2dp"
+            app:pstsScaleZoomMax="0.2"
+            app:pstsShouldExpand="true"
+            app:pstsTabPaddingLeftRight="12dp"
+            app:pstsTextSelectedColor="@color/write_color"
+            />
+        <!--<RadioGroup-->
+            <!--android:id="@+id/class_group"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:padding="@dimen/margin_1dp"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:gravity="center_vertical">-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/find_txt"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:button="@null"-->
+                <!--android:padding="@dimen/margin_4dp"-->
+                <!--android:text="@string/find_txt"-->
+                <!--android:gravity="center"-->
+                <!--android:checked="true"-->
+                <!--android:layout_marginRight="@dimen/margin_10dp"-->
+                <!--android:textColor="@drawable/text_selector"-->
+                <!--android:background="@drawable/title_bg_selecter"-->
+                <!--android:textSize="@dimen/title_text_size" />-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/class_txt"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:button="@null"-->
+                <!--android:gravity="center"-->
+                <!--android:padding="@dimen/margin_4dp"-->
+                <!--android:text="@string/my_class_txt"-->
+                <!--android:textColor="@drawable/text_selector"-->
+                <!--android:background="@drawable/title_bg_selecter"-->
+                <!--android:textSize="@dimen/title_text_size" />-->
+        <!--</RadioGroup>-->
         <ImageView
             android:id="@+id/search_img"
             android:layout_width="wrap_content"

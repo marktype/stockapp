@@ -14,7 +14,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import com.example.drawer.stockapp.R;
@@ -27,6 +26,7 @@ import com.example.drawer.stockapp.adapter.CeLueAdapter;
 import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
 import com.example.drawer.stockapp.adapter.MyZuHeAdapter;
 import com.example.drawer.stockapp.adapter.NiuRenAdapter;
+import com.example.drawer.stockapp.customview.PagerSlidingTabStrip;
 import com.example.drawer.stockapp.customview.view.XListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.CeLueInfo;
@@ -107,11 +107,11 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (ceLueListInfo == null){
+//        if (ceLueListInfo == null){
             mView = inflater.inflate(R.layout.fragment_auto_wisdom, container, false);
             initWight();
             initData();
-        }
+//        }
 
         return mView;
     }
@@ -122,7 +122,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
         ManagerUtil.setStataBarColorWhite(getActivity(),tintManager);
     }
-
+    private PagerSlidingTabStrip tabs;
     /**
      * 初始化控件
      */
@@ -136,18 +136,20 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         mTitle.setLayoutParams(params);
 
 
-        RadioGroup mGroup = (RadioGroup) mView.findViewById(R.id.wisdom_group);
+//        RadioGroup mGroup = (RadioGroup) mView.findViewById(R.id.wisdom_group);
         ImageView mMessage = (ImageView) mView.findViewById(R.id.wisdom_info);
         ImageView mSearch = (ImageView) mView.findViewById(R.id.pop_item_img);
 
-        mLiangHuaCelue = (RadioButton) mView.findViewById(R.id.celue_txt);
-        mNiuRenZuHe = (RadioButton) mView.findViewById(R.id.zuhe_txt);
-        mMyZuHe = (RadioButton) mView.findViewById(R.id.my_zuhe_txt);
+//        mLiangHuaCelue = (RadioButton) mView.findViewById(R.id.celue_txt);
+//        mNiuRenZuHe = (RadioButton) mView.findViewById(R.id.zuhe_txt);
+//        mMyZuHe = (RadioButton) mView.findViewById(R.id.my_zuhe_txt);
+        tabs = (PagerSlidingTabStrip) mView.findViewById(R.id.wisdom_group);
+
 
         mPager = (ViewPager) mView.findViewById(R.id.wisdom_content_pager);   //viewpager
         mPager.setOffscreenPageLimit(1);
         mPager.setOnPageChangeListener(new TabOnPageChangeListener());
-        mGroup.setOnCheckedChangeListener(new RadioGroupListener() );
+//        mGroup.setOnCheckedChangeListener(new RadioGroupListener() );
         mMessage.setOnClickListener(this);
         mSearch.setOnClickListener(this);
 
@@ -192,11 +194,16 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         viewList.add(liangHuaZuHeView);
         viewList.add(niuRenZuHeView);
         viewList.add(myZuHeView);
+        ArrayList<String> titles = new ArrayList<>();
+        titles.add("量化策略");
+        titles.add("牛人组合");
+        titles.add("我的组合");
         mSliderVIew = mInflater.inflate(R.layout.imageslider_layout_two, null);    //第一个head imageSlider
         mSliderVIewTwo = mInflater.inflate(R.layout.imageslider_layout_celue_two,null);
         mSliderVIewThree = mInflater.inflate(R.layout.imageslider_layout_celue_three,null);
-        MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList);
+        MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList,titles);
         mPager.setAdapter(adapter);
+        tabs.setViewPager(mPager);
 
         //添加轮播图数据
         getSliderLayoutView(images,null);
@@ -697,35 +704,35 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         public void onPageSelected(int position) {
             switch (position) {
                 case 0:
-                    mLiangHuaCelue.setChecked(true);
+//                    mLiangHuaCelue.setChecked(true);
                     break;
                 case 1:
-                    mNiuRenZuHe.setChecked(true);
+//                    mNiuRenZuHe.setChecked(true);
                     break;
                 case 2:
-                    mMyZuHe.setChecked(true);
+//                    mMyZuHe.setChecked(true);
                     break;
 
             }
         }
     }
 
-    private class RadioGroupListener implements RadioGroup.OnCheckedChangeListener {
-
-        @Override
-        public void onCheckedChanged(RadioGroup radioGroup, int i) {
-            switch (i) {
-                case R.id.celue_txt:
-                    mPager.setCurrentItem(0);//选择某一页
-                    break;
-                case R.id.zuhe_txt:
-                    mPager.setCurrentItem(1);//选择某一页
-                    break;
-                case R.id.my_zuhe_txt:
-                    mPager.setCurrentItem(2);//选择某一页
-                    break;
-
-            }
-        }
-    }
+//    private class RadioGroupListener implements RadioGroup.OnCheckedChangeListener {
+//
+//        @Override
+//        public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//            switch (i) {
+//                case R.id.celue_txt:
+//                    mPager.setCurrentItem(0);//选择某一页
+//                    break;
+//                case R.id.zuhe_txt:
+//                    mPager.setCurrentItem(1);//选择某一页
+//                    break;
+//                case R.id.my_zuhe_txt:
+//                    mPager.setCurrentItem(2);//选择某一页
+//                    break;
+//
+//            }
+//        }
+//    }
 }

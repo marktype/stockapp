@@ -7,6 +7,8 @@ compile 'com.squareup.okhttp3:okhttp:3.2.0'   //网络请求
 compile 'com.google.code.gson:gson:2.6.2'    gson解析数据
 compile project(':oneKeyShareNew')    分享依赖1
 compile project(':shareSDK')    分享依赖2
+compile 'com.nineoldandroids:library:2.4.0'    动画库
+
 
 Gson使用
 Gson gson = new Gson();

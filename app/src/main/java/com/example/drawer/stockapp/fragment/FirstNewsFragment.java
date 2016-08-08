@@ -19,8 +19,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,6 +29,7 @@ import com.example.drawer.stockapp.activity.WebViewUpTitleActivity;
 import com.example.drawer.stockapp.adapter.IndexAdapter;
 import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
 import com.example.drawer.stockapp.adapter.TrendsAdapter;
+import com.example.drawer.stockapp.customview.PagerSlidingTabStrip;
 import com.example.drawer.stockapp.customview.view.XListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.listener.OnFragmentInteractionListener;
@@ -62,9 +61,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private View mView,zixunView,mSliderVIew,mScrollView,dongtaiView;
+    private View mView,mSliderVIew,mScrollView,dongtaiView,zixunView;
     private ViewPager mPager;
-    private RadioButton mZinXun,mDongTai;
+//    private RadioButton mZinXun,mDongTai;
     private HeadMassageInfo headMassageInfo;
     private DynamicsInfo dynamicsInfo;
     private TrendsAdapter trendsAdapter;
@@ -108,19 +107,36 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        new AsyncTask(){
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                Log.d("tag","doInBackground----------");
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                Log.d("tag","onPostExecute-0----");
+
+            }
+        }.execute();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (headMassageInfo == null){
+//        if (headMassageInfo == null){
+        Log.d("tag","onCreateView-----");
             mView = inflater.inflate(R.layout.fragment_first_news, container, false);
             initWight();
             getMessageInfo();
             initData();
             dymnicesData();
-        }
+//        }
         return mView;
     }
 
@@ -131,6 +147,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         ManagerUtil.setStataBarColorWhite(getActivity(),tintManager);
     }
 
+    private PagerSlidingTabStrip tabs;
     /**
      * 初始化控件
      */
@@ -147,14 +164,18 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
 
 
-        RadioGroup mGroup = (RadioGroup) mView.findViewById(R.id.first_group);
-        mZinXun = (RadioButton) mView.findViewById(R.id.zixun_txt);
-        mDongTai = (RadioButton) mView.findViewById(R.id.dongtai_txt);
+//        RadioGroup mGroup = (RadioGroup) mView.findViewById(R.id.first_group);
+//        mZinXun = (RadioButton) mView.findViewById(R.id.zixun_txt);
+//        mDongTai = (RadioButton) mView.findViewById(R.id.dongtai_txt);
+        tabs = (PagerSlidingTabStrip) mView.findViewById(R.id.first_group);
+
 
         mPager = (ViewPager) mView.findViewById(R.id.zixun_content_pager);   //viewpager
 
         mPager.setOnPageChangeListener(new TabOnPageChangeListener());
-        mGroup.setOnCheckedChangeListener(new RadioGroupListener() );
+//        mGroup.setOnCheckedChangeListener(new RadioGroupListener() );
+
+
 
 
         mImgHead.setOnClickListener(this);
@@ -217,10 +238,13 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
         viewList.add(zixunView);
         viewList.add(dongtaiView);
-
-        MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList);
+//
+        ArrayList<String> titles = new ArrayList<>();
+        titles.add("资讯");
+        titles.add("动态");
+        MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList,titles);
         mPager.setAdapter(adapter);
-
+        tabs.setViewPager(mPager);
 //        initListData();
 
         mDongTaiList = (ListView) dongtaiView.findViewById(R.id.fondtai_listview);
@@ -327,8 +351,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                     Log.d("tag","getY()-----"+getScrollY());
                     //动态返回时此代码有用，其余时候没用
                     if (getScrollY()>511){
-                        mZinXun.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
-                        mDongTai.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
+                        tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+//                        mZinXun.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+//                        mDongTai.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
                     }
                     //设置滑动颜色渐变（0-511）
                     if (getScrollY() <= 511) {
@@ -336,8 +361,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         tintManager.setTintAlpha((float) getScrollY() / 510);
                         ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
                         ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
-                        mZinXun.setTextColor(getActivity().getResources().getColor(R.color.write_color));
-                        mDongTai.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
+//                        mZinXun.setTextColor(getActivity().getResources().getColor(R.color.write_color));
+//                        mDongTai.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
+                        tabs.setSelectedTextColor(getActivity().getResources().getColor(R.color.write_color));
                         mImgHead.setImageResource(R.mipmap.message_white);
                         mMessage.setImageResource(R.mipmap.search_white);
                         isFlag = true;
@@ -346,8 +372,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         tintManager.setTintAlpha(1);
                         ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
                         ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
-                        mZinXun.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
-                        mDongTai.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
+//                        mZinXun.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+//                        mDongTai.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
+                        tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
                         mImgHead.setImageResource(R.mipmap.message_black);
                         mMessage.setImageResource(R.mipmap.searchblack);
                         isFlag = false;
@@ -588,31 +615,31 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
 
 
-    private class RadioGroupListener implements RadioGroup.OnCheckedChangeListener {
-
-        @Override
-        public void onCheckedChanged(RadioGroup radioGroup, int i) {
-            switch (i) {
-                case R.id.zixun_txt:
-                    mPager.setCurrentItem(0);//选择某一页
-                    mlist.setVisibility(View.VISIBLE);
-                    break;
-                case R.id.dongtai_txt:
-                    mPager.setCurrentItem(1);//选择某一页
-                    mTitleRelat.getBackground().setAlpha(255);
-                    tintManager.setTintAlpha(1);
-                    mImgHead.setImageResource(R.mipmap.message_black);
-                    mMessage.setImageResource(R.mipmap.searchblack);
-                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
-                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
-                    mZinXun.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
-                    mDongTai.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
-                    mlist.setVisibility(View.GONE);      //此处为了不让滚动监听事件冲突
-                    break;
-
-            }
-        }
-    }
+//    private class RadioGroupListener implements RadioGroup.OnCheckedChangeListener {
+//
+//        @Override
+//        public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//            switch (i) {
+//                case R.id.zixun_txt:
+//                    mPager.setCurrentItem(0);//选择某一页
+//                    mlist.setVisibility(View.VISIBLE);
+//                    break;
+//                case R.id.dongtai_txt:
+//                    mPager.setCurrentItem(1);//选择某一页
+//                    mTitleRelat.getBackground().setAlpha(255);
+//                    tintManager.setTintAlpha(1);
+//                    mImgHead.setImageResource(R.mipmap.message_black);
+//                    mMessage.setImageResource(R.mipmap.searchblack);
+//                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
+//                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
+////                    mZinXun.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
+////                    mDongTai.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+//                    mlist.setVisibility(View.GONE);      //此处为了不让滚动监听事件冲突
+//                    break;
+//
+//            }
+//        }
+//    }
 
     /**
      * 页卡改变事件
@@ -633,10 +660,19 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         public void onPageSelected(int position) {
             switch (position) {
                 case 0:
-                    mZinXun.setChecked(true);
+//                    mZinXun.setChecked(true);
+                    mlist.setVisibility(View.VISIBLE);
                     break;
                 case 1:
-                    mDongTai.setChecked(true);
+//                    mDongTai.setChecked(true);
+                    mlist.setVisibility(View.GONE);      //此处为了不让滚动监听事件冲突
+                    mTitleRelat.getBackground().setAlpha(255);
+                    tintManager.setTintAlpha(1);
+                    mImgHead.setImageResource(R.mipmap.message_black);
+                    mMessage.setImageResource(R.mipmap.searchblack);
+                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
+                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
+                    tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
                     break;
 
             }

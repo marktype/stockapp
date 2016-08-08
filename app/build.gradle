@@ -24,6 +24,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile project(':imageSlider_viktor_library')
+    compile project(':oneKeyShareNew')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
@@ -31,5 +32,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.google.code.gson:gson:2.6.2'
-    compile project(':oneKeyShareNew')
+    compile 'com.nineoldandroids:library:2.4.0'
 }
