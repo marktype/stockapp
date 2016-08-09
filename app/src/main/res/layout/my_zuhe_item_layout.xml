@@ -47,7 +47,7 @@
         android:id="@+id/stock_name"
         android:text="沪深"
         android:textColor="@color/write_color"
-        android:background="@color/colorAccent"
+        android:background="@drawable/rect_red_shape"
         android:layout_toRightOf="@id/zuhe_name"
         android:layout_marginTop="18dp"
         android:layout_marginLeft="@dimen/margin_8dp"
@@ -69,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="@dimen/margin_10dp"
-        android:src="@mipmap/zhuanfa"/>
+        android:layout_margin="@dimen/margin_20dp"
+        android:padding="@dimen/margin_10dp"
+        android:src="@mipmap/share_img"/>
 </RelativeLayout>

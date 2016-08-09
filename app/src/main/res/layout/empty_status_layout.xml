@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/empty_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_100dp"/>
+    <TextView
+        android:id="@+id/empty_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="主人~您还没有登录呢~"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:textSize="@dimen/title_size"
+        android:layout_below="@id/empty_img"/>
+
+    <TextView
+        android:id="@+id/empty_btn"
+        android:layout_below="@+id/empty_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/click_login_txt"
+        android:background="@drawable/rect_blue_shape"
+        android:padding="@dimen/margin_10dp"
+        android:gravity="center"
+        android:textColor="@android:color/background_dark"
+        android:layout_margin="@dimen/margin_50dp"
+        />
+</RelativeLayout>

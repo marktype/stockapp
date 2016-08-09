@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@mipmap/celue_detial_top"
+    android:background="@mipmap/niurenbg"
     android:layout_height="match_parent">
     <RelativeLayout
-        android:layout_marginTop="@dimen/margin_20dp"
         android:id="@+id/all_celue_title"
         android:layout_width="match_parent"
-        android:background="@android:color/transparent"
-        android:layout_height="@dimen/title_height">
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/back_img"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:src="@mipmap/arrowlift"
+            android:layout_centerVertical="true"
             android:padding="@dimen/margin_10dp"/>
         <TextView
             android:id="@+id/back_txt"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_centerInParent="true"
-            android:padding="@dimen/margin_10dp"
-            android:textSize="@dimen/title_size"/>
+            android:textColor="@android:color/background_dark"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/margin_5dp"
+            android:text="@string/niurenzuhe_txt"
+            android:textSize="@dimen/content_text_size"/>
+        <TextView
+            android:id="@+id/build_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/back_txt"
+           android:layout_centerHorizontal="true"
+            android:text="创建于2016.08.08"
+            />
         <ImageView
             android:id="@+id/changjianwenti_txt"
             android:src="@mipmap/help"
@@ -34,119 +43,148 @@
             android:layout_height="wrap_content" />
     </RelativeLayout>
     <TextView
-        android:id="@+id/guanzhu_num"
-        android:text="关注人数 0"
+        android:id="@+id/persent_num"
+        android:text="0.0"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:textSize="@dimen/margin_60dp"
         android:layout_below="@id/all_celue_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_10dp"/>
+        android:textColor="@android:color/background_dark"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_height="wrap_content" />
     <TextView
-        android:id="@+id/build_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="%"
+        android:textStyle="bold"
+        android:textColor="@android:color/background_dark"
+        android:textSize="@dimen/title_size"
         android:layout_below="@id/all_celue_title"
-        android:layout_toRightOf="@id/guanzhu_num"
-        android:layout_margin="@dimen/margin_10dp"
-        />
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:layout_toRightOf="@id/persent_num"/>
     <TextView
         android:id="@+id/txt_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="平稳增长"
-        android:textColor="@android:color/secondary_text_dark"
+        android:layout_centerHorizontal="true"
         android:textSize="@dimen/title_size"
         android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_below="@id/guanzhu_num"/>
-    <RelativeLayout
+        android:layout_below="@id/persent_num"/>
+
+
+
+    <LinearLayout
         android:layout_below="@id/txt_name"
         android:layout_width="match_parent"
         android:id="@+id/relate_layout"
         android:layout_margin="@dimen/margin_10dp"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/guanzhu_num_txt"
+                android:text="关注人数"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10dp"/>
+            <TextView
+                android:id="@+id/guanzhu_num"
+                android:text="0"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="1px"
+            android:layout_height="@dimen/margin_30dp"
+            android:layout_marginTop="@dimen/margin_15dp"
+            android:background="@android:color/darker_gray"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
         <TextView
             android:id="@+id/title_one_name"
             android:text="日"
-
+            android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/margin_10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/jingzhi_num"
             android:text="0.00%"
-
-            android:layout_below="@id/title_one_name"
+            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/line_item"
             android:layout_width="1px"
-            android:layout_height="@dimen/margin_50dp"
-            android:layout_toRightOf="@id/jingzhi_num"
-            android:layout_margin="@dimen/margin_5dp"
+            android:layout_height="@dimen/margin_30dp"
+            android:layout_marginTop="@dimen/margin_15dp"
             android:background="@android:color/darker_gray"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
         <TextView
             android:id="@+id/title_two_name"
             android:text="月"
-
-            android:layout_toRightOf="@id/line_item"
-           android:layout_marginBottom="@dimen/margin_10dp"
-            android:layout_marginLeft="@dimen/title_text_size"
-            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/margin_10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/max_num"
             android:text="0.00%"
-
-            android:layout_below="@id/title_two_name"
-            android:layout_toRightOf="@id/line_item"
-            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        </LinearLayout>
         <TextView
             android:id="@+id/line_item_two"
             android:layout_width="1px"
-            android:layout_height="@dimen/margin_50dp"
-            android:layout_toRightOf="@id/max_num"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/margin_5dp"
+            android:layout_height="@dimen/margin_30dp"
+            android:layout_marginTop="@dimen/margin_15dp"
             android:background="@android:color/darker_gray"/>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
         <TextView
             android:id="@+id/title_three_name"
             android:text="净值"
-
-            android:layout_toRightOf="@id/line_item_two"
-            android:layout_marginBottom="@dimen/margin_10dp"
-            android:layout_marginLeft="@dimen/title_text_size"
-            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/margin_10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/rate_num"
             android:text="0.0000"
-
-            android:layout_below="@id/title_three_name"
-            android:layout_toRightOf="@id/line_item_two"
-            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </RelativeLayout>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/persent_num"
-        android:text="0.000%"
-        android:textSize="@dimen/margin_60dp"
-        android:layout_below="@id/relate_layout"
-        android:layout_width="wrap_content"
-        android:textColor="@color/content_bg"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:text="总收益"
-        android:layout_alignBaseline="@id/persent_num"
-        android:layout_toRightOf="@id/persent_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!--<TextView-->
+        <!--android:text="总收益"-->
+        <!--android:layout_alignBaseline="@id/persent_num"-->
+        <!--android:layout_toRightOf="@id/persent_num"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
 
 </RelativeLayout>

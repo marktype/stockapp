@@ -107,22 +107,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        new AsyncTask(){
-
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                Log.d("tag","doInBackground----------");
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                Log.d("tag","onPostExecute-0----");
-
-            }
-        }.execute();
     }
 
     @Override
@@ -130,7 +114,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 //        if (headMassageInfo == null){
-        Log.d("tag","onCreateView-----");
             mView = inflater.inflate(R.layout.fragment_first_news, container, false);
             initWight();
             getMessageInfo();

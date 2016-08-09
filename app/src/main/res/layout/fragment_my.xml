@@ -44,7 +44,7 @@
             android:layout_below="@id/user_name_lin"
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginRight="@dimen/margin_15dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/circle_con_bg" />
 
         <RelativeLayout
             android:id="@+id/user_address_lin"
@@ -76,7 +76,7 @@
             android:layout_below="@id/user_address_lin"
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginRight="@dimen/margin_15dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/circle_con_bg" />
 
         <RelativeLayout
             android:id="@+id/sex_lin"
@@ -108,7 +108,7 @@
             android:layout_below="@id/sex_lin"
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginRight="@dimen/margin_15dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/circle_con_bg" />
 
         <RelativeLayout
             android:id="@+id/bind_phone_lin"
@@ -139,7 +139,7 @@
             android:layout_below="@id/bind_phone_lin"
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginRight="@dimen/margin_15dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/circle_con_bg" />
 
         <RelativeLayout
             android:id="@+id/reset_password_lin"
@@ -170,7 +170,7 @@
             android:layout_below="@id/reset_password_lin"
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginRight="@dimen/margin_15dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/circle_con_bg" />
 
         <RelativeLayout
             android:id="@+id/my_point_lin"
@@ -202,7 +202,7 @@
             android:layout_below="@id/my_point_lin"
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginRight="@dimen/margin_15dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/circle_con_bg" />
 
         <RelativeLayout
             android:id="@+id/my_wallet_lin"
@@ -233,7 +233,7 @@
             android:layout_below="@id/my_wallet_lin"
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginRight="@dimen/margin_15dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/circle_con_bg" />
 
         <RelativeLayout
             android:id="@+id/my_quan_lin"
@@ -265,7 +265,7 @@
             android:layout_below="@id/my_quan_lin"
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginRight="@dimen/margin_15dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/circle_con_bg" />
 
         <RelativeLayout
             android:id="@+id/all_can_lin"

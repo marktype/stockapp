@@ -106,6 +106,7 @@
         android:layout_below="@id/line_celue_two"
         android:layout_toRightOf="@id/celue_image"
         android:layout_marginTop="@dimen/title_size"
+        android:textColor="@android:color/background_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

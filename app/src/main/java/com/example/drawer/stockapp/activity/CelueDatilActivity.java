@@ -4,14 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
@@ -33,6 +30,7 @@ import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -48,7 +46,9 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     private CanvasView canvasView;
     private HashMap<String, Object> map;
     private ArrayList<HashMap<String, Object>> data;
-    private TextView mPersent,mTimes,mLikes,mBuildTime,mDataNum,mMonthNum,mJingZhi,mTotal,mAdavce,mLastTime,mflashTime,mName,mNum,mPriceChange,mSuccess;
+    private TextView mPersent,mTimes,mLikes,mBuildTime,mDataNum,mMonthNum,
+            mJingZhi,mTotal,mAdavce,mLastTime,mflashTime,mName,
+            mNum,mPriceChange,mSuccess,mNiuRenName;
     private ImageView mStarImage;
     private StarDetailInfo starDetailInfo;
     private RatingBar mRating;
@@ -56,14 +56,18 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_celue_datil);
-
-        ManagerUtil.MIUISetStatusBarLightMode(getWindow(),true);
-        ManagerUtil.FlymeSetStatusBarLightMode(getWindow(),true);
-
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
         initWight();
         getStargeDetialData();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
+        ManagerUtil.setStataBarColorBlack(this,tintManager);
+    }
     /**
      * 设置数据
      */
@@ -73,9 +77,9 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         StarDetailInfo.ResultBean.StarInfoBean starInfoBean = starDetailInfo.getResult().getStarInfo();
         StarDetailInfo.ResultBean.AchievemntBean achievemntBean = starDetailInfo.getResult().getAchievemnt();
         StarDetailInfo.ResultBean.TransferPositionsBean transferPositionsBean = starDetailInfo.getResult().getTransferPositions();
-        mLikes.setText("关注人数："+porfolioInfoBean.getFavorites());
-        mBuildTime.setText("创建时间："+porfolioInfoBean.getCreateTime());
-        mTotal.setText(porfolioInfoBean.getTotleReturns()+"%");
+        mLikes.setText(porfolioInfoBean.getFavorites()+"");
+        mBuildTime.setText("创建于："+porfolioInfoBean.getCreateTime());
+        mTotal.setText(porfolioInfoBean.getTotleReturns()+"");
         mDataNum.setText(advantageBean.getDayRatio()+"%");
         mMonthNum.setText(advantageBean.getMonthRatio()+"%");
         mJingZhi.setText(advantageBean.getNetWorth()+"");
@@ -83,17 +87,8 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         if (!TextUtils.isEmpty(starInfoBean.getImgUrl())){
             Picasso.with(this).load(starInfoBean.getImgUrl()).into(mStarImage);
         }
+        mNiuRenName.setText(starInfoBean.getName());
         mLastTime.setText("（最后评估时间："+achievemntBean.getLastTime()+")");
-        String str = "跑赢"+advantageBean.getMoreOther()+"%的组合";
-        SpannableString spannableString = new SpannableString(str);
-        spannableString.setSpan(new RelativeSizeSpan(2.0f), 2, str.length()-3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //2.0f表示默认字体大小的两倍
-        spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), 2, str.length()-3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为x色
-        mPersent.setText(spannableString);
-        String beishu =  (advantageBean.getMoreYuEBao()/100)+"倍";
-        spannableString = new SpannableString(beishu);
-        spannableString.setSpan(new RelativeSizeSpan(2.0f), 0, beishu.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //2.0f表示默认字体大小的两倍
-        spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), 0, beishu.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为x色
-        mTimes.setText(spannableString);
         mflashTime.setText("("+transferPositionsBean.getLastTime()+")");
         List<StarDetailInfo.ResultBean.TransferPositionsBean.TransferPositionsInfoBean> list = transferPositionsBean.getTransferPositionsInfo();
         mName.setText(list.get(0).getName());
@@ -105,6 +100,13 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     }
 
     public void initWight(){
+
+        RelativeLayout mTitleRelat = (RelativeLayout) findViewById(R.id.all_celue_title);    //title布局
+        //设置距离顶部状态栏高度
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                100);
+        params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
+        mTitleRelat.setLayoutParams(params);
         String  title = getIntent().getStringExtra(AutoWisdomFragment.CELUENAME);
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         TextView mTitle = (TextView) findViewById(R.id.back_txt);
@@ -126,6 +128,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mPriceChange = (TextView) findViewById(R.id.price_num);    //变动价格
         mSuccess = (TextView) findViewById(R.id.price_start);     //参考成交价
         mRating = (RatingBar) findViewById(R.id.celue_seekbar);   //评分
+        mNiuRenName = (TextView) findViewById(R.id.niuren_name);   //牛人名字
 
         mChart = (RadarChart) findViewById(R.id.chart1);
         canvasView = (CanvasView) findViewById(R.id.canvas_view);
@@ -142,11 +145,11 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
 
     public void setCanvasData(){
         data = new ArrayList<>();
-        setDataToView("医药生物", "#DBBD44", 0.1f);
-        setDataToView("农林牧渔", "#2AB98F", 0.15f);
-        setDataToView("电器设备", "#DBBD44", 0.15f);
-        setDataToView("公用事业", "#0054AB", 0.5f);
-        setDataToView("食品饮料", "#E95859", 0.1f);
+        setDataToView("医药生物", "#FFF000", 0.1f);
+        setDataToView("农林牧渔", "#74E7D3", 0.15f);
+        setDataToView("电器设备", "#74D3E7", 0.15f);
+        setDataToView("公用事业", "#51B4F3", 0.4f);
+        setDataToView("食品饮料", "#5173F3", 0.1f);
         canvasView.setData(data);
     }
 
@@ -196,7 +199,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         /**
          * 用来描述该雷达图是什么用途
          */
-        mChart.setDescription("雷达图描述");
+        mChart.setDescription("");
 
         mChart.setWebLineWidth(1.5f);
         mChart.setWebLineWidthInner(0.75f);

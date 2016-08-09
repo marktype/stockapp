@@ -32,7 +32,7 @@
             android:textColor="@android:color/background_dark"
             android:layout_marginTop="@dimen/margin_15dp"
             android:layout_centerHorizontal="true"
-            android:drawableRight="@mipmap/zan"
+            android:drawableRight="@mipmap/man"
             android:drawablePadding="@dimen/margin_10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

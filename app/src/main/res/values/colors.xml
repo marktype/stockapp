@@ -10,4 +10,5 @@
     <color name="title_text_un_color">#7A776E</color>
     <color name="content_bg">#FFE400</color>
     <color name="content_con_bg">#F2F2F2</color>
+    <color name="circle_con_bg">#E4E4E4</color>
 </resources>

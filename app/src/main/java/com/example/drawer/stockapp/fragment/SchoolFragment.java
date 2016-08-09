@@ -152,6 +152,7 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
         MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList,titles);
         mPager.setAdapter(adapter);
         tabs.setViewPager(mPager);
+        tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
 
         setMyClassData();
 

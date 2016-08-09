@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <stroke android:color="@color/circle_con_bg" android:width="1px"/>
+    <solid android:color="@color/circle_con_bg"/>
     <corners android:topLeftRadius="25dp" android:topRightRadius="25dp"
         android:bottomRightRadius="25dp" android:bottomLeftRadius="25dp" />
 </shape>

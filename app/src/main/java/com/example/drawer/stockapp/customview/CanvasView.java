@@ -24,10 +24,10 @@ public class CanvasView extends View {
     private float radius = DEFAULT_RADIUS;// 默认圆环半径为300px
     private List<HashMap<String,Object>> data;//圆环的颜色数据
 
-    private static final int DEFAULT_COLOR =  Color.parseColor("#5f2AB98F");
+    private static final int DEFAULT_COLOR =  Color.parseColor("#DBFB44");
     private int defaultColor = DEFAULT_COLOR;//设置默认颜色，即即使数据没有占到100%，那么使用默认颜色构造圆环
 
-    private static final float DEFAULT_STROK_WIDTH = 100;
+    private static final float DEFAULT_STROK_WIDTH = 50;
     private float strokeWidth = DEFAULT_STROK_WIDTH;
 
     //数据map中的键  map.put(CanvasView.TITLE,"例如")
@@ -108,17 +108,17 @@ public class CanvasView extends View {
                 paint.setColor(color);
                 canvas.drawArc(rectF,startAngle,sweepAngle,false,paint);
 
-                /**
-                 * 画百分比
-                 */
-                float angel = startAngle + sweepAngle/2;
-                //计算要画百分比文字的位置
-                float x = (float) (width/2 + (radius)*Math.cos(convertAngleToPi(angel)));
-                float y = (float) (height/2 + (radius)*Math.sin(convertAngleToPi(angel)));
-                paint.setColor(Color.WHITE);
-                paint.setTextAlign(Paint.Align.CENTER);//设置TextAlign为center
-                paint.setStrokeWidth(1);
-                canvas.drawText(dealWithFloat(weight),x,y,paint);
+//                /**
+//                 * 画百分比
+//                 */
+//                float angel = startAngle + sweepAngle/2;
+//                //计算要画百分比文字的位置
+//                float x = (float) (width/2 + (radius)*Math.cos(convertAngleToPi(angel)));
+//                float y = (float) (height/2 + (radius)*Math.sin(convertAngleToPi(angel)));
+//                paint.setColor(Color.WHITE);
+//                paint.setTextAlign(Paint.Align.CENTER);//设置TextAlign为center
+//                paint.setStrokeWidth(1);
+//                canvas.drawText(dealWithFloat(weight),x,y,paint);
 
                 startAngle += sweepAngle;
 

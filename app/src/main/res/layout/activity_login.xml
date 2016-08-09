@@ -2,20 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@mipmap/wallhaven"
+    android:background="@color/write_color"
     >
 
     <RelativeLayout
         android:id="@+id/login_title"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@mipmap/loginbg"
+        android:layout_height="240dp">
+    <RelativeLayout
+        android:id="@+id/login_relat"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/title_height">
         <ImageView
             android:id="@+id/back_img"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@mipmap/arrowlift"
+            android:layout_marginLeft="@dimen/margin_10dp"
             android:padding="@dimen/margin_10dp"/>
         <TextView
             android:id="@+id/back_txt"
@@ -23,7 +27,7 @@
             android:layout_height="match_parent"
             android:text="@string/login_txt"
             android:gravity="center"
-            android:textColor="@color/write_color"
+            android:textColor="@android:color/background_dark"
             android:layout_centerInParent="true"
             android:padding="@dimen/margin_10dp"
             android:textSize="@dimen/title_text_size"/>
@@ -33,56 +37,75 @@
             android:layout_height="match_parent"
             android:text="@string/register_txt"
             android:gravity="center"
-            android:textColor="@color/write_color"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:textColor="@android:color/background_dark"
             android:layout_alignParentRight="true"
             android:padding="@dimen/margin_10dp"
             android:textSize="@dimen/title_text_size"/>
-    </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/head_image"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/login_title"
-        android:layout_marginTop="@dimen/margin_40dp"
-        android:src="@mipmap/user"
-        android:layout_width="@dimen/margin_100dp"
-        android:layout_height="@dimen/margin_100dp" />
+    </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginRight="@dimen/margin_15dp"
+            android:layout_marginLeft="@dimen/margin_15dp"
+            android:layout_below="@id/login_relat"
+            android:background="@android:color/darker_gray"/>
+    </RelativeLayout>
     <EditText
         android:id="@+id/user_name_txt"
-        android:layout_below="@id/head_image"
+        android:layout_below="@id/login_title"
         android:hint="用户名"
-        android:background="@drawable/rect_write_black_shape"
-        android:padding="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_10dp"
+        android:textColorHint="@android:color/darker_gray"
+        android:background="@mipmap/phonr_list"
+        android:paddingLeft="@dimen/margin_20dp"
+        android:paddingRight="@dimen/margin_20dp"
+        android:paddingBottom="@dimen/margin_10dp"
+        android:paddingTop="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_50dp"
         android:layout_marginLeft="@dimen/margin_25dp"
         android:layout_marginRight="@dimen/margin_25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/password_relat"
+        android:layout_below="@id/user_name_txt"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:layout_marginLeft="@dimen/margin_25dp"
+        android:layout_marginRight="@dimen/margin_25dp"
+        android:background="@mipmap/phonr_list"
+        android:paddingLeft="@dimen/margin_20dp"
+        android:paddingRight="@dimen/margin_10dp"
+        android:paddingBottom="@dimen/margin_10dp"
+        android:paddingTop="@dimen/margin_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <EditText
         android:id="@+id/password_txt"
-        android:layout_below="@id/user_name_txt"
+        android:background="@color/write_color"
         android:hint="密码"
-        android:background="@drawable/rect_write_black_shape"
-        android:padding="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:layout_marginLeft="@dimen/margin_25dp"
-        android:layout_marginRight="@dimen/margin_25dp"
+        android:singleLine="true"
+        android:layout_toLeftOf="@+id/eye_img"
+        android:textColorHint="@android:color/darker_gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    <!--可见密码按钮-->
+    <ImageView
+        android:id="@+id/eye_img"
+        android:src="@mipmap/eye"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/margin_5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </RelativeLayout>
     <TextView
         android:id="@+id/login_txt"
-        android:text="@string/login_txt"
-        android:layout_below="@id/password_txt"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:background="@drawable/rect_blue_shape"
-        android:layout_centerHorizontal="true"
-        android:textSize="@dimen/title_text_size"
+        android:layout_below="@id/password_relat"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:background="@mipmap/loginbtn"
         android:layout_marginLeft="@dimen/margin_25dp"
         android:layout_marginRight="@dimen/margin_25dp"
-        android:padding="@dimen/margin_10dp"
-        android:textColor="@color/write_color"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
@@ -93,7 +116,7 @@
         android:textSize="@dimen/title_text_size"
         android:layout_marginTop="@dimen/margin_10dp"
         android:padding="@dimen/margin_15dp"
-        android:textColor="@color/write_color"
+        android:textColor="@android:color/darker_gray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

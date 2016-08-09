@@ -33,7 +33,7 @@
             app:pstsDividerColor="@android:color/transparent"
             app:pstsIndicatorColor="@color/content_bg"
             app:pstsIndicatorHeight="2dp"
-            app:pstsScaleZoomMax="0.2"
+            app:pstsScaleZoomMax="0.1"
             app:pstsShouldExpand="true"
             app:pstsTabPaddingLeftRight="12dp"
             app:pstsTextSelectedColor="@color/write_color"

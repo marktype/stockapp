@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/content_con_bg"
+    >
+
+    <RelativeLayout
+        android:id="@+id/alter_title"
+        android:layout_width="match_parent"
+        android:background="@color/write_color"
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/arrowlift"
+            android:padding="@dimen/margin_10dp"/>
+        <TextView
+            android:id="@+id/back_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/alter_name_txt"
+            android:gravity="center"
+            android:textColor="@android:color/background_dark"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/margin_10dp"
+            android:textSize="@dimen/title_text_size"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="保存"
+            android:textColor="@color/content_bg"
+            android:padding="@dimen/margin_15dp"/>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/alter_name"
+        android:background="@color/write_color"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:padding="@dimen/margin_15dp"
+        android:hint="昵称"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/alter_title"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alter_hint_name_txt"
+        android:layout_margin="@dimen/margin_15dp"
+        android:layout_below="@id/alter_name"/>
+
+</RelativeLayout>

@@ -1,49 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_margin="@dimen/margin_10dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/write_color">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_margin="@dimen/margin_10dp"
-            android:layout_height="wrap_content"
-            android:text="月收益排名（沪深）"/>
+
         <TextView
             android:id="@+id/rank_parsent"
-            android:gravity="center"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="跑赢0%的组合"/>
-    </LinearLayout>
+            android:layout_centerVertical="true"
+            android:padding="@dimen/margin_10dp"
+            android:text="100%"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_toRightOf="@id/rank_parsent"
+            android:text="月收益排名"
+            />
+
+        <TextView
+            android:id="@+id/rank_parsent_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:layout_toRightOf="@id/rank_parsent"
+            android:text="(沪深)跑赢组合"
+            />
+    </RelativeLayout>
+
     <TextView
         android:layout_width="1px"
-        android:layout_margin="@dimen/margin_5dp"
-        android:layout_height="@dimen/margin_40dp"
-        android:background="@android:color/darker_gray"/>
-    <LinearLayout
+        android:layout_height="@dimen/margin_30dp"
+        android:background="@android:color/darker_gray" />
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_margin="@dimen/margin_10dp"
-            android:layout_height="wrap_content"
-            android:text="是余额宝收益的"/>
+
         <TextView
             android:id="@+id/rank_times"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="0倍"/>
-    </LinearLayout>
+            android:layout_centerVertical="true"
+            android:padding="@dimen/margin_10dp"
+            android:text="10"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_toRightOf="@id/rank_times"
+            android:text="是余额宝收益的"
+            />
+
+        <TextView
+            android:id="@+id/rank_times_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_one"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:layout_toRightOf="@id/rank_times"
+            android:text="(倍)"
+            />
+    </RelativeLayout>
 </LinearLayout>

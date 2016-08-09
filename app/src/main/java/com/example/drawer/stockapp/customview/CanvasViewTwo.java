@@ -27,7 +27,7 @@ public class CanvasViewTwo extends View {
     private static final int DEFAULT_COLOR =  Color.parseColor("#D3D3D3");
     private int defaultColor = DEFAULT_COLOR;//设置默认颜色，即即使数据没有占到100%，那么使用默认颜色构造圆环
 
-    private static final float DEFAULT_STROK_WIDTH = 20;
+    private static final float DEFAULT_STROK_WIDTH = 5;
     private float strokeWidth = DEFAULT_STROK_WIDTH;
 
     //数据map中的键  map.put(CanvasView.TITLE,"例如")
@@ -136,7 +136,8 @@ public class CanvasViewTwo extends View {
                  */
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setColor(Color.BLACK);
-                paint.setStrokeWidth(1);
+//                paint.setTypeface(Typeface.createFromAsset(.getAssets(),"fonts/DIN Medium.ttf"));
+                paint.setStrokeWidth(3f);
                 paint.setTextSize(40f);
                 //已知中线计算基线位置
                 Paint.FontMetrics metrics = paint.getFontMetrics();

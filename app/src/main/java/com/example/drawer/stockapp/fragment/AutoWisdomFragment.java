@@ -160,26 +160,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private SparseArray recordSp = new SparseArray(0);
     private SparseArray recordSp2 = new SparseArray(0);
     private SparseArray recordSp3 = new SparseArray(0);
-//    //获取偏移距离
-//    private int getScrollY() {
-//        int height = 0;
-//        for (int i = 0; i < mCurrentfirstVisibleItem; i++) {
-//            ItemRecod itemRecod = (ItemRecod) recordSp.get(i);
-//            if (itemRecod != null)
-//                height += itemRecod.height;
-//        }
-//        ItemRecod itemRecod = (ItemRecod) recordSp.get(mCurrentfirstVisibleItem);
-//        if (null == itemRecod) {
-//            itemRecod = new ItemRecod();
-//        }
-//        return height - itemRecod.top;
-//    }
-//
-//
-//    class ItemRecod {
-//        int height = 0;
-//        int top = 0;
-//    }
     /**
      * 初始化适配器数据
      */
@@ -204,6 +184,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList,titles);
         mPager.setAdapter(adapter);
         tabs.setViewPager(mPager);
+
 
         //添加轮播图数据
         getSliderLayoutView(images,null);
@@ -374,13 +355,11 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     }
 
 
-
-
-     private String[] images = {"http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291055080-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291114570-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605042201270-L.jpg"};
+     private int[] images = {R.mipmap.banner,R.mipmap.banner,R.mipmap.banner,R.mipmap.banner};
     /**
      * imageSlider控件加入
      * */
-    public void getSliderLayoutView(String[] mImage, final String[] mString) {
+    public void getSliderLayoutView(int[] mImage, final String[] mString) {
         SliderLayout mSliderLayout = (SliderLayout) mSliderVIew.findViewById(R.id.image_slider_layout);
 //        mSliderLayout.setMinimumHeight(180);
 
@@ -407,7 +386,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     /**
      * imageSlider控件加入
      * */
-    public void getSliderLayoutViewTwo(String[] mImage, final String[] mString) {
+    public void getSliderLayoutViewTwo(int[] mImage, final String[] mString) {
         SliderLayout mSliderLayout = (SliderLayout) mSliderVIewTwo.findViewById(R.id.image_slider_layout);
 //        mSliderLayout.setMinimumHeight(180);
 
@@ -434,7 +413,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     /**
      * imageSlider控件加入
      * */
-    public void getSliderLayoutViewThree(String[] mImage, final String[] mString) {
+    public void getSliderLayoutViewThree(int[] mImage, final String[] mString) {
         SliderLayout mSliderLayout = (SliderLayout) mSliderVIewThree.findViewById(R.id.image_slider_layout);
 //        mSliderLayout.setMinimumHeight(180);
 
