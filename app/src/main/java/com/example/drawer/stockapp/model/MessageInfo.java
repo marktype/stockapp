@@ -1,11 +1,12 @@
 package com.example.drawer.stockapp.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 欢大哥 on 2016/7/16.
  */
 public class MessageInfo {
+
 
     /**
      * Status : 0
@@ -53,14 +54,70 @@ public class MessageInfo {
     }
 
     public static class ResultBean {
-        private ArrayList<String> Info;
+        /**
+         * Id : 0
+         * Title : 消息标题1
+         * Second : 消息副标题1
+         * UpdateTime : 2016-07-07 12:00:00
+         * TargetUrl : http://www.supwin.com/
+         */
 
-        public ArrayList<String> getInfo() {
+        private List<InfoBean> Info;
+
+        public List<InfoBean> getInfo() {
             return Info;
         }
 
-        public void setInfo(ArrayList<String> Info) {
+        public void setInfo(List<InfoBean> Info) {
             this.Info = Info;
+        }
+
+        public static class InfoBean {
+            private String Id;
+            private String Title;
+            private String Second;
+            private String UpdateTime;
+            private String TargetUrl;
+
+            public String getId() {
+                return Id;
+            }
+
+            public void setId(String Id) {
+                this.Id = Id;
+            }
+
+            public String getTitle() {
+                return Title;
+            }
+
+            public void setTitle(String Title) {
+                this.Title = Title;
+            }
+
+            public String getSecond() {
+                return Second;
+            }
+
+            public void setSecond(String Second) {
+                this.Second = Second;
+            }
+
+            public String getUpdateTime() {
+                return UpdateTime;
+            }
+
+            public void setUpdateTime(String UpdateTime) {
+                this.UpdateTime = UpdateTime;
+            }
+
+            public String getTargetUrl() {
+                return TargetUrl;
+            }
+
+            public void setTargetUrl(String TargetUrl) {
+                this.TargetUrl = TargetUrl;
+            }
         }
     }
 }

@@ -47,8 +47,10 @@ public class TrendsAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
+        ImageAdapter adapter = null;
         if (view == null){
             viewHolder = new ViewHolder();
+            adapter = new ImageAdapter(context);
             view = LayoutInflater.from(context).inflate(R.layout.dongtai_item_layout,null);
             viewHolder.head = (ImageView) view.findViewById(R.id.dongtai_image);
             viewHolder.name = (TextView) view.findViewById(R.id.dongtai_name);
@@ -63,7 +65,6 @@ public class TrendsAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(info.getImage())){
             Picasso.with(context).load(info.getImage()).into(viewHolder.head);
         }
-        ImageAdapter adapter = new ImageAdapter(context);
         adapter.setData(info.getContentImage());
         viewHolder.contentImage.setAdapter(adapter);
         viewHolder.name.setText(info.getName());

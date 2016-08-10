@@ -14,7 +14,8 @@
         android:id="@+id/all_order_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:background="@android:color/transparent">
+
+        android:background="@android:color/darker_gray">
 
         <ImageView
             android:id="@+id/info_img"
@@ -82,6 +83,15 @@
             android:layout_marginRight="@dimen/margin_10dp"
             android:padding="@dimen/margin_10dp"
             android:src="@mipmap/search_white" />
+        <ImageView
+            android:id="@+id/send_dynamic"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/pop_item_img"
+            android:src="@mipmap/send_dynamic"/>
     </RelativeLayout>
 
 

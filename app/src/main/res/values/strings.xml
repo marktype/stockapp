@@ -17,7 +17,7 @@
     <string name="trade_quan">交易券</string>
     <string name="cellect_txt">收藏</string>
     <string name="exit_txt">退出登录</string>
-    <string name="dongtai_main_body">动态正文</string>
+    <string name="dongtai_main_body">动态详情</string>
     <string name="search_txt">搜索</string>
     <string name="take_group_txt">订阅组合</string>
     <string name="login_txt">登录</string>
@@ -27,6 +27,7 @@
     <string name="forget_password_txt">忘记密码</string>
     <string name="alter_name_txt">修改昵称</string>
     <string name="alter_hint_name_txt">4-20个字符，可由中英文、数字、“_”、“-”、组成</string>
+    <string name="time_success_txt"> 运行期间，组合在清仓状况下达到目标收益，可提前结束运行，视为成功，不退还订阅费。</string>
     <string name="sure_txt">确认修改</string>
     <string name="click_login_txt">点我登录</string>
     <string name="set_up_txt">创建组合</string>

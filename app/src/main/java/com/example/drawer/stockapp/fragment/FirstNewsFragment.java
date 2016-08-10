@@ -24,8 +24,8 @@ import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.MessageActivity;
+import com.example.drawer.stockapp.activity.MyDynamicActivity;
 import com.example.drawer.stockapp.activity.WebViewActivity;
-import com.example.drawer.stockapp.activity.WebViewUpTitleActivity;
 import com.example.drawer.stockapp.adapter.IndexAdapter;
 import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
 import com.example.drawer.stockapp.adapter.TrendsAdapter;
@@ -232,7 +232,15 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
         mDongTaiList = (ListView) dongtaiView.findViewById(R.id.fondtai_listview);
         trendsAdapter = new TrendsAdapter(getActivity());
-        mDongTaiList.setOnItemClickListener(this);
+        mDongTaiList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("tag","i---"+i);
+                Intent intent = new Intent(getActivity(), MyDynamicActivity.class);
+                intent.putExtra(MyDynamicActivity.DYNAMICINFO,dynamicsInfo.getResult().getShare().get(i));
+                startActivity(intent);
+            }
+        });
 
 
     }
@@ -453,27 +461,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
     }
 
-    /**
-     * 获取动态评论
-     */
-    public void commentList(){
-        new AsyncTask(){
 
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                HashMap<String,Object> hashMap = new HashMap<>();
-               HashMap<String,String> map = new HashMap<>();
-                map.put("PageIndex", "0");
-                map.put("PageCount", "0");
-                map.put("PageSize", "0");
-                hashMap.put("PageInfo",map);
-                hashMap.put("Id","0");
-                hashMap.put("Type","0");
-                String message = HttpManager.newInstance().getHttpDataByThreeLayer("",hashMap,HttpManager.COMMENT_LIST_URL);
-                return message;
-            }
-        }.execute();
-    }
 
 
 
@@ -566,6 +554,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+        Log.d("tag", "onItemClick: -i-"+i+"---l--"+l);
         switch (adapterView.getId()){
             case R.id.listview_zixun:
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
@@ -573,9 +563,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 break;
             case R.id.fondtai_listview:
 
-                commentList();
-
-                intent = new Intent(getActivity(), WebViewUpTitleActivity.class);
+                intent = new Intent(getActivity(), MyDynamicActivity.class);
+//                intent.putExtra(MyDynamicActivity.DYNAMICINFO,dynamicsInfo.getResult().getShare().get())
                 startActivity(intent);
                 break;
         }

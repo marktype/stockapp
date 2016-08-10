@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/margin_20dp"
-        android:layout_marginRight="@dimen/margin_20dp"
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:layout_marginBottom="@dimen/margin_5dp"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
         android:background="@color/write_color">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -24,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_20dp"
+            android:textColor="@android:color/background_dark"
             android:layout_toRightOf="@id/dongtai_image"
             android:text="股神" />
         <TextView
@@ -37,7 +41,7 @@
             android:id="@+id/collect_info_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/zan"
+            android:src="@mipmap/collection"
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/margin_20dp"
             android:layout_marginRight="@dimen/margin_10dp"/>
@@ -46,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_below="@id/dongtai_image"
-            android:background="@android:color/darker_gray"/>
+            android:background="@color/circle_con_bg"/>
         <TextView
             android:id="@+id/dongtai_content"
             android:layout_width="match_parent"
@@ -57,6 +61,7 @@
             android:text="股神" />
 
         <com.example.drawer.stockapp.customview.MyGridView
+
             android:id="@+id/dongtai_cntent_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,7 +80,7 @@
             android:layout_height="1px"
             android:layout_below="@id/dongtai_cntent_image"
             android:layout_marginTop="@dimen/margin_5dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/circle_con_bg" />
 
         <TextView
             android:id="@+id/dongtai_zhuanfa"

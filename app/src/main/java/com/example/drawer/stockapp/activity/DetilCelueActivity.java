@@ -9,19 +9,19 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
-import com.example.drawer.stockapp.adapter.ReturnAdapter;
 import com.example.drawer.stockapp.customview.CanvasView;
 import com.example.drawer.stockapp.customview.CanvasViewTwo;
-import com.example.drawer.stockapp.customview.MyListView;
-import com.example.drawer.stockapp.fragment.MyListFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.NewsInfo;
 import com.example.drawer.stockapp.model.StargDetial;
+import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.google.gson.Gson;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,10 +42,16 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detil_celue);
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
         initWeight();
         getCelueDetail();
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
+        ManagerUtil.setStataBarColorWhite(this,tintManager);
+    }
     /**
      * 设置控件数据
      */
@@ -54,17 +60,17 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         StargDetial.ResultBean.StarInfoBean starInfoBean = stargDetial.getResult().getStarInfo();
         ArrayList<StargDetial.ResultBean.FollowInfoBean> followInfoBean = stargDetial.getResult().getFollowInfo();
         mGroupTxt.setText(strategy.getName());
-        if (!TextUtils.isEmpty(strategy.getImgUrl()))
-            Picasso.with(this).load(strategy.getImgUrl()).into(mTitleImage);
+//        if (!TextUtils.isEmpty(strategy.getImgUrl()))
+//            Picasso.with(this).load(strategy.getImgUrl()).into(mTitleImage);
         mRecuitmentTime.setText("募集时间：" + strategy.getRecuitmentStartTDay() + " - " + strategy.getRecuitmentEndTimeDay());
-        mNiurenMoney.setText("牛人投资金额:"+strategy.getStarInvestment());
-        mMostMoney.setText("最多投顾金额："+strategy.getMostFollow());
+        mNiurenMoney.setText(strategy.getStarInvestment()+"");
+        mMostMoney.setText(""+strategy.getMostFollow());
         mContent.setText(strategy.getDesc());
-        mTarget.setText("目标收益:"+strategy.getTargetReturns() + "%");
-        mMostDay.setText("最长期限："+strategy.getMaxDay()+"天");
-        mStopLose.setText("止损线："+strategy.getStopLoss() + "%");
-        mShouyiDiver.setText("收益分成："+strategy.getShareRatio() + "%");
-        mRunTime.setText("运行期间：" + strategy.getRunStartDay() + " - " + strategy.getRunEndDay());
+        mTarget.setText(strategy.getTargetReturns() + "%");
+        mMostDay.setText(strategy.getMaxDay()+"天");
+        mStopLose.setText(strategy.getStopLoss() + "%");
+        mShouyiDiver.setText(strategy.getShareRatio() + "%");
+//        mRunTime.setText("运行期间：" + strategy.getRunStartDay() + " - " + strategy.getRunEndDay());
         if (!TextUtils.isEmpty(starInfoBean.getImgUrl())) {
             Picasso.with(this).load(starInfoBean.getImgUrl()).into(mNiuRenImage);
         }
@@ -75,23 +81,31 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         setCanvasData(mChartTwo, starInfoBean.getPorfolioSucc());
         setCanvasData(mChartThree, starInfoBean.getStockPick());
 
-        if (!TextUtils.isEmpty(stargDetial.getResult().getImgUrl())) {
-            Picasso.with(this).load(stargDetial.getResult().getImgUrl()).into(mshouyiImage);
-        }
-        if (!TextUtils.isEmpty(followInfoBean.get(0).getImgUrl())) {
-            Picasso.with(this).load(followInfoBean.get(0).getImgUrl()).into(mImageOne);
-            Picasso.with(this).load(followInfoBean.get(1).getImgUrl()).into(mImageTwo);
-            Picasso.with(this).load(followInfoBean.get(2).getImgUrl()).into(mImageThree);
-        }
+//        if (!TextUtils.isEmpty(stargDetial.getResult().getImgUrl())) {
+//            Picasso.with(this).load(stargDetial.getResult().getImgUrl()).into(mshouyiImage);
+//        }
+//        if (!TextUtils.isEmpty(followInfoBean.get(0).getImgUrl())) {
+//            Picasso.with(this).load(followInfoBean.get(0).getImgUrl()).into(mImageOne);
+//            Picasso.with(this).load(followInfoBean.get(1).getImgUrl()).into(mImageTwo);
+//            Picasso.with(this).load(followInfoBean.get(2).getImgUrl()).into(mImageThree);
+//        }
 
 
     }
 
     public void initWeight() {
+
+        RelativeLayout mTitleRelat = (RelativeLayout) findViewById(R.id.celue_title);    //title布局
+        //设置距离顶部状态栏高度
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                100);
+        params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
+        mTitleRelat.setLayoutParams(params);
+
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         TextView mPay = (TextView) findViewById(R.id.go_to_pay);
         mGroupTxt = (TextView) findViewById(R.id.zuhe_name);    //组合名称
-        mTitleImage = (ImageView) findViewById(R.id.title_image);   //头像图
+//        mTitleImage = (ImageView) findViewById(R.id.title_image);   //头像图
         mRecuitmentTime = (TextView) findViewById(R.id.muji_time);    //募集时间
         mNiurenMoney = (TextView) findViewById(R.id.niuren_money);    //牛人投资金额
         mMostMoney = (TextView) findViewById(R.id.zuiduo_money);   //最多跟投
@@ -100,38 +114,38 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         mMostDay = (TextView) findViewById(R.id.max_long_time);   //最长期限
         mStopLose = (TextView) findViewById(R.id.zhishunxian_txt);   //止损线
         mShouyiDiver = (TextView) findViewById(R.id.shouyi_txt);   //收益分成
-        mRunTime = (TextView) findViewById(R.id.run_time_txt);     //运行时间
+//        mRunTime = (TextView) findViewById(R.id.run_time_txt);     //运行时间
         mNiuRenImage = (ImageView) findViewById(R.id.celue_item_head_imgae);    //历史牛人头像
         mCelueTxt = (TextView) findViewById(R.id.people_name);     //策略人名称
         mFormWhere = (TextView) findViewById(R.id.from_where);      //来自哪儿
-        mFormName = (TextView) findViewById(R.id.from_name);       //称号
-        mshouyiImage = (ImageView) findViewById(R.id.shouyi_image);   //当前收益
-        mImageOne = (ImageView) findViewById(R.id.image_one);    //实时动态
-        mImageTwo = (ImageView) findViewById(R.id.image_two);    //自动跟投
-        mImageThree = (ImageView) findViewById(R.id.image_three);    //交流经验
+//        mFormName = (TextView) findViewById(R.id.from_name);       //称号
+//        mshouyiImage = (ImageView) findViewById(R.id.shouyi_image);   //当前收益
+//        mImageOne = (ImageView) findViewById(R.id.image_one);    //实时动态
+//        mImageTwo = (ImageView) findViewById(R.id.image_two);    //自动跟投
+//        mImageThree = (ImageView) findViewById(R.id.image_three);    //交流经验
 
         mChartOne = (CanvasViewTwo) findViewById(R.id.chart1);
         mChartTwo = (CanvasViewTwo) findViewById(R.id.chart2);
         mChartThree = (CanvasViewTwo) findViewById(R.id.chart3);
 
-        TextView mCollect = (TextView) findViewById(R.id.cellect_icon);     //收藏
+        ImageView mCollect = (ImageView) findViewById(R.id.cellect_icon);     //收藏
 
         RadioGroup mGroup = (RadioGroup) findViewById(R.id.wisdom_group);
 
-        //退款保障
-        MyListView myListView = (MyListView) findViewById(R.id.my_listview_refund);
-        ReturnAdapter adapter = new ReturnAdapter(this);
-        adapter.setData(setReturnData());
-        myListView.setAdapter(adapter);
+//        //退款保障
+//        MyListView myListView = (MyListView) findViewById(R.id.my_listview_refund);
+//        ReturnAdapter adapter = new ReturnAdapter(this);
+//        adapter.setData(setReturnData());
+//        myListView.setAdapter(adapter);
 
-        //调仓页面（第一次进入时加载）
-        MyListFragment fragment = MyListFragment.newInstance("调仓", "");
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_layout, fragment);
-        transaction.commit();
+//        //调仓页面（第一次进入时加载）
+//        MyListFragment fragment = MyListFragment.newInstance("调仓", "");
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.add(R.id.fragment_layout, fragment);
+//        transaction.commit();
 
         mBackimg.setOnClickListener(this);
-        mGroup.setOnCheckedChangeListener(new RadioGroupListener());
+//        mGroup.setOnCheckedChangeListener(new RadioGroupListener());
         mPay.setOnClickListener(this);
         mCollect.setOnClickListener(this);
 
@@ -226,26 +240,26 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             switch (i) {
                 case R.id.celue_txt:
-                    MyListFragment fragment = MyListFragment.newInstance("调仓", "");
-                    transaction.replace(R.id.fragment_layout, fragment);
+//                    MyListFragment fragment = MyListFragment.newInstance("调仓", "");
+//                    transaction.replace(R.id.fragment_layout, fragment);
                     break;
                 case R.id.zuhe_txt:
 //                    MyListFragmentTwo fragmentTwo = MyListFragmentTwo.newInstance("持仓","");
 //                    transaction.replace(R.id.fragment_layout,fragmentTwo);
-                    fragment = MyListFragment.newInstance("持仓", "");
-                    transaction.replace(R.id.fragment_layout, fragment);
+//                    fragment = MyListFragment.newInstance("持仓", "");
+//                    transaction.replace(R.id.fragment_layout, fragment);
                     break;
                 case R.id.my_celue_txt:
 //                    MyListFragmentThree fragmentThree = MyListFragmentThree.newInstance("跟投人","");
 //                    transaction.replace(R.id.fragment_layout,fragmentThree);
-                    fragment = MyListFragment.newInstance("跟投人", "");
-                    transaction.replace(R.id.fragment_layout, fragment);
+//                    fragment = MyListFragment.newInstance("跟投人", "");
+//                    transaction.replace(R.id.fragment_layout, fragment);
                     break;
                 case R.id.my_zuhe_txt:
 //                    MyListFragmentFour fragmentFour = MyListFragmentFour.newInstance("交流区","");
 //                    transaction.replace(R.id.fragment_layout,fragmentFour);
-                    fragment = MyListFragment.newInstance("交流区", "");
-                    transaction.replace(R.id.fragment_layout, fragment);
+//                    fragment = MyListFragment.newInstance("交流区", "");
+//                    transaction.replace(R.id.fragment_layout, fragment);
                     break;
             }
             transaction.commit();

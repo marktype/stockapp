@@ -9,32 +9,29 @@
         android:orientation="horizontal"
         android:layout_margin="@dimen/margin_10dp"
         android:layout_width="match_parent"
-        android:layout_height="120dp">
+        android:layout_height="wrap_content">
 
 
         <ImageView
             android:id="@+id/image_one"
             android:layout_weight="1"
-            android:src="@mipmap/ic_launcher"
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="120dp" />
+            android:src="@mipmap/now_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/image_two"
             android:layout_weight="1"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/auto_follow"
             android:layout_marginLeft="@dimen/margin_10dp"
             android:layout_marginRight="@dimen/margin_10dp"
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="120dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/image_three"
             android:layout_weight="1"
-            android:src="@mipmap/ic_launcher"
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="120dp" />
+            android:src="@mipmap/jiaoliu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
     <LinearLayout

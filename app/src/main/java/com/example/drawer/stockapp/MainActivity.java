@@ -54,15 +54,6 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
         return v;
     }
 
-//    //自定义tab
-//    public View setTabMenuTwo(String name, int image) {
-//        View v = LayoutInflater.from(this).inflate(R.layout.tab_own_item_two_layout, null);
-//        TextView menuText = (TextView) v.findViewById(R.id.tab_menu_txt);
-//        ImageView menuImg = (ImageView) v.findViewById(R.id.tab_image);
-//        menuText.setText(name);
-//        menuImg.setImageResource(image);
-//        return v;
-//    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -85,22 +76,6 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
 
         tabHost.getTabWidget().setDividerDrawable(null);     //去除tab之间的分割线
 
-//        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-//            @Override
-//            public void onTabChanged(String s) {
-//                if (s.equals("tab4")){
-//                    tabHost.getTabWidget().getChildTabViewAt(0).setBackground(getResources().getDrawable(R.mipmap.tab_bg));
-//                    tabHost.getTabWidget().getChildTabViewAt(1).setBackground(getResources().getDrawable(R.mipmap.tab_bg));
-//                    tabHost.getTabWidget().getChildTabViewAt(2).setBackground(getResources().getDrawable(R.mipmap.tab_bg));
-//                    tabHost.getTabWidget().getChildTabViewAt(3).setBackground(getResources().getDrawable(R.mipmap.tab_bg));
-//                }else {
-//                    tabHost.getTabWidget().getChildTabViewAt(0).setBackground(getResources().getDrawable(R.drawable.top_line));
-//                    tabHost.getTabWidget().getChildTabViewAt(1).setBackground(getResources().getDrawable(R.drawable.top_line));
-//                    tabHost.getTabWidget().getChildTabViewAt(2).setBackground(getResources().getDrawable(R.drawable.top_line));
-//                    tabHost.getTabWidget().getChildTabViewAt(3).setBackground(getResources().getDrawable(R.drawable.top_line));
-//                }
-//            }
-//        });
     }
 
 

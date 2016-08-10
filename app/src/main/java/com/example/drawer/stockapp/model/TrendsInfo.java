@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Created by 欢大哥 on 2016/6/15.
- * 关注列表
+ * 关注列表、动态列表
  */
 public class TrendsInfo {
     private String image ;    //头像
@@ -12,6 +12,33 @@ public class TrendsInfo {
     private String content;    //内容
     private ArrayList<String> contentImage;   //内容图片
     private String time;   //时间
+    private String friendImage;    //好友头像
+    private String friendName;     //好友名字
+    private String friendContent;    //好友评论内容
+
+    public String getFriendImage() {
+        return friendImage;
+    }
+
+    public void setFriendImage(String friendImage) {
+        this.friendImage = friendImage;
+    }
+
+    public String getFriendName() {
+        return friendName;
+    }
+
+    public void setFriendName(String friendName) {
+        this.friendName = friendName;
+    }
+
+    public String getFriendContent() {
+        return friendContent;
+    }
+
+    public void setFriendContent(String friendContent) {
+        this.friendContent = friendContent;
+    }
 
     public String getImage() {
         return image;

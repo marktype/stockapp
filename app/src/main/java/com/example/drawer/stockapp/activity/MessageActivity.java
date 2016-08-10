@@ -16,7 +16,9 @@ import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.MessageInfo;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MessageActivity extends BascActivity implements AdapterView.OnItemClickListener{
     private MessageInfo messageInfo;
@@ -78,8 +80,15 @@ public class MessageActivity extends BascActivity implements AdapterView.OnItemC
                     Gson gson = new Gson();
                     messageInfo = gson.fromJson(message, MessageInfo.class);
                     if (messageInfo.getHead().getStatus()==0){
-                        ArrayAdapter adapter = new ArrayAdapter(MessageActivity.this,R.layout.txt_item_layout,messageInfo.getResult().getInfo());
-                        mList.setAdapter(adapter);
+                        ArrayList<String> list = new ArrayList<String>();
+                        List<MessageInfo.ResultBean.InfoBean> ben = messageInfo.getResult().getInfo();
+                        for (int i = 0;i<ben.size();i++){
+                            list.add(ben.get(i).getTitle());
+                        }
+                        if (list.size()>0){
+                            ArrayAdapter adapter = new ArrayAdapter(MessageActivity.this,R.layout.txt_item_layout,list);
+                            mList.setAdapter(adapter);
+                        }
                     }
 
                 }

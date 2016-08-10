@@ -134,9 +134,13 @@
         <activity
             android:name=".activity.AttentionActivity"
             android:theme="@style/MyAppTheme" />
-        <activity android:name=".activity.CouponActivity"
-            android:theme="@style/MyAppTheme"/>
-        <activity android:name=".activity.AlterNameActivity"
+        <activity
+            android:name=".activity.CouponActivity"
+            android:theme="@style/MyAppTheme" />
+        <activity
+            android:name=".activity.AlterNameActivity"
+            android:theme="@style/MyAppTheme" />
+        <activity android:name=".activity.MyDynamicActivity"
             android:theme="@style/MyAppTheme"></activity>
     </application>
 

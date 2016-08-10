@@ -2,11 +2,10 @@ package com.example.drawer.stockapp.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyListView;
@@ -17,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WebViewActivity extends BascActivity {
-    private String url = "https://www.baidu.com/";
+    private String url = "https://h5.m.taobao.com/app/cz/cost.html?locate=icon-5&spm=a215s.7406091.1.icon-5&scm=2027.1.3.1003";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,19 +24,19 @@ public class WebViewActivity extends BascActivity {
         initWight();
         newInfo();
 
-//        WebView webView = (WebView) findViewById(R.id.web_view);
-//        webView.getSettings().setJavaScriptEnabled(true);
-//        webView.getSettings().setLoadsImagesAutomatically(true);//auto load images
-//        webView.getSettings().setSupportZoom(false);
-//        webView.getSettings().setBuiltInZoomControls(false);//zoom
-//        webView.getSettings().setUseWideViewPort(true); //auto adjust screen
-//        webView.getSettings().setLoadWithOverviewMode(true);
-//        webView.loadUrl(url);
+        WebView webView = (WebView) findViewById(R.id.web_view);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setLoadsImagesAutomatically(true);//auto load images
+        webView.getSettings().setSupportZoom(false);
+        webView.getSettings().setBuiltInZoomControls(false);//zoom
+        webView.getSettings().setUseWideViewPort(true); //auto adjust screen
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.loadUrl(url);
 
-        TextView mText = (TextView) findViewById(R.id.test);
-//        Spanned str = Html.fromHtml("<p><h1>Getting started<h1>\\r\\nASP.NET Web API is a framework that makes it easy to build HTTP services that reach a broad range of clients,\\r\\n                    including browsers and mobile devices.ASP.NET Web API is an ideal platform for building RESTful applications on the.NET Framework.</p>");
-
-        mText.setText(Html.fromHtml("<p><h1>Getting started<h1>\r\nASP.NET Web API is a framework that makes it easy to build HTTP services that reach a broad range of clients,\r\n                    including browsers and mobile devices.ASP.NET Web API is an ideal platform for building RESTful applications on the.NET Framework.</p>"));
+//        TextView mText = (TextView) findViewById(R.id.test);
+////        Spanned str = Html.fromHtml("<p><h1>Getting started<h1>\\r\\nASP.NET Web API is a framework that makes it easy to build HTTP services that reach a broad range of clients,\\r\\n                    including browsers and mobile devices.ASP.NET Web API is an ideal platform for building RESTful applications on the.NET Framework.</p>");
+//
+//        mText.setText(Html.fromHtml("<p><h1>Getting started<h1>\r\nASP.NET Web API is a framework that makes it easy to build HTTP services that reach a broad range of clients,\r\n                    including browsers and mobile devices.ASP.NET Web API is an ideal platform for building RESTful applications on the.NET Framework.</p>"));
     }
 
     /**
