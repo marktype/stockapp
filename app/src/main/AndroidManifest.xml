@@ -140,7 +140,10 @@
         <activity
             android:name=".activity.AlterNameActivity"
             android:theme="@style/MyAppTheme" />
-        <activity android:name=".activity.MyDynamicActivity"
+        <activity
+            android:name=".activity.MyDynamicActivity"
+            android:theme="@style/MyAppTheme" />
+        <activity android:name=".activity.SendDynamicActivity"
             android:theme="@style/MyAppTheme"></activity>
     </application>
 

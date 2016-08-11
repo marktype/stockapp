@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.MessageActivity;
 import com.example.drawer.stockapp.activity.MyDynamicActivity;
+import com.example.drawer.stockapp.activity.SendDynamicActivity;
 import com.example.drawer.stockapp.activity.WebViewActivity;
 import com.example.drawer.stockapp.adapter.IndexAdapter;
 import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
@@ -56,22 +57,20 @@ import java.util.List;
  * Use the {@link FirstNewsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FirstNewsFragment extends Fragment implements View.OnClickListener,AdapterView.OnItemClickListener,XListView.IXListViewListener{
+public class FirstNewsFragment extends Fragment implements View.OnClickListener,AdapterView.OnItemClickListener,XListView.IXListViewListener,XListView.OnXScrollListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private View mView,mSliderVIew,mScrollView,dongtaiView,zixunView;
     private ViewPager mPager;
-//    private RadioButton mZinXun,mDongTai;
     private HeadMassageInfo headMassageInfo;
     private DynamicsInfo dynamicsInfo;
     private TrendsAdapter trendsAdapter;
     private RelativeLayout mTitleRelat;
     private ListView mDongTaiList;
-    private ImageView mImgHead,mMessage;
+    private ImageView mImgHead,mMessage,mSendImg;
     private Boolean isFlag = false;
-//    private String[] images = {"http://img.lanrentuku.com/img/allimg/1605/5-1605291106390-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291055080-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605291114570-L.jpg","http://img.lanrentuku.com/img/allimg/1605/5-1605042201270-L.jpg"};
     private String[] images = {""};
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -107,18 +106,19 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        if (headMassageInfo == null){
             mView = inflater.inflate(R.layout.fragment_first_news, container, false);
-            initWight();
-            getMessageInfo();
-            initData();
-            dymnicesData();
+        initWight();
+        initData();
+//        if (headMassageInfo == null){
+        getMessageInfo();
+        dymnicesData();
 //        }
         return mView;
     }
@@ -126,8 +126,17 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
-        SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
-        ManagerUtil.setStataBarColorWhite(getActivity(),tintManager);
+        switch (mPager.getCurrentItem()){
+            case 0:
+                SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
+                ManagerUtil.setStataBarColorWhite(getActivity(),tintManager);
+                break;
+            case 1:
+                tintManager = ManagerUtil.newInstance(getActivity());
+                ManagerUtil.setStataBarColor(getActivity(),tintManager);
+                break;
+        }
+
     }
 
     private PagerSlidingTabStrip tabs;
@@ -145,25 +154,20 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mImgHead = (ImageView) mView.findViewById(R.id.info_img);   //点击头像
         mMessage = (ImageView) mView.findViewById(R.id.pop_item_img);
 
+        mSendImg = (ImageView) mView.findViewById(R.id.send_dynamic);   //发送动态
+        mSendImg.setVisibility(View.GONE);
 
-
-//        RadioGroup mGroup = (RadioGroup) mView.findViewById(R.id.first_group);
-//        mZinXun = (RadioButton) mView.findViewById(R.id.zixun_txt);
-//        mDongTai = (RadioButton) mView.findViewById(R.id.dongtai_txt);
         tabs = (PagerSlidingTabStrip) mView.findViewById(R.id.first_group);
 
 
         mPager = (ViewPager) mView.findViewById(R.id.zixun_content_pager);   //viewpager
 
         mPager.setOnPageChangeListener(new TabOnPageChangeListener());
-//        mGroup.setOnCheckedChangeListener(new RadioGroupListener() );
-
-
 
 
         mImgHead.setOnClickListener(this);
         mMessage.setOnClickListener(this);
-
+        mSendImg.setOnClickListener(this);
 
     }
 
@@ -211,7 +215,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         LayoutInflater mInflater=LayoutInflater.from(getActivity());
         mSliderVIew = mInflater.inflate(R.layout.imageslider_layout, null);    //第一个head imageSlider
 
-        tintManager = new SystemBarTintManager(getActivity());
+        tintManager = ManagerUtil.newInstance(getActivity());
         tintManager.setStatusBarTintEnabled(true);
         mTitleRelat.setBackgroundResource(R.color.write_color);
         tintManager.setStatusBarTintResource(R.color.write_color);
@@ -235,7 +239,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mDongTaiList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("tag","i---"+i);
                 Intent intent = new Intent(getActivity(), MyDynamicActivity.class);
                 intent.putExtra(MyDynamicActivity.DYNAMICINFO,dynamicsInfo.getResult().getShare().get(i));
                 startActivity(intent);
@@ -316,85 +319,85 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mlist.setOnItemClickListener(this);
         mlist.setXListViewListener(this);
 
-
-        mlist.setOnScrollListener(new XListView.OnXScrollListener() {
-            @Override
-            public void onXScrolling(View view) {
-
-            }
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-                mCurrentfirstVisibleItem = i;
-                View firstView = absListView.getChildAt(0);
-                if (null != firstView) {
-                    ItemRecod itemRecord = (ItemRecod) recordSp.get(i);
-                    if (null == itemRecord) {
-                        itemRecord = new ItemRecod();
-                    }
-                    itemRecord.height = firstView.getHeight();
-                    itemRecord.top = firstView.getTop();
-                    recordSp.append(i, itemRecord);
-                    Log.d("tag","getY()-----"+getScrollY());
-                    //动态返回时此代码有用，其余时候没用
-                    if (getScrollY()>511){
-                        tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
-//                        mZinXun.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
-//                        mDongTai.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
-                    }
-                    //设置滑动颜色渐变（0-511）
-                    if (getScrollY() <= 511) {
-                        mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
-                        tintManager.setTintAlpha((float) getScrollY() / 510);
-                        ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
-                        ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
-//                        mZinXun.setTextColor(getActivity().getResources().getColor(R.color.write_color));
-//                        mDongTai.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
-                        tabs.setSelectedTextColor(getActivity().getResources().getColor(R.color.write_color));
-                        mImgHead.setImageResource(R.mipmap.message_white);
-                        mMessage.setImageResource(R.mipmap.search_white);
-                        isFlag = true;
-                    } else if (isFlag){       //只执行一次就好
-                        mTitleRelat.getBackground().setAlpha(255);
-                        tintManager.setTintAlpha(1);
-                        ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
-                        ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
-//                        mZinXun.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
-//                        mDongTai.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
-                        tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
-                        mImgHead.setImageResource(R.mipmap.message_black);
-                        mMessage.setImageResource(R.mipmap.searchblack);
-                        isFlag = false;
-                    }
-                }
-            }
-
-            //获取偏移距离
-            private int getScrollY() {
-                int height = 0;
-                for (int i = 0; i < mCurrentfirstVisibleItem; i++) {
-                    ItemRecod itemRecod = (ItemRecod) recordSp.get(i);
-                    if (itemRecod != null)
-                    height += itemRecod.height;
-                }
-                ItemRecod itemRecod = (ItemRecod) recordSp.get(mCurrentfirstVisibleItem);
-                if (null == itemRecod) {
-                    itemRecod = new ItemRecod();
-                }
-                return height - itemRecod.top;
-            }
-
-
-            class ItemRecod {
-                int height = 0;
-                int top = 0;
-            }
-
-        });
+        mlist.setOnScrollListener(this);
+//        mlist.setOnScrollListener(new XListView.OnXScrollListener() {
+//            @Override
+//            public void onXScrolling(View view) {
+//
+//            }
+//
+//            @Override
+//            public void onScrollStateChanged(AbsListView absListView, int i) {
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+////                mCurrentfirstVisibleItem = i;
+////                View firstView = absListView.getChildAt(0);
+////                if (null != firstView) {
+////                    ItemRecod itemRecord = (ItemRecod) recordSp.get(i);
+////                    if (null == itemRecord) {
+////                        itemRecord = new ItemRecod();
+////                    }
+////                    itemRecord.height = firstView.getHeight();
+////                    itemRecord.top = firstView.getTop();
+////                    recordSp.append(i, itemRecord);
+////                    Log.d("tag", "onScroll: --"+getScrollY());
+////                    //动态返回时此代码有用，其余时候没用
+////                    if (getScrollY()>511){
+////                        tintManager.setStatusBarTintResource(R.color.write_color);
+////                        tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+////                    }
+////                    //设置滑动颜色渐变（0-511）
+////                    if (getScrollY() <= 511) {
+////                        //设置渐变
+//////                        mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
+//////                        tintManager.setTintAlpha((float) getScrollY() / 510);
+////                        //不设置渐变
+////                        mTitleRelat.getBackground().setAlpha(1);
+////                        tintManager.setTintAlpha(0);
+////
+////                        ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
+////                        ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
+////                        tabs.setSelectedTextColor(getActivity().getResources().getColor(R.color.write_color));
+////                        mImgHead.setImageResource(R.mipmap.message_white);
+////                        mMessage.setImageResource(R.mipmap.search_white);
+////                        isFlag = true;
+////                    } else {       //只执行一次就好
+////                        mTitleRelat.getBackground().setAlpha(255);
+////                        tintManager.setTintAlpha(1);
+////                        ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
+////                        ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
+////                        tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+////                        mImgHead.setImageResource(R.mipmap.message_black);
+////                        mMessage.setImageResource(R.mipmap.searchblack);
+////                        isFlag = false;
+////                    }
+////                }
+//            }
+//
+////            //获取偏移距离
+////            private int getScrollY() {
+////                int height = 0;
+////                for (int i = 0; i < mCurrentfirstVisibleItem; i++) {
+////                    ItemRecod itemRecod = (ItemRecod) recordSp.get(i);
+////                    if (itemRecod != null)
+////                    height += itemRecod.height;
+////                }
+////                ItemRecod itemRecod = (ItemRecod) recordSp.get(mCurrentfirstVisibleItem);
+////                if (null == itemRecod) {
+////                    itemRecod = new ItemRecod();
+////                }
+////                return height - itemRecod.top;
+////            }
+////
+////
+////            class ItemRecod {
+////                int height = 0;
+////                int top = 0;
+////            }
+//
+//        });
     }
     protected SystemBarTintManager tintManager;
     private int mCurrentfirstVisibleItem = 0;
@@ -549,22 +552,19 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 Intent intent = new Intent(getActivity(), MessageActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.send_dynamic:
+                intent = new Intent(getContext(), SendDynamicActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        Log.d("tag", "onItemClick: -i-"+i+"---l--"+l);
         switch (adapterView.getId()){
             case R.id.listview_zixun:
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.fondtai_listview:
-
-                intent = new Intent(getActivity(), MyDynamicActivity.class);
-//                intent.putExtra(MyDynamicActivity.DYNAMICINFO,dynamicsInfo.getResult().getShare().get())
                 startActivity(intent);
                 break;
         }
@@ -585,33 +585,84 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mlist.setRefreshTime("刚刚");
     }
 
+    @Override
+    public void onXScrolling(View view) {
 
+    }
 
-//    private class RadioGroupListener implements RadioGroup.OnCheckedChangeListener {
-//
-//        @Override
-//        public void onCheckedChanged(RadioGroup radioGroup, int i) {
-//            switch (i) {
-//                case R.id.zixun_txt:
-//                    mPager.setCurrentItem(0);//选择某一页
-//                    mlist.setVisibility(View.VISIBLE);
-//                    break;
-//                case R.id.dongtai_txt:
-//                    mPager.setCurrentItem(1);//选择某一页
-//                    mTitleRelat.getBackground().setAlpha(255);
-//                    tintManager.setTintAlpha(1);
-//                    mImgHead.setImageResource(R.mipmap.message_black);
-//                    mMessage.setImageResource(R.mipmap.searchblack);
-//                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
-//                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
-////                    mZinXun.setTextColor(getActivity().getResources().getColor(R.color.title_text_un_color));
-////                    mDongTai.setTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
-//                    mlist.setVisibility(View.GONE);      //此处为了不让滚动监听事件冲突
-//                    break;
-//
-//            }
-//        }
-//    }
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+            switch (absListView.getId()){
+                case R.id.listview_zixun:
+                    mCurrentfirstVisibleItem = i;
+                    View firstView = absListView.getChildAt(0);
+                    if (null != firstView) {
+                        ItemRecod itemRecord = (ItemRecod) recordSp.get(i);
+                        if (null == itemRecord) {
+                            itemRecord = new ItemRecod();
+                        }
+                        itemRecord.height = firstView.getHeight();
+                        itemRecord.top = firstView.getTop();
+                        recordSp.append(i, itemRecord);
+                        Log.d("tag", "onScroll: --"+getScrollY());
+                        //动态返回时此代码有用，其余时候没用
+                        if (getScrollY()>511){
+                            tintManager.setStatusBarTintResource(R.color.write_color);
+                            tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+                        }
+                        //设置滑动颜色渐变（0-511）
+                        if (getScrollY() <= 511) {
+                            //设置渐变
+//                        mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
+//                        tintManager.setTintAlpha((float) getScrollY() / 510);
+                            //不设置渐变
+                            mTitleRelat.getBackground().setAlpha(1);
+                            tintManager.setTintAlpha(0);
+
+                            ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
+                            ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
+                            tabs.setSelectedTextColor(getActivity().getResources().getColor(R.color.write_color));
+                            mImgHead.setImageResource(R.mipmap.message_white);
+                            mMessage.setImageResource(R.mipmap.search_white);
+                            isFlag = true;
+                        } else {       //只执行一次就好
+                            mTitleRelat.getBackground().setAlpha(255);
+                            tintManager.setTintAlpha(1);
+                            ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
+                            ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
+                            tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+                            mImgHead.setImageResource(R.mipmap.message_black);
+                            mMessage.setImageResource(R.mipmap.searchblack);
+                            isFlag = false;
+                        }
+                    }
+                    break;
+            }
+
+    }
+    //获取偏移距离
+    private int getScrollY() {
+        int height = 0;
+        for (int i = 0; i < mCurrentfirstVisibleItem; i++) {
+            ItemRecod itemRecod = (ItemRecod) recordSp.get(i);
+            if (itemRecod != null)
+                height += itemRecod.height;
+        }
+        ItemRecod itemRecod = (ItemRecod) recordSp.get(mCurrentfirstVisibleItem);
+        if (null == itemRecod) {
+            itemRecod = new ItemRecod();
+        }
+        return height - itemRecod.top;
+    }
+class ItemRecod {
+    int height = 0;
+    int top = 0;
+}
 
     /**
      * 页卡改变事件
@@ -632,12 +683,12 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         public void onPageSelected(int position) {
             switch (position) {
                 case 0:
-//                    mZinXun.setChecked(true);
-                    mlist.setVisibility(View.VISIBLE);
+                    mSendImg.setVisibility(View.GONE);
+                    mlist.setOnScrollListener(FirstNewsFragment.this);
                     break;
                 case 1:
-//                    mDongTai.setChecked(true);
-                    mlist.setVisibility(View.GONE);      //此处为了不让滚动监听事件冲突
+                    mSendImg.setVisibility(View.VISIBLE);
+                    mlist.setOnScrollListener(null);     //此处为了不让滚动监听事件冲突
                     mTitleRelat.getBackground().setAlpha(255);
                     tintManager.setTintAlpha(1);
                     mImgHead.setImageResource(R.mipmap.message_black);

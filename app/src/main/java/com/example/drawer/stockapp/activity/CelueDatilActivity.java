@@ -1,8 +1,10 @@
 package com.example.drawer.stockapp.activity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.CanvasView;
+import com.example.drawer.stockapp.customview.MyScrollView;
 import com.example.drawer.stockapp.customview.chartview.MyMarkerView;
 import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -52,6 +55,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     private ImageView mStarImage;
     private StarDetailInfo starDetailInfo;
     private RatingBar mRating;
+    private RelativeLayout mTitleRelat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,14 +103,16 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         setChartData(achievemntBean);
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     public void initWight(){
 
-        RelativeLayout mTitleRelat = (RelativeLayout) findViewById(R.id.all_celue_title);    //title布局
+        mTitleRelat = (RelativeLayout) findViewById(R.id.all_celue_title);    //title布局
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 100);
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
+
         String  title = getIntent().getStringExtra(AutoWisdomFragment.CELUENAME);
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         TextView mTitle = (TextView) findViewById(R.id.back_txt);
@@ -129,6 +135,22 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mSuccess = (TextView) findViewById(R.id.price_start);     //参考成交价
         mRating = (RatingBar) findViewById(R.id.celue_seekbar);   //评分
         mNiuRenName = (TextView) findViewById(R.id.niuren_name);   //牛人名字
+
+        MyScrollView mScrollview = (MyScrollView) findViewById(R.id.celue_scroll);   //滑动条
+
+        mScrollview.setOnScrollListener(new MyScrollView.OnScrollListener() {
+            @Override
+            public void onScroll(int scrollY) {
+               if (scrollY>300){
+                   mTitleRelat.setBackgroundResource(R.color.write_color);
+                   tintManager.setStatusBarTintResource(R.color.write_color);
+               }else {
+                   mTitleRelat.setBackgroundResource(android.R.color.transparent);
+                   tintManager.setStatusBarTintResource(android.R.color.transparent);
+               }
+            }
+        });
+
 
         mChart = (RadarChart) findViewById(R.id.chart1);
         canvasView = (CanvasView) findViewById(R.id.canvas_view);

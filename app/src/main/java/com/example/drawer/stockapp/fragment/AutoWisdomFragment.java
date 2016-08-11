@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,7 @@ import java.util.List;
  * Use the {@link AutoWisdomFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemClickListener,View.OnClickListener{
+public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemClickListener,View.OnClickListener,XListView.OnXScrollListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,6 +66,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private CeLueListInfo ceLueListInfo;
     private NiuRenListInfo niuRenListInfo;
     private XListView listView,niurenList,myList;
+    private RelativeLayout mTitle;
+    private ImageView mMessage,mSearch;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -94,9 +97,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-//        ManagerUtil.setStataBarColor(getActivity());
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -128,7 +128,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      */
     public void initWight(){
 
-        RelativeLayout mTitle = (RelativeLayout) mView.findViewById(R.id.all_title);
+        mTitle = (RelativeLayout) mView.findViewById(R.id.all_title);
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 100);
@@ -136,20 +136,21 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         mTitle.setLayoutParams(params);
 
 
-//        RadioGroup mGroup = (RadioGroup) mView.findViewById(R.id.wisdom_group);
-        ImageView mMessage = (ImageView) mView.findViewById(R.id.wisdom_info);
-        ImageView mSearch = (ImageView) mView.findViewById(R.id.pop_item_img);
+        tintManager = ManagerUtil.newInstance(getActivity());
+        tintManager.setStatusBarTintEnabled(true);
+        mTitle.setBackgroundResource(R.color.write_color);
+        tintManager.setStatusBarTintResource(R.color.write_color);
 
-//        mLiangHuaCelue = (RadioButton) mView.findViewById(R.id.celue_txt);
-//        mNiuRenZuHe = (RadioButton) mView.findViewById(R.id.zuhe_txt);
-//        mMyZuHe = (RadioButton) mView.findViewById(R.id.my_zuhe_txt);
+        mMessage = (ImageView) mView.findViewById(R.id.wisdom_info);
+        mSearch = (ImageView) mView.findViewById(R.id.pop_item_img);
+
         tabs = (PagerSlidingTabStrip) mView.findViewById(R.id.wisdom_group);
 
 
         mPager = (ViewPager) mView.findViewById(R.id.wisdom_content_pager);   //viewpager
         mPager.setOffscreenPageLimit(1);
         mPager.setOnPageChangeListener(new TabOnPageChangeListener());
-//        mGroup.setOnCheckedChangeListener(new RadioGroupListener() );
+
         mMessage.setOnClickListener(this);
         mSearch.setOnClickListener(this);
 
@@ -160,6 +161,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private SparseArray recordSp = new SparseArray(0);
     private SparseArray recordSp2 = new SparseArray(0);
     private SparseArray recordSp3 = new SparseArray(0);
+    protected SystemBarTintManager tintManager;
     /**
      * 初始化适配器数据
      */
@@ -209,38 +211,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             }
         });    //注册监听
 
-        listView.setOnScrollListener(new XListView.OnXScrollListener() {
-            @Override
-            public void onXScrolling(View view) {
-
-            }
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-                mCurrentfirstVisibleItem = i;
-                View firstView = absListView.getChildAt(0);
-                if (null != firstView) {
-                    ItemRecod itemRecord = (ItemRecod) recordSp.get(i);
-                    if (null == itemRecord) {
-                        itemRecord = new ItemRecod();
-                    }
-                    itemRecord.height = firstView.getHeight();
-                    itemRecord.top = firstView.getTop();
-                    recordSp.append(i, itemRecord);
-
-                }
-            }
-            class ItemRecod {
-                int height = 0;
-                int top = 0;
-            }
-
-        });
+        listView.setOnScrollListener(this);
 
 
         //牛人组合
@@ -261,38 +232,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 onLoadNiu();
             }
         });    //注册监听
-        niurenList.setOnScrollListener(new XListView.OnXScrollListener() {
-            @Override
-            public void onXScrolling(View view) {
-
-            }
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-                mCurrentfirstVisibleItem = i;
-                View firstView = absListView.getChildAt(0);
-                if (null != firstView) {
-                    ItemRecod itemRecord = (ItemRecod) recordSp2.get(i);
-                    if (null == itemRecord) {
-                        itemRecord = new ItemRecod();
-                    }
-                    itemRecord.height = firstView.getHeight();
-                    itemRecord.top = firstView.getTop();
-                    recordSp2.append(i, itemRecord);
-
-                }
-            }
-
-            class ItemRecod {
-                int height = 0;
-                int top = 0;
-            }
-        });
+        niurenList.setOnScrollListener(null);
 
 
         //我的组合
@@ -312,45 +252,12 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 onLoadMy();
             }
         });
-        myList.setOnScrollListener(new XListView.OnXScrollListener() {
-            @Override
-            public void onXScrolling(View view) {
-
-            }
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-                mCurrentfirstVisibleItem = i;
-                View firstView = absListView.getChildAt(0);
-                if (null != firstView) {
-                    ItemRecod itemRecord = (ItemRecod) recordSp3.get(i);
-                    if (null == itemRecord) {
-                        itemRecord = new ItemRecod();
-                    }
-                    itemRecord.height = firstView.getHeight();
-                    itemRecord.top = firstView.getTop();
-                    recordSp3.append(i, itemRecord);
-
-                }
-            }
-
-            class ItemRecod {
-                int height = 0;
-                int top = 0;
-
-            }
-        });
+        myList.setOnScrollListener(null);
         MyZuHeAdapter myZuHeAdapter = new MyZuHeAdapter(getActivity());
         getMyListData();
 
         myZuHeAdapter.setData(setMyZuHeData());
         myList.setAdapter(myZuHeAdapter);
-
 
     }
 
@@ -664,6 +571,170 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         myList.setRefreshTime("刚刚");
     }
 
+    @Override
+    public void onXScrolling(View view) {
+
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+//        switch (absListView.getId()) {
+        if (absListView.getId() == R.id.lianghuacelue_list) {
+
+//            }
+//            case R.id.lianghuacelue_list:
+            mCurrentfirstVisibleItem = i;
+            tintManager.setStatusBarTintResource(R.color.write_color);
+            View firstView = absListView.getChildAt(0);
+            if (null != firstView) {
+                ItemRecod itemRecord = (ItemRecod) recordSp.get(i);
+                if (null == itemRecord) {
+                    itemRecord = new ItemRecod();
+                }
+                itemRecord.height = firstView.getHeight();
+                itemRecord.top = firstView.getTop();
+                recordSp.append(i, itemRecord);
+                Log.d("tag", "getScrolly()=-11---" + getScrollY(recordSp));
+                //设置滑动颜色渐变（0-511）
+                if (getScrollY(recordSp) <= 300) {
+                    //设置渐变
+//                        mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
+//                        tintManager.setTintAlpha((float) getScrollY() / 510);
+                    //不设置渐变
+                    mTitle.getBackground().setAlpha(1);
+                    tintManager.setTintAlpha(0);
+
+                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
+                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
+                    tabs.setSelectedTextColor(getActivity().getResources().getColor(R.color.write_color));
+                    mMessage.setImageResource(R.mipmap.message_white);
+                    mSearch.setImageResource(R.mipmap.search_white);
+                } else {       //只执行一次就好
+                    mTitle.getBackground().setAlpha(255);
+                    tintManager.setTintAlpha(1);
+
+                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
+                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
+                    tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+                    mMessage.setImageResource(R.mipmap.message_black);
+                    mSearch.setImageResource(R.mipmap.searchblack);
+                }
+            }
+        } else if (absListView.getId() == R.id.niuren_listview) {
+
+//        }
+//                break;
+//            case R.id.niuren_listview:
+        mCurrentfirstVisibleItem = i;
+        tintManager.setStatusBarTintResource(R.color.write_color);
+        View firstView = absListView.getChildAt(0);
+        if (null != firstView) {
+            ItemRecod itemRecord = (ItemRecod) recordSp2.get(i);
+            if (null == itemRecord) {
+                itemRecord = new ItemRecod();
+            }
+            itemRecord.height = firstView.getHeight();
+            itemRecord.top = firstView.getTop();
+            recordSp2.append(i, itemRecord);
+            Log.d("tag", "getScrolly()=-22---" + getScrollY(recordSp2));
+
+            //设置滑动颜色渐变（0-511）
+            if (getScrollY(recordSp2) <= 300) {
+                //设置渐变
+//                        mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
+//                        tintManager.setTintAlpha((float) getScrollY() / 510);
+                //不设置渐变
+                mTitle.getBackground().setAlpha(1);
+                tintManager.setTintAlpha(0);
+
+                ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
+                ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
+                tabs.setSelectedTextColor(getActivity().getResources().getColor(R.color.write_color));
+                mMessage.setImageResource(R.mipmap.message_white);
+                mSearch.setImageResource(R.mipmap.search_white);
+            } else {       //只执行一次就好
+                mTitle.getBackground().setAlpha(255);
+                tintManager.setTintAlpha(1);
+
+                ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
+                ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
+                tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+                mMessage.setImageResource(R.mipmap.message_black);
+                mSearch.setImageResource(R.mipmap.searchblack);
+            }
+        }
+    }else if (absListView.getId() == R.id.my_zuhe_listview) {
+
+//        }
+//                break;
+//            case R.id.my_zuhe_listview:
+            mCurrentfirstVisibleItem = i;
+            tintManager.setStatusBarTintResource(R.color.write_color);
+            View firstView = absListView.getChildAt(0);
+            if (null != firstView) {
+                ItemRecod itemRecord = (ItemRecod) recordSp3.get(i);
+                if (null == itemRecord) {
+                    itemRecord = new ItemRecod();
+                }
+                itemRecord.height = firstView.getHeight();
+                itemRecord.top = firstView.getTop();
+                recordSp3.append(i, itemRecord);
+                Log.d("tag", "getScrolly()=-22---" + getScrollY(recordSp3));
+                //设置滑动颜色渐变（0-511）
+                if (getScrollY(recordSp3) <= 300) {
+                    //设置渐变
+//                        mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
+//                        tintManager.setTintAlpha((float) getScrollY() / 510);
+                    //不设置渐变
+                    mTitle.getBackground().setAlpha(1);
+                    tintManager.setTintAlpha(0);
+
+                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
+                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
+                    tabs.setSelectedTextColor(getActivity().getResources().getColor(R.color.write_color));
+                    mMessage.setImageResource(R.mipmap.message_white);
+                    mSearch.setImageResource(R.mipmap.search_white);
+                } else {       //只执行一次就好
+                    mTitle.getBackground().setAlpha(255);
+                    tintManager.setTintAlpha(1);
+
+                    ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
+                    ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
+                    tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+                    mMessage.setImageResource(R.mipmap.message_black);
+                    mSearch.setImageResource(R.mipmap.searchblack);
+                }
+            }
+        }
+//                break;
+//        }
+    }
+
+    //获取偏移距离
+    private int getScrollY(SparseArray recordSp) {
+        int height = 0;
+        for (int i = 0; i < mCurrentfirstVisibleItem; i++) {
+            ItemRecod itemRecod = (ItemRecod) recordSp.get(i);
+            if (itemRecod != null)
+                height += itemRecod.height;
+        }
+        ItemRecod itemRecod = (ItemRecod) recordSp.get(mCurrentfirstVisibleItem);
+        if (null == itemRecod) {
+            itemRecod = new ItemRecod();
+        }
+        return height - itemRecod.top;
+    }
+    class ItemRecod {
+        int height = 0;
+        int top = 0;
+
+    }
+
     /**
      * 页卡改变事件
      */
@@ -677,41 +748,29 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         //当前页面被滑动时调用
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            Log.d("tag","position---"+position+"----pooffest---"+positionOffset+"----pixel---"+positionOffsetPixels);
         }
 
         //当新的页面被选中时调用
         public void onPageSelected(int position) {
             switch (position) {
                 case 0:
-//                    mLiangHuaCelue.setChecked(true);
+                    listView.setOnScrollListener(AutoWisdomFragment.this);
+                    niurenList.setOnScrollListener(null);
+                    myList.setOnScrollListener(null);
                     break;
                 case 1:
-//                    mNiuRenZuHe.setChecked(true);
+                    listView.setOnScrollListener(null);
+                    niurenList.setOnScrollListener(AutoWisdomFragment.this);
+                    myList.setOnScrollListener(null);
                     break;
                 case 2:
-//                    mMyZuHe.setChecked(true);
+                    listView.setOnScrollListener(null);
+                    niurenList.setOnScrollListener(null);
+                    myList.setOnScrollListener(AutoWisdomFragment.this);
                     break;
 
             }
         }
     }
-
-//    private class RadioGroupListener implements RadioGroup.OnCheckedChangeListener {
-//
-//        @Override
-//        public void onCheckedChanged(RadioGroup radioGroup, int i) {
-//            switch (i) {
-//                case R.id.celue_txt:
-//                    mPager.setCurrentItem(0);//选择某一页
-//                    break;
-//                case R.id.zuhe_txt:
-//                    mPager.setCurrentItem(1);//选择某一页
-//                    break;
-//                case R.id.my_zuhe_txt:
-//                    mPager.setCurrentItem(2);//选择某一页
-//                    break;
-//
-//            }
-//        }
-//    }
 }
