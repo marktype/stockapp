@@ -5,6 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.SeekBar;
 
+/**
+ * 自定义seekbar
+ */
 public class BubbleSeekBar extends SeekBar {
 	private Drawable mThumbDrawable;
 	private BubbleIndicator mBubbleIndicator;

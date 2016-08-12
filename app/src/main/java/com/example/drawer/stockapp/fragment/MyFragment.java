@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -18,8 +19,10 @@ import android.widget.TextView;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.AlterNameActivity;
 import com.example.drawer.stockapp.activity.AttentionActivity;
+import com.example.drawer.stockapp.activity.CollectionActivity;
 import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.activity.MyWalletActivity;
+import com.example.drawer.stockapp.customview.MyReboundScrollView;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
@@ -36,6 +39,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MyFragment extends Fragment implements View.OnClickListener{
         private View mView;
     private PopupWindow mClassifyPop;
+    private RelativeLayout mTitleRelat;
+    protected SystemBarTintManager tintManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,17 @@ public class MyFragment extends Fragment implements View.OnClickListener{
     }
 
     public void initWight(){
+        tintManager = ManagerUtil.newInstance(getActivity());
+        ManagerUtil.setStataBarColor(getActivity(),tintManager);
+
+
+        mTitleRelat = (RelativeLayout) mView.findViewById(R.id.my_info_relat);    //title布局
+        //设置距离顶部状态栏高度
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                100);
+        params.setMargins(0, ManagerUtil.getStatusBarHeight(getActivity()),0,0);
+        mTitleRelat.setLayoutParams(params);
+
         CircleImageView circleImageView = (CircleImageView) mView.findViewById(R.id.user_head);      //头像
         Picasso.with(getActivity()).load(R.mipmap.ic_launcher).into(circleImageView);
 
@@ -66,6 +82,29 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         RelativeLayout mMyWallet = (RelativeLayout) mView.findViewById(R.id.my_wallet_lin);    //我的钱包
         RelativeLayout mName = (RelativeLayout) mView.findViewById(R.id.user_name_lin);    //修改昵称
         RelativeLayout mSex = (RelativeLayout) mView.findViewById(R.id.sex_lin);      //性别
+        LinearLayout mCollectLin = (LinearLayout) mView.findViewById(R.id.collect_lin);
+
+        //不设置渐变
+        mTitleRelat.getBackground().setAlpha(1);
+        tintManager.setTintAlpha(0);
+        MyReboundScrollView mScrollview = (MyReboundScrollView) mView.findViewById(R.id.my_scrollview);
+
+        mScrollview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_MOVE){
+                    if (view.getScrollY()>100){
+                        mTitleRelat.getBackground().setAlpha(255);
+                        tintManager.setTintAlpha(1);
+                    }else {
+                        //不设置渐变
+                        mTitleRelat.getBackground().setAlpha(1);
+                        tintManager.setTintAlpha(0);
+                    }
+                }
+                return false;
+            }
+        });
 
 
         mSex.setOnClickListener(this);
@@ -73,13 +112,14 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         mMyWallet.setOnClickListener(this);
         mAttention.setOnClickListener(this);
         circleImageView.setOnClickListener(this);
+        mCollectLin.setOnClickListener(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
-        ManagerUtil.setStataBarColorBlack(getActivity(),tintManager);
+        ManagerUtil.setStataBarColor(getActivity(),tintManager);
     }
 
     @Override
@@ -112,6 +152,10 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.cancel_txt:
                 mClassifyPop.dismiss();
+                break;
+            case R.id.collect_lin:
+                intent = new Intent(getContext(), CollectionActivity.class);
+                startActivity(intent);
                 break;
         }
     }

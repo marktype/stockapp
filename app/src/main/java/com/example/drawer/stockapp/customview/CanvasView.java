@@ -16,6 +16,8 @@ import java.util.Map;
 
 /**
  * Created by user on 2016/6/20.
+ * 自定义圆环，可在环中写字
+ *
  */
 public class CanvasView extends View {
     private Paint paint;

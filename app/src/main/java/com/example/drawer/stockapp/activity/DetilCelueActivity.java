@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.CanvasView;
 import com.example.drawer.stockapp.customview.CanvasViewTwo;
+import com.example.drawer.stockapp.customview.MyScrollView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.NewsInfo;
 import com.example.drawer.stockapp.model.StargDetial;
@@ -35,8 +36,9 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
     private ArrayList<HashMap<String, Object>> data;
     private StargDetial stargDetial;
     private TextView mGroupTxt, mRecuitmentTime, mNiurenMoney, mMostMoney, mContent, mTarget, mMostDay, mStopLose, mShouyiDiver, mRunTime, mCelueTxt, mFormWhere, mFormName;
-    private ImageView mTitleImage, mNiuRenImage, mshouyiImage, mImageOne, mImageTwo, mImageThree;
+    private ImageView mTitleImage, mNiuRenImage, mshouyiImage, mImageOne, mImageTwo, mImageThree,mBackimg;
     private CanvasViewTwo mChartOne, mChartTwo, mChartThree;
+    private RelativeLayout mTitleRelat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,14 +97,14 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
 
     public void initWeight() {
 
-        RelativeLayout mTitleRelat = (RelativeLayout) findViewById(R.id.celue_title);    //title布局
+        mTitleRelat = (RelativeLayout) findViewById(R.id.celue_title);    //title布局
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 100);
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
 
-        ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
+        mBackimg = (ImageView) findViewById(R.id.back_img);
         TextView mPay = (TextView) findViewById(R.id.go_to_pay);
         mGroupTxt = (TextView) findViewById(R.id.zuhe_name);    //组合名称
 //        mTitleImage = (ImageView) findViewById(R.id.title_image);   //头像图
@@ -130,7 +132,32 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
 
         ImageView mCollect = (ImageView) findViewById(R.id.cellect_icon);     //收藏
 
-        RadioGroup mGroup = (RadioGroup) findViewById(R.id.wisdom_group);
+        MyScrollView mScrollView = (MyScrollView) findViewById(R.id.scroll_test);
+
+        mScrollView.setOnScrollListener(new MyScrollView.OnScrollListener() {
+            @Override
+            public void onScroll(int scrollY) {
+                if (scrollY>100){
+                    mTitleRelat.setBackgroundResource(R.color.write_color);
+                    tintManager.setStatusBarTintResource(R.color.write_color);
+                    ManagerUtil.FlymeSetStatusBarLightMode(getWindow(),true);
+                    ManagerUtil.MIUISetStatusBarLightMode(getWindow(),true);
+                    mGroupTxt.setTextColor(getResources().getColor(android.R.color.background_dark));
+                    mRecuitmentTime.setTextColor(getResources().getColor(android.R.color.background_dark));
+                    mBackimg.setImageResource(R.mipmap.arrowlift);
+                }else {
+                    mTitleRelat.setBackgroundResource(android.R.color.transparent);
+                    tintManager.setStatusBarTintResource(android.R.color.transparent);
+                    ManagerUtil.FlymeSetStatusBarLightMode(getWindow(),false);
+                    ManagerUtil.MIUISetStatusBarLightMode(getWindow(),false);
+                    mGroupTxt.setTextColor(getResources().getColor(R.color.write_color));
+                    mRecuitmentTime.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                    mBackimg.setImageResource(R.mipmap.w_back);
+                }
+            }
+        });
+
+//        RadioGroup mGroup = (RadioGroup) findViewById(R.id.wisdom_group);
 
 //        //退款保障
 //        MyListView myListView = (MyListView) findViewById(R.id.my_listview_refund);

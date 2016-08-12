@@ -6,6 +6,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 
+/**
+ * 带滑动监听的scollview
+ */
 public class MyScrollView extends ScrollView {
     private OnScrollListener onScrollListener;
     /**

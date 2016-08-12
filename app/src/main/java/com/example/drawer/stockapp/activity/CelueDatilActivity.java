@@ -116,7 +116,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         String  title = getIntent().getStringExtra(AutoWisdomFragment.CELUENAME);
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         TextView mTitle = (TextView) findViewById(R.id.back_txt);
-        TextView mGoOrder = (TextView) findViewById(R.id.order_txt);
+        ImageView mGoOrder = (ImageView) findViewById(R.id.order_txt);
         mPersent = (TextView) findViewById(R.id.rank_parsent);    //百分比字体设置
         mTimes = (TextView) findViewById(R.id.rank_times);      //倍数设置
         mLikes = (TextView) findViewById(R.id.guanzhu_num);   //关注人数
@@ -141,7 +141,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mScrollview.setOnScrollListener(new MyScrollView.OnScrollListener() {
             @Override
             public void onScroll(int scrollY) {
-               if (scrollY>300){
+               if (scrollY>100){
                    mTitleRelat.setBackgroundResource(R.color.write_color);
                    tintManager.setStatusBarTintResource(R.color.write_color);
                }else {

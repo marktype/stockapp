@@ -7,13 +7,13 @@
     <RelativeLayout
         android:id="@+id/xlistview_header_content"
         android:layout_width="fill_parent"
-        android:layout_height="60dp" >
+        android:layout_height="90dp" >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/margin_10dp"
             android:orientation="vertical" android:id="@+id/xlistview_header_text">
 
             <TextView
@@ -22,42 +22,43 @@
                 android:layout_height="wrap_content"
                 android:text="@string/xlistview_header_hint_normal" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp" >
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="3dp" >-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/xlistview_header_last_time"
-                    android:textSize="12sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/xlistview_header_last_time"-->
+                    <!--android:textSize="12sp" />-->
 
-                <TextView
-                    android:id="@+id/xlistview_header_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp" />
-            </LinearLayout>
+                <!--<TextView-->
+                    <!--android:id="@+id/xlistview_header_time"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="12sp" />-->
+            <!--</LinearLayout>-->
         </LinearLayout>
 
         <ImageView
             android:id="@+id/xlistview_header_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/xlistview_header_text"
+            android:layout_marginBottom="-40dp"
+            android:layout_below="@id/xlistview_header_text"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="-35dp"
-            android:src="@mipmap/xlistview_arrow" />
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/loading_anim" />
 
-        <ProgressBar
-            android:id="@+id/xlistview_header_progressbar"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignLeft="@id/xlistview_header_text"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="-40dp"
-            android:visibility="invisible" />
+        <!--<ProgressBar-->
+            <!--android:id="@+id/xlistview_header_progressbar"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_alignLeft="@id/xlistview_header_text"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="-40dp"-->
+            <!--android:visibility="invisible" />-->
     </RelativeLayout>
 
 </LinearLayout>

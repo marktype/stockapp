@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class CanvasViewTwo extends View {
     private Paint paint;
     private RectF rectF;
-    private static final float DEFAULT_RADIUS = 100;
+    private static final float DEFAULT_RADIUS = 80;
     private float radius = DEFAULT_RADIUS;// 默认圆环半径为300px
     private List<HashMap<String,Object>> data;//圆环的颜色数据
 
@@ -136,13 +137,13 @@ public class CanvasViewTwo extends View {
                  */
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setColor(Color.BLACK);
-//                paint.setTypeface(Typeface.createFromAsset(.getAssets(),"fonts/DIN Medium.ttf"));
-                paint.setStrokeWidth(3f);
-                paint.setTextSize(40f);
+                paint.setTypeface(Typeface.SERIF);
+                paint.setStrokeWidth(3.5f);
+                paint.setTextSize(35f);
                 //已知中线计算基线位置
                 Paint.FontMetrics metrics = paint.getFontMetrics();
                 float baseLine  = cy - (metrics.bottom + metrics.top)/2;
-                canvas.drawText(title,txtX,baseLine,paint);
+                canvas.drawText(title,txtX+15,baseLine,paint);
             }
 
 

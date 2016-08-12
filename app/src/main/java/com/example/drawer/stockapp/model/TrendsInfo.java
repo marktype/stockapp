@@ -12,9 +12,37 @@ public class TrendsInfo {
     private String content;    //内容
     private ArrayList<String> contentImage;   //内容图片
     private String time;   //时间
+    private int zhuanFaNum;    //转发数
+    private int commentNum;    //评论数
+    private int goodNum;     //点赞数
     private String friendImage;    //好友头像
     private String friendName;     //好友名字
     private String friendContent;    //好友评论内容
+
+
+    public int getGoodNum() {
+        return goodNum;
+    }
+
+    public void setGoodNum(int goodNum) {
+        this.goodNum = goodNum;
+    }
+
+    public int getZhuanFaNum() {
+        return zhuanFaNum;
+    }
+
+    public void setZhuanFaNum(int zhuanFaNum) {
+        this.zhuanFaNum = zhuanFaNum;
+    }
+
+    public int getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(int commentNum) {
+        this.commentNum = commentNum;
+    }
 
     public String getFriendImage() {
         return friendImage;

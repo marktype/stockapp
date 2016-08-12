@@ -81,5 +81,8 @@ public class TrendsAdapter extends BaseAdapter {
         TextView content;
         MyGridView contentImage;
         TextView time;
+        TextView zhuanFaNum;
+        TextView commentNum;
+        TextView goodNum;
     }
 }

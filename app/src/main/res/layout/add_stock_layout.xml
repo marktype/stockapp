@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/write_color"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/stock_img"
-        android:src="@mipmap/ic_launcher"
-        android:layout_margin="@dimen/margin_10dp"
-        android:layout_width="@dimen/margin_40dp"
-        android:layout_height="@dimen/margin_40dp" />
+
     <TextView
         android:id="@+id/stock_title_name"
-        android:text="股票名称："
-        android:layout_marginTop="@dimen/margin_30dp"
-        android:layout_toRightOf="@id/stock_img"
+        android:text="股票名称"
+        android:textColor="@android:color/background_dark"
+        android:layout_margin="@dimen/margin_20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/stock_title_name"
+        android:background="@color/circle_con_bg"/>
     <com.example.drawer.stockapp.customview.MyListView
         android:id="@+id/stock_mylist"
-        android:layout_toRightOf="@id/stock_img"
         android:layout_below="@id/stock_title_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/stock_mylist"
+        android:background="@color/circle_con_bg"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stock_mylist"
+        android:text="添加股票"
+        android:id="@+id/add_stock_txt"
+        android:drawableLeft="@mipmap/jiahao"
+        android:layout_centerHorizontal="true"
+        android:drawablePadding="@dimen/margin_10dp"
+        android:padding="@dimen/margin_15dp"
+        />
 </RelativeLayout>

@@ -6,7 +6,7 @@
     android:background="@color/circle_con_bg">
 
 
-    <ScrollView
+    <com.example.drawer.stockapp.customview.MyScrollView
         android:id="@+id/scroll_test"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -227,7 +227,7 @@
                 android:layout_height="@dimen/margin_40dp"
                 android:layout_below="@id/last_item" />
         </RelativeLayout>
-    </ScrollView>
+    </com.example.drawer.stockapp.customview.MyScrollView>
 
     <RelativeLayout
         android:id="@+id/celue_title"
@@ -240,7 +240,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:padding="@dimen/margin_10dp"
-            android:src="@mipmap/arrowlift" />
+            android:src="@mipmap/w_back" />
         <!--<TextView-->
         <!--android:id="@+id/back_txt"-->
         <!--android:layout_width="wrap_content"-->
@@ -255,7 +255,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/margin_5dp"
+
             android:text="组合名"
             android:textColor="@color/write_color"
             android:textSize="@dimen/content_text_size" />
@@ -265,10 +265,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/zuhe_name"
-            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:singleLine="true"
             android:text="募集时间:2016.08.09-2016.08.10"
             android:textColor="@android:color/darker_gray"
-            android:textSize="14sp" />
+            android:layout_toRightOf="@+id/back_img"
+            android:layout_toLeftOf="@+id/cellect_icon"
+            android:layout_marginBottom="@dimen/margin_3dp"
+            android:textSize="12sp" />
 
         <ImageView
             android:id="@+id/cellect_icon"
@@ -287,7 +291,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         android:gravity="center"
-        android:padding="@dimen/margin_10dp"
+        android:padding="@dimen/margin_15dp"
         android:text="立即跟投"
         android:textColor="@color/write_color" />
 </RelativeLayout>

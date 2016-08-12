@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@color/content_con_bg"
     android:layout_height="match_parent">
@@ -12,4 +12,10 @@
         android:scrollbars="none"
         android:divider="@android:color/transparent"
         />
-</LinearLayout>
+    <ImageView
+        android:id="@+id/img_no_login"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/dynamic_no_login"/>
+</RelativeLayout>

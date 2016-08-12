@@ -55,7 +55,7 @@ public class ImageAdapter extends BaseAdapter{
         }
         String str = (String) getItem(i);
         if (!TextUtils.isEmpty(str))
-        Picasso.with(context).load(str).placeholder(R.mipmap.ic_launcher).into(viewHolder.head);
+        Picasso.with(context).load(str).placeholder(R.mipmap.ic_launcher).resize(140,140).into(viewHolder.head);
 
 
         return view;

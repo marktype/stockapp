@@ -11,4 +11,5 @@
     <color name="content_bg">#FFE400</color>
     <color name="content_con_bg">#F2F2F2</color>
     <color name="circle_con_bg">#E4E4E4</color>
+    <color name="gray_con_bg">#F6F6F6</color>
 </resources>

@@ -62,7 +62,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private View mView,mSliderVIew,mScrollView,dongtaiView,zixunView;
+    private View mView,mSliderVIew,dongtaiView,zixunView;
     private ViewPager mPager;
     private HeadMassageInfo headMassageInfo;
     private DynamicsInfo dynamicsInfo;
@@ -157,6 +157,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mSendImg = (ImageView) mView.findViewById(R.id.send_dynamic);   //发送动态
         mSendImg.setVisibility(View.GONE);
 
+
+
         tabs = (PagerSlidingTabStrip) mView.findViewById(R.id.first_group);
 
 
@@ -225,6 +227,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
         viewList.add(zixunView);
         viewList.add(dongtaiView);
+
+        ImageView mBackgroud = (ImageView) dongtaiView.findViewById(R.id.img_no_login);     //未登陆显示图片
+
 //
         ArrayList<String> titles = new ArrayList<>();
         titles.add("资讯");
@@ -320,84 +325,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mlist.setXListViewListener(this);
 
         mlist.setOnScrollListener(this);
-//        mlist.setOnScrollListener(new XListView.OnXScrollListener() {
-//            @Override
-//            public void onXScrolling(View view) {
-//
-//            }
-//
-//            @Override
-//            public void onScrollStateChanged(AbsListView absListView, int i) {
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-////                mCurrentfirstVisibleItem = i;
-////                View firstView = absListView.getChildAt(0);
-////                if (null != firstView) {
-////                    ItemRecod itemRecord = (ItemRecod) recordSp.get(i);
-////                    if (null == itemRecord) {
-////                        itemRecord = new ItemRecod();
-////                    }
-////                    itemRecord.height = firstView.getHeight();
-////                    itemRecord.top = firstView.getTop();
-////                    recordSp.append(i, itemRecord);
-////                    Log.d("tag", "onScroll: --"+getScrollY());
-////                    //动态返回时此代码有用，其余时候没用
-////                    if (getScrollY()>511){
-////                        tintManager.setStatusBarTintResource(R.color.write_color);
-////                        tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
-////                    }
-////                    //设置滑动颜色渐变（0-511）
-////                    if (getScrollY() <= 511) {
-////                        //设置渐变
-//////                        mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
-//////                        tintManager.setTintAlpha((float) getScrollY() / 510);
-////                        //不设置渐变
-////                        mTitleRelat.getBackground().setAlpha(1);
-////                        tintManager.setTintAlpha(0);
-////
-////                        ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
-////                        ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
-////                        tabs.setSelectedTextColor(getActivity().getResources().getColor(R.color.write_color));
-////                        mImgHead.setImageResource(R.mipmap.message_white);
-////                        mMessage.setImageResource(R.mipmap.search_white);
-////                        isFlag = true;
-////                    } else {       //只执行一次就好
-////                        mTitleRelat.getBackground().setAlpha(255);
-////                        tintManager.setTintAlpha(1);
-////                        ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
-////                        ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
-////                        tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
-////                        mImgHead.setImageResource(R.mipmap.message_black);
-////                        mMessage.setImageResource(R.mipmap.searchblack);
-////                        isFlag = false;
-////                    }
-////                }
-//            }
-//
-////            //获取偏移距离
-////            private int getScrollY() {
-////                int height = 0;
-////                for (int i = 0; i < mCurrentfirstVisibleItem; i++) {
-////                    ItemRecod itemRecod = (ItemRecod) recordSp.get(i);
-////                    if (itemRecod != null)
-////                    height += itemRecod.height;
-////                }
-////                ItemRecod itemRecod = (ItemRecod) recordSp.get(mCurrentfirstVisibleItem);
-////                if (null == itemRecod) {
-////                    itemRecod = new ItemRecod();
-////                }
-////                return height - itemRecod.top;
-////            }
-////
-////
-////            class ItemRecod {
-////                int height = 0;
-////                int top = 0;
-////            }
-//
-//        });
     }
     protected SystemBarTintManager tintManager;
     private int mCurrentfirstVisibleItem = 0;
@@ -611,12 +538,12 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         recordSp.append(i, itemRecord);
                         Log.d("tag", "onScroll: --"+getScrollY());
                         //动态返回时此代码有用，其余时候没用
-                        if (getScrollY()>511){
+                        if (getScrollY()>100){
                             tintManager.setStatusBarTintResource(R.color.write_color);
                             tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
                         }
                         //设置滑动颜色渐变（0-511）
-                        if (getScrollY() <= 511) {
+                        if (getScrollY() <= 100) {
                             //设置渐变
 //                        mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
 //                        tintManager.setTintAlpha((float) getScrollY() / 510);
