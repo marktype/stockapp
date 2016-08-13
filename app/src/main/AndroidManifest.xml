@@ -146,7 +146,9 @@
             android:name=".activity.SendDynamicActivity"
             android:theme="@style/MyAppTheme" />
         <activity android:name=".activity.CollectionActivity"
-            android:theme="@style/MyAppTheme"></activity>
+            android:theme="@style/MyAppTheme"/>
+        <activity android:name=".activity.ShowImageActivity"
+            android:theme="@style/MyAppTheme"/>
     </application>
 
 </manifest>

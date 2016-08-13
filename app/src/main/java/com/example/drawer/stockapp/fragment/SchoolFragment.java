@@ -25,9 +25,11 @@ import com.example.drawer.stockapp.activity.HeJiDetailActivity;
 import com.example.drawer.stockapp.activity.MessageActivity;
 import com.example.drawer.stockapp.activity.SerchActivity;
 import com.example.drawer.stockapp.activity.WebViewUpTitleActivity;
+import com.example.drawer.stockapp.adapter.MyClassImageAdapter;
 import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
 import com.example.drawer.stockapp.adapter.SelectClassAdapter;
 import com.example.drawer.stockapp.customview.MyGridView;
+import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.customview.PagerSlidingTabStrip;
 import com.example.drawer.stockapp.model.HeadIndex;
 import com.example.drawer.stockapp.utils.ManagerUtil;
@@ -148,7 +150,7 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
         viewList.add(myClassView);
         ArrayList<String> titles = new ArrayList<>();
         titles.add("发现");
-        titles.add("我的课堂");
+        titles.add("我的学堂");
         MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList,titles);
         mPager.setAdapter(adapter);
         tabs.setViewPager(mPager);
@@ -192,12 +194,28 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
      * 初始化我的课堂界面控件
      */
     public void initMyClassWight(){
-        ImageView mMyclass = (ImageView) myClassView.findViewById(R.id.my_class_img_txt);
+//        ImageView mMyclass = (ImageView) myClassView.findViewById(R.id.my_class_img_txt);
         ImageView mMyOpenClass = (ImageView) myClassView.findViewById(R.id.my_class_start_txt);
+        MyListView myClassList = (MyListView) myClassView.findViewById(R.id.class_listview);     //课堂列表
 
-        mMyclass.setOnClickListener(this);
+        MyClassImageAdapter adapter = new MyClassImageAdapter(getActivity());
+        adapter.setData(setData());
+        myClassList.setAdapter(adapter);
+
+
+//        mMyclass.setOnClickListener(this);
         mMyOpenClass.setOnClickListener(this);
     }
+
+    public ArrayList<String> setData(){
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0;i<1;i++){
+            list.add("http://m2.quanjing.com/2m/ivary_photorf001/stp005_00051.jpg");
+        }
+        return list;
+    }
+
+
     /**
      * 推荐数据
      */
@@ -344,10 +362,10 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
                 intent = new Intent(getActivity(), HeJiDetailActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.my_class_img_txt:
-                intent = new Intent(getActivity(), HeJiDetailActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.my_class_img_txt:
+//                intent = new Intent(getActivity(), HeJiDetailActivity.class);
+//                startActivity(intent);
+//                break;
             case R.id.my_class_start_txt:
                 intent = new Intent(getActivity(), HeJiDetailActivity.class);
                 startActivity(intent);
@@ -392,20 +410,5 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
         }
     }
 
-//    private class RadioGroupListener implements RadioGroup.OnCheckedChangeListener {
-//
-//        @Override
-//        public void onCheckedChanged(RadioGroup radioGroup, int i) {
-//            switch (i) {
-//                case R.id.find_txt:
-//                    mPager.setCurrentItem(0);//选择某一页
-//                    break;
-//                case R.id.class_txt:
-//                    mPager.setCurrentItem(1);//选择某一页
-//                    break;
-//
-//            }
-//        }
-//    }
 
 }

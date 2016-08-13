@@ -7,96 +7,120 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <RelativeLayout
         android:id="@+id/class_title_relate"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/title_size"
-        android:text="本月已签到"/>
+        android:background="@mipmap/xuetangbg"
+        android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/class_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="23天"
+        android:text="23"
+        android:textSize="60sp"
         android:textColor="@android:color/background_dark"
-        android:layout_centerInParent="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_60dp"/>
+        <TextView
+            android:id="@+id/day_num"
+            android:layout_below="@id/class_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/title_size"
+            android:textSize="12sp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:text="本月已签到天数"/>
+        <LinearLayout
+            android:id="@+id/class_two_relate"
+            android:layout_below="@id/day_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_50dp"
+            android:layout_marginRight="@dimen/margin_50dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/darker_gray"
+                    android:text="完成"/>
+                <TextView
+                    android:id="@+id/success_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/background_dark"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:text="23课"/>
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="1px"
+                android:layout_height="@dimen/margin_20dp"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:background="@android:color/darker_gray"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/darker_gray"
+                    android:text="累计"/>
+                <TextView
+                    android:id="@+id/leiji_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/background_dark"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:text="56天"/>
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="1px"
+                android:layout_height="@dimen/margin_20dp"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:background="@android:color/darker_gray"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/darker_gray"
+                    android:text="学分"/>
+                <TextView
+                    android:id="@+id/jifen_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/background_dark"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:text="980分"/>
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
-    <LinearLayout
-        android:id="@+id/class_two_relate"
-        android:layout_below="@id/class_title_relate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/darker_gray"
-                android:text="完成"/>
-            <TextView
-                android:id="@+id/success_class"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/background_dark"
-                android:layout_marginTop="@dimen/margin_5dp"
-                android:text="23课"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/darker_gray"
-                android:text="累计"/>
-            <TextView
-                android:id="@+id/leiji_class"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/background_dark"
-                android:layout_marginTop="@dimen/margin_5dp"
-                android:text="56天"/>
-
-    </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/darker_gray"
-                android:text="学分"/>
-            <TextView
-                android:id="@+id/jifen_class"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/background_dark"
-                android:layout_marginTop="@dimen/margin_5dp"
-                android:text="980分"/>
-        </LinearLayout>
-    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:id="@+id/line_class"
-        android:layout_below="@id/class_two_relate"
-        android:background="@android:color/darker_gray"/>
+        android:layout_below="@id/class_title_relate"
+        android:background="@color/circle_con_bg"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,26 +130,32 @@
         android:gravity="center_horizontal"
         android:id="@+id/my_class_txt"/>
 
-    <ImageView
-        android:id="@+id/my_class_img_txt"
-        android:src="@mipmap/img454693988"
+    <com.example.drawer.stockapp.customview.MyListView
+        android:id="@+id/class_listview"
         android:layout_below="@id/my_class_txt"
-        android:scaleType="center"
         android:layout_width="match_parent"
-        android:layout_height="160dp" />
+        android:layout_height="wrap_content"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/my_class_img_txt"-->
+        <!--android:src="@mipmap/img454693988"-->
+        <!--android:layout_below="@id/my_class_txt"-->
+        <!--android:scaleType="center"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="160dp" />-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="我开的课"
-        android:layout_below="@id/my_class_img_txt"
+        android:visibility="gone"
+        android:layout_below="@id/class_listview"
         android:layout_margin="@dimen/margin_10dp"
         android:gravity="center_horizontal"
         android:id="@+id/my_class_start"/>
 
     <ImageView
         android:id="@+id/my_class_start_txt"
-        android:src="@mipmap/img454693988"
         android:scaleType="center"
+        android:visibility="gone"
         android:layout_below="@id/my_class_start"
         android:layout_width="match_parent"
         android:layout_height="160dp" />
@@ -133,8 +163,8 @@
         android:id="@+id/line_class_two"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/margin_5dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:layout_height="1px"
+        android:background="@color/circle_con_bg"
         android:layout_below="@id/my_class_start_txt"/>
     <TextView
         android:id="@+id/add_class"
@@ -147,8 +177,8 @@
     <TextView
         android:id="@+id/line_class_three"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:layout_height="1px"
+        android:background="@color/circle_con_bg"
         android:layout_below="@id/add_class"/>
 </RelativeLayout>
 </ScrollView>

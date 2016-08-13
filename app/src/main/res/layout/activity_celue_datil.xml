@@ -242,7 +242,6 @@
         <!--android:visibility="gone" />-->
     <ImageView
         android:id="@+id/order_txt"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_height="wrap_content"

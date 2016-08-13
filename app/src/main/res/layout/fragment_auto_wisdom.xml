@@ -21,10 +21,11 @@
             android:padding="@dimen/margin_10dp"
             android:layout_marginRight="@dimen/margin_10dp"
             android:src="@mipmap/message_white"/>
+        <!--app:pstsTabPaddingLeftRight="5dp"   控制导航条的长度-->
         <com.example.drawer.stockapp.customview.PagerSlidingTabStrip
             android:id="@+id/wisdom_group"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:textColor="@color/title_text_un_color"
             android:textSize="16sp"
             android:layout_centerHorizontal="true"
@@ -33,50 +34,9 @@
             app:pstsIndicatorHeight="2dp"
             app:pstsScaleZoomMax="0.1"
             app:pstsShouldExpand="true"
-            app:pstsTabPaddingLeftRight="12dp"
+            app:pstsTabPaddingLeftRight="5dp"
             app:pstsTextSelectedColor="@color/write_color"
             />
-        <!--<RadioGroup-->
-            <!--android:id="@+id/wisdom_group"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:padding="@dimen/margin_1dp"-->
-            <!--android:orientation="horizontal"-->
-
-            <!--android:gravity="center_vertical">-->
-            <!--<RadioButton-->
-                <!--android:id="@+id/celue_txt"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:button="@null"-->
-                <!--android:padding="@dimen/margin_4dp"-->
-                <!--android:text="@string/lianghuacelue_txt"-->
-                <!--android:checked="true"-->
-                <!--android:textColor="@drawable/text_white_selector"-->
-                <!--android:background="@drawable/title_bg_selecter"-->
-                <!--android:textSize="@dimen/title_text_size" />-->
-            <!--<RadioButton-->
-                <!--android:id="@+id/zuhe_txt"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:button="@null"-->
-                <!--android:padding="@dimen/margin_4dp"-->
-                <!--android:text="@string/niurenzuhe_txt"-->
-                <!--android:textColor="@drawable/text_white_selector"-->
-                <!--android:background="@drawable/title_bg_selecter"-->
-                <!--android:textSize="@dimen/title_text_size" />-->
-            <!--<RadioButton-->
-                <!--android:id="@+id/my_zuhe_txt"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:button="@null"-->
-                <!--android:padding="@dimen/margin_4dp"-->
-                <!--android:text="@string/my_zuhe_txt"-->
-                <!--android:textColor="@drawable/text_white_selector"-->
-                <!--android:background="@drawable/title_bg_selecter"-->
-                <!--android:textSize="@dimen/title_text_size" />-->
-        <!--</RadioGroup>-->
         <ImageView
             android:id="@+id/pop_item_img"
             android:layout_width="wrap_content"

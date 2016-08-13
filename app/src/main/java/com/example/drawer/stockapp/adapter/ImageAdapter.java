@@ -1,6 +1,7 @@
 package com.example.drawer.stockapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.activity.ShowImageActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class ImageAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         if (view == null){
         view = LayoutInflater.from(context).inflate(R.layout.item_image_layout,null);
@@ -55,8 +57,16 @@ public class ImageAdapter extends BaseAdapter{
         }
         String str = (String) getItem(i);
         if (!TextUtils.isEmpty(str))
-        Picasso.with(context).load(str).placeholder(R.mipmap.ic_launcher).resize(140,140).into(viewHolder.head);
-
+        Picasso.with(context).load(str).placeholder(R.mipmap.ic_launcher).resize(180,180).into(viewHolder.head);
+        viewHolder.head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ShowImageActivity.class);
+                intent.putStringArrayListExtra(ShowImageActivity.SHOWIMAGE, list);
+                intent.putExtra(ShowImageActivity.CURRENT_POSITION, i);
+                context.startActivity(intent);
+            }
+        });
 
         return view;
     }

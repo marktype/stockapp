@@ -1,89 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/write_color"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/line_one"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:background="@android:color/darker_gray"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_5dp" />
+
     <TextView
         android:id="@+id/touzi_money_num"
-        android:text="起投金额：12000元"
+        android:text="跟投余额："
         android:layout_margin="@dimen/margin_10dp"
-        android:layout_below="@id/line_one"
+        android:textColor="@android:color/background_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:id="@+id/touzi_money_num_txt"
+        android:text="12000元"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_toRightOf="@+id/touzi_money_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+    android:id="@+id/line_one"
+    android:background="@color/circle_con_bg"
+        android:layout_below="@+id/touzi_money_num"
+    android:layout_width="match_parent"
+    android:layout_height="1px" />
+    <TextView
         android:id="@+id/can_money_num"
-        android:text="可投余额：120元"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_below="@id/touzi_money_num"
+        android:text="可投余额："
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_below="@id/line_one"
+        android:layout_width="wrap_content"
+        android:textColor="@android:color/background_dark"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/can_money_num_txt"
+        android:text="120元"
+        android:layout_below="@id/line_one"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_toRightOf="@id/can_money_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/switch_back"
-        android:layout_marginRight="@dimen/margin_40dp"
-        android:textColor="@color/colorAccent"
+        android:layout_marginRight="22dp"
         android:text="银行转入"
-        android:layout_marginLeft="@dimen/margin_10dp"
+        android:drawableRight="@mipmap/arrowright"
+        android:textColor="@android:color/darker_gray"
+        android:drawablePadding="16dp"
+        android:layout_marginTop="@dimen/margin_10dp"
         android:layout_below="@id/touzi_money_num"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <LinearLayout
-        android:layout_below="@id/can_money_num"
-        android:layout_margin="@dimen/margin_10dp"
-        android:layout_width="wrap_content"
-        android:padding="@dimen/margin_5dp"
-        android:id="@+id/start_money"
-        android:background="@drawable/rect_blue_bg"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="10000元起投"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:layout_width="100dp"
-            android:background="@color/write_color"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:text="元"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
     <TextView
-        android:text="全额投入"
-        android:layout_below="@id/can_money_num"
-        android:layout_marginRight="@dimen/margin_40dp"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:layout_alignParentRight="true"
-        android:padding="@dimen/margin_5dp"
-        android:background="@drawable/rect_blue_bg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/share_persent"
-        android:text="收益分成费：跟投金额x分成比例"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_below="@id/start_money"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:id="@+id/line_two"
+        android:background="@color/circle_con_bg"
+        android:layout_below="@+id/can_money_num"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+    <!--<LinearLayout-->
+        <!--android:layout_below="@id/can_money_num"-->
+        <!--android:layout_margin="@dimen/margin_10dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:padding="@dimen/margin_5dp"-->
+        <!--android:id="@+id/start_money"-->
+        <!--android:background="@drawable/rect_blue_bg"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<TextView-->
+            <!--android:text="10000元起投"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--<EditText-->
+            <!--android:layout_width="100dp"-->
+            <!--android:background="@color/write_color"-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--<TextView-->
+            <!--android:text="元"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
+    <!--<TextView-->
+        <!--android:text="全额投入"-->
+        <!--android:layout_below="@id/line_two"-->
+        <!--android:layout_marginRight="@dimen/margin_40dp"-->
+        <!--android:layout_marginTop="@dimen/margin_10dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:padding="@dimen/margin_5dp"-->
+        <!--android:background="@drawable/rect_blue_bg"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+    <!--<TextView-->
+        <!--android:id="@+id/share_persent"-->
+        <!--android:text="收益分成费：跟投金额x分成比例"-->
+        <!--android:layout_marginLeft="@dimen/margin_10dp"-->
+        <!--android:layout_below="@id/line_two"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
     <RadioGroup
-        android:layout_below="@id/share_persent"
-        android:orientation="horizontal"
+        android:layout_below="@id/line_two"
+        android:orientation="vertical"
         android:layout_margin="@dimen/margin_10dp"
         android:layout_width="match_parent"
+        android:gravity="end"
         android:layout_height="wrap_content">
         <RadioButton
             android:text="自动跟投"
+            android:button="@null"
+            android:textColor="@android:color/darker_gray"
+            android:padding="@dimen/margin_10dp"
+            android:drawablePadding="@dimen/margin_10dp"
+            android:drawableRight="@drawable/pay_selcetor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <RadioButton
             android:text="手动跟投"
-            android:layout_marginLeft="@dimen/margin_30dp"
+            android:button="@null"
+            android:textColor="@android:color/darker_gray"
+            android:padding="@dimen/margin_10dp"
+            android:drawablePadding="@dimen/margin_10dp"
+            android:drawableRight="@drawable/pay_selcetor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RadioGroup>

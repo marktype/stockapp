@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:focusableInTouchMode="true"
-    android:focusable="true"
     >
 
     <RelativeLayout
         android:id="@+id/group_title"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/write_color"
         android:layout_height="@dimen/title_height">
         <ImageView
             android:id="@+id/back_img"
@@ -25,7 +21,7 @@
             android:layout_height="match_parent"
             android:text="@string/pay_txt"
             android:gravity="center"
-            android:textColor="@color/write_color"
+            android:textColor="@android:color/background_dark"
             android:layout_centerInParent="true"
             android:padding="@dimen/margin_10dp"
             android:textSize="@dimen/title_text_size"/>
@@ -35,148 +31,192 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
+            android:background="@color/circle_con_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/first_relat"
+                android:background="@color/write_color"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:layout_marginRight="@dimen/margin_15dp"
+                android:layout_marginLeft="@dimen/margin_15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <com.example.drawer.stockapp.customview.CanvasViewThree
+                android:layout_width="wrap_content"
+                android:layout_margin="@dimen/margin_10dp"
+                android:id="@+id/canvas_view_cir"
+                android:layout_height="wrap_content" />
+                <TextView
+                    android:text="70%"
+                    android:id="@+id/parsent_num"
+                    android:layout_marginLeft="45dp"
+                    android:layout_marginTop="@dimen/margin_40dp"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="@dimen/title_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/parsent_num"
+                    android:layout_marginLeft="35dp"
+                    android:text="招募进度"/>
+
     <TextView
         android:id="@+id/group_name"
+        android:layout_toRightOf="@+id/canvas_view_cir"
+        android:layout_marginTop="@dimen/margin_25dp"
 
-        android:layout_margin="@dimen/margin_10dp"
-        android:text="组合名称：哼哼哈嘿"
+        android:text="组合名称："
+        android:textColor="@android:color/background_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/group_name_txt"
+                    android:layout_toRightOf="@+id/group_name"
+                    android:text="组合"
+                    android:layout_marginTop="@dimen/margin_25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
     <TextView
         android:id="@+id/target_shouyi"
+        android:layout_toRightOf="@+id/canvas_view_cir"
         android:layout_below="@id/group_name"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:text="目标收益：100.11%"
+        android:layout_marginTop="@dimen/margin_15dp"
+
+        android:text="目标收益："
+        android:textColor="@android:color/background_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/target_shouyi_txt"
+                    android:layout_toRightOf="@id/target_shouyi"
+                    android:text="100.11%"
+                    android:layout_marginTop="@dimen/margin_15dp"
+                    android:layout_below="@id/group_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/run_time"
+        android:layout_toRightOf="@+id/canvas_view_cir"
         android:layout_below="@id/target_shouyi"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:text="运行时间：2016.01.01-2018.03.23"
+
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:text="运行时间："
+        android:textColor="@android:color/background_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-           <LinearLayout
-               android:id="@+id/plan_enlist"
-               android:layout_marginLeft="@dimen/margin_10dp"
-               android:layout_marginTop="@dimen/margin_10dp"
-               android:layout_below="@id/run_time"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-               <TextView
-                   android:text="招募进度："
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <ProgressBar
-                   android:layout_width="120dp"
-                   android:progress="70"
-                   android:max="100"
-                   android:layout_gravity="center_vertical"
-                   style="@android:style/Widget.ProgressBar.Horizontal"
-                   android:background="@color/colorPrimary"
-                   android:layout_height="@dimen/margin_5dp" />
-               <TextView
-                   android:id="@+id/persent_txt"
-                   android:text="70%"
-                   android:layout_marginLeft="@dimen/margin_10dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-           </LinearLayout>
-    <TextView
-        android:id="@+id/line_one"
-        android:layout_below="@id/plan_enlist"
-       android:layout_marginTop="@dimen/margin_10dp"
-        android:background="@android:color/darker_gray"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_5dp" />
+                <TextView
+                    android:id="@+id/run_time_txt"
+                    android:layout_toRightOf="@id/run_time"
+                    android:layout_below="@id/target_shouyi"
+                    android:layout_marginTop="@dimen/margin_15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2016.01.01-2018.03.23"/>
+            </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/second_relat"
+                android:layout_below="@+id/first_relat"
+                android:background="@color/write_color"
+                android:layout_marginLeft="@dimen/margin_15dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:layout_marginRight="@dimen/margin_15dp"
+                android:padding="@dimen/margin_10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
     <TextView
         android:id="@+id/service_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/background_dark"
         android:text="订阅后享受以下服务"
-        android:layout_below="@+id/line_one"
         android:layout_margin="@dimen/margin_10dp"/>
     <TextView
         android:id="@+id/service_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="在美国洛杉矶市联邦银行大厦(U.S.Bank Tower)的建筑外围，有一个特殊的滑梯。这个滑梯名叫“天空滑梯(Skyslide)”，建在联邦银行大厦的外立面，由金属框架固定和支撑，位于这座摩天大楼的69到70层处，大概距离地面300米。"
+        android:drawableLeft="@mipmap/duihao"
+        android:drawablePadding="@dimen/margin_10dp"
+        android:text="通过APP实时接收组合交易动态"
         android:layout_below="@+id/service_order"
         android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"/>
-
+        />
+                <TextView
+                    android:id="@+id/content_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_10dp"
+                    android:text="查看交易记录和持仓股票"
+                    android:drawableLeft="@mipmap/duihao"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:drawablePadding="@dimen/margin_10dp"
+                    android:layout_below="@id/service_content"/>
+                <TextView
+                    android:id="@+id/content_three"
+                    android:layout_below="@+id/content_two"
+                    android:text="与老师交流投资经验"
+                    android:drawableLeft="@mipmap/duihao"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:drawablePadding="@dimen/margin_10dp"
+                    android:layout_marginLeft="@dimen/margin_10dp"
+                    android:layout_marginBottom="@dimen/margin_10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
             <include layout="@layout/pay_gengtou_item_layout"
                 android:id="@+id/pay_info_layout"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:layout_marginLeft="@dimen/margin_15dp"
+                android:layout_marginRight="@dimen/margin_15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/service_content"></include>
-    <TextView
-        android:id="@+id/line_two"
-        android:layout_below="@id/pay_info_layout"
-
-        android:background="@android:color/darker_gray"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_5dp" />
+                android:layout_below="@id/second_relat"></include>
     <include layout="@layout/pay_item_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/pay_way"
-        android:layout_below="@id/line_two"/>
-    <TextView
-        android:id="@+id/line_three"
-        android:layout_below="@id/pay_way"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:background="@android:color/darker_gray"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_5dp" />
-    <TextView
-        android:id="@+id/group_tatol_price"
-        android:layout_below="@id/line_three"
-        android:layout_margin="@dimen/margin_10dp"
-        android:text="组合总金额"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tatol_group_price"
-        android:layout_below="@id/line_three"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/margin_10dp"
-        android:text="10000元"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/now_tatol_price"
-        android:layout_below="@id/group_tatol_price"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:text="实付金额"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tatol_now_price"
-        android:layout_below="@id/tatol_group_price"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:text="10000元"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:layout_below="@id/pay_info_layout"/>
             <TextView
-                android:layout_below="@id/tatol_now_price"
+                android:layout_below="@id/pay_way"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_40dp" />
+                android:layout_height="@dimen/margin_60dp" />
 </RelativeLayout>
 </ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="@color/write_color"
+        android:layout_height="@dimen/margin_50dp">
+        <TextView
+            android:id="@+id/price_txt"
+            android:textColor="@android:color/background_dark"
+            android:layout_marginLeft="@dimen/margin_20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/title_size"
+            android:text="10000.00"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price_txt"
+            android:layout_marginLeft="@dimen/margin_20dp"
+            android:text="实付金额"/>
     <TextView
         android:text="立即支付"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/write_color"
+        android:textColor="@android:color/background_dark"
+        android:background="@color/content_bg"
         android:textSize="@dimen/title_text_size"
         android:padding="@dimen/margin_10dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
+        android:gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
+    </RelativeLayout>
 </RelativeLayout>

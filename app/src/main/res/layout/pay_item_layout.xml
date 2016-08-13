@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/write_color"
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/select_pay_way"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="选择支付方式"
+        android:text="选择付款方式"
+        android:textColor="@android:color/background_dark"
         android:layout_below="@+id/line_two"
         android:layout_margin="@dimen/margin_10dp"/>
     
@@ -15,21 +17,37 @@
         android:layout_below="@id/select_pay_way"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RadioButton
             android:id="@+id/pay_aliply"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:button="@mipmap/alibabapay"
-            android:drawableRight="@drawable/btn_radio_pay"
-            android:layout_margin="@dimen/margin_10dp"
-            android:text="支付宝支付" />
+            android:button="@mipmap/zhifubao"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:padding="@dimen/margin_10dp"
+            android:drawableRight="@drawable/pay_selcetor"
+
+             />
         <RadioButton
             android:id="@+id/wechatpay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:button="@mipmap/share2"
-            android:drawableRight="@drawable/btn_radio_pay"
-            android:layout_margin="@dimen/margin_10dp"
-            android:text="微信支付" />
+            android:button="@mipmap/weixin"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:drawableRight="@drawable/pay_selcetor"
+            android:padding="@dimen/margin_10dp"
+            />
+        <RadioButton
+            android:id="@+id/yinlian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@mipmap/yinlian"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:drawableRight="@drawable/pay_selcetor"
+            android:padding="@dimen/margin_10dp"
+            />
     </RadioGroup>
 </RelativeLayout>

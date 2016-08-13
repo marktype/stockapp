@@ -105,7 +105,7 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         mTitleRelat.setLayoutParams(params);
 
         mBackimg = (ImageView) findViewById(R.id.back_img);
-        TextView mPay = (TextView) findViewById(R.id.go_to_pay);
+        ImageView mPay = (ImageView) findViewById(R.id.go_to_pay);
         mGroupTxt = (TextView) findViewById(R.id.zuhe_name);    //组合名称
 //        mTitleImage = (ImageView) findViewById(R.id.title_image);   //头像图
         mRecuitmentTime = (TextView) findViewById(R.id.muji_time);    //募集时间

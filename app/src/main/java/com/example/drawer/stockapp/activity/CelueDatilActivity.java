@@ -335,7 +335,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
             case R.id.back_img:
                 finish();
                 break;
-            case R.id.order_txt:     //立即订阅已隐藏，需要时打开
+            case R.id.order_txt:     //
                 Intent intent = new Intent(this,PayActivity.class);
                 startActivity(intent);
                 break;
