@@ -48,121 +48,121 @@
                 android:layout_marginRight="@dimen/margin_15dp"
                 android:layout_marginTop="@dimen/margin_5dp" />
 
-            <RelativeLayout
-                android:id="@+id/use_celue_relat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/my_stock_layout"
-                android:layout_marginLeft="@dimen/margin_15dp"
-                android:layout_marginRight="@dimen/margin_15dp"
-                android:layout_marginTop="@dimen/margin_5dp"
-                android:background="@color/write_color">
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/use_celue_relat"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/my_stock_layout"-->
+                <!--android:layout_marginLeft="@dimen/margin_15dp"-->
+                <!--android:layout_marginRight="@dimen/margin_15dp"-->
+                <!--android:layout_marginTop="@dimen/margin_5dp"-->
+                <!--android:background="@color/write_color">-->
 
-                <TextView
-                    android:id="@+id/stock_celue_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_10dp"
-                    android:padding="@dimen/margin_10dp"
-                    android:text="运用策略"
-                    android:textColor="@android:color/background_dark" />
+                <!--<TextView-->
+                    <!--android:id="@+id/stock_celue_name"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="@dimen/margin_10dp"-->
+                    <!--android:padding="@dimen/margin_10dp"-->
+                    <!--android:text="运用策略"-->
+                    <!--android:textColor="@android:color/background_dark" />-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_below="@+id/stock_celue_name"
-                    android:background="@color/circle_con_bg" />
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1px"-->
+                    <!--android:layout_below="@+id/stock_celue_name"-->
+                    <!--android:background="@color/circle_con_bg" />-->
 
-                <RelativeLayout
-                    android:id="@+id/zuhe_name_lin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/stock_celue_name"
-                    android:layout_marginLeft="@dimen/margin_10dp"
-                    android:padding="@dimen/margin_10dp">
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/zuhe_name_lin"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@id/stock_celue_name"-->
+                    <!--android:layout_marginLeft="@dimen/margin_10dp"-->
+                    <!--android:padding="@dimen/margin_10dp">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="战必胜组合"
-                        android:textColor="@android:color/background_dark" />
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="战必胜组合"-->
+                        <!--android:textColor="@android:color/background_dark" />-->
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:src="@mipmap/arrowright" />
-                </RelativeLayout>
-            </RelativeLayout>
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:src="@mipmap/arrowright" />-->
+                <!--</RelativeLayout>-->
+            <!--</RelativeLayout>-->
 
-            <RelativeLayout
-                android:id="@+id/money_num_relat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/use_celue_relat"
-                android:layout_marginLeft="@dimen/margin_15dp"
-                android:layout_marginRight="@dimen/margin_15dp"
-                android:layout_marginTop="@dimen/margin_5dp"
-                android:background="@color/write_color">
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/money_num_relat"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/use_celue_relat"-->
+                <!--android:layout_marginLeft="@dimen/margin_15dp"-->
+                <!--android:layout_marginRight="@dimen/margin_15dp"-->
+                <!--android:layout_marginTop="@dimen/margin_5dp"-->
+                <!--android:background="@color/write_color">-->
 
-                <TextView
-                    android:id="@+id/money_scale_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_10dp"
-                    android:padding="@dimen/margin_10dp"
-                    android:text="资金规模："
-                    android:textColor="@android:color/background_dark" />
+                <!--<TextView-->
+                    <!--android:id="@+id/money_scale_name"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="@dimen/margin_10dp"-->
+                    <!--android:padding="@dimen/margin_10dp"-->
+                    <!--android:text="资金规模："-->
+                    <!--android:textColor="@android:color/background_dark" />-->
 
-                <TextView
-                    android:id="@+id/money_total"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:padding="@dimen/margin_5dp"
-                    android:text="50000元" />
-            </RelativeLayout>
+                <!--<TextView-->
+                    <!--android:id="@+id/money_total"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:padding="@dimen/margin_5dp"-->
+                    <!--android:text="50000元" />-->
+            <!--</RelativeLayout>-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/money_num_relat"
-                android:layout_marginLeft="@dimen/margin_15dp"
-                android:layout_marginRight="@dimen/margin_15dp"
-                android:layout_marginTop="@dimen/margin_5dp"
-                android:background="@color/write_color">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/money_num_relat"-->
+                <!--android:layout_marginLeft="@dimen/margin_15dp"-->
+                <!--android:layout_marginRight="@dimen/margin_15dp"-->
+                <!--android:layout_marginTop="@dimen/margin_5dp"-->
+                <!--android:background="@color/write_color">-->
 
-                <TextView
-                    android:id="@+id/expect_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_20dp"
-                    android:layout_marginTop="@dimen/margin_20dp"
-                    android:text="预期收益"
-                    android:textColor="@android:color/background_dark" />
+                <!--<TextView-->
+                    <!--android:id="@+id/expect_name"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="@dimen/margin_20dp"-->
+                    <!--android:layout_marginTop="@dimen/margin_20dp"-->
+                    <!--android:text="预期收益"-->
+                    <!--android:textColor="@android:color/background_dark" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_20dp"
-                    android:layout_toRightOf="@id/expect_name"
-                    android:text="（推荐20%-40%）" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/margin_20dp"-->
+                    <!--android:layout_toRightOf="@id/expect_name"-->
+                    <!--android:text="（推荐20%-40%）" />-->
 
-                <include
-                    android:id="@+id/security_layout"
-                    layout="@layout/risk_image_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/expect_name"
-                    android:layout_marginLeft="@dimen/margin_10dp"
-                    android:layout_marginRight="@dimen/margin_10dp" />
+                <!--<include-->
+                    <!--android:id="@+id/security_layout"-->
+                    <!--layout="@layout/risk_image_layout"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@id/expect_name"-->
+                    <!--android:layout_marginLeft="@dimen/margin_10dp"-->
+                    <!--android:layout_marginRight="@dimen/margin_10dp" />-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin_40dp"
-                    android:layout_below="@id/security_layout" />
-            </RelativeLayout>
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/margin_40dp"-->
+                    <!--android:layout_below="@id/security_layout" />-->
+            <!--</RelativeLayout>-->
         </RelativeLayout>
     </ScrollView>
 

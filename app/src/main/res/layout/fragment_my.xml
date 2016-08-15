@@ -197,7 +197,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:drawablePadding="@dimen/margin_10dp"
-                android:drawableRight="@mipmap/arrowright"
                 android:text="2345" />
         </RelativeLayout>
 

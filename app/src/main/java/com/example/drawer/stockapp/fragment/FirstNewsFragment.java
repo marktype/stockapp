@@ -536,7 +536,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         itemRecord.height = firstView.getHeight();
                         itemRecord.top = firstView.getTop();
                         recordSp.append(i, itemRecord);
-                        Log.d("tag", "onScroll: --"+getScrollY());
                         //动态返回时此代码有用，其余时候没用
                         if (getScrollY()>100){
                             tintManager.setStatusBarTintResource(R.color.write_color);

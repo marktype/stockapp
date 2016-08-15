@@ -119,6 +119,7 @@
             android:layout_centerVertical="true"
             android:background="@color/write_color"
             android:hint="密码"
+            android:inputType="textPassword"
             android:textColorHint="@android:color/darker_gray" />
 
         <ImageView

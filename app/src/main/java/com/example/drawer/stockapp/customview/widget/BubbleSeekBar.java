@@ -31,12 +31,13 @@ public class BubbleSeekBar extends SeekBar {
         super.setThumb(thumb);
         mThumbDrawable = thumb;
     }
-	  
+
 	private OnSeekBarChangeListener mOnSeekBarChangeListener = new OnSeekBarChangeListener() {
 		
 		@Override
 		public void onStopTrackingTouch(SeekBar seekBar) {
 //			mBubbleIndicator.hideIndicator();
+
 		}
 		
 		@Override
@@ -50,5 +51,7 @@ public class BubbleSeekBar extends SeekBar {
 			if(fromUser)
 				mBubbleIndicator.moveIndicator(mThumbDrawable.getBounds(), progress);
 		}
+
+
 	};
 }

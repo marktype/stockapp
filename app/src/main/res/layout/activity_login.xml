@@ -84,6 +84,7 @@
         android:id="@+id/password_txt"
         android:background="@color/write_color"
         android:hint="密码"
+        android:inputType="textPassword"
         android:singleLine="true"
         android:layout_toLeftOf="@+id/eye_img"
         android:textColorHint="@android:color/darker_gray"

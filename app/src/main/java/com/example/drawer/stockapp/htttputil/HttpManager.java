@@ -25,6 +25,7 @@ import okhttp3.Response;
  */
 public class HttpManager {
     private static HttpManager instance;
+    public static final String FAILED = "failed";
 
     private HttpManager() {
 
@@ -211,7 +212,6 @@ public class HttpManager {
         try {
             //请求加入调度
             response = mOkHttpClient.newCall(request).execute();
-
             //判断请求是否成功
             if (response.isSuccessful()) {
                 //打印服务端返回结果
@@ -221,6 +221,7 @@ public class HttpManager {
                 return info;
             } else {
                 Log.d("tag", "body-code--" + response.code() + "--string ---" + response.message());
+                return FAILED;
             }
         } catch (IOException e) {
             e.printStackTrace();

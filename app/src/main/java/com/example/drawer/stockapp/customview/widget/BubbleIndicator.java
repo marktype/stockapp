@@ -75,9 +75,12 @@ public class BubbleIndicator {
             return;
         }
 		translateViewIntoPosition(touchBounds.centerX());
-		mPopupView.setProgressText(progress+5);
+		mPopupView.setProgressText(progress);
 	}
-	
+
+    public String getProgress(){
+        return mPopupView.getProgressNum();
+    }
 	public void hideIndicator(){
 		if (!isShowing()) {
             return;
@@ -128,6 +131,7 @@ public class BubbleIndicator {
 	private class Floater extends FrameLayout {
         public TextView mMarker;
         private int mOffset;
+        private int progress;
 
         public Floater(Context context, AttributeSet attrs, int defStyleAttr, String maxValue) {
             super(context);
@@ -161,7 +165,12 @@ public class BubbleIndicator {
         }
         
         public void setProgressText(int progress){
+            this.progress = progress;
         	mMarker.setText(""+progress+"%");
+        }
+
+        public String getProgressNum(){
+            return mMarker.getText().toString();
         }
     }
 }
