@@ -66,17 +66,18 @@ public class IndexAdapter extends BaseAdapter {
             if (view == null){
                 view = mInflater.inflate(R.layout.index_item,null);
                 viewHolder = new ViewHolder();
-                viewHolder.name = (TextView) view.findViewById(R.id.index_name);
+                viewHolder.name = (TextView) view.findViewById(R.id.index_name);   //副标题
                 viewHolder.time = (TextView) view.findViewById(R.id.index_num);
                 viewHolder.persent = (TextView) view.findViewById(R.id.index_persent);
                 viewHolder.headImahe = (ImageView) view.findViewById(R.id.head_zixun_item);
-
+                viewHolder.title = (TextView) view.findViewById(R.id.index_name_title);     //标题
                 view.setTag(viewHolder);
             }else {
                 viewHolder = (ViewHolder) view.getTag();
             }
             NewsInfo headIndex = (NewsInfo) getItem(i);
-            viewHolder.name.setText(headIndex.getTitle());
+            viewHolder.title.setText(headIndex.getTitle());
+            viewHolder.name.setText(headIndex.getContent());
             viewHolder.time.setText(headIndex.getTime());
             viewHolder.persent.setText(headIndex.getPeopleNum());
             Picasso.with(context).load(headIndex.getImage()).into(viewHolder.headImahe);
@@ -95,7 +96,14 @@ public class IndexAdapter extends BaseAdapter {
             }else {
                 viewHolderTwo = (ViewHolderTwo) view.getTag();
             }
-
+            NewsInfo headIndex = (NewsInfo) getItem(i);
+            viewHolderTwo.title.setText(headIndex.getTitle());
+            viewHolderTwo.xontent.setText(headIndex.getContent());
+            viewHolderTwo.timeThree.setText(headIndex.getTime());
+            viewHolderTwo.commentNum.setText(headIndex.getPeopleNum());
+            Picasso.with(context).load(headIndex.getImgaes().get(0)).into(viewHolderTwo.oneImage);
+            Picasso.with(context).load(headIndex.getImgaes().get(1)).into(viewHolderTwo.twoImage);
+            Picasso.with(context).load(headIndex.getImgaes().get(2)).into(viewHolderTwo.threeImage);
         }
 
 
@@ -108,6 +116,7 @@ public class IndexAdapter extends BaseAdapter {
        TextView time;
        TextView persent;
        ImageView headImahe;
+       TextView title;
    }
     private class ViewHolderTwo{
         TextView title;

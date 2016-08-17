@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public class NewsInfo {
     private int type;    //布局类型
+    private String linkUrl;    //链接
     //类型为1时（1张图片）
     private String Image;
     private String title;
@@ -29,6 +30,13 @@ public class NewsInfo {
     private int dynCommentNum;    //评论数
     private int dynGoodNum;     //点赞数
 
+    public String getLinkUrl() {
+        return linkUrl;
+    }
+
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
+    }
 
     public String getContent() {
         return content;

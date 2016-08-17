@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class SetUpZuHeAdapter extends BaseAdapter{
     private Context context;
     private ArrayList<HeadIndex> list ;
-    private HashMap<SeekBar,Integer> map = new HashMap<>();
+    private HashMap<Integer,Integer> map = new HashMap<>();
     private int progressNum;    //进度数
     public SetUpZuHeAdapter(Context context){
         this.context = context;
@@ -48,7 +48,7 @@ public class SetUpZuHeAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         final ViewHolder viewHolder;
         if (view == null){
             viewHolder = new ViewHolder();
@@ -66,7 +66,7 @@ public class SetUpZuHeAdapter extends BaseAdapter{
         }
 
         HeadIndex index = (HeadIndex) getItem(i);
-        map.put(viewHolder.seekBar,viewHolder.seekBar.getProgress());
+        map.put(i,viewHolder.seekBar.getProgress());
 
         viewHolder.name.setText(index.getIndexName());
         viewHolder.number.setText(index.getIndexNum());
@@ -84,14 +84,22 @@ public class SetUpZuHeAdapter extends BaseAdapter{
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 progressNum = 0;
-                for (SeekBar key : map.keySet()) {
-                    progressNum += map.get(key);
+                for (int key : map.keySet()) {
+                    if (i != key){
+                        progressNum += map.get(key);
+                    }
                 }
                 if (seekBar.getProgress()>(100-progressNum)){
                     viewHolder.num.setText((100-progressNum)+"%");
+                    seekBar.setProgress(100-progressNum);
+                    map.put(i,(100-progressNum));
                 }else {
                     viewHolder.num.setText(seekBar.getProgress()+"%");
+                    seekBar.setProgress(seekBar.getProgress());
+                    map.put(i,seekBar.getProgress());
                 }
+
+//                notifyDataSetChanged();
             }
         });
 

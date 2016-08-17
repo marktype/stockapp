@@ -198,8 +198,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         ArrayList<HeadMassageInfo.ResultBean.BannerUrlBean> size = headMassageInfo.getResult().getBannerUrl();
                         images = new String[size.size()];
                         for (int i = 0;i<size.size();i++){
-//                            images[i] = headMassageInfo.getResult().getBannerUrl().get(i);
-                            images[i] = "http://m2.quanjing.com/2m/ivary_photorf001/stp005_00051.jpg";     //bar图
+                            images[i] = size.get(i).getBannerUrl();
+//                            images[i] = "http://m2.quanjing.com/2m/ivary_photorf001/stp005_00051.jpg";     //bar图
                         }
                         initListData();
                     }
@@ -402,16 +402,23 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     public ArrayList<NewsInfo> setNewsInfo(){
         ArrayList<NewsInfo> newsInfos = new ArrayList<>();
         List<HeadMassageInfo.ResultBean.NewsBean> newsBeen = headMassageInfo.getResult().getNews();
-        for (int i = 0;i<10;i++){
+        for (int i = 0;i<newsBeen.size();i++){
             NewsInfo info = new NewsInfo();
-            HeadMassageInfo.ResultBean.NewsBean newsBean = newsBeen.get(0);
+            HeadMassageInfo.ResultBean.NewsBean newsBean = newsBeen.get(i);
             info.setTitle(newsBean.getTitle());
+            info.setContent(newsBean.getSecondTitle());
             info.setTime(newsBean.getUpdateTime());
             info.setPeopleNum(newsBean.getComments()+"");
-            info.setImage(newsBean.getBannerUrl().get(0));
-            if (i==5||i==9){
+            info.setLinkUrl(newsBean.getTargetUri());
+            if (newsBean.getBannerUrl().size()>1){
                 info.setType(2);
+                ArrayList<String> list = new ArrayList<>();
+                for (int j = 0;j<newsBean.getBannerUrl().size();j++){
+                    list.add(newsBean.getBannerUrl().get(j));
+                }
+                info.setImgaes(list);
             }else {
+                info.setImage(newsBean.getBannerUrl().get(0));
                 info.setType(1);
             }
             newsInfos.add(info);
@@ -491,7 +498,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
         switch (adapterView.getId()){
             case R.id.listview_zixun:
+                NewsInfo info = (NewsInfo) adapterView.getAdapter().getItem(i);
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                intent.putExtra(WebViewActivity.URL,info.getLinkUrl());
                 startActivity(intent);
                 break;
         }

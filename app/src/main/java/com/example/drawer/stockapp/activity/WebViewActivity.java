@@ -16,11 +16,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WebViewActivity extends BascActivity {
+    public static final String URL = "url";
     private String url = "https://h5.m.taobao.com/app/cz/cost.html?locate=icon-5&spm=a215s.7406091.1.icon-5&scm=2027.1.3.1003";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
+        url = getIntent().getStringExtra(URL);
         initWight();
         newInfo();
 

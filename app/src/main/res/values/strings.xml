@@ -38,6 +38,9 @@
     <string name="sex_txt">性别</string>
     <string name="bind_phone_txt">绑定手机号</string>
     <string name="reset_password_txt">修改密码</string>
+    <string name="cancal_low_txt">消除缓存</string>
+    <string name="news_info_txt">新消息提醒</string>
+    <string name="above_txt">关于爱猫爪</string>
     <string name="my_point_txt">我的积分</string>
     <string name="my_wallet_txt">我的钱包</string>
     <string name="my_quan_txt">抵用券</string>

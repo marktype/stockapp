@@ -38,7 +38,8 @@ public class HttpManager {
         return instance;
     }
 
-    public static final String BASE_URL = "http://183.60.47.101:8012/";      //基地址
+//    public static final String BASE_URL = "http://183.60.47.101:8012/";      //基地址
+    public static final String BASE_URL = "http://matrixswaggerwebapi.lab.supwin.com:8899/";      //基地址
     public static final String UID = "5451221";
     public static final String LANG = "zh-cn";
     public static final MediaType JSON = MediaType.parse("application/json;charset=utf-8");   //数据传输类型
@@ -64,11 +65,12 @@ public class HttpManager {
     public static final String CodeHotKeys_URL = BASE_URL + "Intelligent/HotKeys";      // 热门搜索股票关键字
     public static final String FindCode_URL = BASE_URL + "Intelligent/FindCode";      // 搜索股票
     public static final String Login_URL = BASE_URL + "Membership/Login";      // 登录
+    public static final String USERINFO_URL = BASE_URL + "Membership/UserDetail";      // 获取用户信息
     public static final String Version_URL = BASE_URL + "Membership/Version";      // 版本
     public static final String RegisterCode_URL = BASE_URL + "Membership/RegisterCode";      // 注册验证码
     public static final String ReSetPasswordCode_URL = BASE_URL + "Membership/ReSetPasswordCode";      // 重置密码验证码
     public static final String Register_URL = BASE_URL + "Membership/Register";      // 注册
-    public static final String ReSetPassword_URL = BASE_URL + "Membership/ReSetPassword";      // 重置密码
+    public static final String ReSetPassword_URL = BASE_URL + "Membership/ReSetPassword";      // 重置密码(忘记密码)
     public static final String Information_other_URL = BASE_URL + "Other/Information";      // 一级页面
     public static final String HotKeys_URL = BASE_URL + "Other/HotKeys";      // 热门搜索关键字
     public static final String Find_URL = BASE_URL + "Other/Find";      // 搜索股票

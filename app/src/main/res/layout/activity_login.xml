@@ -56,6 +56,7 @@
         android:id="@+id/user_name_txt"
         android:layout_below="@id/login_title"
         android:hint="用户名"
+        android:inputType="phone"
         android:textColorHint="@android:color/darker_gray"
         android:background="@mipmap/phonr_list"
         android:paddingLeft="@dimen/margin_20dp"

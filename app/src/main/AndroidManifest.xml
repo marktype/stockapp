@@ -145,10 +145,16 @@
         <activity
             android:name=".activity.SendDynamicActivity"
             android:theme="@style/MyAppTheme" />
-        <activity android:name=".activity.CollectionActivity"
+        <activity
+            android:name=".activity.CollectionActivity"
+            android:theme="@style/MyAppTheme" />
+        <activity
+            android:name=".activity.ShowImageActivity"
+            android:theme="@style/MyAppTheme" />
+        <activity android:name=".activity.AllCanUseActivity"
             android:theme="@style/MyAppTheme"/>
-        <activity android:name=".activity.ShowImageActivity"
-            android:theme="@style/MyAppTheme"/>
+        <activity android:name=".activity.NewsInfoActivity"
+            android:theme="@style/MyAppTheme"></activity>
     </application>
 
 </manifest>

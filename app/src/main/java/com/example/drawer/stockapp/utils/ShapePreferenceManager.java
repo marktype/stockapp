@@ -10,8 +10,11 @@ import android.content.SharedPreferences;
 public class ShapePreferenceManager {
 
     private static ShapePreferenceManager instance;
-    private SharedPreferences mSharePrefence;
+    private static SharedPreferences mSharePrefence;
     public static final String COLLECT_USER_INFO = "com.stockapp.userinfo";    //保存用户信息
+    public static final String TOKEN = "token";    //保存用户token信息
+    public static final String USER_NMAE = "username";    //保存用户名信息
+    public static final String USER_ID = "uid";    //保存用户id信息
 
     private ShapePreferenceManager(){
 
@@ -23,7 +26,7 @@ public class ShapePreferenceManager {
         return instance;
     }
 
-    public SharedPreferences getMySharedPreferences(Context context){
+    public static SharedPreferences getMySharedPreferences(Context context){
         if (mSharePrefence == null){
             mSharePrefence= context.getSharedPreferences(COLLECT_USER_INFO,
                     Activity.MODE_PRIVATE);

@@ -1,6 +1,7 @@
 package com.example.drawer.stockapp.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -14,7 +15,10 @@ import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.htttputil.HttpManager;
+import com.example.drawer.stockapp.model.UserInfo;
 import com.example.drawer.stockapp.utils.ManagerUtil;
+import com.example.drawer.stockapp.utils.ShapePreferenceManager;
+import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.HashMap;
@@ -112,7 +116,23 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 String message = s;
+                if (!TextUtils.isEmpty(message)&&message.length()>10){
+                    Gson gson = new Gson();
+                    UserInfo userInfo = gson.fromJson(message,UserInfo.class);
+                    if (userInfo.getHead().getStatus()==0){
+                        SharedPreferences sharedPreferences = ShapePreferenceManager.getMySharedPreferences(LoginActivity.this);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(ShapePreferenceManager.TOKEN,userInfo.getResult().getToken());
+                        editor.putString(ShapePreferenceManager.USER_ID,userInfo.getResult().getId());
+                        editor.putString(ShapePreferenceManager.USER_NMAE,userInfo.getResult().getPhoneNum());
+                        editor.commit();
 
+                        Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }else {
+                        Toast.makeText(LoginActivity.this,userInfo.getHead().getMsg(),Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         }
 

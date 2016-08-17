@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/content_con_bg"
+    >
+    <RelativeLayout
+        android:id="@+id/news_info_title"
+        android:layout_width="match_parent"
+        android:background="@color/write_color"
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/arrowlift"
+            android:padding="@dimen/margin_10dp"/>
+        <TextView
+            android:id="@+id/back_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/news_info_txt"
+            android:gravity="center"
+            android:textColor="@android:color/background_dark"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/margin_10dp"
+            android:textSize="@dimen/title_text_size"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/get_info"
+        android:layout_width="match_parent"
+        android:layout_below="@id/news_info_title"
+        android:padding="@dimen/margin_10dp"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:background="@color/write_color"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="接收新消息通知"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已关闭"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/hint_info_txt"
+        android:layout_below="@id/get_info"
+        android:padding="@dimen/margin_10dp"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:layout_width="wrap_content"
+        android:text="如果需要打开或关闭，请在设置中进行设置"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:id="@+id/sound_relat"
+        android:layout_below="@id/hint_info_txt"
+        android:layout_width="match_parent"
+        android:background="@color/write_color"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:padding="@dimen/margin_10dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="声音"/>
+
+        <com.example.drawer.stockapp.customview.WiperSwitch
+            android:id="@+id/wiperSwitch_one"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/line_one"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/sound_relat"
+        android:background="@color/circle_con_bg"/>
+    <RelativeLayout
+        android:id="@+id/shock_relat"
+        android:layout_below="@id/line_one"
+        android:layout_width="match_parent"
+        android:background="@color/write_color"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:padding="@dimen/margin_10dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="震动"/>
+
+        <com.example.drawer.stockapp.customview.WiperSwitch
+            android:id="@+id/wiperSwitch_two"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/aovid_relat"
+        android:layout_below="@id/shock_relat"
+        android:layout_width="match_parent"
+        android:background="@color/write_color"
+        android:padding="@dimen/margin_10dp"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="夜间免打扰模式"/>
+
+        <com.example.drawer.stockapp.customview.WiperSwitch
+            android:id="@+id/wiperSwitch_three"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/time_select_relat"
+        android:layout_below="@+id/aovid_relat"
+        android:layout_width="match_parent"
+        android:background="@color/write_color"
+        android:padding="@dimen/margin_10dp"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/time_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="从17:20至00:00"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/arrowright"/>
+
+    </RelativeLayout>
+</RelativeLayout>

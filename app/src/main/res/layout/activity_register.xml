@@ -61,6 +61,7 @@
         android:layout_marginTop="@dimen/margin_40dp"
         android:background="@mipmap/phonr_list"
         android:hint="手机号码"
+        android:inputType="phone"
         android:padding="@dimen/margin_10dp"
         android:textColorHint="@android:color/darker_gray" />
 
@@ -84,6 +85,7 @@
             android:layout_weight="1"
             android:background="@color/write_color"
             android:hint="验证码"
+            android:inputType="number"
             android:padding="@dimen/margin_5dp"
             android:textColorHint="@android:color/darker_gray" />
 

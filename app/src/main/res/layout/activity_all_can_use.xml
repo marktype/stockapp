@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/content_con_bg"
+    >
+    <RelativeLayout
+        android:id="@+id/all_can_title"
+        android:layout_width="match_parent"
+        android:background="@color/write_color"
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/arrowlift"
+            android:padding="@dimen/margin_10dp"/>
+        <TextView
+            android:id="@+id/back_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/all_can_txt"
+            android:gravity="center"
+            android:textColor="@android:color/background_dark"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/margin_10dp"
+            android:textSize="@dimen/title_text_size"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/news_info_lin"
+        style="@style/MyInfoStyle"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/all_can_title">
+
+        <TextView
+            android:id="@+id/bind_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/news_info_txt"
+            android:textColor="@android:color/background_dark" />
+
+        <ImageView
+            android:id="@+id/img_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/arrowright" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line_four"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/news_info_lin"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:background="@color/circle_con_bg" />
+
+    <RelativeLayout
+        android:id="@+id/clean_lin"
+        style="@style/MyInfoStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line_four">
+
+        <TextView
+            android:id="@+id/reset_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancal_low_txt"
+            android:textColor="@android:color/background_dark" />
+
+        <ImageView
+            android:id="@+id/img_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/arrowright" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line_five"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/clean_lin"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:background="@color/circle_con_bg" />
+
+    <RelativeLayout
+        android:id="@+id/above_lin"
+        style="@style/MyInfoStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line_five">
+
+        <TextView
+            android:id="@+id/my_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/above_txt"
+            android:textColor="@android:color/background_dark" />
+
+        <ImageView
+            android:id="@+id/img_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/arrowright" />
+    </RelativeLayout>
+</RelativeLayout>
