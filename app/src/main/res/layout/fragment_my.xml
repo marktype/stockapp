@@ -11,7 +11,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/circle_con_bg">
 
         <include
             android:id="@+id/title_lin"
@@ -39,7 +40,7 @@
                 android:layout_alignParentRight="true"
                 android:drawablePadding="@dimen/margin_10dp"
                 android:drawableRight="@mipmap/arrowright"
-                android:text="用户名" />
+                android:text="修改" />
 
         </RelativeLayout>
 
@@ -99,6 +100,7 @@
                 android:textColor="@android:color/background_dark" />
 
             <TextView
+                android:id="@+id/man_sex_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -193,11 +195,12 @@
                 android:textColor="@android:color/background_dark" />
 
             <TextView
+                android:id="@+id/score_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:drawablePadding="@dimen/margin_10dp"
-                android:text="2345" />
+                android:text="" />
         </RelativeLayout>
 
         <TextView
@@ -260,7 +263,7 @@
                 android:layout_alignParentRight="true"
                 android:drawablePadding="@dimen/margin_10dp"
                 android:drawableRight="@mipmap/arrowright"
-                android:text="5" />
+                android:text="" />
         </RelativeLayout>
 
         <TextView
@@ -301,7 +304,8 @@
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginRight="@dimen/margin_15dp"
             android:layout_marginTop="@dimen/margin_5dp"
-            android:background="@drawable/layout_selector"
+            android:background="@color/content_bg"
+            android:textColor="@android:color/background_dark"
             android:gravity="center"
             android:padding="@dimen/margin_15dp"
             android:text="@string/exit_txt" />
@@ -317,7 +321,7 @@
             android:layout_height="wrap_content"
             android:text="我的"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/content_text_size"
+            android:textSize="16sp"
             android:textColor="@android:color/background_dark"/>
     </RelativeLayout>
 </RelativeLayout>

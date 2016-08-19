@@ -24,6 +24,7 @@
     <TextView
         android:id="@+id/niuren_name"
         android:text="我是牛人"
+        android:textSize="13sp"
         android:layout_toRightOf="@id/niuiren_head"
         android:layout_marginTop="@dimen/margin_20dp"
         android:layout_marginLeft="@dimen/margin_5dp"
@@ -44,8 +45,8 @@
         android:id="@+id/type_stock"
         android:text="A股模拟交易"
         android:layout_toRightOf="@id/niuren_name"
-        android:layout_marginLeft="@dimen/margin_5dp"
-        android:textSize="14sp"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:textSize="13sp"
         android:layout_marginTop="@dimen/margin_20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

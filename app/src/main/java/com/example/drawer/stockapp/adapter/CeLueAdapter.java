@@ -13,6 +13,7 @@ import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.CanvasView;
 import com.example.drawer.stockapp.customview.CanvasViewThree;
 import com.example.drawer.stockapp.model.CeLueInfo;
+import com.example.drawer.stockapp.utils.DensityUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -86,6 +87,7 @@ public class CeLueAdapter extends BaseAdapter {
         viewHolder.gengtouTxt.setText(info.getMinGengTou());
         Picasso.with(context).load(info.getHeadImage()).into(viewHolder.headImage);
 //        Picasso.with(context).load(info.getLevelImage()).into(viewHolder.levelImage);
+        viewHolder.canvasViewThree.setRadius(DensityUtils.dp2px(context,40));
         setCanvasData(viewHolder.canvasViewThree,info.getCeluePersent());
 
         return view;

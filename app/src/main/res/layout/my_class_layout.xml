@@ -1,184 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    >
 
-
+    <!--android:descendantFocusability="blocksDescendants"  Scrollview与listview一进入就抢占焦点解决-->
     <RelativeLayout
-        android:id="@+id/class_title_relate"
         android:layout_width="match_parent"
-        android:background="@mipmap/xuetangbg"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants">
 
-    <TextView
-        android:id="@+id/class_day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="23"
-        android:textSize="60sp"
-        android:textColor="@android:color/background_dark"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_60dp"/>
-        <TextView
-            android:id="@+id/day_num"
-            android:layout_below="@id/class_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/title_size"
-            android:textSize="12sp"
-            android:layout_marginTop="@dimen/margin_10dp"
-            android:text="本月已签到天数"/>
-        <LinearLayout
-            android:id="@+id/class_two_relate"
-            android:layout_below="@id/day_num"
+
+        <RelativeLayout
+            android:id="@+id/class_title_relate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_50dp"
-            android:layout_marginRight="@dimen/margin_50dp"
-            android:layout_marginTop="@dimen/margin_10dp"
-            android:orientation="horizontal">
+            android:background="@mipmap/xuetangbg">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/darker_gray"
-                    android:text="完成"/>
-                <TextView
-                    android:id="@+id/success_class"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/background_dark"
-                    android:layout_marginTop="@dimen/margin_5dp"
-                    android:text="23课"/>
-
-            </LinearLayout>
             <TextView
-                android:layout_width="1px"
-                android:layout_height="@dimen/margin_20dp"
-                android:layout_marginTop="@dimen/margin_10dp"
-                android:background="@android:color/darker_gray"/>
-            <LinearLayout
+                android:id="@+id/class_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/darker_gray"
-                    android:text="累计"/>
-                <TextView
-                    android:id="@+id/leiji_class"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/background_dark"
-                    android:layout_marginTop="@dimen/margin_5dp"
-                    android:text="56天"/>
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_50dp"
+                android:text="23"
+                android:textColor="@android:color/background_dark"
+                android:textSize="60sp" />
 
-            </LinearLayout>
             <TextView
-                android:layout_width="1px"
-                android:layout_height="@dimen/margin_20dp"
-                android:layout_marginTop="@dimen/margin_10dp"
-                android:background="@android:color/darker_gray"/>
-            <LinearLayout
+                android:id="@+id/day_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-                <TextView
+                android:layout_below="@id/class_day"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/title_size"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:text="本月已签到天数"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/class_two_relate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/day_num"
+                android:layout_marginLeft="@dimen/margin_50dp"
+                android:layout_marginRight="@dimen/margin_50dp"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/darker_gray"
-                    android:text="学分"/>
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="完成"
+                        android:textColor="@android:color/darker_gray" />
+
+                    <TextView
+                        android:id="@+id/success_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_5dp"
+                        android:text="23课"
+                        android:textColor="@android:color/background_dark" />
+
+                </LinearLayout>
+
                 <TextView
-                    android:id="@+id/jifen_class"
+                    android:layout_width="1px"
+                    android:layout_height="@dimen/margin_20dp"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:background="@android:color/darker_gray" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/background_dark"
-                    android:layout_marginTop="@dimen/margin_5dp"
-                    android:text="980分"/>
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="累计"
+                        android:textColor="@android:color/darker_gray" />
+
+                    <TextView
+                        android:id="@+id/leiji_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_5dp"
+                        android:text="56天"
+                        android:textColor="@android:color/background_dark" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="1px"
+                    android:layout_height="@dimen/margin_20dp"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:background="@android:color/darker_gray" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="学分"
+                        android:textColor="@android:color/darker_gray" />
+
+                    <TextView
+                        android:id="@+id/jifen_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_5dp"
+                        android:text="980分"
+                        android:textColor="@android:color/background_dark" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
+        </RelativeLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:id="@+id/line_class"
-        android:layout_below="@id/class_title_relate"
-        android:background="@color/circle_con_bg"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="我的课程"
-        android:layout_below="@id/line_class"
-        android:layout_margin="@dimen/margin_10dp"
-        android:gravity="center_horizontal"
-        android:id="@+id/my_class_txt"/>
+        <TextView
+            android:id="@+id/line_class"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/class_title_relate"
+            android:background="@color/circle_con_bg" />
 
-    <com.example.drawer.stockapp.customview.MyListView
-        android:id="@+id/class_listview"
-        android:layout_below="@id/my_class_txt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <!--<ImageView-->
+        <TextView
+            android:id="@+id/my_class_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line_class"
+            android:layout_margin="@dimen/margin_10dp"
+            android:gravity="center_horizontal"
+            android:text="我的课程" />
+
+        <com.example.drawer.stockapp.customview.MyListView
+            android:id="@+id/class_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/my_class_txt" />
+        <!--<ImageView-->
         <!--android:id="@+id/my_class_img_txt"-->
         <!--android:src="@mipmap/img454693988"-->
         <!--android:layout_below="@id/my_class_txt"-->
         <!--android:scaleType="center"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="160dp" />-->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="我开的课"
-        android:visibility="gone"
-        android:layout_below="@id/class_listview"
-        android:layout_margin="@dimen/margin_10dp"
-        android:gravity="center_horizontal"
-        android:id="@+id/my_class_start"/>
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="我开的课"-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_below="@id/class_listview"-->
+        <!--android:layout_margin="@dimen/margin_10dp"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:id="@+id/my_class_start"/>-->
 
-    <ImageView
-        android:id="@+id/my_class_start_txt"
-        android:scaleType="center"
-        android:visibility="gone"
-        android:layout_below="@id/my_class_start"
-        android:layout_width="match_parent"
-        android:layout_height="160dp" />
-    <TextView
-        android:id="@+id/line_class_two"
-        android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/margin_5dp"
-        android:layout_height="1px"
-        android:background="@color/circle_con_bg"
-        android:layout_below="@id/my_class_start_txt"/>
-    <TextView
-        android:id="@+id/add_class"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="添加课程"
-        android:gravity="center_horizontal"
-        android:layout_margin="@dimen/margin_15dp"
-        android:layout_below="@id/line_class_two"/>
-    <TextView
-        android:id="@+id/line_class_three"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/circle_con_bg"
-        android:layout_below="@id/add_class"/>
-</RelativeLayout>
+        <!--<ImageView-->
+        <!--android:id="@+id/my_class_start_txt"-->
+        <!--android:scaleType="center"-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_below="@id/my_class_start"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="160dp" />-->
+        <TextView
+            android:id="@+id/line_class_two"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/class_listview"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:background="@color/circle_con_bg" />
+
+        <TextView
+            android:id="@+id/add_class"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line_class_two"
+            android:layout_margin="@dimen/margin_15dp"
+            android:gravity="center_horizontal"
+            android:text="添加课程" />
+
+        <TextView
+            android:id="@+id/line_class_three"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/add_class"
+            android:background="@color/circle_con_bg" />
+
+        <ImageView
+            android:id="@+id/img_no_login"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/dynamic_no_login"
+            android:visibility="gone" />
+    </RelativeLayout>
 </ScrollView>

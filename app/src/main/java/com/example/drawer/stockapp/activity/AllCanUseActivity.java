@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.utils.DataCleanManager;
+import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -27,7 +28,7 @@ public class AllCanUseActivity extends BascActivity implements View.OnClickListe
        RelativeLayout mTitleRelat = (RelativeLayout) findViewById(R.id.all_can_title);    //title布局
        //设置距离顶部状态栏高度
        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-               100);
+               DensityUtils.dp2px(this,50));
        params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
        mTitleRelat.setLayoutParams(params);
        ImageView mBackImg = (ImageView) findViewById(R.id.back_img);

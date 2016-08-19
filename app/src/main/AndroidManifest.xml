@@ -129,31 +129,42 @@
             android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.MyWalletActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.AttentionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.CouponActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.AlterNameActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.MyDynamicActivity"
-            android:theme="@style/MyAppTheme" />
+            android:theme="@style/MyAppTheme"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".activity.SendDynamicActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.CollectionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.ShowImageActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
         <activity android:name=".activity.AllCanUseActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme"/>
         <activity android:name=".activity.NewsInfoActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme"></activity>
     </application>
 

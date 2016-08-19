@@ -222,14 +222,10 @@
                 android:layout_marginRight="@dimen/margin_15dp"
                 android:layout_marginTop="@dimen/margin_5dp" />
 
-            <ImageView
-                android:id="@+id/go_to_pay"
+            <TextView
+                android:layout_below="@id/last_item"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/last_item"
-                android:layout_marginTop="@dimen/margin_5dp"
-                android:src="@mipmap/tabbar"
-
+                android:layout_height="@dimen/margin_50dp"
                 />
         </RelativeLayout>
     </com.example.drawer.stockapp.customview.MyScrollView>
@@ -299,4 +295,13 @@
     <!--android:padding="@dimen/margin_15dp"-->
     <!--android:text="立即跟投"-->
     <!--android:textColor="@color/write_color" />-->
+    <ImageView
+        android:id="@+id/go_to_pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:src="@mipmap/tabbar"
+
+        />
 </RelativeLayout>

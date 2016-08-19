@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.htttputil.HttpManager;
+import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -42,7 +43,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
         RelativeLayout mTitleRelat = (RelativeLayout) findViewById(R.id.forget_title);    //title布局
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                100);
+                DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
         ImageView mEyeImg = (ImageView) findViewById(R.id.eye_img);     //密码是否可见

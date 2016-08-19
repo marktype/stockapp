@@ -10,13 +10,16 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class NewsInfoActivity extends BascActivity implements View.OnClickListener{
-
+public class NewsInfoActivity extends BascActivity implements View.OnClickListener,TimePicker.OnTimeChangedListener{
+    private TextView time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +34,13 @@ public class NewsInfoActivity extends BascActivity implements View.OnClickListen
         RelativeLayout mTitleRelat = (RelativeLayout) findViewById(R.id.news_info_title);    //title布局
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                100);
+                DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
         RelativeLayout mTime = (RelativeLayout) findViewById(R.id.time_select_relat);
 
+        time = (TextView) findViewById(R.id.time_info);   //时间设置
 
         mTime.setOnClickListener(this);
         mBackImg.setOnClickListener(this);
@@ -57,10 +61,19 @@ public class NewsInfoActivity extends BascActivity implements View.OnClickListen
             case R.id.time_select_relat:
                 popWindTime(view);
                 break;
+            case R.id.time_cancal:
+                mClassifyPop.dismiss();
+                break;
+            case R.id.time_sure:
+                time.setText("从"+startHour+":"+startMinte+"至"+endHour+":"+endMinte);
+                mClassifyPop.dismiss();
+                break;
         }
     }
 
     private PopupWindow mClassifyPop;
+//    private TimePicker start,end;
+//    private TextView mSure,mCancal;
     /**
      * 时间选择器弹框
      */
@@ -80,8 +93,19 @@ public class NewsInfoActivity extends BascActivity implements View.OnClickListen
                 mClassifyPop.setBackgroundDrawable(dw);
                 mClassifyPop.setOutsideTouchable(true);
                 mClassifyPop.setAnimationStyle(R.style.mypopwindow_anim_style);
-            }
+                TimePicker start = (TimePicker) contentView.findViewById(R.id.datePickerStart);
+                TimePicker end = (TimePicker) contentView.findViewById(R.id.datePickerEnd);
+                start.setIs24HourView(true);
+                end.setIs24HourView(true);
+                TextView mSure = (TextView) contentView.findViewById(R.id.time_sure);
+                TextView mCancal = (TextView) contentView.findViewById(R.id.time_cancal);
 
+                mCancal.setOnClickListener(NewsInfoActivity.this);
+                mSure.setOnClickListener(NewsInfoActivity.this);
+
+                start.setOnTimeChangedListener(NewsInfoActivity.this);
+                end.setOnTimeChangedListener(NewsInfoActivity.this);
+            }
 
             //产生背景变暗效果
             WindowManager.LayoutParams lp = this.getWindow().getAttributes();
@@ -109,5 +133,20 @@ public class NewsInfoActivity extends BascActivity implements View.OnClickListen
             }
 
 
+    }
+
+    private int startHour,startMinte,endHour,endMinte;
+    @Override
+    public void onTimeChanged(TimePicker timePicker, int i, int i1) {
+        switch (timePicker.getId()){
+            case R.id.datePickerStart:
+                startHour = timePicker.getCurrentHour();    //获取小时
+                startMinte = timePicker.getCurrentMinute();   //获取分钟
+                break;
+            case R.id.datePickerEnd:
+                endHour = timePicker.getCurrentHour();    //获取小时
+                endMinte = timePicker.getCurrentMinute();   //获取分钟
+                break;
+        }
     }
 }

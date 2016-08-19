@@ -2,6 +2,7 @@ package com.example.drawer.stockapp.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
@@ -24,7 +25,7 @@ public class WebViewActivity extends BascActivity {
         setContentView(R.layout.activity_web_view);
         url = getIntent().getStringExtra(URL);
         initWight();
-        newInfo();
+//        newInfo();
 
         WebView webView = (WebView) findViewById(R.id.web_view);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -33,6 +34,7 @@ public class WebViewActivity extends BascActivity {
         webView.getSettings().setBuiltInZoomControls(false);//zoom
         webView.getSettings().setUseWideViewPort(true); //auto adjust screen
         webView.getSettings().setLoadWithOverviewMode(true);
+        Log.d("tag","url-------"+url);
         webView.loadUrl(url);
 
 //        TextView mText = (TextView) findViewById(R.id.test);

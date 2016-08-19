@@ -16,17 +16,17 @@
             android:layout_height="wrap_content"
             android:text="+0%"
             android:textColor="@android:color/background_dark"
-            android:layout_marginTop="@dimen/margin_25dp"
-            android:textSize="@dimen/title_size"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:textSize="18sp"
             android:layout_centerHorizontal="true"/>
         <TextView
             android:layout_below="@id/zuhe_persent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="总收益"
-            android:textSize="@dimen/margin_13dp"
+            android:textSize="13sp"
             android:textColor="@android:color/darker_gray"
-            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/margin_5dp"
             android:layout_centerHorizontal="true"/>
         <com.example.drawer.stockapp.customview.CanvasViewThree
             android:id="@+id/zuhe_canvas"
@@ -38,8 +38,8 @@
         android:id="@+id/zuhe_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_20dp"
-        android:textSize="@dimen/content_text_size"
+        android:layout_marginTop="@dimen/margin_25dp"
+        android:textSize="@dimen/title_text_size"
         android:textColor="@android:color/background_dark"
         android:layout_toRightOf="@id/zuhe_circle"
         android:text="战必胜组合"/>
@@ -49,7 +49,7 @@
         android:textColor="@color/write_color"
         android:background="@drawable/rect_red_shape"
         android:layout_toRightOf="@id/zuhe_name"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="22dp"
         android:layout_marginLeft="@dimen/margin_8dp"
         android:padding="@dimen/margin_3dp"
         android:layout_width="wrap_content"

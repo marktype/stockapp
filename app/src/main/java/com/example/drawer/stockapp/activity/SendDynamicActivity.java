@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.htttputil.HttpManager;
+import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -28,13 +31,16 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class SendDynamicActivity extends BascActivity implements View.OnClickListener{
     private static int CAMERA_REQUST_CODE = 1;
     private static int GALLERY_REQUST_CODE = 2;
     private static int CROP_REQUST_CODE = 3;
     private String mPictureFile, filePath;
+    private EditText mEditTxt;
     private Uri fileUri;//通过此uri得到本地图片,设置为背景
     private String localTempImgFileName = "bankgroup.jpg";
     private String localTempImgDir = "com.stock";
@@ -50,12 +56,12 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
         RelativeLayout mTitleRelat = (RelativeLayout) findViewById(R.id.send_dynamic_title);    //title布局
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                100);
+                DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
-        EditText mEditTxt = (EditText) findViewById(R.id.edit_txt);     //发表内容
+        mEditTxt = (EditText) findViewById(R.id.edit_txt);     //发表内容
         TextView mSendTxt = (TextView) findViewById(R.id.send_dynamic_txt);
         ImageView mAddImg = (ImageView) findViewById(R.id.add_image);
 
@@ -248,7 +254,10 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.send_dynamic_txt:
+                String edit = mEditTxt.getText().toString();
+
                 Toast.makeText(this,"发表成功",Toast.LENGTH_SHORT).show();
+                finish();
                 break;
             case R.id.add_image:
                 showChangeBgDialog();
@@ -256,4 +265,31 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
 
         }
     }
+
+    /**
+     * 发表动态
+     */
+
+    private void SendDynmaic(final ArrayList<String> list, final String token, final String content){
+        new AsyncTask(){
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                HashMap<String,Object> hashMap = new HashMap<>();
+                ArrayList<String> map = new ArrayList<>();
+                map.addAll(list);
+                hashMap.put("Imgs",map);
+                hashMap.put("Content",content);
+                String message = HttpManager.newInstance().getHttpDataByThreeLayerArray(token,hashMap,HttpManager.send_dynamic_URL);
+                return message;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                String message = (String) o;
+            }
+        }.execute();
+    }
+
 }

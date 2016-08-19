@@ -20,7 +20,7 @@ import java.util.Map;
 public class CanvasViewThree extends View {
     private Paint paint;
     private RectF rectF;
-    private static final float DEFAULT_RADIUS = 100;
+    private static final float DEFAULT_RADIUS = 80;
     private float radius = DEFAULT_RADIUS;// 默认圆环半径为300px
     private List<HashMap<String,Object>> data;//圆环的颜色数据
 

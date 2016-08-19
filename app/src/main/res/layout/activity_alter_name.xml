@@ -42,7 +42,8 @@
         android:layout_marginRight="@dimen/margin_15dp"
         android:layout_marginTop="@dimen/margin_10dp"
         android:padding="@dimen/margin_15dp"
-        android:hint="昵称"
+        android:hint="请输入您的昵称"
+        android:maxLength="12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/alter_title"/>

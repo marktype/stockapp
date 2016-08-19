@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     >
-    <item android:drawable="@mipmap/loading1" android:duration="500"/>
-    <item android:drawable="@mipmap/loading2" android:duration="500"/>
+    <item android:drawable="@mipmap/mao0" android:duration="100"/>
+    <item android:drawable="@mipmap/mao1" android:duration="100"/>
+    <item android:drawable="@mipmap/mao2" android:duration="100"/>
+    <item android:drawable="@mipmap/mao3" android:duration="100"/>
+    <item android:drawable="@mipmap/mao4" android:duration="100"/>
+    <item android:drawable="@mipmap/mao5" android:duration="100"/>
+    <item android:drawable="@mipmap/mao6" android:duration="100"/>
+    <item android:drawable="@mipmap/mao7" android:duration="100"/>
+    <item android:drawable="@mipmap/mao8" android:duration="100"/>
+    <item android:drawable="@mipmap/mao9" android:duration="100"/>
+    <item android:drawable="@mipmap/mao10" android:duration="100"/>
+    <item android:drawable="@mipmap/mao11" android:duration="100"/>
+    <item android:drawable="@mipmap/mao12" android:duration="100"/>
+    <item android:drawable="@mipmap/mao13" android:duration="100"/>
+    <item android:drawable="@mipmap/mao14" android:duration="100"/>
+    <item android:drawable="@mipmap/mao15" android:duration="100"/>
+
+
 
 </animation-list>

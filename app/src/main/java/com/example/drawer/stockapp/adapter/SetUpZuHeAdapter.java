@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.widget.BubbleSeekBar;
@@ -93,13 +94,13 @@ public class SetUpZuHeAdapter extends BaseAdapter{
                     viewHolder.num.setText((100-progressNum)+"%");
                     seekBar.setProgress(100-progressNum);
                     map.put(i,(100-progressNum));
+                    Toast.makeText(context,"您的仓位已经超过了100%",Toast.LENGTH_SHORT).show();
                 }else {
                     viewHolder.num.setText(seekBar.getProgress()+"%");
                     seekBar.setProgress(seekBar.getProgress());
                     map.put(i,seekBar.getProgress());
                 }
 
-//                notifyDataSetChanged();
             }
         });
 

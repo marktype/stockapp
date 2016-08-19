@@ -20,6 +20,7 @@ import com.example.drawer.stockapp.customview.MyScrollView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.NewsInfo;
 import com.example.drawer.stockapp.model.StargDetial;
+import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -79,18 +80,14 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         mCelueTxt.setText(starInfoBean.getName());
         mFormWhere.setText(starInfoBean.getTitle());
 
+
+        mChartOne.setRadius(DensityUtils.dp2px(this,40));
+        mChartTwo.setRadius(DensityUtils.dp2px(this,40));
+        mChartThree.setRadius(DensityUtils.dp2px(this,40));
         setCanvasData(mChartOne, starInfoBean.getMonthlyAverage());
         setCanvasData(mChartTwo, starInfoBean.getPorfolioSucc());
         setCanvasData(mChartThree, starInfoBean.getStockPick());
 
-//        if (!TextUtils.isEmpty(stargDetial.getResult().getImgUrl())) {
-//            Picasso.with(this).load(stargDetial.getResult().getImgUrl()).into(mshouyiImage);
-//        }
-//        if (!TextUtils.isEmpty(followInfoBean.get(0).getImgUrl())) {
-//            Picasso.with(this).load(followInfoBean.get(0).getImgUrl()).into(mImageOne);
-//            Picasso.with(this).load(followInfoBean.get(1).getImgUrl()).into(mImageTwo);
-//            Picasso.with(this).load(followInfoBean.get(2).getImgUrl()).into(mImageThree);
-//        }
 
 
     }
@@ -100,7 +97,7 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         mTitleRelat = (RelativeLayout) findViewById(R.id.celue_title);    //title布局
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                100);
+                DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
 

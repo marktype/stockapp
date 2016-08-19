@@ -11,6 +11,7 @@ import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.SetUpZuHeAdapter;
 import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.model.HeadIndex;
+import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -30,7 +31,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
         RelativeLayout mTitleRelat = (RelativeLayout) findViewById(R.id.setup_title);    //title布局
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                100);
+                DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
 

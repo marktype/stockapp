@@ -65,29 +65,34 @@
 
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/heji_image_one"
+    <com.example.drawer.stockapp.customview.MyListView
+        android:id="@+id/my_find_list"
         android:layout_width="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
         android:layout_below="@+id/jingxuan_heji_lin"
-        android:src="@mipmap/img454693988"
-        android:layout_height="150dp" />
-    <ImageView
-        android:id="@+id/heji_image_two"
-        android:scaleType="centerCrop"
-        android:layout_margin="@dimen/margin_10dp"
-        android:layout_below="@id/heji_image_one"
-        android:layout_width="match_parent"
-        android:src="@mipmap/img454693988"
-        android:layout_height="150dp" />
+        android:layout_height="wrap_content"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/heji_image_one"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:layout_marginLeft="@dimen/margin_10dp"-->
+        <!--android:layout_marginRight="@dimen/margin_10dp"-->
+        <!--android:layout_below="@+id/jingxuan_heji_lin"-->
+        <!--android:src="@mipmap/img454693988"-->
+        <!--android:layout_height="150dp" />-->
+    <!--<ImageView-->
+        <!--android:id="@+id/heji_image_two"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:layout_margin="@dimen/margin_10dp"-->
+        <!--android:layout_below="@id/heji_image_one"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:src="@mipmap/img454693988"-->
+        <!--android:layout_height="150dp" />-->
 
     <TextView
         android:id="@+id/tuijian_user"
         android:text="推荐用户"
         android:textColor="@android:color/darker_gray"
-        android:layout_below="@id/heji_image_two"
+        android:layout_below="@id/my_find_list"
         android:layout_margin="@dimen/margin_10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

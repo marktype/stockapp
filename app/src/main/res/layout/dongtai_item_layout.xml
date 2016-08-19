@@ -43,8 +43,9 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/collection"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/margin_20dp"
-            android:layout_marginRight="@dimen/margin_10dp"/>
+            android:padding="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            />
         <TextView
             android:id="@+id/line_one"
             android:layout_width="match_parent"
@@ -87,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/dongtai_line"
-            android:layout_margin="@dimen/margin_10dp"
+            android:padding="@dimen/margin_10dp"
             android:drawableLeft="@mipmap/zhuanfa"
             android:drawablePadding="@dimen/margin_5dp"
             android:text="2" />
@@ -98,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/dongtai_line"
             android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/margin_10dp"
+            android:padding="@dimen/margin_10dp"
             android:drawableLeft="@mipmap/pinglun"
             android:drawablePadding="@dimen/margin_5dp"
             android:text="2" />
@@ -109,10 +110,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/dongtai_line"
-            android:layout_margin="@dimen/margin_10dp"
+            android:padding="@dimen/margin_10dp"
             android:drawableLeft="@mipmap/zan"
             android:drawablePadding="@dimen/margin_5dp"
-            android:text="点赞" />
+            android:text="20" />
 
     </RelativeLayout>
 </RelativeLayout>

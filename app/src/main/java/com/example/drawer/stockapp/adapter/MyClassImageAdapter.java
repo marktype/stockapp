@@ -57,9 +57,8 @@ public class MyClassImageAdapter extends BaseAdapter {
         }
         String str = (String) getItem(i);
         if (!TextUtils.isEmpty(str)){
-            Picasso.with(context).load(str).resize(getWindowWight(),200).into(viewHolder.imageView);
+            Picasso.with(context).load(str).resize(getWindowWight(),300).into(viewHolder.imageView);
         }
-
         return view;
     }
 

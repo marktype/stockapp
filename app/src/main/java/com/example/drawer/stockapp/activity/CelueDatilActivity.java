@@ -21,6 +21,7 @@ import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.StarDetailInfo;
 import com.example.drawer.stockapp.model.StockBean;
+import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
@@ -109,7 +110,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mTitleRelat = (RelativeLayout) findViewById(R.id.all_celue_title);    //title布局
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                100);
+                DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
 
@@ -156,6 +157,9 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         canvasView = (CanvasView) findViewById(R.id.canvas_view);
         canvasView.setRadius(220f);    //设置图形半径
 
+        if (title.equals("我的组合")){
+            mGoOrder.setVisibility(View.GONE);
+        }
         mTitle.setText(title);
 
 

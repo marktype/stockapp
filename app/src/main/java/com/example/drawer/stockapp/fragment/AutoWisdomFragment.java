@@ -34,6 +34,7 @@ import com.example.drawer.stockapp.model.CeLueInfo;
 import com.example.drawer.stockapp.model.CeLueListInfo;
 import com.example.drawer.stockapp.model.NiuRenInfo;
 import com.example.drawer.stockapp.model.NiuRenListInfo;
+import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -133,7 +134,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         mTitle = (RelativeLayout) mView.findViewById(R.id.all_title);
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                100);
+                DensityUtils.dp2px(getActivity(),50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(getActivity()), 0, 0);
         mTitle.setLayoutParams(params);
 
@@ -215,7 +216,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         });    //注册监听
 
         listView.setOnScrollListener(this);
-
 
         //牛人组合
         niurenList = (XListView) niuRenZuHeView.findViewById(R.id.niuren_listview);
@@ -567,19 +567,19 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private void onLoad() {
         listView.stopRefresh();
         listView.stopLoadMore();
-        listView.setRefreshTime("刚刚");
+//        listView.setRefreshTime("刚刚");
     }
 
     private void onLoadNiu() {
         niurenList.stopRefresh();
         niurenList.stopLoadMore();
-        niurenList.setRefreshTime("刚刚");
+//        niurenList.setRefreshTime("刚刚");
     }
 
     private void onLoadMy() {
         myList.stopRefresh();
         myList.stopLoadMore();
-        myList.setRefreshTime("刚刚");
+//        myList.setRefreshTime("刚刚");
     }
 
     @Override
@@ -613,8 +613,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 //                        mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
 //                        tintManager.setTintAlpha((float) getScrollY() / 510);
                     //不设置渐变
-                    mTitle.getBackground().setAlpha(1);
-                    tintManager.setTintAlpha(0);
+                    mTitle.getBackground().setAlpha(25);
+                    tintManager.setTintAlpha(0.1f);
 
                     ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
                     ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
@@ -622,8 +622,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     mMessage.setImageResource(R.mipmap.message_white);
                     mSearch.setImageResource(R.mipmap.search_white);
                 } else {       //只执行一次就好
-                    mTitle.getBackground().setAlpha(255);
-                    tintManager.setTintAlpha(1);
+                    mTitle.getBackground().setAlpha(220);
+                    tintManager.setTintAlpha(0.85f);
 
                     ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
                     ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
@@ -650,8 +650,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 //                        mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
 //                        tintManager.setTintAlpha((float) getScrollY() / 510);
                     //不设置渐变
-                    mTitle.getBackground().setAlpha(1);
-                    tintManager.setTintAlpha(0);
+                    mTitle.getBackground().setAlpha(25);
+                    tintManager.setTintAlpha(0.1f);
 
                     ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
                     ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
@@ -659,8 +659,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     mMessage.setImageResource(R.mipmap.message_white);
                     mSearch.setImageResource(R.mipmap.search_white);
                 } else {       //只执行一次就好
-                    mTitle.getBackground().setAlpha(255);
-                    tintManager.setTintAlpha(1);
+                    mTitle.getBackground().setAlpha(220);
+                    tintManager.setTintAlpha(0.85f);
 
                     ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
                     ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
@@ -687,8 +687,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 //                        mTitleRelat.getBackground().setAlpha(getScrollY() / 2);
 //                        tintManager.setTintAlpha((float) getScrollY() / 510);
                     //不设置渐变
-                    mTitle.getBackground().setAlpha(1);
-                    tintManager.setTintAlpha(0);
+                    mTitle.getBackground().setAlpha(25);
+                    tintManager.setTintAlpha(0.1f);
 
                     ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), false);
                     ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), false);
@@ -696,8 +696,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     mMessage.setImageResource(R.mipmap.message_white);
                     mSearch.setImageResource(R.mipmap.search_white);
                 } else {       //只执行一次就好
-                    mTitle.getBackground().setAlpha(255);
-                    tintManager.setTintAlpha(1);
+                    mTitle.getBackground().setAlpha(220);
+                    tintManager.setTintAlpha(0.85f);
 
                     ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
                     ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);

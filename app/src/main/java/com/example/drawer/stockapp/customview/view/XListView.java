@@ -16,6 +16,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -48,7 +49,7 @@ public class XListView extends ListView implements OnScrollListener {
 	private boolean mEnablePullLoad;
 	private boolean mPullLoading;
 	private boolean mIsFooterReady = false;
-	
+	private ImageView mHeadImg;
 	// total list items, used to detect is at the bottom of listview.
 	private int mTotalItemCount;
 
@@ -95,6 +96,8 @@ public class XListView extends ListView implements OnScrollListener {
 
 //		mHeaderTimeView = (TextView) mHeaderView
 //				.findViewById(R.id.xlistview_header_time);
+		mHeadImg = (ImageView) mHeaderView.findViewById(R.id.xlistview_header_arrow);
+
 
 		addHeaderView(mHeaderView);
 
@@ -170,6 +173,7 @@ public class XListView extends ListView implements OnScrollListener {
 	 */
 	public void stopRefresh() {
 		if (mPullRefreshing == true) {
+			mHeadImg.setImageResource(R.mipmap.gif);
 			mPullRefreshing = false;
 			resetHeaderHeight();
 		}

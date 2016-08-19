@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.UserInfo;
+import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.google.gson.Gson;
@@ -45,7 +46,7 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
         RelativeLayout mTitleRelat = (RelativeLayout) findViewById(R.id.login_relat);    //title布局
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                100);
+                DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
 

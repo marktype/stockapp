@@ -64,10 +64,12 @@ public class HttpManager {
     public static final String CreatePorfolio_URL = BASE_URL + "Intelligent/CreatePorfolio";      // 创建组合
     public static final String CodeHotKeys_URL = BASE_URL + "Intelligent/HotKeys";      // 热门搜索股票关键字
     public static final String FindCode_URL = BASE_URL + "Intelligent/FindCode";      // 搜索股票
+    public static final String send_dynamic_URL = BASE_URL + "Dynamics/AddDynamic";      // 发布动态
     public static final String Login_URL = BASE_URL + "Membership/Login";      // 登录
     public static final String USERINFO_URL = BASE_URL + "Membership/UserDetail";      // 获取用户信息
     public static final String Version_URL = BASE_URL + "Membership/Version";      // 版本
     public static final String RegisterCode_URL = BASE_URL + "Membership/RegisterCode";      // 注册验证码
+    public static final String UpdataUser_URL = BASE_URL + "Membership/UpdateUserInfo";      // 修改用户信息
     public static final String ReSetPasswordCode_URL = BASE_URL + "Membership/ReSetPasswordCode";      // 重置密码验证码
     public static final String Register_URL = BASE_URL + "Membership/Register";      // 注册
     public static final String ReSetPassword_URL = BASE_URL + "Membership/ReSetPassword";      // 重置密码(忘记密码)
@@ -89,6 +91,7 @@ public class HttpManager {
     public static final String ArticleList_URL = BASE_URL + "QuantCollege/ArticleList";      //文章列表
     public static final String ArticleDetails_URL = BASE_URL + "QuantCollege/ArticleDetails";      //获取文章详细
     public static final String Information_School_URL = BASE_URL + "School/Information";      //一级界面资讯
+    public static final String My_School_URL = BASE_URL + "School/MyInformation";      //我的课堂列表
     public static final String CourseCommentsInfo_URL = BASE_URL + "School/CourseCommentsInfo";      //评论转发列表
     public static final String CourseDetail_URL = BASE_URL + "School/CourseDetail";      //课堂详情
     public static final String CourseComment_URL = BASE_URL + "School/CourseComment";      //评论/转发

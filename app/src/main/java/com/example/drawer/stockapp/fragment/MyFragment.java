@@ -1,11 +1,19 @@
 package com.example.drawer.stockapp.fragment;
 
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -13,11 +21,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.AllCanUseActivity;
@@ -29,12 +40,20 @@ import com.example.drawer.stockapp.activity.MyWalletActivity;
 import com.example.drawer.stockapp.customview.MyReboundScrollView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.UserInfo;
+import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -53,6 +72,18 @@ public class MyFragment extends Fragment implements View.OnClickListener{
     protected SystemBarTintManager tintManager;
     private String token,userId;
     private SharedPreferences sharedPreferences;
+    private TextView mSexTxt,scoreTxt,mFansTxt,mAttionTxt,mCollectTxt,mUserName;
+    private CircleImageView circleImageView;
+
+    private static int CAMERA_REQUST_CODE = 1;
+    private static int GALLERY_REQUST_CODE = 2;
+    private static int CROP_REQUST_CODE = 3;
+    private String mPictureFile, filePath;
+    private ImageView friendGroupBackGroundImageView;
+    private Uri fileUri;//通过此uri得到本地图片,设置为背景
+
+    private String localTempImgFileName = "bankgroup.jpg";
+    private String localTempImgDir = "com.bruce";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,12 +110,19 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         mTitleRelat = (RelativeLayout) mView.findViewById(R.id.my_info_relat);    //title布局
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                100);
+                DensityUtils.dp2px(getActivity(),50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(getActivity()),0,0);
         mTitleRelat.setLayoutParams(params);
 
-        CircleImageView circleImageView = (CircleImageView) mView.findViewById(R.id.user_head);      //头像
-        Picasso.with(getActivity()).load(R.mipmap.ic_launcher).into(circleImageView);
+        circleImageView = (CircleImageView) mView.findViewById(R.id.user_head);      //头像
+
+
+        mSexTxt = (TextView) mView.findViewById(R.id.man_sex_txt);     //性别
+        scoreTxt = (TextView) mView.findViewById(R.id.score_txt);     //积分
+        mFansTxt = (TextView) mView.findViewById(R.id.fensi_num_txt);   //粉丝数
+        mAttionTxt = (TextView) mView.findViewById(R.id.foucs_txt);    //关注数
+        mCollectTxt = (TextView) mView.findViewById(R.id.collect_num_txt);   //收藏数
+        mUserName = (TextView) mView.findViewById(R.id.user_name);      //用户名
 
         TextView mFenSi = (TextView) mView.findViewById(R.id.fensi_num_txt);
         mFenSi.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
@@ -139,8 +177,13 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         ManagerUtil.setStataBarColor(getActivity(),tintManager);
         token = sharedPreferences.getString(ShapePreferenceManager.TOKEN,"");
         userId = sharedPreferences.getString(ShapePreferenceManager.USER_ID,"");
-        UserInfoAsyn userInfoAsyn = new UserInfoAsyn();
-        userInfoAsyn.execute(userId,token);
+        if (!TextUtils.isEmpty(token)){
+            UserInfoAsyn userInfoAsyn = new UserInfoAsyn();
+            userInfoAsyn.execute(userId,token);
+        }else {
+            Intent intent = new Intent(getContext(),LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -155,8 +198,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.user_head:
-                intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
+                showChangeBgDialog();
                 break;
             case R.id.user_name_lin:
                 intent = new Intent(getContext(), AlterNameActivity.class);
@@ -166,9 +208,15 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 getSexPopWin(view);
                 break;
             case R.id.man_txt:
+                UpdataUserIfoAsyn asyn = new UpdataUserIfoAsyn();
+                asyn.execute("Man",token);
+                mSexTxt.setText("男");
                 mClassifyPop.dismiss();
                 break;
             case R.id.woman_txt:
+                asyn = new UpdataUserIfoAsyn();
+                asyn.execute("Woman",token);
+                mSexTxt.setText("女");
                 mClassifyPop.dismiss();
                 break;
             case R.id.cancel_txt:
@@ -257,8 +305,256 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             if (!TextUtils.isEmpty(message)&&message.length()>10){
                 Gson gson = new Gson();
                 UserInfo userInfo = gson.fromJson(message,UserInfo.class);   //获取用户信息
+                parseUserInfo(userInfo);
+            }else {
+                Toast.makeText(getContext(),"获取信息失败,请重新登录",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(),LoginActivity.class);
+                startActivity(intent);
+            }
+        }
+    }
+
+    /**
+     * 跟新用户信息
+     */
+    private class UpdataUserIfoAsyn extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HashMap<String,String> map = new HashMap<>();
+            map.put("Address", "");
+            map.put("Sex", strings[0]);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[1],map,HttpManager.UpdataUser_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            String message = s;
+        }
+    }
+
+    /**
+     * 解析用户数据
+     */
+    public void parseUserInfo(UserInfo userInfo){
+        if (userInfo.getHead().getStatus() == 0){
+            scoreTxt.setText(userInfo.getResult().getScore()+"");
+            mAttionTxt.setText(userInfo.getResult().getFollower()+"");
+            mFansTxt.setText(userInfo.getResult().getFans()+"");
+            if (userInfo.getResult().getNickName() != null&&!TextUtils.isEmpty(userInfo.getResult().getNickName()+"")){
+                mUserName.setText(userInfo.getResult().getNickName()+"");
+            }
+            if (userInfo.getResult().getAvatar() != null&&!TextUtils.isEmpty(userInfo.getResult().getAvatar()+"")){
+                Picasso.with(getActivity()).load(userInfo.getResult().getAvatar()+"").into(circleImageView);
+            }else {
+                Picasso.with(getActivity()).load(R.mipmap.ic_launcher).into(circleImageView);
+            }
+        }else {
+            Toast.makeText(getContext(),"获取信息失败,请重新登录",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getContext(),LoginActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    /**
+     * 显示更换背景对话框
+     */
+    public void showChangeBgDialog() {
+        final Dialog dialog = new Dialog(getContext(), R.style.dialog_no_black_border);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LinearLayout dialogLayout = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.pic_select_item_layout, null, false);
+        dialog.setContentView(dialogLayout);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+        /**
+         * 相册获取图片
+         */
+        dialogLayout.findViewById(R.id.pick_picture_album_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, GALLERY_REQUST_CODE);
+                dialog.dismiss();
+            }
+        });
+        /**
+         * 拍照获取图片
+         */
+        dialogLayout.findViewById(R.id.pick_picture_camera_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String status = Environment.getExternalStorageState();
+                if (status.equals(Environment.MEDIA_MOUNTED)) {
+                    try {
+                        Uri uri = setSaveUri();
+                        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                        startActivityForResult(intent, CAMERA_REQUST_CODE);
+                        dialog.dismiss();
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(getContext(), "没有找到储存目录", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "没有储存卡", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //如果返回码是照相机返回码,就进行以下处理
+        if (requestCode == CAMERA_REQUST_CODE) {
+
+            fileUri = getFilePath();    //保存uri
+            startImageZoom(fileUri);
+            if (!TextUtils.isEmpty(filePath)){
+            }
+
+            //如果返回码是相册,就进行处理
+        } else if (requestCode == GALLERY_REQUST_CODE) {
+
+            if (data == null) {
+                return;
+            } else {
+                Uri originalUri = data.getData();        //获得图片的uri
+                Picasso.with(getContext()).load(originalUri).resize(720,720).centerCrop().into(circleImageView);
+            }
+        }else if (requestCode == CROP_REQUST_CODE) {
+            if (data == null) {
+                return;
+            }
+            Bundle bundle = data.getExtras();
+
+            if (bundle != null){
+                Bitmap bitMap = bundle.getParcelable("data");
+                //将bitmap上传到服务器
+                circleImageView.setImageBitmap(bitMap);
 
             }
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+    }
+    /**
+     * 启动图片裁剪界面
+     *
+     * @param uri
+     */
+    private void startImageZoom(Uri uri) {
+        Intent imageZoomIntent = new Intent("com.android.camera.action.CROP");
+        imageZoomIntent.setDataAndType(uri, "image/*");
+        imageZoomIntent.putExtra("crop", "true");    //出现裁剪页面
+        imageZoomIntent.putExtra("aspectX", 1);     //裁剪比例
+        imageZoomIntent.putExtra("aspectY", 1);
+        imageZoomIntent.putExtra("outputX", 300);    //显示宽高,清晰度,不能太高，容易报错
+        imageZoomIntent.putExtra("outputY", 300);
+        imageZoomIntent.putExtra("return-data", true);
+        imageZoomIntent.putExtra("scale", true);
+        imageZoomIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+//        imageZoomIntent.putExtra("return-data", false);
+        startActivityForResult(imageZoomIntent, CROP_REQUST_CODE);
+    }
+    /**
+     * 将content的uri转成file的uri
+     *
+     * @param contentUri
+     * @return
+     */
+    private Uri convertUri(Uri contentUri) {
+        InputStream is = null;
+        try {
+            is = getActivity().getContentResolver().openInputStream(contentUri);
+            Bitmap bitMap = BitmapFactory.decodeStream(is);
+            is.close();
+            return saveBitMap(bitMap);
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getPhotoPath() {
+        return Environment.getExternalStorageDirectory() + "/DCIM/";
+    }
+
+
+    private Uri setSaveUri() {
+        //获取保存到的文件夹路劲
+        File dir = new File(Environment.getExternalStorageDirectory() + "/DCIM" + "/" + localTempImgDir);
+        if (!dir.exists())
+            dir.mkdirs();
+        localTempImgFileName = getFileName();//获取文件
+        File file = new File(dir, localTempImgFileName);//localTempImgDir和localTempImageFileName是自己定义的名字
+        Uri uri = Uri.fromFile(file);
+        return uri;
+    }
+
+    private String getFileName() {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");//格式大小写有区别
+        String sysDatetime = fmt.format(Calendar.getInstance().getTime());//2016年02月25日  13:23:40
+        localTempImgFileName = sysDatetime + ".jpg";
+        return localTempImgFileName;
+    }
+
+    private Uri getFilePath() {
+        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM"
+                + "/" + localTempImgDir + "/" + localTempImgFileName);
+        Uri uri = null;
+        try {
+            uri = Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(),
+                    file.getAbsolutePath(), null, null));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return uri;
+    }
+
+    /**
+     * 保存bitmap图像到本地文件
+     *
+     * @param bitMap
+     * @return返回一个file类型的uri
+     */
+    private Uri saveBitMap(Bitmap bitMap) {
+        //获取保存到的文件夹路劲
+        File rootFile = new File(Environment.getExternalStorageDirectory() + "/com.bruce");
+        if (!rootFile.exists()) {
+            rootFile.mkdirs();
+        }
+
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");//格式大小写有区别
+        String sysDatetime = fmt.format(Calendar.getInstance().getTime());//2016年02月25日  13:23:40
+        mPictureFile = sysDatetime + ".jpg";
+        filePath = getPhotoPath() + mPictureFile;//获取保存到的文件夹路劲
+        //保存的文件file
+        File imageFile = new File(filePath);
+        try {
+            FileOutputStream fos = new FileOutputStream(imageFile);
+            /**
+             * 将图像压缩--图像格式--图像压缩质量--输出流
+             */
+            bitMap.compress(Bitmap.CompressFormat.PNG, 10, fos);
+            fos.flush();
+            fos.close();
+            bitMap.recycle();
+            return Uri.fromFile(imageFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

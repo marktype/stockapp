@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/image_delete"
         android:layout_marginTop="@dimen/margin_10dp"
-        android:text="20%"
+        android:text="0%"
         android:padding="@dimen/margin_10dp"
         android:gravity="center"
         android:background="@color/gray_con_bg"/>

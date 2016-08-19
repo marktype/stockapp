@@ -4,24 +4,24 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/secruity_txt"
-        android:text="安全"
-        android:layout_margin="@dimen/margin_10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:text="高风险"
-        android:layout_margin="@dimen/margin_10dp"
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <!--<TextView-->
+        <!--android:id="@+id/secruity_txt"-->
+        <!--android:text="安全"-->
+        <!--android:layout_margin="@dimen/margin_10dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+    <!--<TextView-->
+        <!--android:text="高风险"-->
+        <!--android:layout_margin="@dimen/margin_10dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
     <com.example.drawer.stockapp.customview.widget.BubbleSeekBar
         android:id="@+id/grient_img"
         style="@style/Widget.SeekBar.Normal"
-        android:layout_below="@id/secruity_txt"
         android:layout_width="match_parent"
-        android:progress="20"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:progress="0"
         android:max="100"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/margin_10dp"

@@ -18,7 +18,15 @@ public class TrendsInfo {
     private String friendImage;    //好友头像
     private String friendName;     //好友名字
     private String friendContent;    //好友评论内容
+    private Boolean isCollect;   //是否收藏
 
+    public Boolean getCollect() {
+        return isCollect;
+    }
+
+    public void setCollect(Boolean collect) {
+        isCollect = collect;
+    }
 
     public int getGoodNum() {
         return goodNum;

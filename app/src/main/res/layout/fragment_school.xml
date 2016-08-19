@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:textColor="@color/title_text_un_color"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_centerHorizontal="true"
             app:pstsDividerColor="@android:color/transparent"
             app:pstsIndicatorColor="@color/content_bg"

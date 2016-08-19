@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -18,7 +19,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,6 +26,7 @@ import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.MessageActivity;
 import com.example.drawer.stockapp.activity.MyDynamicActivity;
 import com.example.drawer.stockapp.activity.SendDynamicActivity;
+import com.example.drawer.stockapp.activity.SerchActivity;
 import com.example.drawer.stockapp.activity.WebViewActivity;
 import com.example.drawer.stockapp.adapter.IndexAdapter;
 import com.example.drawer.stockapp.adapter.MyViewPagerAdapter;
@@ -34,10 +35,12 @@ import com.example.drawer.stockapp.customview.PagerSlidingTabStrip;
 import com.example.drawer.stockapp.customview.view.XListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.listener.OnFragmentInteractionListener;
+import com.example.drawer.stockapp.listener.TypeCallBack;
 import com.example.drawer.stockapp.model.DynamicsInfo;
 import com.example.drawer.stockapp.model.HeadMassageInfo;
 import com.example.drawer.stockapp.model.NewsInfo;
 import com.example.drawer.stockapp.model.TrendsInfo;
+import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -57,7 +60,7 @@ import java.util.List;
  * Use the {@link FirstNewsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FirstNewsFragment extends Fragment implements View.OnClickListener,AdapterView.OnItemClickListener,XListView.IXListViewListener,XListView.OnXScrollListener{
+public class FirstNewsFragment extends Fragment implements View.OnClickListener,AdapterView.OnItemClickListener,XListView.OnXScrollListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -68,7 +71,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private DynamicsInfo dynamicsInfo;
     private TrendsAdapter trendsAdapter;
     private RelativeLayout mTitleRelat;
-    private ListView mDongTaiList;
+    private XListView mDongTaiList;
     private ImageView mImgHead,mMessage,mSendImg;
     private Boolean isFlag = false;
     private String[] images = {""};
@@ -76,6 +79,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private String mParam1;
     private String mParam2;
     private OnFragmentInteractionListener mListener;
+    private Handler mHandler;
+    private int mDongTaiType;   //动态跳转类型
 
     public FirstNewsFragment() {
         // Required empty public constructor
@@ -106,7 +111,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        mHandler = new Handler();
     }
 
     @Override
@@ -118,7 +123,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         initData();
 //        if (headMassageInfo == null){
         getMessageInfo();
-        dymnicesData();
+//        dymnicesData();    //加载动态数据，稍后放开
 //        }
         return mView;
     }
@@ -147,7 +152,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mTitleRelat = (RelativeLayout) mView.findViewById(R.id.all_order_title);    //title布局
         //设置距离顶部状态栏高度
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                100);
+                DensityUtils.dp2px(getActivity(),50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(getActivity()),0,0);
         mTitleRelat.setLayoutParams(params);
 
@@ -201,7 +206,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                             images[i] = size.get(i).getBannerUrl();
 //                            images[i] = "http://m2.quanjing.com/2m/ivary_photorf001/stp005_00051.jpg";     //bar图
                         }
-                        initListData();
+//                        initListData();   //解析数据稍后放开
                     }
 
                 }
@@ -239,14 +244,26 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         tabs.setViewPager(mPager);
 //        initListData();
 
-        mDongTaiList = (ListView) dongtaiView.findViewById(R.id.fondtai_listview);
-        trendsAdapter = new TrendsAdapter(getActivity());
+        mDongTaiList = (XListView) dongtaiView.findViewById(R.id.fondtai_listview);
+        trendsAdapter = new TrendsAdapter(getActivity(),callBack);
         mDongTaiList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), MyDynamicActivity.class);
-                intent.putExtra(MyDynamicActivity.DYNAMICINFO,dynamicsInfo.getResult().getShare().get(i));
+                intent.putExtra(MyDynamicActivity.DYNAMICINFO,dynamicsInfo.getResult().getShare().get(i-1));
+                intent.putExtra(MyDynamicActivity.TYPE,mDongTaiType);
                 startActivity(intent);
+            }
+        });
+        mDongTaiList.setXListViewListener(new XListView.IXListViewListener() {
+            @Override
+            public void onRefresh() {
+                onLoadDt();
+            }
+
+            @Override
+            public void onLoadMore() {
+                onLoadDt();
             }
         });
 
@@ -322,7 +339,22 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mlist.setAdapter(indexAdapter);
 
         mlist.setOnItemClickListener(this);
-        mlist.setXListViewListener(this);
+        mlist.setXListViewListener(new XListView.IXListViewListener() {
+            @Override
+            public void onRefresh() {
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        onLoadZx();
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onLoadMore() {
+                onLoadZx();
+            }
+        });
 
         mlist.setOnScrollListener(this);
     }
@@ -378,13 +410,16 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             ArrayList<String> list = new ArrayList<>();
             DynamicsInfo.ResultBean.ShareBean ben = share.get(i);
             info.setImage(ben.getImgUrl());
-            info.setName(ben.getUserName());
+            info.setName(ben.getNickName());
             info.setContent(ben.getContent());
             for (int j = 0;j<ben.getImgs().size();j++){
                 list.add(ben.getImgs().get(j));
             }
             info.setContentImage(list);
             info.setTime(ben.getUpdateTime());
+            info.setZhuanFaNum(ben.getForward());
+            info.setCommentNum(ben.getComments());
+            info.setGoodNum(ben.getLikes());
             trendsInfos.add(info);
         }
         return trendsInfos;
@@ -480,10 +515,11 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.info_img:
-                onButtonPressed();
+                Intent intent = new Intent(getActivity(), MessageActivity.class);
+                startActivity(intent);
                 break;
             case R.id.pop_item_img:
-                Intent intent = new Intent(getActivity(), MessageActivity.class);
+                intent = new Intent(getActivity(), SerchActivity.class);
                 startActivity(intent);
                 break;
             case R.id.send_dynamic:
@@ -506,20 +542,15 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    @Override
-    public void onRefresh() {
-        onLoad();
-    }
-
-    @Override
-    public void onLoadMore() {
-        onLoad();
-    }
-    private void onLoad() {
+    private void onLoadZx() {
         mlist.stopRefresh();
         mlist.stopLoadMore();
-        mlist.setRefreshTime("刚刚");
     }
+    private void onLoadDt() {
+        mDongTaiList.stopRefresh();
+        mDongTaiList.stopLoadMore();
+    }
+
 
     @Override
     public void onXScrolling(View view) {
@@ -577,6 +608,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         }
                     }
                     break;
+
             }
 
     }
@@ -620,10 +652,12 @@ class ItemRecod {
                 case 0:
                     mSendImg.setVisibility(View.GONE);
                     mlist.setOnScrollListener(FirstNewsFragment.this);
+                    mDongTaiList.setOnScrollListener(null);
                     break;
                 case 1:
                     mSendImg.setVisibility(View.VISIBLE);
                     mlist.setOnScrollListener(null);     //此处为了不让滚动监听事件冲突
+                    mDongTaiList.setOnScrollListener(FirstNewsFragment.this);
                     mTitleRelat.getBackground().setAlpha(255);
                     tintManager.setTintAlpha(1);
                     mImgHead.setImageResource(R.mipmap.message_black);
@@ -636,5 +670,12 @@ class ItemRecod {
             }
         }
     }
+
+    private TypeCallBack callBack = new TypeCallBack() {
+        @Override
+        public void setDongTaiType(int type) {
+            mDongTaiType = type;
+        }
+    };
 }
 

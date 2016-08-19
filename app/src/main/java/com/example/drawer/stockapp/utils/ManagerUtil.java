@@ -155,4 +155,13 @@ public class ManagerUtil {
         FlymeSetStatusBarLightMode(activity.getWindow(),false);
         MIUISetStatusBarLightMode(activity.getWindow(),false);
     }
+
+    public static int getPetilWight(Context context){
+        WindowManager wm = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+        return width;
+    }
 }

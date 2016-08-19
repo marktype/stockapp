@@ -12,6 +12,7 @@ import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.CanvasView;
 import com.example.drawer.stockapp.customview.CanvasViewThree;
 import com.example.drawer.stockapp.model.NiuRenInfo;
+import com.example.drawer.stockapp.utils.DensityUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ public class MyZuHeAdapter extends BaseAdapter {
         viewHolder.type.setText(info.getStockType());
 //        viewHolder.getNum.setText("赚钱"+(i+1)+"号机器");
         viewHolder.guanzhuNum.setText(info.getTradeTime());
-
+        viewHolder.canvasViewThree.setRadius(DensityUtils.dp2px(context,40));
         setCanvasData(viewHolder.canvasViewThree,info.getShouyiRate());
         return view;
     }

@@ -26,12 +26,51 @@
             android:padding="@dimen/margin_10dp"
             android:textSize="@dimen/title_text_size"/>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pay_relat"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="@color/write_color"
+        android:layout_height="@dimen/margin_50dp">
+        <RelativeLayout
+            android:id="@+id/price_relat"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_50dp">
+            <TextView
+                android:id="@+id/price_txt"
+                android:textColor="@android:color/background_dark"
+                android:layout_marginLeft="@dimen/margin_20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/content_text_size"
+                android:text="0.00"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/price_txt"
+                android:layout_marginLeft="@dimen/margin_20dp"
+                android:text="实付金额"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/order_pay"
+            android:text="支付订阅"
+            android:textColor="@android:color/background_dark"
+            android:background="@color/content_bg"
+            android:textSize="@dimen/title_text_size"
+            android:padding="@dimen/margin_10dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_50dp" />
+    </RelativeLayout>
     <ScrollView
         android:layout_below="@id/group_title"
+        android:layout_above="@id/pay_relat"
         android:layout_width="match_parent"
+        android:background="@color/circle_con_bg"
         android:layout_height="match_parent">
         <RelativeLayout
-            android:background="@color/circle_con_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <RelativeLayout
@@ -153,40 +192,11 @@
                 android:layout_marginLeft="@dimen/margin_15dp"
                 android:layout_marginRight="@dimen/margin_15dp"
                 android:layout_below="@id/second_relat"/>
-            <TextView
-                android:layout_below="@id/pay_way"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_60dp" />
+            <!--<TextView-->
+                <!--android:layout_below="@id/pay_way"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/margin_50dp" />-->
         </RelativeLayout>
     </ScrollView>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:background="@color/write_color"
-        android:layout_height="@dimen/margin_50dp">
-        <TextView
-            android:id="@+id/price_txt"
-            android:textColor="@android:color/background_dark"
-            android:layout_marginLeft="@dimen/margin_20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title_size"
-            android:text="10000.00"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/price_txt"
-            android:layout_marginLeft="@dimen/margin_20dp"
-            android:text="实付金额"/>
-        <TextView
-            android:text="立即支付"
-            android:textColor="@android:color/background_dark"
-            android:background="@color/content_bg"
-            android:textSize="@dimen/title_text_size"
-            android:padding="@dimen/margin_10dp"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+
 </RelativeLayout>

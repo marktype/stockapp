@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyGridView;
+import com.example.drawer.stockapp.listener.TypeCallBack;
 import com.example.drawer.stockapp.model.TrendsInfo;
 import com.squareup.picasso.Picasso;
 
@@ -18,12 +20,15 @@ import java.util.ArrayList;
 
 /**
  * Created by 欢大哥 on 2016/6/15.
+ * 动态item
  */
 public class TrendsAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<TrendsInfo> list;
-    public TrendsAdapter(Context context){
+    private TypeCallBack callBack;
+    public TrendsAdapter(Context context,TypeCallBack callBack){
         this.context = context;
+        this.callBack = callBack;
     }
     public void setData(ArrayList<TrendsInfo> list){
         this.list = list;
@@ -46,7 +51,7 @@ public class TrendsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
         ImageAdapter adapter = null;
         if (view == null){
             viewHolder = new ViewHolder();
@@ -57,6 +62,10 @@ public class TrendsAdapter extends BaseAdapter {
             viewHolder.content = (TextView) view.findViewById(R.id.dongtai_content);
             viewHolder.contentImage = (MyGridView) view.findViewById(R.id.dongtai_cntent_image);
             viewHolder.time = (TextView) view.findViewById(R.id.dongtai_time);
+            viewHolder.collect = (ImageView) view.findViewById(R.id.collect_info_img);
+            viewHolder.zhuanFaNum = (TextView) view.findViewById(R.id.dongtai_zhuanfa);
+            viewHolder.commentNum = (TextView) view.findViewById(R.id.dongtai_pinglun);
+            viewHolder.goodNum = (TextView) view.findViewById(R.id.dongtai_zan);
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();
@@ -72,6 +81,39 @@ public class TrendsAdapter extends BaseAdapter {
         viewHolder.name.setText(info.getName());
         viewHolder.content.setText(info.getContent());
         viewHolder.time.setText(info.getTime());
+        viewHolder.zhuanFaNum.setText(info.getZhuanFaNum()+"");
+        viewHolder.commentNum.setText(info.getCommentNum()+"");
+        viewHolder.goodNum.setText(info.getGoodNum()+"");
+
+        //收藏
+        viewHolder.collect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewHolder.collect.setImageResource(R.mipmap.collection_yes);
+            }
+        });
+        //转发
+        viewHolder.zhuanFaNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callBack.setDongTaiType(2);
+            }
+        });
+        //评论
+        viewHolder.commentNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callBack.setDongTaiType(1);
+            }
+        });
+        //点赞
+        viewHolder.goodNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"点赞",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
 
@@ -84,5 +126,8 @@ public class TrendsAdapter extends BaseAdapter {
         TextView zhuanFaNum;
         TextView commentNum;
         TextView goodNum;
+        ImageView collect;
     }
+
+
 }

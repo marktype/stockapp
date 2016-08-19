@@ -81,10 +81,12 @@ public class XListViewHeader extends LinearLayout {
 		
 		if (state == STATE_REFRESHING) {	// 显示进度
 //			mArrowImageView.clearAnimation();
-			mArrowImageView.setVisibility(View.INVISIBLE);
+//			mArrowImageView.setVisibility(View.INVISIBLE);
+
 //			mProgressBar.setVisibility(View.VISIBLE);
 		} else {	// 显示箭头图片
 			mArrowImageView.setVisibility(View.VISIBLE);
+
 //			mProgressBar.setVisibility(View.INVISIBLE);
 		}
 		
@@ -92,11 +94,15 @@ public class XListViewHeader extends LinearLayout {
 		case STATE_NORMAL:
 			if (mState == STATE_READY) {
 //				mArrowImageView.startAnimation(mRotateDownAnim);
+
 			}
 			if (mState == STATE_REFRESHING) {
 //				mArrowImageView.clearAnimation();
+//				mArrowImageView.setImageResource(R.mipmap.loading2);
 			}
 			mHintTextView.setText(R.string.xlistview_header_hint_normal);
+			mArrowImageView.setImageResource(R.drawable.loading_anim);
+
 			break;
 		case STATE_READY:
 			if (mState != STATE_READY) {
