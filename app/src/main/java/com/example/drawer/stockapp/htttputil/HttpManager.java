@@ -69,6 +69,7 @@ public class HttpManager {
     public static final String USERINFO_URL = BASE_URL + "Membership/UserDetail";      // 获取用户信息
     public static final String Version_URL = BASE_URL + "Membership/Version";      // 版本
     public static final String RegisterCode_URL = BASE_URL + "Membership/RegisterCode";      // 注册验证码
+    public static final String UpdateAvatar_URL = BASE_URL + "Membership/UpdateAvatar";      // 修改用户头像
     public static final String UpdataUser_URL = BASE_URL + "Membership/UpdateUserInfo";      // 修改用户信息
     public static final String ReSetPasswordCode_URL = BASE_URL + "Membership/ReSetPasswordCode";      // 重置密码验证码
     public static final String Register_URL = BASE_URL + "Membership/Register";      // 注册
@@ -133,19 +134,6 @@ public class HttpManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        call.enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Log.d("tag", "onFailure: ---" + e.toString());
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                String info = response.body().string();
-//                Log.d("tag", "getHttpData: 2222222--"+info);
-//                setHttpInfo(info);
-//            }
-//        });
         return "";
 
     }
@@ -175,7 +163,7 @@ public class HttpManager {
      * url     请求地址
      */
     public String getHttpDataByTwoLayer(String token, HashMap<String, String> map, String url) {
-
+        Boolean flag = true;      //判断是否只有param一个参数
         if (TextUtils.isEmpty(token)) {   //token为null请求时会报异常
             token = "";
         }
@@ -194,15 +182,20 @@ public class HttpManager {
                     String key = (String) entry.getKey();
                     String val = (String) entry.getValue();
                     object2.put(key, val);
+                    if (key.equals("Param")){
+                        kk.put("Param", val);
+                        flag = false;
+                    }
                 }
             }
-            kk.put("Param", object2);
+            if (flag){
+                kk.put("Param", object2);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         String str = kk.toString();
-//        final String[] dataInfo = {null};
 
         RequestBody formBody = RequestBody.create(JSON, str);
         OkHttpClient mOkHttpClient = new OkHttpClient();
@@ -232,22 +225,6 @@ public class HttpManager {
             e.printStackTrace();
         }
 
-//        Call call = mOkHttpClient.newCall(request);
-//        //请求加入调度
-//        call.enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Log.d("tag", "onFailure: ---" + e.toString());
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                String info = response.body().string();
-//                Log.d("tag", "getHttpDataByTwoLayer: 2222222--"+info);
-//                setHttpInfo(info);
-//            }
-//
-//        });
         return "";
     }
 
@@ -459,21 +436,6 @@ public class HttpManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        Call call = mOkHttpClient.newCall(request);
-//        //请求加入调度
-//        call.enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Log.d("tag", "onFailure: ---" + e.toString());
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                String info = response.body().string();
-//                Log.d("tag", "getHttpData: 2222222--"+info);
-//                setHttpInfo(info);
-//            }
-//        });
 
         return "";
     }

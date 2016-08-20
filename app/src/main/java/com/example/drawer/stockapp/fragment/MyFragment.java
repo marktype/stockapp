@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -16,6 +16,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -37,9 +38,11 @@ import com.example.drawer.stockapp.activity.AttentionActivity;
 import com.example.drawer.stockapp.activity.CollectionActivity;
 import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.activity.MyWalletActivity;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyReboundScrollView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.UserInfo;
+import com.example.drawer.stockapp.utils.DataCleanManager;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.example.drawer.stockapp.utils.ShapePreferenceManager;
@@ -47,11 +50,10 @@ import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -78,8 +80,6 @@ public class MyFragment extends Fragment implements View.OnClickListener{
     private static int CAMERA_REQUST_CODE = 1;
     private static int GALLERY_REQUST_CODE = 2;
     private static int CROP_REQUST_CODE = 3;
-    private String mPictureFile, filePath;
-    private ImageView friendGroupBackGroundImageView;
     private Uri fileUri;//通过此uri得到本地图片,设置为背景
 
     private String localTempImgFileName = "bankgroup.jpg";
@@ -135,8 +135,10 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         RelativeLayout mMyWallet = (RelativeLayout) mView.findViewById(R.id.my_wallet_lin);    //我的钱包
         RelativeLayout mName = (RelativeLayout) mView.findViewById(R.id.user_name_lin);    //修改昵称
         RelativeLayout mSex = (RelativeLayout) mView.findViewById(R.id.sex_lin);      //性别
-        LinearLayout mCollectLin = (LinearLayout) mView.findViewById(R.id.collect_lin);
+        LinearLayout mCollectLin = (LinearLayout) mView.findViewById(R.id.collect_lin);    //收藏
         RelativeLayout mAllCan = (RelativeLayout) mView.findViewById(R.id.all_can_lin);    //通用
+
+        TextView mExit = (TextView) mView.findViewById(R.id.exit_txt);    //退出
 
         //不设置渐变
         mTitleRelat.getBackground().setAlpha(1);
@@ -168,6 +170,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         circleImageView.setOnClickListener(this);
         mCollectLin.setOnClickListener(this);
         mAllCan.setOnClickListener(this);
+        mExit.setOnClickListener(this);
     }
 
     @Override
@@ -230,7 +233,42 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 intent = new Intent(getContext(), AllCanUseActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.exit_txt:
+                popWinDow();
+                break;
+            case R.id.dialog_sure:
+                DataCleanManager.cleanApplicationData(getContext());
+                intent = new Intent(getContext(),LoginActivity.class);
+                startActivity(intent);
+                myDialog.dismiss();
+                break;
+            case R.id.dialog_cancal:
+                myDialog.dismiss();
+
+                break;
         }
+    }
+    private MyDialog myDialog;
+    /**
+     * 退出弹框
+     */
+    public void popWinDow(){
+        myDialog = new MyDialog(getContext(),R.layout.dialog_exit_layout,R.style.myDialog);
+        myDialog.show();
+
+        View mViewPop = myDialog.getPopView();
+        TextView Sure = (TextView) mViewPop.findViewById(R.id.dialog_sure);   //确认
+        TextView cancal = (TextView) mViewPop.findViewById(R.id.dialog_cancal);   //取消
+
+        Sure.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+              Log.d("tag","aaaaaaaaaaaaaa");
+                return false;
+            }
+        });
+
+
     }
 
     /**
@@ -359,6 +397,45 @@ public class MyFragment extends Fragment implements View.OnClickListener{
     }
 
     /**
+     * 修改用户头像
+     */
+    private class UpdateAvterAsyn extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HashMap<String,String> map = new HashMap<>();
+            map.put("Param", strings[0]);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[1],map,HttpManager.UpdateAvatar_URL);
+            return message;
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+        }
+    }
+
+    /**
+     * 发送图片到服务器
+     *
+     * @param bitmap
+     */
+    private void sendImageToServer(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        bitmap.compress(Bitmap.CompressFormat.PNG, 85, baos);
+        //字节数组
+        byte[] bytes = baos.toByteArray();
+        //通过Base64编码
+        byte[] dd = Base64.encode(bytes, Base64.DEFAULT);
+        String mm = new String(dd);
+        //到此已经得到了头像的字节字符串
+        UpdateAvterAsyn updateAvterAsyn = new UpdateAvterAsyn();
+        updateAvterAsyn.execute(mm,token);
+    }
+    /**
      * 显示更换背景对话框
      */
     public void showChangeBgDialog() {
@@ -413,8 +490,6 @@ public class MyFragment extends Fragment implements View.OnClickListener{
 
             fileUri = getFilePath();    //保存uri
             startImageZoom(fileUri);
-            if (!TextUtils.isEmpty(filePath)){
-            }
 
             //如果返回码是相册,就进行处理
         } else if (requestCode == GALLERY_REQUST_CODE) {
@@ -423,7 +498,10 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 return;
             } else {
                 Uri originalUri = data.getData();        //获得图片的uri
-                Picasso.with(getContext()).load(originalUri).resize(720,720).centerCrop().into(circleImageView);
+
+                Bitmap bitmap = getBitmapFromUri(originalUri);
+                bitmap = reduce(bitmap, 720, 720, true);
+                sendImageToServer(bitmap);
             }
         }else if (requestCode == CROP_REQUST_CODE) {
             if (data == null) {
@@ -434,8 +512,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             if (bundle != null){
                 Bitmap bitMap = bundle.getParcelable("data");
                 //将bitmap上传到服务器
-                circleImageView.setImageBitmap(bitMap);
-
+                sendImageToServer(bitMap);
             }
         }
     }
@@ -443,6 +520,51 @@ public class MyFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
+    }
+
+    /**
+     * 获取uri所在图片位置
+     * @param uri
+     * @return
+     */
+    private Bitmap getBitmapFromUri(Uri uri) {
+        try {
+            // 读取uri所在的图片
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+            return bitmap;
+        } catch (Exception e) {
+            Log.e("[Android]", e.getMessage());
+            Log.e("[Android]", "目录为：" + uri);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 压缩图片
+     *
+     * @param bitmap   源图片
+     * @param width    想要的宽度
+     * @param height   想要的高度
+     * @param isAdjust 是否自动调整尺寸, true图片就不会拉伸，false严格按照你的尺寸压缩
+     * @return Bitmap
+     */
+    public Bitmap reduce(Bitmap bitmap, int width, int height, boolean isAdjust) {
+        // 如果想要的宽度和高度都比源图片小，就不压缩了，直接返回原图
+        if (bitmap.getWidth() < width && bitmap.getHeight() < height) {
+            return bitmap;
+        }
+        // 根据想要的尺寸精确计算压缩比例, 方法详解：public BigDecimal divide(BigDecimal divisor, int scale, int roundingMode);
+        // scale表示要保留的小数位, roundingMode表示如何处理多余的小数位，BigDecimal.ROUND_DOWN表示自动舍弃
+        float sx = new BigDecimal(width).divide(new BigDecimal(bitmap.getWidth()), 4, BigDecimal.ROUND_DOWN).floatValue();
+        float sy = new BigDecimal(height).divide(new BigDecimal(bitmap.getHeight()), 4, BigDecimal.ROUND_DOWN).floatValue();
+        if (isAdjust) {// 如果想自动调整比例，不至于图片会拉伸
+            sx = (sx < sy ? sx : sy);
+            sy = sx;// 哪个比例小一点，就用哪个比例
+        }
+        Matrix matrix = new Matrix();
+        matrix.postScale(sx, sy);// 调用api中的方法进行压缩，就大功告成了
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
     /**
      * 启动图片裁剪界面
@@ -462,26 +584,6 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         imageZoomIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 //        imageZoomIntent.putExtra("return-data", false);
         startActivityForResult(imageZoomIntent, CROP_REQUST_CODE);
-    }
-    /**
-     * 将content的uri转成file的uri
-     *
-     * @param contentUri
-     * @return
-     */
-    private Uri convertUri(Uri contentUri) {
-        InputStream is = null;
-        try {
-            is = getActivity().getContentResolver().openInputStream(contentUri);
-            Bitmap bitMap = BitmapFactory.decodeStream(is);
-            is.close();
-            return saveBitMap(bitMap);
-        } catch (FileNotFoundException e) {
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     public String getPhotoPath() {
@@ -520,41 +622,6 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         return uri;
     }
 
-    /**
-     * 保存bitmap图像到本地文件
-     *
-     * @param bitMap
-     * @return返回一个file类型的uri
-     */
-    private Uri saveBitMap(Bitmap bitMap) {
-        //获取保存到的文件夹路劲
-        File rootFile = new File(Environment.getExternalStorageDirectory() + "/com.bruce");
-        if (!rootFile.exists()) {
-            rootFile.mkdirs();
-        }
 
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");//格式大小写有区别
-        String sysDatetime = fmt.format(Calendar.getInstance().getTime());//2016年02月25日  13:23:40
-        mPictureFile = sysDatetime + ".jpg";
-        filePath = getPhotoPath() + mPictureFile;//获取保存到的文件夹路劲
-        //保存的文件file
-        File imageFile = new File(filePath);
-        try {
-            FileOutputStream fos = new FileOutputStream(imageFile);
-            /**
-             * 将图像压缩--图像格式--图像压缩质量--输出流
-             */
-            bitMap.compress(Bitmap.CompressFormat.PNG, 10, fos);
-            fos.flush();
-            fos.close();
-            bitMap.recycle();
-            return Uri.fromFile(imageFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+
 }

@@ -554,6 +554,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 break;
             case R.id.pop_item_img:
                 intent = new Intent(getActivity(), SerchActivity.class);
+                intent.putExtra(SerchActivity.URL_SEARCH,HttpManager.FindCode_URL);
                 startActivity(intent);
                 break;
             case R.id.add_image:

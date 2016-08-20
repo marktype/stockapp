@@ -44,6 +44,7 @@
         android:padding="@dimen/margin_15dp"
         android:hint="请输入您的昵称"
         android:maxLength="12"
+        android:textSize="14sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/alter_title"/>

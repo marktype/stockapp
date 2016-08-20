@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:background="@color/circle_con_bg"
     >
     <RelativeLayout
         android:id="@+id/search_title"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/write_color"
         android:layout_height="@dimen/title_height">
         <ImageView
             android:id="@+id/back_img"
@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:text="@string/search_txt"
             android:gravity="center"
-            android:textColor="@color/write_color"
+            android:textColor="@android:color/background_dark"
             android:layout_centerInParent="true"
             android:padding="@dimen/margin_10dp"
             android:textSize="@dimen/title_text_size"/>
@@ -33,22 +33,46 @@
         android:layout_width="wrap_content"
         android:text="搜索"
         android:padding="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_5dp"
        android:layout_marginRight="@dimen/margin_10dp"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content" />
+    <!--android:inputType="text"   能否设置属性成功的关键 android:imeOptions="actionSearch"-->
     <EditText
         android:id="@+id/search_edit"
-        android:drawableLeft="@mipmap/searchicon"
+        android:drawableLeft="@mipmap/searchblack"
         android:drawablePadding="@dimen/margin_10dp"
         android:padding="@dimen/margin_5dp"
-        android:textColorHint="@color/write_color"
-        android:hint="搜索"
-        android:layout_margin="@dimen/margin_5dp"
+        android:textColorHint="@android:color/darker_gray"
+        android:hint="搜索股票"
+        android:inputType="text"
+        android:textSize="@dimen/title_text_size"
+        android:layout_margin="@dimen/margin_10dp"
         android:layout_toLeftOf="@id/search_txt"
         android:layout_below="@id/search_title"
         android:layout_width="match_parent"
-        android:alpha="0.8"
         android:imeOptions="actionSearch"
-        android:background="@drawable/rect_edit_bg_shape"
+        android:background="@drawable/rect_write_shape"
         android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/hot_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_edit"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:text="@string/hot_search_txt"/>
+    <LinearLayout
+        android:id="@+id/hot_lin"
+        android:layout_below="@id/hot_txt"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </LinearLayout>
+    <ListView
+        android:layout_below="@+id/hot_lin"
+        android:id="@+id/search_listview"
+        android:divider="@null"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </RelativeLayout>
