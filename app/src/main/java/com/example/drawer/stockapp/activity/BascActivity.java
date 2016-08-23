@@ -45,4 +45,6 @@ public class BascActivity extends AppCompatActivity {
         }
         win.setAttributes(winParams);
     }
+
+
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class NewsInfo {
     private int type;    //布局类型
-    private String linkUrl;    //链接
+    private String linkUrl;    //链接id
     //类型为1时（1张图片）
     private String Image;
     private String title;

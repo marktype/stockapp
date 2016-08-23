@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -38,11 +39,10 @@ import com.example.drawer.stockapp.activity.AttentionActivity;
 import com.example.drawer.stockapp.activity.CollectionActivity;
 import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.activity.MyWalletActivity;
-import com.example.drawer.stockapp.customview.MyDialog;
+import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.customview.MyReboundScrollView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.UserInfo;
-import com.example.drawer.stockapp.utils.DataCleanManager;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.example.drawer.stockapp.utils.ShapePreferenceManager;
@@ -76,6 +76,8 @@ public class MyFragment extends Fragment implements View.OnClickListener{
     private SharedPreferences sharedPreferences;
     private TextView mSexTxt,scoreTxt,mFansTxt,mAttionTxt,mCollectTxt,mUserName;
     private CircleImageView circleImageView;
+    private ImageView mNologin;
+    private MyReboundScrollView mScrollview;
 
     private static int CAMERA_REQUST_CODE = 1;
     private static int GALLERY_REQUST_CODE = 2;
@@ -102,6 +104,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
     }
 
 
+
     public void initWight(){
         tintManager = ManagerUtil.newInstance(getActivity());
         ManagerUtil.setStataBarColor(getActivity(),tintManager);
@@ -115,7 +118,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         mTitleRelat.setLayoutParams(params);
 
         circleImageView = (CircleImageView) mView.findViewById(R.id.user_head);      //头像
-
+        mNologin = (ImageView) mView.findViewById(R.id.img_no_login);
 
         mSexTxt = (TextView) mView.findViewById(R.id.man_sex_txt);     //性别
         scoreTxt = (TextView) mView.findViewById(R.id.score_txt);     //积分
@@ -141,9 +144,9 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         TextView mExit = (TextView) mView.findViewById(R.id.exit_txt);    //退出
 
         //不设置渐变
-        mTitleRelat.getBackground().setAlpha(1);
-        tintManager.setTintAlpha(0);
-        MyReboundScrollView mScrollview = (MyReboundScrollView) mView.findViewById(R.id.my_scrollview);
+//        mTitleRelat.getBackground().setAlpha(1);
+//        tintManager.setTintAlpha(0);
+        mScrollview = (MyReboundScrollView) mView.findViewById(R.id.my_scrollview);
 
         mScrollview.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -171,6 +174,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         mCollectLin.setOnClickListener(this);
         mAllCan.setOnClickListener(this);
         mExit.setOnClickListener(this);
+        mNologin.setOnClickListener(this);
     }
 
     @Override
@@ -183,9 +187,15 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         if (!TextUtils.isEmpty(token)){
             UserInfoAsyn userInfoAsyn = new UserInfoAsyn();
             userInfoAsyn.execute(userId,token);
-        }else {
-            Intent intent = new Intent(getContext(),LoginActivity.class);
-            startActivity(intent);
+            mNologin.setVisibility(View.GONE);
+            mScrollview.setVisibility(View.VISIBLE);
+            mTitleRelat.getBackground().setAlpha(1);
+            tintManager.setTintAlpha(0);
+        } else {
+            mNologin.setVisibility(View.VISIBLE);
+            mScrollview.setVisibility(View.GONE);
+            mTitleRelat.getBackground().setAlpha(255);
+            tintManager.setTintAlpha(1);
         }
     }
 
@@ -236,35 +246,32 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             case R.id.exit_txt:
                 popWinDow();
                 break;
-            case R.id.dialog_sure:
-                DataCleanManager.cleanApplicationData(getContext());
+            case R.id.img_no_login:
                 intent = new Intent(getContext(),LoginActivity.class);
                 startActivity(intent);
-                myDialog.dismiss();
-                break;
-            case R.id.dialog_cancal:
-                myDialog.dismiss();
-
                 break;
         }
     }
-    private MyDialog myDialog;
     /**
      * 退出弹框
      */
     public void popWinDow(){
-        myDialog = new MyDialog(getContext(),R.layout.dialog_exit_layout,R.style.myDialog);
-        myDialog.show();
-
-        View mViewPop = myDialog.getPopView();
-        TextView Sure = (TextView) mViewPop.findViewById(R.id.dialog_sure);   //确认
-        TextView cancal = (TextView) mViewPop.findViewById(R.id.dialog_cancal);   //取消
-
-        Sure.setOnTouchListener(new View.OnTouchListener() {
+        final CustomDialog dialog = new CustomDialog(getContext());
+        dialog.setMessageText("确认要退出登录吗？");
+        dialog.show();
+        dialog.setOnPositiveListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-              Log.d("tag","aaaaaaaaaaaaaa");
-                return false;
+            public void onClick(View view) {
+                sharedPreferences.edit().clear().commit();   //清除缓存sp数据
+                Intent intent = new Intent(getContext(),LoginActivity.class);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        dialog.setOnNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
 

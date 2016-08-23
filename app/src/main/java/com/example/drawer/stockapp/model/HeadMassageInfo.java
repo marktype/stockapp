@@ -1,6 +1,6 @@
 package com.example.drawer.stockapp.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 欢大哥 on 2016/7/13.
@@ -55,67 +55,50 @@ public class HeadMassageInfo{
 
     public static class ResultBean {
         /**
-         * Id : 0
-         * TargetUrl : http://www.supwin.com/
-         * BannerUrl : http://www.supwin.com/media/1009/logo.png
-         * Title : 标题1
+         * Id : 29
+         * TargetUrl : http://mbcaijing.baijia.baidu.com/article/590795
+         * BannerUrl : http://filewebpath.matrix.lab.supwin.com:8899/20160820111143810.jpg
+         * Title : 房价飙涨之后的厦门：年轻人正在逃离“最美城市”
          */
 
-        private ArrayList<BannerUrlBean> BannerUrl;
+        private List<BannerUrlBean> BannerUrl;
         /**
-         * Id : 0
-         * Name : 上证指数
-         * Code : 000001
-         * Points : 2913.51
-         * VariabilityPoints : -3.11
-         * VariabilityRate : -0.11
-         * UpdateTime : 2016-07-07 12:00:00
-         */
-
-        private ArrayList<MarketDataBean> MarketData;
-        /**
-         * Id : 0
-         * Title : 任正非向高层汇报：为何华为现在感到迷茫
-         * SecondTitle : 副标题
-         * BannerUrl : ["http://www.supwin.com/media/1009/logo.png"]
-         * UpdateTime : 2016-07-07
-         * Comments : 5347
-         * Forward : 532
-         * Likes : 2011
-         * Favorites : 300
+         * Id : 31
+         * Title : 冬日娜问中国第1棒:你起跑反应全场最慢是求稳吗?
+         * SecondTitle : 冬日娜问中国第1棒:你起跑反应全场最慢是求稳吗?
+         * BannerUrl : [null]
+         * UpdateTime : 2016-08-20 13:51:40
+         * Comments : 0
+         * Forward : 0
+         * Likes : 0
+         * Favorites : 0
          * NewsType : 0
-         * TargetUri :
+         * TargetUri : null
          */
 
-        private ArrayList<NewsBean> News;
+        private List<NewsBean> News;
 
-        public ArrayList<BannerUrlBean> getBannerUrl() {
+        public List<BannerUrlBean> getBannerUrl() {
             return BannerUrl;
         }
 
-        public void setBannerUrl(ArrayList<BannerUrlBean> BannerUrl) {
+        public void setBannerUrl(List<BannerUrlBean> BannerUrl) {
             this.BannerUrl = BannerUrl;
         }
 
-        public ArrayList<MarketDataBean> getMarketData() {
-            return MarketData;
-        }
-
-        public void setMarketData(ArrayList<MarketDataBean> MarketData) {
-            this.MarketData = MarketData;
-        }
-
-        public ArrayList<NewsBean> getNews() {
+        public List<NewsBean> getNews() {
             return News;
         }
 
-        public void setNews(ArrayList<NewsBean> News) {
+        public void setNews(List<NewsBean> News) {
             this.News = News;
         }
 
         public static class BannerUrlBean {
             private String Id;
+            private String TargetUrl;
             private String BannerUrl;
+            private String Title;
 
             public String getId() {
                 return Id;
@@ -123,6 +106,14 @@ public class HeadMassageInfo{
 
             public void setId(String Id) {
                 this.Id = Id;
+            }
+
+            public String getTargetUrl() {
+                return TargetUrl;
+            }
+
+            public void setTargetUrl(String TargetUrl) {
+                this.TargetUrl = TargetUrl;
             }
 
             public String getBannerUrl() {
@@ -132,71 +123,13 @@ public class HeadMassageInfo{
             public void setBannerUrl(String BannerUrl) {
                 this.BannerUrl = BannerUrl;
             }
-        }
 
-        public static class MarketDataBean {
-            private String Id;
-            private String Name;
-            private String Code;
-            private double Points;
-            private double VariabilityPoints;
-            private double VariabilityRate;
-            private String UpdateTime;
-
-            public String getId() {
-                return Id;
+            public String getTitle() {
+                return Title;
             }
 
-            public void setId(String Id) {
-                this.Id = Id;
-            }
-
-            public String getName() {
-                return Name;
-            }
-
-            public void setName(String Name) {
-                this.Name = Name;
-            }
-
-            public String getCode() {
-                return Code;
-            }
-
-            public void setCode(String Code) {
-                this.Code = Code;
-            }
-
-            public double getPoints() {
-                return Points;
-            }
-
-            public void setPoints(double Points) {
-                this.Points = Points;
-            }
-
-            public double getVariabilityPoints() {
-                return VariabilityPoints;
-            }
-
-            public void setVariabilityPoints(double VariabilityPoints) {
-                this.VariabilityPoints = VariabilityPoints;
-            }
-
-            public double getVariabilityRate() {
-                return VariabilityRate;
-            }
-
-            public void setVariabilityRate(double VariabilityRate) {
-                this.VariabilityRate = VariabilityRate;
-            }
-
-            public String getUpdateTime() {
-                return UpdateTime;
-            }
-
-            public void setUpdateTime(String UpdateTime) {
-                this.UpdateTime = UpdateTime;
+            public void setTitle(String Title) {
+                this.Title = Title;
             }
         }
 
@@ -210,8 +143,8 @@ public class HeadMassageInfo{
             private int Likes;
             private int Favorites;
             private int NewsType;
-            private String TargetUri;
-            private ArrayList<String> BannerUrl;
+            private Object TargetUri;
+            private List<?> BannerUrl;
 
             public String getId() {
                 return Id;
@@ -285,19 +218,19 @@ public class HeadMassageInfo{
                 this.NewsType = NewsType;
             }
 
-            public String getTargetUri() {
+            public Object getTargetUri() {
                 return TargetUri;
             }
 
-            public void setTargetUri(String TargetUri) {
+            public void setTargetUri(Object TargetUri) {
                 this.TargetUri = TargetUri;
             }
 
-            public ArrayList<String> getBannerUrl() {
+            public List<?> getBannerUrl() {
                 return BannerUrl;
             }
 
-            public void setBannerUrl(ArrayList<String> BannerUrl) {
+            public void setBannerUrl(List<?> BannerUrl) {
                 this.BannerUrl = BannerUrl;
             }
         }

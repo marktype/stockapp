@@ -2,7 +2,8 @@ package com.example.drawer.stockapp.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,18 +12,16 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.activity.MessageActivity;
 import com.example.drawer.stockapp.activity.MyDynamicActivity;
 import com.example.drawer.stockapp.activity.SendDynamicActivity;
@@ -42,6 +41,7 @@ import com.example.drawer.stockapp.model.NewsInfo;
 import com.example.drawer.stockapp.model.TrendsInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
+import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.scxh.slider.library.Indicators.PagerIndicator;
@@ -72,15 +72,17 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private TrendsAdapter trendsAdapter;
     private RelativeLayout mTitleRelat;
     private XListView mDongTaiList;
-    private ImageView mImgHead,mMessage,mSendImg;
+    private ImageView mImgHead,mMessage,mSendImg,mBackgroud;
     private Boolean isFlag = false;
     private String[] images = {""};
+    private String[] strings = {""};
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private OnFragmentInteractionListener mListener;
     private Handler mHandler;
     private int mDongTaiType;   //动态跳转类型
+    private SharedPreferences sharedPreferences;
 
     public FirstNewsFragment() {
         // Required empty public constructor
@@ -112,6 +114,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mHandler = new Handler();
+        sharedPreferences = ShapePreferenceManager.getMySharedPreferences(getActivity());
     }
 
     @Override
@@ -123,7 +126,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         initData();
 //        if (headMassageInfo == null){
         getMessageInfo();
-//        dymnicesData();    //加载动态数据，稍后放开
+
 //        }
         return mView;
     }
@@ -131,6 +134,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
+        String token = sharedPreferences.getString(ShapePreferenceManager.TOKEN,null);
         switch (mPager.getCurrentItem()){
             case 0:
                 SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
@@ -139,6 +143,12 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             case 1:
                 tintManager = ManagerUtil.newInstance(getActivity());
                 ManagerUtil.setStataBarColor(getActivity(),tintManager);
+                if (!TextUtils.isEmpty(token)){
+                    dymnicesData(token);    //
+                    mBackgroud.setVisibility(View.GONE);
+                }else {
+                    mBackgroud.setVisibility(View.VISIBLE);
+                }
                 break;
         }
 
@@ -200,13 +210,15 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                     headMassageInfo = gson.fromJson(message, HeadMassageInfo.class);
                     Log.d("tag","---"+headMassageInfo.getHead().getStatus());
                     if (headMassageInfo.getHead().getStatus()==0){
-                        ArrayList<HeadMassageInfo.ResultBean.BannerUrlBean> size = headMassageInfo.getResult().getBannerUrl();
+                        List<HeadMassageInfo.ResultBean.BannerUrlBean> size = headMassageInfo.getResult().getBannerUrl();
                         images = new String[size.size()];
+                        strings = new String[size.size()];
                         for (int i = 0;i<size.size();i++){
                             images[i] = size.get(i).getBannerUrl();
-//                            images[i] = "http://m2.quanjing.com/2m/ivary_photorf001/stp005_00051.jpg";     //bar图
+                            strings[i] = size.get(i).getTargetUrl();     //bar图
                         }
-//                        initListData();   //解析数据稍后放开
+//                        initListData();   //
+                        getDataZixun();   //解析数据稍后放开
                     }
 
                 }
@@ -218,6 +230,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
      * 初始化适配器数据
      */
     public void initData(){
+
         List<View> viewList = new ArrayList<View>();
         LayoutInflater mInflater=LayoutInflater.from(getActivity());
         mSliderVIew = mInflater.inflate(R.layout.imageslider_layout, null);    //第一个head imageSlider
@@ -233,7 +246,15 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         viewList.add(zixunView);
         viewList.add(dongtaiView);
 
-        ImageView mBackgroud = (ImageView) dongtaiView.findViewById(R.id.img_no_login);     //未登陆显示图片
+        mlist = (XListView) zixunView.findViewById(R.id.listview_zixun);
+        mlist.setPullLoadEnable(true);    //设置上拉加载
+        mlist.addHeaderView(mSliderVIew);
+        indexAdapter = new IndexAdapter(getActivity());
+        mlist.setOnItemClickListener(this);
+        mlist.setOnScrollListener(this);
+
+        mBackgroud = (ImageView) dongtaiView.findViewById(R.id.img_no_login);     //未登陆显示图片
+        mBackgroud.setOnClickListener(this);
 
 //
         ArrayList<String> titles = new ArrayList<>();
@@ -242,7 +263,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         MyViewPagerAdapter adapter = new MyViewPagerAdapter(viewList,titles);
         mPager.setAdapter(adapter);
         tabs.setViewPager(mPager);
-//        initListData();
 
         mDongTaiList = (XListView) dongtaiView.findViewById(R.id.fondtai_listview);
         trendsAdapter = new TrendsAdapter(getActivity(),callBack);
@@ -269,14 +289,43 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
 
     }
-    private XListView mlist;
-    //初始化listview数据（资讯）
-    public void initListData(){
-        getSliderLayoutView(images,null);
 
-        mlist = (XListView) zixunView.findViewById(R.id.listview_zixun);
-        mlist.setPullLoadEnable(true);    //设置上拉加载
-        mlist.addHeaderView(mSliderVIew);
+    private XListView mlist;
+    private IndexAdapter indexAdapter;
+
+    /**
+     * 设置首页数据
+     */
+    public void getDataZixun(){
+        getSliderLayoutView(images,strings);
+
+        indexAdapter.setData(setNewsInfo());
+        mlist.setAdapter(indexAdapter);
+
+
+        mlist.setXListViewListener(new XListView.IXListViewListener() {
+            @Override
+            public void onRefresh() {
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        onLoadZx();
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onLoadMore() {
+                onLoadZx();
+            }
+        });
+
+
+    }
+    /**
+     * /初始化股票数据（资讯）
+     */
+   /* public void initListData(){
 
         LinearLayout layout = (LinearLayout) mSliderVIew.findViewById(R.id.first_lin);   //scrollview下的布局
 
@@ -332,32 +381,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
             layout.addView(layout1);
         }
-
-
-        IndexAdapter indexAdapter = new IndexAdapter(getActivity());
-        indexAdapter.setData(setNewsInfo());
-        mlist.setAdapter(indexAdapter);
-
-        mlist.setOnItemClickListener(this);
-        mlist.setXListViewListener(new XListView.IXListViewListener() {
-            @Override
-            public void onRefresh() {
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        onLoadZx();
-                    }
-                }, 2000);
-            }
-
-            @Override
-            public void onLoadMore() {
-                onLoadZx();
-            }
-        });
-
-        mlist.setOnScrollListener(this);
-    }
+    }*/
     protected SystemBarTintManager tintManager;
     private int mCurrentfirstVisibleItem = 0;
     private SparseArray recordSp = new SparseArray(0);
@@ -366,7 +390,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     /**
      * 初始化动态数据
      */
-    public void dymnicesData(){
+    public void dymnicesData(final String token){
 
         new AsyncTask(){
 
@@ -376,7 +400,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                  map.put("PageIndex", "0");
                  map.put("PageCount", "0");
                 map.put("PageSize", "0");
-                String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.SHARE_LIST_URL);
+                String message = HttpManager.newInstance().getHttpDataByTwoLayer(token,map,HttpManager.SHARE_LIST_URL);
 
                 return message;
             }
@@ -444,16 +468,16 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             info.setContent(newsBean.getSecondTitle());
             info.setTime(newsBean.getUpdateTime());
             info.setPeopleNum(newsBean.getComments()+"");
-            info.setLinkUrl(newsBean.getTargetUri());
+            info.setLinkUrl(newsBean.getId()+"");
             if (newsBean.getBannerUrl().size()>1){
                 info.setType(2);
                 ArrayList<String> list = new ArrayList<>();
                 for (int j = 0;j<newsBean.getBannerUrl().size();j++){
-                    list.add(newsBean.getBannerUrl().get(j));
+                    list.add(newsBean.getBannerUrl().get(j)+"");
                 }
                 info.setImgaes(list);
             }else {
-                info.setImage(newsBean.getBannerUrl().get(0));
+                info.setImage(newsBean.getBannerUrl().get(0)+"");
                 info.setType(1);
             }
             newsInfos.add(info);
@@ -478,6 +502,12 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             sliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                 @Override
                 public void onSliderClick(BaseSliderView slider) {
+                    Intent intent = new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    Uri content_url = Uri.parse(mString[finalI]);
+                    intent.setData(content_url);
+                    intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+                    startActivity(intent);
                 }
             });
             mSliderLayout.addSlider(sliderView);
@@ -518,12 +548,16 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 Intent intent = new Intent(getActivity(), MessageActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.pop_item_img:
+            case R.id.pop_item_img:   //搜索
                 intent = new Intent(getActivity(), SerchActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.send_dynamic:
+            case R.id.send_dynamic:   //发表动态
                 intent = new Intent(getContext(), SendDynamicActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.img_no_login:   //未登录
+                intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -536,7 +570,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             case R.id.listview_zixun:
                 NewsInfo info = (NewsInfo) adapterView.getAdapter().getItem(i);
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                intent.putExtra(WebViewActivity.URL,info.getLinkUrl());
+                intent.putExtra(WebViewActivity.URLID,info.getLinkUrl());
                 startActivity(intent);
                 break;
         }

@@ -86,7 +86,14 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.back_img:
+//                intent = new Intent(this, MainActivity.class);
+//                MainActivity.isFirst = true;
+//                startActivity(intent);
                 finish();
+//                in.setAction("com.ymhd.select");
+//                //发送广播,销毁此界面
+//                sendBroadcast(in);
+//                finish();
                 break;
             case R.id.eye_img:
                 if (mPassWord.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD){
@@ -96,6 +103,19 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+        super.onBackPressed();
+//        in.setAction("com.ymhd.select");
+//        sendBroadcast(in);
+//        finish();
+//        Intent intent = new Intent(this, MainActivity.class);
+//        MainActivity.isFirst = true;
+//        startActivity(intent);
+        finish();
     }
 
     /**

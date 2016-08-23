@@ -1,12 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/circle_con_bg"
     >
 <com.example.drawer.stockapp.customview.MyReboundScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/my_scrollview"
-    android:background="@color/content_con_bg"
     >
 
     <RelativeLayout
@@ -310,8 +310,16 @@
             android:gravity="center"
             android:padding="@dimen/margin_15dp"
             android:text="@string/exit_txt" />
+
     </RelativeLayout>
 </com.example.drawer.stockapp.customview.MyReboundScrollView>
+    <ImageView
+        android:id="@+id/img_no_login"
+        android:visibility="gone"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/dynamic_no_login"/>
     <RelativeLayout
         android:id="@+id/my_info_relat"
         android:layout_width="match_parent"
@@ -325,4 +333,5 @@
             android:textSize="16sp"
             android:textColor="@android:color/background_dark"/>
     </RelativeLayout>
+
 </RelativeLayout>

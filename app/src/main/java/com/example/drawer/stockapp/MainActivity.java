@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.activity.BascActivity;
 import com.example.drawer.stockapp.activity.LoginActivity;
@@ -21,6 +23,8 @@ import com.example.drawer.stockapp.listener.OnFragmentInteractionListener;
 
 public class MainActivity extends BascActivity implements OnFragmentInteractionListener,View.OnClickListener {
     private DrawerLayout mDrawerLayout;
+    private FragmentTabHost tabHost;
+    public static Boolean isFirst = false;   //判断是否跳转回首页的标记
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -57,10 +61,22 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
     @Override
     protected void onResume() {
         super.onResume();
+        if (isFirst) {
+            tabHost.setCurrentTab(0);
+            isFirst = false;
+        }
+///**
+// * select广播
+// */
+//        IntentFilter filter2 = new IntentFilter();
+//        // 向过滤器中添加action
+//        filter2.addAction("com.ymhd.select");
+//        // 注册广播
+//        registerReceiver(select, filter2);
     }
 
     public void initTab(){
-        final FragmentTabHost tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 //        //设置距离顶部状态栏高度
 //        DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT,
 //                DrawerLayout.LayoutParams.MATCH_PARENT);
@@ -76,10 +92,51 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
 
         tabHost.getTabWidget().setDividerDrawable(null);     //去除tab之间的分割线
 
+
     }
 
 
 
+
+//    /**
+//     * 销毁activity的时候注销广播
+//     */
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        unregisterReceiver(select);
+//    }
+//
+//    /**
+//     * 广播接收者
+//     */
+//    private BroadcastReceiver select = new BroadcastReceiver() {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            Log.d("tag","------------------");
+//            tabHost.setCurrentTab(0);//tabhost位于第一个界面；
+//        }
+//
+//    };
+
+
+    private long mExitTime;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 800) {
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
+
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
     @Override
     public void onFragmentInteraction() {
 //        mDrawerLayout.openDrawer(Gravity.LEFT);
@@ -93,7 +150,9 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
 //        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
 //            mDrawerLayout.closeDrawer(Gravity.LEFT);
 //        }
+
     }
+
 
     @Override
     public void onClick(View view) {
