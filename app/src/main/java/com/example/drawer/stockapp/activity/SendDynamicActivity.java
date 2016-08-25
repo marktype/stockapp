@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +25,11 @@ import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
+import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,11 +49,13 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
     private Uri fileUri;//通过此uri得到本地图片,设置为背景
     private String localTempImgFileName = "bankgroup.jpg";
     private String localTempImgDir = "com.stock";
+    private String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_dynamic);
         tintManager.setStatusBarTintResource(R.color.write_color);
+        token = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
         initWight();
     }
 
@@ -255,9 +262,12 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
                 break;
             case R.id.send_dynamic_txt:
                 String edit = mEditTxt.getText().toString();
+                if (!TextUtils.isEmpty(token)){
+                    SendDynmaic(null,token,edit);
+                }else {
+                    Toast.makeText(this,"你还未登录，请登录后发表",Toast.LENGTH_SHORT).show();
+                }
 
-                Toast.makeText(this,"发表成功",Toast.LENGTH_SHORT).show();
-                finish();
                 break;
             case R.id.add_image:
                 showChangeBgDialog();
@@ -276,9 +286,11 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
             @Override
             protected Object doInBackground(Object[] objects) {
                 HashMap<String,Object> hashMap = new HashMap<>();
-                ArrayList<String> map = new ArrayList<>();
-                map.addAll(list);
-                hashMap.put("Imgs",map);
+                if (list != null){
+                    ArrayList<String> map = new ArrayList<>();
+                    map.addAll(list);
+                    hashMap.put("Imgs",map);
+                }
                 hashMap.put("Content",content);
                 String message = HttpManager.newInstance().getHttpDataByThreeLayerArray(token,hashMap,HttpManager.send_dynamic_URL);
                 return message;
@@ -287,7 +299,23 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                String message = (String) o;
+                String str = (String) o;
+                if (!TextUtils.isEmpty(str)){
+                    try {
+                        JSONObject object = new JSONObject(str);
+                        if (object.has("Status")){
+                            if (object.getString("Status").equals(1)){
+                                Toast.makeText(SendDynamicActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(SendDynamicActivity.this,"发表成功",Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
         }.execute();
     }

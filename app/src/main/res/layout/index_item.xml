@@ -30,7 +30,7 @@
             android:layout_toLeftOf="@id/head_zixun_item"
             android:text="上证指数"
             android:textColor="@android:color/background_dark"
-            android:textSize="@dimen/activity_vertical_margin" />
+            android:textSize="@dimen/title_text_size" />
 
         <TextView
             android:id="@+id/index_name"
@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="测试内容"
+            android:textSize="12sp"
             android:textColor="@android:color/darker_gray"
             android:layout_below="@id/index_name_title"
             android:maxLines="2"
@@ -49,9 +50,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:textSize="10sp"
+            android:layout_margin="@dimen/margin_10dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/margin_15dp"
-            android:layout_marginLeft="@dimen/margin_10dp"
             android:text="12:24" />
 
         <TextView
@@ -60,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
+            android:textSize="10sp"
             android:layout_margin="@dimen/margin_10dp"
             android:layout_toLeftOf="@id/head_zixun_item"
             android:drawablePadding="@dimen/margin_8dp"

@@ -4,7 +4,7 @@ package com.example.drawer.stockapp.model;
  * 策略组合信息
  */
 public class CeLueInfo {
-    private double celuePersent;    //策略百分比
+    private String celuePersent;    //策略百分比
     private String title;     //题目
     private String runTime;    //运行时间
     private String jingZhiNum;    //目标收益
@@ -41,11 +41,11 @@ public class CeLueInfo {
         this.type = type;
     }
 
-    public double getCeluePersent() {
+    public String getCeluePersent() {
         return celuePersent;
     }
 
-    public void setCeluePersent(double celuePersent) {
+    public void setCeluePersent(String celuePersent) {
         this.celuePersent = celuePersent;
     }
 

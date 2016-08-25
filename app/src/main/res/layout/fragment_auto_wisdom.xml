@@ -27,14 +27,14 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:textColor="@color/title_text_un_color"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_centerHorizontal="true"
             app:pstsDividerColor="@android:color/transparent"
             app:pstsIndicatorColor="@color/content_bg"
             app:pstsIndicatorHeight="2dp"
             app:pstsScaleZoomMax="0.1"
             app:pstsShouldExpand="true"
-            app:pstsTabPaddingLeftRight="5dp"
+            app:pstsTabPaddingLeftRight="10dp"
             app:pstsTextSelectedColor="@color/write_color"
             />
         <ImageView

@@ -28,13 +28,6 @@ public class WebViewActivity extends BascActivity {
         newsInfoAsyn.execute(urlId);
 
 
-//        Log.d("tag","url-------"+url);
-//        webView.loadUrl(url);
-
-//        TextView mText = (TextView) findViewById(R.id.test);
-////        Spanned str = Html.fromHtml("<p><h1>Getting started<h1>\\r\\nASP.NET Web API is a framework that makes it easy to build HTTP services that reach a broad range of clients,\\r\\n                    including browsers and mobile devices.ASP.NET Web API is an ideal platform for building RESTful applications on the.NET Framework.</p>");
-//
-//        mText.setText(Html.fromHtml("<p><h1>Getting started<h1>\r\nASP.NET Web API is a framework that makes it easy to build HTTP services that reach a broad range of clients,\r\n                    including browsers and mobile devices.ASP.NET Web API is an ideal platform for building RESTful applications on the.NET Framework.</p>"));
     }
 
     /**

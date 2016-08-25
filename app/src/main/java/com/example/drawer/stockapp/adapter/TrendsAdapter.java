@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyGridView;
@@ -50,7 +49,7 @@ public class TrendsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         final ViewHolder viewHolder;
         ImageAdapter adapter = null;
         if (view == null){
@@ -70,7 +69,7 @@ public class TrendsAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        TrendsInfo info = (TrendsInfo) getItem(i);
+        final TrendsInfo info = (TrendsInfo) getItem(i);
         if (!TextUtils.isEmpty(info.getImage())){
             Picasso.with(context).load(info.getImage()).into(viewHolder.head);
         }
@@ -84,33 +83,44 @@ public class TrendsAdapter extends BaseAdapter {
         viewHolder.zhuanFaNum.setText(info.getZhuanFaNum()+"");
         viewHolder.commentNum.setText(info.getCommentNum()+"");
         viewHolder.goodNum.setText(info.getGoodNum()+"");
+        if (info.getCollect()){
+            viewHolder.collect.setImageResource(R.mipmap.collection_yes);
+        }else {
+            viewHolder.collect.setImageResource(R.mipmap.collection);
+        }
 
         //收藏
         viewHolder.collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewHolder.collect.setImageResource(R.mipmap.collection_yes);
+                if (info.getCollect()){
+                    viewHolder.collect.setImageResource(R.mipmap.collection);
+                    info.setCollect(false);
+                }else {
+                    viewHolder.collect.setImageResource(R.mipmap.collection_yes);
+                    info.setCollect(true);
+                }
             }
         });
         //转发
         viewHolder.zhuanFaNum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callBack.setDongTaiType(2);
+                callBack.setDongTaiType(i,2);
             }
         });
         //评论
         viewHolder.commentNum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callBack.setDongTaiType(1);
+                callBack.setDongTaiType(i,1);
             }
         });
         //点赞
         viewHolder.goodNum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"点赞",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,"点赞",Toast.LENGTH_SHORT).show();
             }
         });
 

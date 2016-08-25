@@ -72,6 +72,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private TrendsAdapter trendsAdapter;
     private RelativeLayout mTitleRelat;
     private XListView mDongTaiList;
+    private  String token;
     private ImageView mImgHead,mMessage,mSendImg,mBackgroud;
     private Boolean isFlag = false;
     private String[] images = {""};
@@ -134,7 +135,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
-        String token = sharedPreferences.getString(ShapePreferenceManager.TOKEN,null);
+        token = sharedPreferences.getString(ShapePreferenceManager.TOKEN,null);
         switch (mPager.getCurrentItem()){
             case 0:
                 SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
@@ -271,7 +272,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), MyDynamicActivity.class);
                 intent.putExtra(MyDynamicActivity.DYNAMICINFO,dynamicsInfo.getResult().getShare().get(i-1));
-                intent.putExtra(MyDynamicActivity.TYPE,mDongTaiType);
+//                intent.putExtra(MyDynamicActivity.TYPE,mDongTaiType);
                 startActivity(intent);
             }
         });
@@ -382,6 +383,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             layout.addView(layout1);
         }
     }*/
+
     protected SystemBarTintManager tintManager;
     private int mCurrentfirstVisibleItem = 0;
     private SparseArray recordSp = new SparseArray(0);
@@ -428,7 +430,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
      */
     public ArrayList<TrendsInfo> initdongtaiData(){
         ArrayList<TrendsInfo> trendsInfos = new ArrayList<>();
-        ArrayList<DynamicsInfo.ResultBean.ShareBean> share = dynamicsInfo.getResult().getShare();
+        List<DynamicsInfo.ResultBean.ShareBean> share = dynamicsInfo.getResult().getShare();
         for (int i = 0;i<share.size();i++){
             TrendsInfo info = new TrendsInfo();
             ArrayList<String> list = new ArrayList<>();
@@ -444,6 +446,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             info.setZhuanFaNum(ben.getForward());
             info.setCommentNum(ben.getComments());
             info.setGoodNum(ben.getLikes());
+            info.setCollect(ben.isHasFavorites());
             trendsInfos.add(info);
         }
         return trendsInfos;
@@ -699,6 +702,13 @@ class ItemRecod {
                     ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
                     ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
                     tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
+
+                    if (!TextUtils.isEmpty(token)){
+                        dymnicesData(token);    //
+                        mBackgroud.setVisibility(View.GONE);
+                    }else {
+                        mBackgroud.setVisibility(View.VISIBLE);
+                    }
                     break;
 
             }
@@ -707,8 +717,11 @@ class ItemRecod {
 
     private TypeCallBack callBack = new TypeCallBack() {
         @Override
-        public void setDongTaiType(int type) {
-            mDongTaiType = type;
+        public void setDongTaiType(int i,int type) {
+            Intent intent = new Intent(getActivity(), MyDynamicActivity.class);
+            intent.putExtra(MyDynamicActivity.DYNAMICINFO,dynamicsInfo.getResult().getShare().get(i));
+            intent.putExtra(MyDynamicActivity.TYPE,type);
+            startActivity(intent);
         }
     };
 }

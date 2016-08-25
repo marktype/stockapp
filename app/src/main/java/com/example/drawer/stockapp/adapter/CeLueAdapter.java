@@ -88,7 +88,7 @@ public class CeLueAdapter extends BaseAdapter {
         Picasso.with(context).load(info.getHeadImage()).into(viewHolder.headImage);
 //        Picasso.with(context).load(info.getLevelImage()).into(viewHolder.levelImage);
         viewHolder.canvasViewThree.setRadius(DensityUtils.dp2px(context,40));
-        setCanvasData(viewHolder.canvasViewThree,info.getCeluePersent());
+        setCanvasData(viewHolder.canvasViewThree, Double.parseDouble(info.getCeluePersent()));
 
         return view;
     }

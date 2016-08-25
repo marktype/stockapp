@@ -56,6 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/register_title"
+        android:textSize="@dimen/title_text_size"
         android:layout_marginLeft="@dimen/margin_25dp"
         android:layout_marginRight="@dimen/margin_25dp"
         android:layout_marginTop="@dimen/margin_40dp"
@@ -82,6 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/margin_5dp"
+            android:textSize="@dimen/title_text_size"
             android:layout_weight="1"
             android:background="@color/write_color"
             android:hint="验证码"
@@ -97,6 +99,7 @@
             android:layout_marginLeft="@dimen/margin_10dp"
             android:layout_marginRight="@dimen/margin_5dp"
             android:layout_weight="1"
+            android:textSize="@dimen/my_txt_size"
             android:background="@drawable/rect_circle_gray_shape"
             android:gravity="center"
             android:padding="@dimen/margin_5dp"
@@ -121,6 +124,7 @@
             android:layout_centerVertical="true"
             android:background="@color/write_color"
             android:hint="密码"
+            android:textSize="@dimen/title_text_size"
             android:inputType="textPassword"
             android:textColorHint="@android:color/darker_gray" />
 

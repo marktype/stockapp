@@ -1,21 +1,22 @@
 package com.example.drawer.stockapp.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 欢大哥 on 2016/7/14.
  */
 public class NiuRenListInfo {
 
+
     /**
      * Status : 0
-     * Msg : success
+     * Msg : Success
      */
 
     private HeadBean Head;
     /**
-     * PageInfo : {"PageIndex":0,"PageCount":1,"PageSize":10}
-     * StarPorfolio : [{"Id":"0","UserName":"牛人1号","Title":"牛人1号超级组合","SecondTitle":"二级小标题","TotleReturns":102,"ImgUrl":"","WinRatio":95,"MonthlyAverage":60,"Holding":12,"Position":85,"AveragePosition":21,"AverageTrading":3,"Favorites":888,"CreateTime":"2017-01-01"},{"Id":"1","UserName":"牛人2号","Title":"牛人2号超级组合","SecondTitle":"二级小标题","TotleReturns":102,"ImgUrl":"","WinRatio":89,"MonthlyAverage":70,"Holding":3,"Position":90,"AveragePosition":21,"AverageTrading":3,"Favorites":888,"CreateTime":"2017-01-01"},{"Id":"2","UserName":"牛人3号","Title":"牛人3号超级组合","SecondTitle":"二级小标题","TotleReturns":102,"ImgUrl":"","WinRatio":98,"MonthlyAverage":70,"Holding":6,"Position":32,"AveragePosition":21,"AverageTrading":3,"Favorites":888,"CreateTime":"2017-01-01"},{"Id":"3","UserName":"牛人4号","Title":"牛人4号超级组合","SecondTitle":"二级小标题","TotleReturns":102,"ImgUrl":"","WinRatio":93,"MonthlyAverage":60,"Holding":12,"Position":85,"AveragePosition":21,"AverageTrading":3,"Favorites":888,"CreateTime":"2017-01-01"}]
+     * PageInfo : {"PageIndex":0,"PageCount":4,"PageSize":10}
+     * Strategies : [{"Id":"1606","UserName":"15018400882","NickName":null,"Title":"string","UserImgUrl":null,"TotleReturns":0,"ImgData":[{"Date":"2016-08-25T00:00:00","CumulativeReturn":0.0026999999999999954}],"RecuitmentStartTime":null,"RecuitmentEndTime":null,"StarInvestment":0,"MostFollow":0,"Desc":"150***0882的组合","MaxDay":0,"StopLoss":0,"ShareRatio":0,"RunStartDay":null,"RunEndDay":null,"TargetReturns":0,"Recruitment":0,"WinRatio":0,"MonthlyAverage":6.1114694376816825,"Holding":1,"Position":12.128807936311858,"AveragePosition":0,"AverageTrading":0,"Favorites":0,"CreateTime":"2016-08-25 06:35:23","IsShare":false,"Type":"沪深","Return":0,"NetValue":0,"Cash":88495.6392,"PorfolioType":0,"RecruitType":0,"PorfolioChooseType":3},{"Id":"1605","UserName":null,"NickName":"zoe","Title":"大牛牛1号","UserImgUrl":"http://filewebpath.matrix.lab.supwin.com:8899/20160820165337747.jpg","TotleReturns":0,"ImgData":[{"Date":"2016-08-25T00:00:00","CumulativeReturn":0.4503199999999993}],"RecuitmentStartTime":null,"RecuitmentEndTime":null,"StarInvestment":0,"MostFollow":0,"Desc":"大牛牛无敌！！##","MaxDay":0,"StopLoss":0,"ShareRatio":0,"RunStartDay":null,"RunEndDay":null,"TargetReturns":20,"Recruitment":0,"WinRatio":0,"MonthlyAverage":356410.7529155501,"Holding":2,"Position":1048.871235481287,"AveragePosition":0,"AverageTrading":0,"Favorites":0,"CreateTime":"2016-08-25 04:26:20","IsShare":false,"Type":"沪深","Return":0,"NetValue":0,"Cash":-2211258.0968544004,"PorfolioType":0,"RecruitType":0,"PorfolioChooseType":3},{"Id":"1600","UserName":null,"NickName":"MaoZhuan","Title":"Uuu","UserImgUrl":"http://filewebpath.matrix.lab.supwin.com:8899/20160824154558048.jpg","TotleReturns":0,"ImgData":null,"RecuitmentStartTime":null,"RecuitmentEndTime":null,"StarInvestment":0,"MostFollow":0,"Desc":"Eeee","MaxDay":0,"StopLoss":0,"ShareRatio":0,"RunStartDay":null,"RunEndDay":null,"TargetReturns":0,"Recruitment":0,"WinRatio":0,"MonthlyAverage":0,"Holding":0,"Position":0,"AveragePosition":0,"AverageTrading":0,"Favorites":0,"CreateTime":"2016-08-24 10:14:04","IsShare":false,"Type":"沪深","Return":0,"NetValue":0,"Cash":0,"PorfolioType":0,"RecruitType":0,"PorfolioChooseType":3},{"Id":"1585","UserName":null,"NickName":"zoe","Title":"牛人组合11","UserImgUrl":"http://filewebpath.matrix.lab.supwin.com:8899/20160820165337747.jpg","TotleReturns":0,"ImgData":null,"RecuitmentStartTime":null,"RecuitmentEndTime":null,"StarInvestment":0,"MostFollow":0,"Desc":"string","MaxDay":0,"StopLoss":0,"ShareRatio":0,"RunStartDay":null,"RunEndDay":null,"TargetReturns":0,"Recruitment":0,"WinRatio":0,"MonthlyAverage":0,"Holding":0,"Position":0,"AveragePosition":0,"AverageTrading":0,"Favorites":0,"CreateTime":"2016-08-23 06:34:06","IsShare":false,"Type":"沪深","Return":0,"NetValue":0,"Cash":0,"PorfolioType":0,"RecruitType":0,"PorfolioChooseType":3}]
      */
 
     private ResultBean Result;
@@ -59,39 +60,72 @@ public class NiuRenListInfo {
 
     public static class ResultBean {
         /**
-         * Id : 0
-         * UserName : 牛人1号
-         * Title : 牛人1号超级组合
-         * SecondTitle : 二级小标题
-         * TotleReturns : 102.0
-         * ImgUrl :
-         * WinRatio : 95.0
-         * MonthlyAverage : 60.0
-         * Holding : 12
-         * Position : 85.0
-         * AveragePosition : 21
-         * AverageTrading : 3.0
-         * Favorites : 888
-         * CreateTime : 2017-01-01
+         * Id : 1606
+         * UserName : 15018400882
+         * NickName : null
+         * Title : string
+         * UserImgUrl : null
+         * TotleReturns : 0.0
+         * ImgData : [{"Date":"2016-08-25T00:00:00","CumulativeReturn":0.0026999999999999954}]
+         * RecuitmentStartTime : null
+         * RecuitmentEndTime : null
+         * StarInvestment : 0.0
+         * MostFollow : 0.0
+         * Desc : 150***0882的组合
+         * MaxDay : 0
+         * StopLoss : 0.0
+         * ShareRatio : 0.0
+         * RunStartDay : null
+         * RunEndDay : null
+         * TargetReturns : 0.0
+         * Recruitment : 0.0
+         * WinRatio : 0.0
+         * MonthlyAverage : 6.1114694376816825
+         * Holding : 1
+         * Position : 12.128807936311858
+         * AveragePosition : 0
+         * AverageTrading : 0.0
+         * Favorites : 0
+         * CreateTime : 2016-08-25 06:35:23
+         * IsShare : false
+         * Type : 沪深
+         * Return : 0.0
+         * NetValue : 0.0
+         * Cash : 88495.6392
+         * PorfolioType : 0
+         * RecruitType : 0
+         * PorfolioChooseType : 3
          */
 
-        private ArrayList<StarPorfolioBean> StarPorfolio;
+        private List<StrategiesBean> Strategies;
 
-        public ArrayList<StarPorfolioBean> getStarPorfolio() {
-            return StarPorfolio;
+        public List<StrategiesBean> getStrategies() {
+            return Strategies;
         }
 
-        public void setStarPorfolio(ArrayList<StarPorfolioBean> StarPorfolio) {
-            this.StarPorfolio = StarPorfolio;
+        public void setStrategies(List<StrategiesBean> Strategies) {
+            this.Strategies = Strategies;
         }
 
-        public static class StarPorfolioBean {
+        public static class StrategiesBean {
             private String Id;
             private String UserName;
+            private Object NickName;
             private String Title;
-            private String SecondTitle;
+            private Object UserImgUrl;
             private double TotleReturns;
-            private String ImgUrl;
+            private Object RecuitmentStartTime;
+            private Object RecuitmentEndTime;
+            private double StarInvestment;
+            private double MostFollow;
+            private String Desc;
+            private int MaxDay;
+            private double StopLoss;
+            private double ShareRatio;
+            private Object RunStartDay;
+            private Object RunEndDay;
+            private double TargetReturns;
+            private double Recruitment;
             private double WinRatio;
             private double MonthlyAverage;
             private int Holding;
@@ -100,6 +134,20 @@ public class NiuRenListInfo {
             private double AverageTrading;
             private int Favorites;
             private String CreateTime;
+            private boolean IsShare;
+            private String Type;
+            private double Return;
+            private double NetValue;
+            private double Cash;
+            private int PorfolioType;
+            private int RecruitType;
+            private int PorfolioChooseType;
+            /**
+             * Date : 2016-08-25T00:00:00
+             * CumulativeReturn : 0.0026999999999999954
+             */
+
+            private List<ImgDataBean> ImgData;
 
             public String getId() {
                 return Id;
@@ -117,6 +165,14 @@ public class NiuRenListInfo {
                 this.UserName = UserName;
             }
 
+            public Object getNickName() {
+                return NickName;
+            }
+
+            public void setNickName(Object NickName) {
+                this.NickName = NickName;
+            }
+
             public String getTitle() {
                 return Title;
             }
@@ -125,12 +181,12 @@ public class NiuRenListInfo {
                 this.Title = Title;
             }
 
-            public String getSecondTitle() {
-                return SecondTitle;
+            public Object getUserImgUrl() {
+                return UserImgUrl;
             }
 
-            public void setSecondTitle(String SecondTitle) {
-                this.SecondTitle = SecondTitle;
+            public void setUserImgUrl(Object UserImgUrl) {
+                this.UserImgUrl = UserImgUrl;
             }
 
             public double getTotleReturns() {
@@ -141,12 +197,100 @@ public class NiuRenListInfo {
                 this.TotleReturns = TotleReturns;
             }
 
-            public String getImgUrl() {
-                return ImgUrl;
+            public Object getRecuitmentStartTime() {
+                return RecuitmentStartTime;
             }
 
-            public void setImgUrl(String ImgUrl) {
-                this.ImgUrl = ImgUrl;
+            public void setRecuitmentStartTime(Object RecuitmentStartTime) {
+                this.RecuitmentStartTime = RecuitmentStartTime;
+            }
+
+            public Object getRecuitmentEndTime() {
+                return RecuitmentEndTime;
+            }
+
+            public void setRecuitmentEndTime(Object RecuitmentEndTime) {
+                this.RecuitmentEndTime = RecuitmentEndTime;
+            }
+
+            public double getStarInvestment() {
+                return StarInvestment;
+            }
+
+            public void setStarInvestment(double StarInvestment) {
+                this.StarInvestment = StarInvestment;
+            }
+
+            public double getMostFollow() {
+                return MostFollow;
+            }
+
+            public void setMostFollow(double MostFollow) {
+                this.MostFollow = MostFollow;
+            }
+
+            public String getDesc() {
+                return Desc;
+            }
+
+            public void setDesc(String Desc) {
+                this.Desc = Desc;
+            }
+
+            public int getMaxDay() {
+                return MaxDay;
+            }
+
+            public void setMaxDay(int MaxDay) {
+                this.MaxDay = MaxDay;
+            }
+
+            public double getStopLoss() {
+                return StopLoss;
+            }
+
+            public void setStopLoss(double StopLoss) {
+                this.StopLoss = StopLoss;
+            }
+
+            public double getShareRatio() {
+                return ShareRatio;
+            }
+
+            public void setShareRatio(double ShareRatio) {
+                this.ShareRatio = ShareRatio;
+            }
+
+            public Object getRunStartDay() {
+                return RunStartDay;
+            }
+
+            public void setRunStartDay(Object RunStartDay) {
+                this.RunStartDay = RunStartDay;
+            }
+
+            public Object getRunEndDay() {
+                return RunEndDay;
+            }
+
+            public void setRunEndDay(Object RunEndDay) {
+                this.RunEndDay = RunEndDay;
+            }
+
+            public double getTargetReturns() {
+                return TargetReturns;
+            }
+
+            public void setTargetReturns(double TargetReturns) {
+                this.TargetReturns = TargetReturns;
+            }
+
+            public double getRecruitment() {
+                return Recruitment;
+            }
+
+            public void setRecruitment(double Recruitment) {
+                this.Recruitment = Recruitment;
             }
 
             public double getWinRatio() {
@@ -211,6 +355,99 @@ public class NiuRenListInfo {
 
             public void setCreateTime(String CreateTime) {
                 this.CreateTime = CreateTime;
+            }
+
+            public boolean isIsShare() {
+                return IsShare;
+            }
+
+            public void setIsShare(boolean IsShare) {
+                this.IsShare = IsShare;
+            }
+
+            public String getType() {
+                return Type;
+            }
+
+            public void setType(String Type) {
+                this.Type = Type;
+            }
+
+            public double getReturn() {
+                return Return;
+            }
+
+            public void setReturn(double Return) {
+                this.Return = Return;
+            }
+
+            public double getNetValue() {
+                return NetValue;
+            }
+
+            public void setNetValue(double NetValue) {
+                this.NetValue = NetValue;
+            }
+
+            public double getCash() {
+                return Cash;
+            }
+
+            public void setCash(double Cash) {
+                this.Cash = Cash;
+            }
+
+            public int getPorfolioType() {
+                return PorfolioType;
+            }
+
+            public void setPorfolioType(int PorfolioType) {
+                this.PorfolioType = PorfolioType;
+            }
+
+            public int getRecruitType() {
+                return RecruitType;
+            }
+
+            public void setRecruitType(int RecruitType) {
+                this.RecruitType = RecruitType;
+            }
+
+            public int getPorfolioChooseType() {
+                return PorfolioChooseType;
+            }
+
+            public void setPorfolioChooseType(int PorfolioChooseType) {
+                this.PorfolioChooseType = PorfolioChooseType;
+            }
+
+            public List<ImgDataBean> getImgData() {
+                return ImgData;
+            }
+
+            public void setImgData(List<ImgDataBean> ImgData) {
+                this.ImgData = ImgData;
+            }
+
+            public static class ImgDataBean {
+                private String Date;
+                private double CumulativeReturn;
+
+                public String getDate() {
+                    return Date;
+                }
+
+                public void setDate(String Date) {
+                    this.Date = Date;
+                }
+
+                public double getCumulativeReturn() {
+                    return CumulativeReturn;
+                }
+
+                public void setCumulativeReturn(double CumulativeReturn) {
+                    this.CumulativeReturn = CumulativeReturn;
+                }
             }
         }
     }

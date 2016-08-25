@@ -41,6 +41,7 @@
             android:textColorHint="@android:color/darker_gray"
             android:layout_width="match_parent"
             android:gravity="top"
+            android:textSize="@dimen/title_text_size"
             android:padding="@dimen/margin_10dp"
             android:background="@color/write_color"
             android:layout_height="250dp" />

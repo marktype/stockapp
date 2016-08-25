@@ -8,5 +8,5 @@ package com.example.drawer.stockapp.listener;
  */
 public interface TypeCallBack {
 
-    void setDongTaiType(int type);
+    void setDongTaiType(int i,int type);
 }

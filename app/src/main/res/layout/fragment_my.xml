@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/user_name_txt"
+                android:textSize="@dimen/my_txt_size"
                 android:textColor="@android:color/background_dark" />
 
             <TextView
@@ -39,48 +40,49 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:drawablePadding="@dimen/margin_10dp"
+                android:textSize="12sp"
                 android:drawableRight="@mipmap/arrowright"
                 android:text="修改" />
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/line_one"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/user_name_lin"
-            android:layout_marginLeft="@dimen/margin_15dp"
-            android:layout_marginRight="@dimen/margin_15dp"
-            android:background="@color/circle_con_bg" />
+        <!--<TextView-->
+            <!--android:id="@+id/line_one"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:layout_below="@id/user_name_lin"-->
+            <!--android:layout_marginLeft="@dimen/margin_15dp"-->
+            <!--android:layout_marginRight="@dimen/margin_15dp"-->
+            <!--android:background="@color/circle_con_bg" />-->
 
-        <RelativeLayout
-            android:id="@+id/user_address_lin"
-            style="@style/MyInfoStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/line_one">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/user_address_lin"-->
+            <!--style="@style/MyInfoStyle"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/line_one">-->
 
-            <TextView
-                android:id="@+id/user_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/address_txt"
-                android:textColor="@android:color/background_dark" />
+            <!--<TextView-->
+                <!--android:id="@+id/user_address"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/address_txt"-->
+                <!--android:textColor="@android:color/background_dark" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:drawablePadding="@dimen/margin_10dp"
-                android:drawableRight="@mipmap/arrowright"
-                android:text="四川" />
-        </RelativeLayout>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:drawablePadding="@dimen/margin_10dp"-->
+                <!--android:drawableRight="@mipmap/arrowright"-->
+                <!--android:text="四川" />-->
+        <!--</RelativeLayout>-->
 
         <TextView
             android:id="@+id/line_two"
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_below="@id/user_address_lin"
+            android:layout_below="@id/user_name_lin"
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginRight="@dimen/margin_15dp"
             android:background="@color/circle_con_bg" />
@@ -97,6 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sex_txt"
+                android:textSize="@dimen/my_txt_size"
                 android:textColor="@android:color/background_dark" />
 
             <TextView
@@ -106,6 +109,7 @@
                 android:layout_alignParentRight="true"
                 android:drawablePadding="@dimen/margin_10dp"
                 android:drawableRight="@mipmap/arrowright"
+                android:textSize="@dimen/my_txt_size"
                 android:text="男" />
         </RelativeLayout>
 
@@ -130,6 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bind_phone_txt"
+                android:textSize="@dimen/my_txt_size"
                 android:textColor="@android:color/background_dark" />
 
             <ImageView
@@ -160,6 +165,7 @@
                 android:id="@+id/reset_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/my_txt_size"
                 android:text="@string/reset_password_txt"
                 android:textColor="@android:color/background_dark" />
 
@@ -192,6 +198,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/my_point_txt"
+                android:textSize="@dimen/my_txt_size"
                 android:textColor="@android:color/background_dark" />
 
             <TextView
@@ -224,6 +231,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/my_wallet_txt"
+                android:textSize="@dimen/my_txt_size"
                 android:textColor="@android:color/background_dark" />
 
             <ImageView
@@ -255,6 +263,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/my_quan_txt"
+                android:textSize="@dimen/my_txt_size"
                 android:textColor="@android:color/background_dark" />
 
             <TextView
@@ -287,6 +296,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/all_can_txt"
+                android:textSize="@dimen/my_txt_size"
                 android:textColor="@android:color/background_dark" />
 
             <ImageView
@@ -308,6 +318,7 @@
             android:background="@color/content_bg"
             android:textColor="@android:color/background_dark"
             android:gravity="center"
+            android:textSize="@dimen/my_txt_size"
             android:padding="@dimen/margin_15dp"
             android:text="@string/exit_txt" />
 
@@ -330,7 +341,7 @@
             android:layout_height="wrap_content"
             android:text="我的"
             android:layout_centerInParent="true"
-            android:textSize="16sp"
+            android:textSize="@dimen/my_txt_size"
             android:textColor="@android:color/background_dark"/>
     </RelativeLayout>
 

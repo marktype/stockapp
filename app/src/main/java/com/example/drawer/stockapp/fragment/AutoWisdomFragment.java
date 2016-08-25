@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.CelueDatilActivity;
 import com.example.drawer.stockapp.activity.DetilCelueActivity;
+import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.activity.MessageActivity;
 import com.example.drawer.stockapp.activity.SerchActivity;
 import com.example.drawer.stockapp.activity.SetupZuHeActivity;
@@ -36,6 +37,7 @@ import com.example.drawer.stockapp.model.NiuRenInfo;
 import com.example.drawer.stockapp.model.NiuRenListInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
+import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.scxh.slider.library.Indicators.PagerIndicator;
@@ -43,6 +45,7 @@ import com.scxh.slider.library.SliderLayout;
 import com.scxh.slider.library.SliderTypes.BaseSliderView;
 import com.scxh.slider.library.SliderTypes.TextSliderView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +72,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private XListView listView, niurenList, myList;
     private RelativeLayout mTitle;
     private ImageView mMessage, mSearch;
+    private String mToken;
+    private ImageView mLogin;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -122,6 +127,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         super.onResume();
         SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
         ManagerUtil.setStataBarColorWhite(getActivity(), tintManager);
+
+        mToken = ShapePreferenceManager.getMySharedPreferences(getContext()).getString(ShapePreferenceManager.TOKEN,null);
     }
 
     private PagerSlidingTabStrip tabs;
@@ -241,6 +248,9 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         //我的组合
         myList = (XListView) myZuHeView.findViewById(R.id.my_zuhe_listview);
         ImageView mAddImg = (ImageView) myZuHeView.findViewById(R.id.add_image);
+        mLogin = (ImageView) myZuHeView.findViewById(R.id.my_zuhe_img);
+        mLogin.setOnClickListener(this);
+
         mAddImg.setOnClickListener(this);
         myList.setOnItemClickListener(this);
         myList.addHeaderView(mSliderVIewThree);
@@ -257,10 +267,9 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         });
         myList.setOnScrollListener(null);
         MyZuHeAdapter myZuHeAdapter = new MyZuHeAdapter(getActivity());
-        getMyListData();
+        getMyListData(myZuHeAdapter);
 
-        myZuHeAdapter.setData(setMyZuHeData());
-        myList.setAdapter(myZuHeAdapter);
+
 
     }
 
@@ -314,6 +323,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             sliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                 @Override
                 public void onSliderClick(BaseSliderView slider) {
+
                 }
             });
             mSliderLayout.addSlider(sliderView);
@@ -420,7 +430,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     /**
      * 我的组合列表
      */
-    public void getMyListData() {
+    public void getMyListData(final MyZuHeAdapter myZuHeAdapter) {
         new AsyncTask() {
 
             @Override
@@ -435,6 +445,21 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 String message = HttpManager.newInstance().getHttpDataByThreeLayer("", hashMap, HttpManager.MyPorfolio_URL);
                 return message;
             }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                String message = (String) o;
+                if (!TextUtils.isEmpty(message)) {
+                    Gson gson = new Gson();
+                    niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
+                    if (niuRenListInfo.getHead().getStatus() == 0) {
+                        myZuHeAdapter.setData(setMyZuHeData());
+                        myList.setAdapter(myZuHeAdapter);
+                    }
+                }
+
+            }
         }.execute();
     }
 
@@ -443,7 +468,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      */
     public ArrayList<CeLueInfo> setLianghuaCelueData() {
         ArrayList<CeLueInfo> ceLueInfos = new ArrayList<>();
-        ArrayList<CeLueListInfo.ResultBean.StrategiesBean> strategiesBeen = ceLueListInfo.getResult().getStrategies();
+        List<CeLueListInfo.ResultBean.StrategiesBean> strategiesBeen = ceLueListInfo.getResult().getStrategies();
         for (int i = 0; i < strategiesBeen.size(); i++) {
             CeLueListInfo.ResultBean.StrategiesBean ben = strategiesBeen.get(i);
 
@@ -456,11 +481,11 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setJingZhiNum(ben.getTargetReturns() + "%");
             info.setMaxNum(ben.getMaxDay() + "天");
             info.setRateNum(ben.getShareRatio() + "%");
-            info.setName(ben.getUserName());
+            info.setName((String) ben.getUserName());
             info.setMinGengTou(ben.getMinFollow() + "");
-            info.setOtherInfo(ben.getDesc());
-            info.setHeadImage(ben.getUserImgUrl());
-            info.setLevelImage(ben.getUserLevelImgUrl());
+            info.setOtherInfo((String) ben.getDesc());
+            info.setHeadImage((String) ben.getUserImgUrl());
+//            info.setLevelImage(ben.getUserLevelImgUrl());
             ceLueInfos.add(info);
         }
         return ceLueInfos;
@@ -473,18 +498,19 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      */
     public ArrayList<NiuRenInfo> setNiuRenData() {
         ArrayList<NiuRenInfo> niuRenInfos = new ArrayList<>();
-        ArrayList<NiuRenListInfo.ResultBean.StarPorfolioBean> starPorfolioBeen = niuRenListInfo.getResult().getStarPorfolio();
+        List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfo.getResult().getStrategies();
+        DecimalFormat df =new DecimalFormat("#.00");
         for (int i = 0; i < starPorfolioBeen.size(); i++) {
-            NiuRenListInfo.ResultBean.StarPorfolioBean ben = starPorfolioBeen.get(i);
+            NiuRenListInfo.ResultBean.StrategiesBean ben = starPorfolioBeen.get(i);
             NiuRenInfo info = new NiuRenInfo();
             info.setNiurenHead("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2516161713,321762461&fm=58");
-            info.setNiurenName(ben.getUserName());
+            info.setNiurenName(ben.getNickName()+"");
             info.setNiurenRoundImage("http://img2.imgtn.bdimg.com/it/u=1689964256,2679873424&fm=21&gp=0.jpg");
             info.setShouyiRate(ben.getTotleReturns());
             info.setVictorRate(ben.getWinRatio() + "%");
-            info.setShouyiByMonth(ben.getMonthlyAverage() + "%");
+            info.setShouyiByMonth(df.format(ben.getMonthlyAverage()) + "%");
             info.setStockNum(ben.getHolding());
-            info.setCangweiRate(ben.getPosition() + "%");
+            info.setCangweiRate(df.format(ben.getPosition()) + "%");
             info.setDayNum(ben.getAveragePosition());
             info.setTradeTime(ben.getAverageTrading() + "");
             info.setStockType(ben.getTitle());
@@ -559,6 +585,10 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 break;
             case R.id.add_image:
                 intent = new Intent(getActivity(), SetupZuHeActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.my_zuhe_img:
+                intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -761,6 +791,11 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     myList.setOnScrollListener(null);
                     break;
                 case 2:
+                    if (TextUtils.isEmpty(mToken)){
+                        mLogin.setVisibility(View.VISIBLE);
+                    }else {
+                        mLogin.setVisibility(View.GONE);
+                    }
                     listView.setOnScrollListener(null);
                     niurenList.setOnScrollListener(null);
                     myList.setOnScrollListener(AutoWisdomFragment.this);

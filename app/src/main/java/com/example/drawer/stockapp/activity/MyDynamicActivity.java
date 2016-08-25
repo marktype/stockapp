@@ -99,6 +99,8 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
 
         mBackimg.setOnClickListener(this);
         mZhuanFa.setOnClickListener(this);
+        mComment.setOnClickListener(this);
+        mLikes.setOnClickListener(this);
     }
 
     @Override
@@ -119,6 +121,9 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                 break;
             case R.id.dongtai_pinglun:
                 initSoftWindow(1);
+                break;
+            case R.id.dongtai_zan:
+
                 break;
         }
     }

@@ -35,8 +35,11 @@ import android.widget.Toast;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.AllCanUseActivity;
 import com.example.drawer.stockapp.activity.AlterNameActivity;
+import com.example.drawer.stockapp.activity.AlterPhoneActivity;
 import com.example.drawer.stockapp.activity.AttentionActivity;
 import com.example.drawer.stockapp.activity.CollectionActivity;
+import com.example.drawer.stockapp.activity.DiYongQuanActivity;
+import com.example.drawer.stockapp.activity.ForgetPasswordActivity;
 import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.activity.MyWalletActivity;
 import com.example.drawer.stockapp.customview.CustomDialog;
@@ -140,6 +143,9 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         RelativeLayout mSex = (RelativeLayout) mView.findViewById(R.id.sex_lin);      //性别
         LinearLayout mCollectLin = (LinearLayout) mView.findViewById(R.id.collect_lin);    //收藏
         RelativeLayout mAllCan = (RelativeLayout) mView.findViewById(R.id.all_can_lin);    //通用
+        RelativeLayout mBindPhone = (RelativeLayout) mView.findViewById(R.id.bind_phone_lin);  //绑定手机号
+        RelativeLayout mAlterPassword = (RelativeLayout) mView.findViewById(R.id.reset_password_lin);  //修改密码
+        RelativeLayout mMyQuan = (RelativeLayout) mView.findViewById(R.id.my_quan_lin);     //优惠券
 
         TextView mExit = (TextView) mView.findViewById(R.id.exit_txt);    //退出
 
@@ -175,6 +181,9 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         mAllCan.setOnClickListener(this);
         mExit.setOnClickListener(this);
         mNologin.setOnClickListener(this);
+        mBindPhone.setOnClickListener(this);
+        mAlterPassword.setOnClickListener(this);
+        mMyQuan.setOnClickListener(this);
     }
 
     @Override
@@ -248,6 +257,18 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.img_no_login:
                 intent = new Intent(getContext(),LoginActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.bind_phone_lin:
+                intent = new Intent(getContext(), AlterPhoneActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.reset_password_lin:
+                intent = new Intent(getContext(), ForgetPasswordActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.my_quan_lin:
+                intent = new Intent(getContext(), DiYongQuanActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -367,7 +388,6 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         @Override
         protected String doInBackground(String... strings) {
             HashMap<String,String> map = new HashMap<>();
-            map.put("Address", "");
             map.put("Sex", strings[0]);
             String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[1],map,HttpManager.UpdataUser_URL);
             return message;

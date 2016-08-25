@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="@mipmap/userbg"
-        android:layout_height="250dp">
+        android:layout_height="240dp">
         <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
@@ -19,8 +19,8 @@
             <!--android:layout_centerHorizontal="true"/>-->
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_head"
-            android:layout_width="@dimen/margin_60dp"
-            android:layout_height="@dimen/margin_60dp"
+            android:layout_width="@dimen/margin_70dp"
+            android:layout_height="@dimen/margin_70dp"
             android:layout_centerInParent="true"
             app:civ_border_color="@color/write_color"
             app:civ_border_width="@dimen/margin_1dp"
@@ -29,6 +29,7 @@
             android:id="@+id/user_name"
             android:layout_below="@id/user_head"
             android:text="用户名"
+            android:textSize="@dimen/my_txt_size"
             android:textColor="@android:color/background_dark"
             android:layout_marginTop="@dimen/margin_15dp"
             android:layout_centerHorizontal="true"
@@ -38,11 +39,11 @@
             android:layout_height="wrap_content" />
     </RelativeLayout>
     <LinearLayout
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="190dp"
         android:layout_width="match_parent"
         android:layout_marginRight="@dimen/margin_15dp"
         android:layout_marginLeft="@dimen/margin_15dp"
-        android:padding="@dimen/margin_20dp"
+        android:padding="@dimen/margin_10dp"
         android:background="@color/write_color"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -63,6 +64,7 @@
             <TextView
                 android:text="粉丝"
                 android:layout_weight="1"
+                android:textSize="@dimen/my_txt_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -85,6 +87,7 @@
             <TextView
                 android:text="关注"
                 android:layout_weight="1"
+                android:textSize="@dimen/my_txt_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -107,6 +110,7 @@
             <TextView
                 android:text="收藏"
                 android:layout_weight="1"
+                android:textSize="@dimen/my_txt_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

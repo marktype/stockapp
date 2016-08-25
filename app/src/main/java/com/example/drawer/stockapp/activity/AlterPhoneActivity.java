@@ -2,7 +2,6 @@ package com.example.drawer.stockapp.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -22,17 +21,18 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class ForgetPasswordActivity extends BascActivity implements View.OnClickListener{
+public class AlterPhoneActivity extends BascActivity implements View.OnClickListener{
     private EditText mUserName,mPassword,mVerify;
     private TextView mGetVerify;
     private String verify;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forget_password);
+        setContentView(R.layout.activity_alter_phone);
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         initWight();
     }
+
 
     /**
      * 初始化控件
@@ -46,18 +46,16 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                 DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
-        ImageView mEyeImg = (ImageView) findViewById(R.id.eye_img);     //密码是否可见
-        TextView mSureTxt = (TextView) findViewById(R.id.alter_sure_txt);  //修改密码
+        TextView mSureTxt = (TextView) findViewById(R.id.alter_sure_txt);  //修改手机号
 
         mGetVerify = (TextView) findViewById(R.id.get_verify);
         mUserName = (EditText) findViewById(R.id.user_name_txt);
         mPassword = (EditText) findViewById(R.id.password_txt);
         mVerify = (EditText) findViewById(R.id.verify_txt);
 
-        mEyeImg.setOnClickListener(this);
-        mGetVerify.setOnClickListener(this);
+//        mGetVerify.setOnClickListener(this);
         mBackImg.setOnClickListener(this);
-        mSureTxt.setOnClickListener(this);
+//        mSureTxt.setOnClickListener(this);
     }
 
     @Override
@@ -72,13 +70,6 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
         switch (view.getId()){
             case R.id.back_img:
                 finish();
-                break;
-            case R.id.eye_img:
-                if (mPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD){
-                    mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);   //显示小圆点
-                }else {
-                    mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);    //显示密码
-                }
                 break;
             case R.id.alter_sure_txt:
                 String phone = mUserName.getText().toString();
@@ -154,14 +145,14 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                 e.printStackTrace();
             }
             if (stutas.equals("1")){
-                Toast.makeText(ForgetPasswordActivity.this,msg,Toast.LENGTH_SHORT).show();
+                Toast.makeText(AlterPhoneActivity.this,msg,Toast.LENGTH_SHORT).show();
             }
 
         }
     }
 
     /**
-     * 修改密码
+     * 修改手机号码
      */
     private class AlterAsyn extends AsyncTask<String,Void,String>{
 
@@ -191,10 +182,10 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                 e.printStackTrace();
             }
             if (stutas.equals("0")){
-                Toast.makeText(ForgetPasswordActivity.this,"修改成功",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AlterPhoneActivity.this,"修改成功",Toast.LENGTH_SHORT).show();
                 finish();
             }else if (stutas.equals("1")){
-                Toast.makeText(ForgetPasswordActivity.this,msg,Toast.LENGTH_SHORT).show();
+                Toast.makeText(AlterPhoneActivity.this,msg,Toast.LENGTH_SHORT).show();
             }
         }
     }

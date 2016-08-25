@@ -27,6 +27,7 @@
             android:padding="@dimen/margin_10dp"
             android:textSize="@dimen/title_text_size"/>
         <TextView
+            android:id="@+id/save_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

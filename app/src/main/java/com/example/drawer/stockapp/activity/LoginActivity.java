@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.UserInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
@@ -74,11 +75,14 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
             case R.id.login_txt:
                 String name = mUserName.getText().toString();
                 String password = mPassWord.getText().toString();
-                if (!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(password)){
+                if (name.length() != 11){
+                    Toast.makeText(this,"电话号码输入不正确",Toast.LENGTH_SHORT).show();
+                }else if (!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(password)){
+                    dialog = ManagerUtil.getDiaLog(this);
                     LoginAsyn loginAsyn = new LoginAsyn();
                     loginAsyn.execute(name,password);
                 }else {
-                    Toast.makeText(this,"用户名或密码不能为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"密码不能为空",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.forget_password_txt:
@@ -86,14 +90,7 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.back_img:
-//                intent = new Intent(this, MainActivity.class);
-//                MainActivity.isFirst = true;
-//                startActivity(intent);
                 finish();
-//                in.setAction("com.ymhd.select");
-//                //发送广播,销毁此界面
-//                sendBroadcast(in);
-//                finish();
                 break;
             case R.id.eye_img:
                 if (mPassWord.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD){
@@ -118,6 +115,7 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
         finish();
     }
 
+    private MyDialog dialog;
     /**
      * 异步登录接口
      */
@@ -136,6 +134,7 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                dialog.dismiss();
                 String message = s;
                 if (!TextUtils.isEmpty(message)&&message.length()>10){
                     Gson gson = new Gson();

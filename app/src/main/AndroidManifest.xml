@@ -98,8 +98,8 @@
             android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.RegisterActivity"
@@ -147,9 +147,8 @@
             android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.MyDynamicActivity"
-            android:theme="@style/MyAppTheme"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.SendDynamicActivity"
             android:screenOrientation="portrait"
@@ -162,10 +161,19 @@
             android:name=".activity.ShowImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
-        <activity android:name=".activity.AllCanUseActivity"
+        <activity
+            android:name=".activity.AllCanUseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyAppTheme"/>
-        <activity android:name=".activity.NewsInfoActivity"
+            android:theme="@style/MyAppTheme" />
+        <activity
+            android:name=".activity.NewsInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme" />
+        <activity
+            android:name=".activity.AlterPhoneActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme" />
+        <activity android:name=".activity.DiYongQuanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme"></activity>
     </application>

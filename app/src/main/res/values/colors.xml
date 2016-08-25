@@ -12,4 +12,10 @@
     <color name="content_con_bg">#F2F2F2</color>
     <color name="circle_con_bg">#E4E4E4</color>
     <color name="gray_con_bg">#F6F6F6</color>
+
+    <color name="quan_off_txt">#D6D6D6</color>
+    <color name="quan_off_bg">#FDFDFD</color>
+    <color name="quan_on_txt">#D7B779</color>
+    <color name="quan_on_bg">#FFFDEC</color>
+
 </resources>

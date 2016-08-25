@@ -6,6 +6,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.lang.reflect.Field;
@@ -156,6 +157,11 @@ public class ManagerUtil {
         MIUISetStatusBarLightMode(activity.getWindow(),false);
     }
 
+    /**
+     * 获取屏幕的宽高
+     * @param context
+     * @return
+     */
     public static int getPetilWight(Context context){
         WindowManager wm = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
@@ -163,5 +169,17 @@ public class ManagerUtil {
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
         return width;
+    }
+
+    /**
+     * 获取加载进度
+     * @param context
+     * @return
+     */
+    public static MyDialog getDiaLog(Context context){
+        MyDialog dialog = new MyDialog(context, 120, 80,R.layout.progress_layout,R.style.MyDialogStyle);
+        dialog.setCancelable(true);
+        dialog.show();
+        return dialog;
     }
 }
