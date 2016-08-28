@@ -435,14 +435,11 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 
             @Override
             protected Object doInBackground(Object[] objects) {
-                HashMap<String, Object> hashMap = new HashMap<>();
                 HashMap<String, String> map = new HashMap<>();
                 map.put("PageIndex", "0");
                 map.put("PageCount", "0");
                 map.put("PageSize", "0");
-                hashMap.put("PageInfo", map);
-                hashMap.put("Id", "0");
-                String message = HttpManager.newInstance().getHttpDataByThreeLayer("", hashMap, HttpManager.MyPorfolio_URL);
+                String message = HttpManager.newInstance().getHttpDataByTwoLayer(mToken, map, HttpManager.MyPorfolio_URL);
                 return message;
             }
 

@@ -61,7 +61,6 @@ public class DynamicInfoAdapter extends BaseAdapter {
         Picasso.with(context).load(info.getFriendImage()).into(viewHolder.image);
         viewHolder.titleTxt.setText(info.getFriendName());
         viewHolder.contentTxt.setText(info.getFriendContent());
-
         return view;
     }
 

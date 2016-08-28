@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_10dp"
             android:layout_marginLeft="@dimen/margin_20dp"
-
+            android:textSize="@dimen/title_text_size"
             android:textColor="@android:color/background_dark"
             android:layout_toRightOf="@id/dongtai_image"
             android:text="股神" />
@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_5dp"
             android:layout_marginLeft="@dimen/margin_20dp"
+            android:textSize="@dimen/title_text_size"
             android:layout_toRightOf="@id/dongtai_image"
             android:layout_below="@id/dongtai_name"
             android:text="6月6号 08:36" />
@@ -62,7 +63,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/line_one"
             android:layout_margin="@dimen/margin_10dp"
-
+            android:textSize="@dimen/my_txt_size"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:text="股神" />
 
         <com.example.drawer.stockapp.customview.MyGridView

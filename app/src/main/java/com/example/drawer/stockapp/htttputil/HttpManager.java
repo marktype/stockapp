@@ -49,6 +49,7 @@ public class HttpManager {
     public static final String StatementDetail_URL = BASE_URL + "Financial/StatementDetail";      //
     public static final String Information_URL = BASE_URL + "HeadLine/Information";      //  一级界面资讯
     public static final String NewsDetail_URL = BASE_URL + "HeadLine/NewsDetail";      //  新闻详情
+    public static final String News_Comment_URL = BASE_URL + "HeadLine/Comment";      //  新闻评论或转发
     public static final String CommentsList_URL = BASE_URL + "HeadLine/CommentsList";      //  评论列表
     public static final String StrategyList_URL = BASE_URL + "Intelligent/StrategyList";      //  获取策略列表
     public static final String StarPorfolio_URL = BASE_URL + "Intelligent/StarPorfolio";      //  获取牛人组合列表
@@ -65,6 +66,8 @@ public class HttpManager {
     public static final String CodeHotKeys_URL = BASE_URL + "Intelligent/HotKeys";      // 热门搜索股票关键字
     public static final String FindCode_URL = BASE_URL + "Intelligent/FindCode";      // 搜索股票
     public static final String send_dynamic_URL = BASE_URL + "Dynamics/AddDynamic";      // 发布动态
+    public static final String Comment_URL = BASE_URL + "Dynamics/Comment";      // 评论或转发
+    public static final String Favorites_URL = BASE_URL + "Dynamics/Favorites";      // 收藏或点赞
     public static final String Login_URL = BASE_URL + "Membership/Login";      // 登录
     public static final String USERINFO_URL = BASE_URL + "Membership/UserDetail";      // 获取用户信息
     public static final String Version_URL = BASE_URL + "Membership/Version";      // 版本
@@ -276,7 +279,7 @@ public class HttpManager {
                 Iterator iter = map.entrySet().iterator();
                 while (iter.hasNext()) {
                     Map.Entry entry = (Map.Entry) iter.next();
-                    if (map.containsKey("PageInfo")) {
+                    if (entry.getKey().equals("PageInfo")) {
                         JSONObject object3 = new JSONObject();
                         HashMap<String, String> mapinfo = (HashMap<String, String>) map.get("PageInfo");
                         Iterator iterItem = mapinfo.entrySet().iterator();
@@ -301,6 +304,7 @@ public class HttpManager {
         }
         String str = kk.toString();
 
+        Log.d("tag","str---------"+str);
         RequestBody formBody = RequestBody.create(JSON, str);
         OkHttpClient mOkHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
@@ -392,14 +396,14 @@ public class HttpManager {
                 Iterator iter = map.entrySet().iterator();
                 while (iter.hasNext()) {
                     Map.Entry entry = (Map.Entry) iter.next();
-                    if (map.containsKey("MarketData")) {
+                    if (entry.getKey().equals("Imgs")){
                         JSONArray object3 = new JSONArray();
-                        ArrayList<String> mapinfo = (ArrayList<String>) map.get("MarketData");
+                        ArrayList<String> mapinfo = (ArrayList<String>) map.get("Imgs");
                         for (int i = 0; i < mapinfo.size(); i++) {
                             object3.put(i, mapinfo.get(i));
                         }
-                        object2.put("PageInfo", object3);
-                    } else {
+                        object2.put("Imgs", object3);
+                    }else {
                         String key = (String) entry.getKey();
                         String val = (String) entry.getValue();
                         object2.put(key, val);
@@ -412,7 +416,6 @@ public class HttpManager {
             e.printStackTrace();
         }
         String str = kk.toString();
-
         RequestBody formBody = RequestBody.create(JSON, str);
         OkHttpClient mOkHttpClient = new OkHttpClient();
         Request request = new Request.Builder()

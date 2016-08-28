@@ -49,6 +49,9 @@ import com.scxh.slider.library.SliderLayout;
 import com.scxh.slider.library.SliderTypes.BaseSliderView;
 import com.scxh.slider.library.SliderTypes.TextSliderView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -279,7 +282,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mDongTaiList.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                onLoadDt();
+                dymnicesData(token);
+
             }
 
             @Override
@@ -310,6 +314,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
                         onLoadZx();
                     }
                 }, 2000);
@@ -410,6 +415,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+
+                onLoadDt();
+
                 String message = (String) o;
                 if (!TextUtils.isEmpty(message)){
                     Gson gson = new Gson();
@@ -417,8 +425,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                     if (dynamicsInfo.getHead().getStatus()==0){
                         trendsAdapter.setData(initdongtaiData());
                         mDongTaiList.setAdapter(trendsAdapter);
-
-
                     }
 
                 }
@@ -723,6 +729,49 @@ class ItemRecod {
             intent.putExtra(MyDynamicActivity.TYPE,type);
             startActivity(intent);
         }
+
+        @Override
+        public void setCollectOrLikes(int i,String likeOrfor) {
+            LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
+            likeOrCollectAsyn.execute(dynamicsInfo.getResult().getShare().get(i).getId(),likeOrfor,token);
+        }
     };
+
+    /**
+     * 搜索收藏、点赞
+     */
+    private class LikeOrCollectAsyn extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("Id", strings[0]);
+            map.put("Type", strings[1]);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[2], map, HttpManager.Favorites_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!TextUtils.isEmpty(s)){
+                try {
+                    JSONObject object = new JSONObject(s);
+                    if (object.has("Head")){
+                        JSONObject head = object.getJSONObject("Head");
+                        if (head.getString("Status").equals("1")){
+//                            Toast.makeText(context,"发布失败",Toast.LENGTH_SHORT).show();
+                        }else {
+//                            Toast.makeText(context,"发布成功",Toast.LENGTH_SHORT).show();
+                            dymnicesData(token);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
 }
 

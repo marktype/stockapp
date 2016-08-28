@@ -39,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/news_info_txt"
+            android:textSize="@dimen/title_text_size"
             android:textColor="@android:color/background_dark" />
 
         <ImageView
@@ -70,6 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancal_low_txt"
+            android:textSize="@dimen/title_text_size"
             android:textColor="@android:color/background_dark" />
 
         <ImageView
@@ -101,6 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/above_txt"
+            android:textSize="@dimen/title_text_size"
             android:textColor="@android:color/background_dark" />
 
         <ImageView

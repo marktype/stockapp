@@ -1,17 +1,21 @@
 package com.example.drawer.stockapp.activity;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.DynamicInfoAdapter;
@@ -23,9 +27,13 @@ import com.example.drawer.stockapp.model.DynamicsInfo;
 import com.example.drawer.stockapp.model.TrendsInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
+import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,10 +48,12 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
     private ListView mList;
     private int type;     //跳转类型
     private EditText mCommentEdit;
+    private String mToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_dynamic);
+        mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
         tintManager.setStatusBarTintResource(R.color.write_color);
         shareBean = getIntent().getParcelableExtra(DYNAMICINFO);
         type = getIntent().getIntExtra(TYPE,0);
@@ -75,10 +85,15 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         TextView mZhuanFa = (TextView) headRelat.findViewById(R.id.dongtai_zhuanfa);
         TextView mComment = (TextView) headRelat.findViewById(R.id.dongtai_pinglun);
         TextView mLikes = (TextView) headRelat.findViewById(R.id.dongtai_zan);
+        ImageView mCollect = (ImageView) headRelat.findViewById(R.id.collect_info_img);
+
         if (shareBean != null){
             if (!TextUtils.isEmpty(shareBean.getImgUrl())){
                 Picasso.with(this).load(shareBean.getImgUrl()).into(head);
             }
+            content.setMaxLines(100);
+            content.setTextSize(14);
+
             ImageAdapter adapter = new ImageAdapter(this);
             adapter.setData(shareBean.getImgs());
             contentImage.setAdapter(adapter);
@@ -96,11 +111,12 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         mList.addHeaderView(headRelat);
 
 
-
+        mCommentEdit.setOnKeyListener(onKeyListener);
         mBackimg.setOnClickListener(this);
         mZhuanFa.setOnClickListener(this);
         mComment.setOnClickListener(this);
         mLikes.setOnClickListener(this);
+        mCollect.setOnClickListener(this);
     }
 
     @Override
@@ -117,13 +133,24 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.dongtai_zhuanfa:
-                initSoftWindow(2);
+                type  = 2;
+                initSoftWindow(type);
                 break;
             case R.id.dongtai_pinglun:
-                initSoftWindow(1);
+                type = 1;
+                initSoftWindow(type);
                 break;
             case R.id.dongtai_zan:
-
+                LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
+                likeOrCollectAsyn.execute(shareBean.getId(),"Like",mToken);
+                break;
+            case R.id.collect_info_img:
+                likeOrCollectAsyn = new LikeOrCollectAsyn();
+                if (shareBean.isHasFavorites()){
+                    likeOrCollectAsyn.execute(shareBean.getId(),"CancelFavorites",mToken);
+                }else {
+                    likeOrCollectAsyn.execute(shareBean.getId(),"Favorites",mToken);
+                }
                 break;
         }
     }
@@ -142,9 +169,9 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
             map.put("PageCount", "0");
             map.put("PageSize", "0");
             hashMap.put("PageInfo",map);
-            hashMap.put("Id","0");
-            hashMap.put("Type","0");
-            String message = HttpManager.newInstance().getHttpDataByThreeLayer("",hashMap,HttpManager.COMMENT_LIST_URL);
+            hashMap.put("Id",shareBean.getId());
+            hashMap.put("Type","Comment");
+            String message = HttpManager.newInstance().getHttpDataByThreeLayer(mToken,hashMap,HttpManager.COMMENT_LIST_URL);
             return message;
         }
 
@@ -152,7 +179,6 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             String message = s;
-            Log.d("tag","message--dy---"+message);
             if (!TextUtils.isEmpty(message)){
                 Gson gson = new Gson();
                 commnetInfo = gson.fromJson(message,CommnetInfo.class);
@@ -189,12 +215,128 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                 break;
             case 1:
                 mCommentEdit.setHint("写下你的评论");
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN|WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 break;
             case 2:
                 mCommentEdit.setHint("写下你的转发内容");
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN|WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE|WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED);
                 break;
+        }
+    }
+
+    /**
+     * 软键盘监听
+     */
+    private View.OnKeyListener onKeyListener = new View.OnKeyListener() {
+
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN){
+                /*隐藏软键盘*/
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(inputMethodManager.isActive()){
+                    inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                }
+
+                //点击进行逻辑处理
+                String key = mCommentEdit.getText().toString();
+                LikeOrForwordAsyn likeOrForwordAsyn = new LikeOrForwordAsyn();
+                if (type == 2){
+                    likeOrForwordAsyn.execute(shareBean.getId(),"Forward",key,mToken,HttpManager.Comment_URL);
+                }else {
+                    likeOrForwordAsyn.execute(shareBean.getId(),"Comment",key,mToken,HttpManager.Comment_URL);
+                }
+
+                return true;
+            }
+            return false;
+        }
+    };
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(null != this.getCurrentFocus()){
+            /**
+             * 点击空白位置 隐藏软键盘
+             */
+            InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+        }
+        return super .onTouchEvent(event);
+    }
+
+    /**
+     * 搜索评论、转发
+     */
+    private class LikeOrForwordAsyn extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("Id", strings[0]);
+            map.put("Type", strings[1]);
+            map.put("Content", strings[2]);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[3], map, strings[4]);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!TextUtils.isEmpty(s)){
+                try {
+                    JSONObject object = new JSONObject(s);
+                    if (object.has("Head")){
+                        JSONObject head = object.getJSONObject("Head");
+                        if (head.getString("Status").equals("1")){
+                            Toast.makeText(MyDynamicActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(MyDynamicActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+    /**
+     * 搜索收藏、点赞
+     */
+    private class LikeOrCollectAsyn extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("Id", strings[0]);
+            map.put("Type", strings[1]);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[2], map, HttpManager.Favorites_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!TextUtils.isEmpty(s)){
+                try {
+                    JSONObject object = new JSONObject(s);
+                    if (object.has("Head")){
+                        JSONObject head = object.getJSONObject("Head");
+                        if (head.getString("Status").equals("1")){
+//                            Toast.makeText(context,"发布失败",Toast.LENGTH_SHORT).show();
+                        }else {
+//                            Toast.makeText(context,"发布成功",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
     }
 }

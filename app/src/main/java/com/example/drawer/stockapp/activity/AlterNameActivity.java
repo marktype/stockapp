@@ -2,6 +2,8 @@ package com.example.drawer.stockapp.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -42,6 +44,7 @@ public class AlterNameActivity extends BascActivity implements View.OnClickListe
 
         mName = (EditText) findViewById(R.id.alter_name);
 
+        mName.setFilters(new InputFilter[]{filter});
 
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
 
@@ -97,4 +100,48 @@ public class AlterNameActivity extends BascActivity implements View.OnClickListe
             finish();
         }
     }
+
+    /**
+     * 限制中文8个字，英文16个字
+     */
+    private final int maxLen = 16;
+    private InputFilter filter = new InputFilter() {
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            int dindex = 0;
+            int count = 0;
+
+            while (count <= maxLen && dindex < dest.length()) {
+                char c = dest.charAt(dindex++);
+                if (c < 128) {
+                    count = count + 1;
+                } else {
+                    count = count + 2;
+                }
+            }
+
+            if (count > maxLen) {
+                return dest.subSequence(0, dindex - 1);
+            }
+
+            int sindex = 0;
+            while (count <= maxLen && sindex < source.length()) {
+                char c = source.charAt(sindex++);
+                if (c < 128) {
+                    count = count + 1;
+                } else {
+                    count = count + 2;
+                }
+            }
+
+            if (count > maxLen) {
+                sindex--;
+            }
+
+            return source.subSequence(0, sindex);
+        }
+
+
+    };
 }

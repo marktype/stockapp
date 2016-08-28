@@ -2,68 +2,216 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    >
+    android:background="@color/circle_con_bg">
+
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/nav_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:background="@color/write_color"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_height="@dimen/title_height">-->
+    <!--<ImageView-->
+    <!--android:id="@+id/web_image_back"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:padding="@dimen/margin_10dp"-->
+    <!--android:src="@mipmap/arrowlift"/>-->
+    <!--<ImageView-->
+    <!--android:id="@+id/web_image_four"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="@dimen/margin_10dp"-->
+    <!--android:layout_marginRight="@dimen/margin_15dp"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:src="@mipmap/pinglun"-->
+    <!--/>-->
+    <!--<ImageView-->
+    <!--android:layout_toLeftOf="@id/web_image_four"-->
+    <!--android:id="@+id/web_image_three"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:padding="@dimen/margin_10dp"-->
+    <!--android:layout_marginRight="@dimen/margin_15dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:src="@mipmap/zhuanfa"-->
+    <!--/>-->
+    <!--<ImageView-->
+    <!--android:layout_toLeftOf="@id/web_image_three"-->
+    <!--android:id="@+id/web_image_two"-->
+    <!--android:layout_marginRight="@dimen/margin_15dp"-->
+    <!--android:padding="@dimen/margin_10dp"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:src="@mipmap/zan"-->
+    <!--/>-->
+    <!--</RelativeLayout>-->
+    <!--<ScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_above="@id/nav_layout"-->
+    <!--android:fitsSystemWindows="true">-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical">-->
+    <!--<WebView-->
+    <!--android:id="@+id/web_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"/>-->
+    <!--<TextView-->
+    <!--android:id="@+id/test_txt"-->
+    <!--android:visibility="gone"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+    <!--<com.example.drawer.stockapp.customview.MyListView-->
+    <!--android:id="@+id/comment_listview"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"/>-->
+    <!--</LinearLayout>-->
+    <!--</ScrollView>-->
 
     <RelativeLayout
-        android:id="@+id/nav_layout"
+        android:id="@+id/dynamic_title"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
-        android:layout_alignParentBottom="true"
-        android:layout_height="@dimen/title_height">
+        android:layout_height="@dimen/title_height"
+        android:background="@color/write_color">
+
         <ImageView
-            android:id="@+id/web_image_back"
+            android:id="@+id/back_img"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="@dimen/margin_10dp"
-            android:src="@mipmap/arrowlift"/>
-        <ImageView
-            android:id="@+id/web_image_four"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_10dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/pinglun"
-            />
-        <ImageView
-            android:layout_toLeftOf="@id/web_image_four"
-            android:id="@+id/web_image_three"
-            android:layout_width="wrap_content"
-            android:padding="@dimen/margin_10dp"
-            android:layout_height="match_parent"
-            android:src="@mipmap/zhuanfa"
-            />
-        <ImageView
-            android:layout_toLeftOf="@id/web_image_three"
-            android:id="@+id/web_image_two"
-            android:padding="@dimen/margin_10dp"
+            android:src="@mipmap/arrowlift" />
+
+        <TextView
+            android:id="@+id/back_txt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@mipmap/zan"
-            />
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:padding="@dimen/margin_10dp"
+            android:text="@string/news_main_body"
+            android:textColor="@android:color/background_dark"
+            android:textSize="@dimen/title_text_size" />
     </RelativeLayout>
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/nav_layout"
-        android:fitsSystemWindows="true">
-        <LinearLayout
+        android:layout_above="@id/comment_relat"
+        android:layout_below="@id/dynamic_title"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-    <WebView
-        android:id="@+id/web_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-            <!--<TextView-->
-                <!--android:id="@+id/test"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content" />-->
-    <com.example.drawer.stockapp.customview.MyListView
-        android:id="@+id/comment_listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-        </LinearLayout>
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/web_lin"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:orientation="vertical">
+
+                <WebView
+                    android:id="@+id/web_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/test_txt"
+                    android:background="@color/write_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+                <!--<com.example.drawer.stockapp.customview.MyListView-->
+                <!--android:id="@+id/comment_listview"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"/>-->
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/pinglun_relat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/web_lin"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:background="@color/write_color">
+
+                <TextView
+                    android:id="@+id/dongtai_zhuanfa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:drawableLeft="@mipmap/zhuanfa"
+                    android:drawablePadding="@dimen/margin_5dp"
+                    android:padding="@dimen/margin_10dp"
+                    android:text="2" />
+
+                <TextView
+                    android:id="@+id/dongtai_pinglun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:drawableLeft="@mipmap/pinglun"
+                    android:drawablePadding="@dimen/margin_5dp"
+                    android:padding="@dimen/margin_10dp"
+                    android:text="2" />
+
+                <TextView
+                    android:id="@+id/dongtai_zan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:drawableLeft="@mipmap/zan"
+                    android:drawablePadding="@dimen/margin_5dp"
+                    android:padding="@dimen/margin_10dp"
+                    android:text="20" />
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/dynamic_list"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pinglun_relat"
+                android:background="@color/write_color"
+                android:divider="@null"
+                android:scrollbars="none" />
+        </RelativeLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/comment_relat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/write_color">
+
+        <ImageView
+            android:id="@+id/share_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/margin_15dp"
+            android:src="@mipmap/share_img" />
+
+        <EditText
+            android:id="@+id/dongtai_comment_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_10dp"
+            android:layout_toRightOf="@id/share_img"
+            android:background="@drawable/rect_circle_gray_shape"
+            android:gravity="center"
+            android:textSize="@dimen/title_text_size"
+            android:hint="写下你的评论"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:padding="@dimen/margin_10dp"
+            android:textColorHint="@android:color/darker_gray" />
+    </RelativeLayout>
 </RelativeLayout>

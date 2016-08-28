@@ -96,9 +96,11 @@ public class TrendsAdapter extends BaseAdapter {
                 if (info.getCollect()){
                     viewHolder.collect.setImageResource(R.mipmap.collection);
                     info.setCollect(false);
+                    callBack.setCollectOrLikes(i,"1");
                 }else {
                     viewHolder.collect.setImageResource(R.mipmap.collection_yes);
                     info.setCollect(true);
+                    callBack.setCollectOrLikes(i,"0");
                 }
             }
         });
@@ -121,6 +123,7 @@ public class TrendsAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
 //                Toast.makeText(context,"点赞",Toast.LENGTH_SHORT).show();
+                callBack.setCollectOrLikes(i,"2");
             }
         });
 
@@ -138,6 +141,7 @@ public class TrendsAdapter extends BaseAdapter {
         TextView goodNum;
         ImageView collect;
     }
+
 
 
 }

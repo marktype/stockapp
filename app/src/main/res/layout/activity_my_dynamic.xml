@@ -31,12 +31,12 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:background="@color/write_color"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/title_height">
         <ImageView
             android:id="@+id/share_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/margin_15dp"
+            android:padding="@dimen/margin_10dp"
             android:layout_centerVertical="true"
             android:src="@mipmap/share_img"/>
         <EditText
@@ -46,10 +46,13 @@
             android:hint="写下你的评论"
             android:gravity="center"
             android:imeOptions="actionSend"
+            android:layout_centerVertical="true"
             android:textColorHint="@android:color/darker_gray"
             android:background="@drawable/rect_circle_gray_shape"
-            android:layout_margin="@dimen/margin_10dp"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
             android:padding="@dimen/margin_10dp"
+            android:textSize="@dimen/title_text_size"
             android:inputType="text"
             android:layout_toRightOf="@id/share_img"/>
     </RelativeLayout>
@@ -58,6 +61,7 @@
         android:id="@+id/dynamic_list"
         android:scrollbars="none"
         android:divider="@null"
+        android:listSelector="@android:color/transparent"
         android:layout_above="@id/comment_relat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

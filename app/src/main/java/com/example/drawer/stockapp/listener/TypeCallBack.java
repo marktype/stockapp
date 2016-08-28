@@ -9,4 +9,6 @@ package com.example.drawer.stockapp.listener;
 public interface TypeCallBack {
 
     void setDongTaiType(int i,int type);
+
+    void  setCollectOrLikes(int i,String likeOrfor);
 }

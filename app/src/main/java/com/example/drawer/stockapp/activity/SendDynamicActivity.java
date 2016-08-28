@@ -5,12 +5,15 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -31,10 +34,12 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,6 +55,11 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
     private String localTempImgFileName = "bankgroup.jpg";
     private String localTempImgDir = "com.stock";
     private String token;
+    private LinearLayout mLinImg;
+    private ArrayList<Bitmap> bitmapList;
+    private ImageView mAddImg;
+    private String[] image = new String[]{""};
+    ArrayList<String> list = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +80,9 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
         mEditTxt = (EditText) findViewById(R.id.edit_txt);     //发表内容
         TextView mSendTxt = (TextView) findViewById(R.id.send_dynamic_txt);
-        ImageView mAddImg = (ImageView) findViewById(R.id.add_image);
+        mAddImg = (ImageView) findViewById(R.id.add_image);
+        mLinImg = (LinearLayout) findViewById(R.id.publish_mood_add_picture_layout);   //图片加载
+
 
         mAddImg.setOnClickListener(this);
         mSendTxt.setOnClickListener(this);
@@ -84,10 +96,32 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
         ManagerUtil.setStataBarColor(this,tintManager);
     }
 
+
+    private void initAddMorePicture() {
+//
+        ImageView img = (ImageView) LayoutInflater.from(this).inflate(R.layout.item_add_picture, mLinImg, false);
+        if (bitmapList != null && bitmapList.size() > 0) {
+            int size = bitmapList.size();
+            for (int i = 0; i < size; i++) {
+                int childCount = mLinImg.getChildCount();
+                if (childCount == 5) {
+                    mAddImg.setImageBitmap(bitmapList.get(i));
+                    mAddImg.setClickable(false);
+                    return;
+                }
+                img.setImageBitmap(bitmapList.get(i));
+
+            }
+            mLinImg.addView(img, size - 1);
+        }
+    }
+
     /**
      * 显示更换背景对话框
      */
     public void showChangeBgDialog() {
+        bitmapList = new ArrayList<Bitmap>();
+
         final Dialog dialog = new Dialog(this, R.style.dialog_no_black_border);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LinearLayout dialogLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.pic_select_item_layout, null, false);
@@ -143,13 +177,15 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
             //如果返回码是相册,就进行处理
         } else if (requestCode == GALLERY_REQUST_CODE) {
 
-            if (data == null) {
-                return;
-            } else {
-                Uri originalUri = data.getData();        //获得图片的uri
-//                Picasso.with(SendDynamicActivity.this).load(originalUri).resize(720,720).centerCrop().into(friendGroupBackGroundImageView);
-//                sp.edit().putString("filePath", originalUri.toString()).commit();
+            Uri contentUri = data.getData();
+            Bitmap bitmap = getBitmapFromUri(contentUri);
+            bitmap = reduce(bitmap, 720, 720, true);
+            if (!bitmapList.contains(bitmap)) {
+                bitmapList.add(bitmap);
             }
+            initAddMorePicture();
+            sendImageToServer(bitmapList);
+
         }else if (requestCode == CROP_REQUST_CODE) {
             if (data == null) {
                 return;
@@ -157,11 +193,53 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
             Bundle bundle = data.getExtras();
 
             if (bundle != null){
-                Bitmap bitMap = bundle.getParcelable("data");
-                //将bitmap上传到服务器
-//                friendGroupBackGroundImageView.setImageBitmap(bitMap);
+                Bitmap bitmap = bundle.getParcelable("data");
+                if (!bitmapList.contains(bitmap)) {
+                    bitmapList.add(bitmap);
+                }
+                initAddMorePicture();
+                sendImageToServer(bitmapList);
             }
         }
+    }
+
+    private Bitmap getBitmapFromUri(Uri uri) {
+        try {
+            // 读取uri所在的图片
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+            return bitmap;
+        } catch (Exception e) {
+            Log.e("[Android]", e.getMessage());
+            Log.e("[Android]", "目录为：" + uri);
+            e.printStackTrace();
+            return null;
+        }
+    }
+    /**
+     * 压缩图片
+     *
+     * @param bitmap   源图片
+     * @param width    想要的宽度
+     * @param height   想要的高度
+     * @param isAdjust 是否自动调整尺寸, true图片就不会拉伸，false严格按照你的尺寸压缩
+     * @return Bitmap
+     */
+    public Bitmap reduce(Bitmap bitmap, int width, int height, boolean isAdjust) {
+        // 如果想要的宽度和高度都比源图片小，就不压缩了，直接返回原图
+        if (bitmap.getWidth() < width && bitmap.getHeight() < height) {
+            return bitmap;
+        }
+        // 根据想要的尺寸精确计算压缩比例, 方法详解：public BigDecimal divide(BigDecimal divisor, int scale, int roundingMode);
+        // scale表示要保留的小数位, roundingMode表示如何处理多余的小数位，BigDecimal.ROUND_DOWN表示自动舍弃
+        float sx = new BigDecimal(width).divide(new BigDecimal(bitmap.getWidth()), 4, BigDecimal.ROUND_DOWN).floatValue();
+        float sy = new BigDecimal(height).divide(new BigDecimal(bitmap.getHeight()), 4, BigDecimal.ROUND_DOWN).floatValue();
+        if (isAdjust) {// 如果想自动调整比例，不至于图片会拉伸
+            sx = (sx < sy ? sx : sy);
+            sy = sx;// 哪个比例小一点，就用哪个比例
+        }
+        Matrix matrix = new Matrix();
+        matrix.postScale(sx, sy);// 调用api中的方法进行压缩，就大功告成了
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
     @Override
     public void onConfigurationChanged(Configuration config) {
@@ -214,7 +292,33 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
         }
         return uri;
     }
+    /**
+     * 发送图片到服务器
+     *
+     * @param
+     */
+    private void sendImageToServer(ArrayList<Bitmap> bitmapList) {
 
+        if (bitmapList != null) {
+            int num = bitmapList.size();
+            for (int i = 0; i < num; i++) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                Bitmap bitmap = bitmapList.get(i);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 85, baos);
+                //字节数组
+                byte[] bytes = baos.toByteArray();
+                //通过Base64编码
+                byte[] dd = Base64.encode(bytes, Base64.DEFAULT);
+                list.add(new String(dd));
+//                image[i] = new String(dd);
+//                sb.append(image[i]).append(",");
+            }
+
+        }
+//        mPic = new String(dd);
+        //到此已经得到了头像的字节字符串
+
+    }
     /**
      * 保存bitmap图像到本地文件
      *
@@ -262,11 +366,14 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
                 break;
             case R.id.send_dynamic_txt:
                 String edit = mEditTxt.getText().toString();
+
                 if (!TextUtils.isEmpty(token)){
-                    SendDynmaic(null,token,edit);
+                    SendDynmaic(list,token,edit);
+                }else if (edit.length()<1){
+                Toast.makeText(this,"你还未输入内容哦",Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(this,"你还未登录，请登录后发表",Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(this,"你还未登录，请登录后发表",Toast.LENGTH_SHORT).show();
+            }
 
                 break;
             case R.id.add_image:
@@ -300,11 +407,13 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 String str = (String) o;
+                Log.d("tag","str---------"+str);
                 if (!TextUtils.isEmpty(str)){
                     try {
                         JSONObject object = new JSONObject(str);
-                        if (object.has("Status")){
-                            if (object.getString("Status").equals(1)){
+                        if (object.has("Head")){
+                            JSONObject head = object.getJSONObject("Head");
+                            if (head.getString("Status").equals("1")){
                                 Toast.makeText(SendDynamicActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
                             }else {
                                 Toast.makeText(SendDynamicActivity.this,"发表成功",Toast.LENGTH_SHORT).show();
