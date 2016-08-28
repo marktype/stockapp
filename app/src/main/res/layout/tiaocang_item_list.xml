@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/mairu_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_10dp"
+        android:background="@drawable/rect_edit_bg_shape"
+        android:paddingBottom="@dimen/margin_3dp"
+        android:paddingLeft="@dimen/margin_10dp"
+        android:paddingRight="@dimen/margin_10dp"
+        android:paddingTop="@dimen/margin_3dp"
+        android:text="买入"
+        android:textSize="@dimen/my_txt_size" />
+
+    <TextView
+        android:id="@+id/stock_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:layout_toRightOf="@id/mairu_txt"
+        android:text="中国平安"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/my_txt_size" />
+
+    <TextView
+        android:id="@+id/stock_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stock_name"
+        android:layout_toRightOf="@id/mairu_txt"
+        android:text="(601318)"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/my_txt_size" />
+
+    <TextView
+        android:id="@+id/jiayiliang_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_toRightOf="@id/stock_name"
+        android:text="交易量:"
+        android:textSize="@dimen/my_txt_size" />
+
+    <TextView
+        android:id="@+id/trade_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/margin_5dp"
+        android:layout_toRightOf="@id/jiayiliang_txt"
+        android:text="0-->500"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/chengjiao_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/margin_10dp"
+        android:text="12.5"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/my_txt_size" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/chengjiao_price"
+        android:text="成交价:"
+        android:textSize="@dimen/my_txt_size" />
+
+</RelativeLayout>

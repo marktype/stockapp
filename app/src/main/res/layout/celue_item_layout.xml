@@ -11,8 +11,8 @@
     <TextView
         android:id="@+id/goal_shouyi_icon"
         android:layout_width="wrap_content"
-        android:text="目标收益"
-        android:textColor="@color/circle_con_bg"
+        android:text="当前收益"
+        android:textSize="@dimen/my_txt_size"
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/margin_5dp"
         android:layout_height="wrap_content" />
@@ -20,7 +20,7 @@
         android:id="@+id/goal_shouyi"
         android:text="15%"
         android:textSize="@dimen/content_text_size"
-        android:textColor="@color/write_color"
+        android:textColor="@android:color/black"
         android:layout_marginTop="@dimen/margin_10dp"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
@@ -38,18 +38,18 @@
         android:orientation="vertical">
     <TextView
         android:id="@+id/max_long_time_icon"
-        android:text="最长期限"
+        android:text="最大盈利"
+        android:textSize="@dimen/my_txt_size"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:textColor="@color/circle_con_bg"
         android:layout_margin="@dimen/margin_5dp"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/max_long_time"
-        android:text="90"
+        android:text="90%"
         android:layout_gravity="center_horizontal"
         android:textSize="@dimen/content_text_size"
-        android:textColor="@color/write_color"
+        android:textColor="@android:color/black"
         android:layout_marginTop="@dimen/margin_10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -67,8 +67,8 @@
     <TextView
         android:id="@+id/zhishunxian_icon"
         android:layout_width="wrap_content"
-        android:text="止损线"
-        android:textColor="@color/circle_con_bg"
+        android:text="最大亏损"
+        android:textSize="@dimen/my_txt_size"
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/margin_5dp"
         android:layout_height="wrap_content" />
@@ -77,7 +77,7 @@
         android:text="10%"
         android:layout_gravity="center_horizontal"
         android:textSize="@dimen/content_text_size"
-        android:textColor="@color/write_color"
+        android:textColor="@android:color/black"
         android:layout_marginTop="@dimen/margin_10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -94,18 +94,18 @@
         android:orientation="vertical">
     <TextView
         android:id="@+id/shouyi_icon"
-        android:text="收益分成"
-        android:textColor="@color/circle_con_bg"
+        android:text="交易次数"
+        android:textSize="@dimen/my_txt_size"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_margin="@dimen/margin_5dp"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/shouyi_txt"
-        android:text="40%"
+        android:text="40"
         android:layout_gravity="center_horizontal"
         android:textSize="@dimen/content_text_size"
-        android:textColor="@color/write_color"
+        android:textColor="@android:color/black"
         android:layout_marginTop="@dimen/margin_10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -122,4 +122,8 @@
         <!--android:padding="@dimen/margin_5dp"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content" />-->
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp"-->
+        <!--/>-->
 </LinearLayout>

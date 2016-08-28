@@ -51,6 +51,8 @@
     <string name="attention_txt">关注</string>
     <string name="send_dynamic_txt">发布动态</string>
     <string name="send_dynamic_sure_txt">确定发布</string>
+    <string name="celue_title_one_txt">实盈量化投资组合第一期 收益率走势</string>
+    <string name="celue_title_txt">实盈量化投资组合第一期</string>
 
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">松开刷新数据</string>

@@ -763,7 +763,7 @@ class ItemRecod {
 //                            Toast.makeText(context,"发布失败",Toast.LENGTH_SHORT).show();
                         }else {
 //                            Toast.makeText(context,"发布成功",Toast.LENGTH_SHORT).show();
-                            dymnicesData(token);
+//                            dymnicesData(token);
                         }
                     }
                 } catch (JSONException e) {

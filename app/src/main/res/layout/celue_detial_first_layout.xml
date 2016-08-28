@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/celue_first_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/write_color">
+
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_10dp"
+            android:src="@mipmap/arrowlift" />
+
+        <TextView
+            android:id="@+id/back_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:padding="@dimen/margin_10dp"
+            android:text="@string/lianghuacelue_txt"
+            android:textColor="@android:color/background_dark"
+            android:textSize="@dimen/title_text_size" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/circle_con_bg"
+        android:layout_below="@+id/celue_first_title">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/zoushi_relat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/MyContentStyle"
+                android:background="@color/write_color">
+
+                <TextView
+                    android:id="@+id/title_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_10dp"
+                    android:text="@string/celue_title_one_txt"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/title_text_size" />
+
+                <include
+                    android:id="@+id/layout_item"
+                    layout="@layout/celue_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/title_one"
+                    ></include>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_below="@id/layout_item"
+                    android:background="@color/gray_con_bg" />
+            </RelativeLayout>
+
+            <include layout="@layout/tiaocang_item_layout"
+                android:id="@+id/tiaocang_relat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/MyContentStyle"
+                android:layout_below="@id/zoushi_relat"></include>
+
+            <RelativeLayout
+                android:id="@+id/chicang_relat"
+                style="@style/MyContentStyle"
+                android:background="@color/write_color"
+                android:layout_below="@id/tiaocang_relat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前持仓"
+                    android:id="@+id/chicang_title"
+                    android:textSize="@dimen/title_text_size"
+                    android:textColor="@android:color/black"
+                    android:layout_margin="@dimen/margin_10dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/circle_con_bg"
+                    android:layout_below="@id/chicang_title"
+                    android:id="@+id/chicang_line"/>
+
+                <include
+                    android:id="@+id/chicang_layout_title"
+                    android:layout_width="match_parent"
+                    android:layout_margin="@dimen/margin_10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/chicang_line"
+                    layout="@layout/now_have_cang_layout"></include>
+                <com.example.drawer.stockapp.customview.MyListView
+                    android:layout_width="match_parent"
+                    android:id="@+id/chicang_listview"
+                    android:layout_below="@id/chicang_layout_title"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/zuhe_detial_relat"
+                android:layout_below="@id/chicang_relat"
+                android:layout_width="match_parent"
+                android:background="@color/write_color"
+                style="@style/MyContentStyle"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="组合详情"
+                    android:id="@+id/zuhe_title"
+                    android:textSize="@dimen/title_text_size"
+                    android:textColor="@android:color/black"
+                    android:layout_margin="@dimen/margin_10dp"
+                    android:drawableRight="@mipmap/arrowright"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/circle_con_bg"
+                    android:layout_below="@id/zuhe_title"
+                    android:id="@+id/zuhe_line"/>
+                <include android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/zuhe_line"
+                    android:id="@+id/zuhe_detial_one"
+                    layout="@layout/zuhe_detial_item_layout"></include>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/circle_con_bg"
+                    android:layout_below="@id/zuhe_detial_one"
+                    android:id="@+id/zuhe_line_two"/>
+
+                <RelativeLayout
+                    android:id="@+id/advice_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/zuhe_line_two"
+                    android:background="@color/write_color">
+
+                    <TextView
+                        android:id="@+id/advice_txt_t"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_10dp"
+                        android:layout_marginLeft="@dimen/margin_15dp"
+                        android:layout_marginTop="@dimen/margin_10dp"
+                        android:text="组合描述"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="@dimen/title_text_size" />
+
+                    <TextView
+                        android:id="@+id/advice_content"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/advice_txt_t"
+                        android:layout_marginLeft="@dimen/margin_15dp"
+                        android:textSize="@dimen/my_txt_size"
+                        android:text="司法环境的恢复技术及" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/advice_image_txt"
+                        android:layout_width="@dimen/margin_60dp"
+                        android:layout_height="@dimen/margin_60dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="@dimen/margin_5dp"
+                        android:layout_marginRight="@dimen/margin_15dp"
+                        android:layout_marginTop="@dimen/margin_15dp"
+                        app:civ_border_color="@color/write_color"
+                        app:civ_border_width="@dimen/margin_1dp" />
+                    <TextView
+                        android:id="@+id/niuren_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/advice_image_txt"
+                        android:textSize="@dimen/my_txt_size"
+                        android:textColor="@android:color/black"
+                        android:layout_marginRight="@dimen/margin_20dp"
+                        android:text="牛人" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/circle_con_bg"
+                    android:layout_below="@id/advice_txt"
+                    android:id="@+id/zuhe_line_three"/>
+                <TextView
+                    android:id="@+id/gengtou_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_10dp"
+                    android:layout_below="@id/zuhe_line_three"
+                    android:text="跟投服务"
+                    android:textSize="@dimen/title_text_size"
+                    android:textColor="@android:color/background_dark" />
+
+                <include
+                    android:id="@+id/gengtou_item_layout"
+                    layout="@layout/gengtou_item_layout"
+                    android:layout_marginBottom="@dimen/margin_5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/gengtou_name" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/circle_con_bg"
+                    android:layout_below="@id/gengtou_item_layout"
+                    android:id="@+id/zuhe_line_four"/>
+                <RelativeLayout
+                    android:id="@+id/tiaocang_relat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/zuhe_line_four"
+                    android:background="@color/write_color">
+
+                    <TextView
+                        android:id="@+id/refund_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_10dp"
+                        android:text="退款保障"
+                        android:textSize="@dimen/title_text_size"
+                        android:textColor="@android:color/background_dark" />
+                    <ImageView
+                        android:id="@+id/time_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/refund_name"
+                        android:layout_margin="@dimen/margin_10dp"
+                        android:src="@mipmap/time_success" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/refund_name"
+                        android:layout_margin="@dimen/margin_10dp"
+                        android:layout_toRightOf="@id/time_img"
+                        android:text="@string/time_success_txt" />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/zuhe_detial_relat"
+                android:background="@color/write_color"
+                style="@style/MyContentStyle">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="跟投记录"
+                    android:id="@+id/follow_record"
+                    android:layout_margin="@dimen/margin_10dp"
+                    android:textSize="@dimen/title_text_size"
+                    android:textColor="@android:color/black"
+                    android:drawableRight="@mipmap/arrowright"
+                    />
+                <include
+                    android:id="@+id/gentou_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_10dp"
+                    android:layout_below="@id/follow_record"
+                    layout="@layout/gentou_record_item_layout"/>
+                <com.example.drawer.stockapp.customview.MyListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/gentou_item"
+                    android:id="@+id/gengtou_listview"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+</RelativeLayout>

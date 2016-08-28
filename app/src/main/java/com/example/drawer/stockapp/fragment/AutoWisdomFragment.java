@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.CelueDatilActivity;
-import com.example.drawer.stockapp.activity.DetilCelueActivity;
+import com.example.drawer.stockapp.activity.LiangHuaCelueDetialActivity;
 import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.activity.MessageActivity;
 import com.example.drawer.stockapp.activity.SerchActivity;
@@ -551,8 +551,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()) {
             case R.id.lianghuacelue_list:
-                Intent intent = new Intent(getActivity(), DetilCelueActivity.class);
-                intent.putExtra(CELUENAME, "量化策略");
+                Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
+//                intent.putExtra(CELUENAME, "量化策略");
                 startActivity(intent);
                 break;
             case R.id.niuren_listview:
