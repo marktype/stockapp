@@ -5,7 +5,7 @@ package com.example.drawer.stockapp.model;
  */
 public class NiuRenInfo {
     private String niurenHead;    //牛人头像
-    private String niurenName;   //名字
+    private String niurenName;   //名字    （我的，组合名）
     private String niurenRoundImage;   //曲线图片
     private String stockType;    //股票类型  (我的，例如沪深)
     private double shouyiRate;    //总收益率  （我的 ，百分比）
@@ -15,6 +15,15 @@ public class NiuRenInfo {
     private String cangweiRate;   //仓位
     private int dayNum;        //持股周期
     private String tradeTime;      //交易次数  （我的，关注人数）
+    private String id;      //组合id    （我的id）
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getNiurenHead() {
         return niurenHead;

@@ -22,6 +22,7 @@ import com.example.drawer.stockapp.activity.CelueDatilActivity;
 import com.example.drawer.stockapp.activity.LiangHuaCelueDetialActivity;
 import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.activity.MessageActivity;
+import com.example.drawer.stockapp.activity.MyZuHeDatilActivity;
 import com.example.drawer.stockapp.activity.SerchActivity;
 import com.example.drawer.stockapp.activity.SetupZuHeActivity;
 import com.example.drawer.stockapp.adapter.CeLueAdapter;
@@ -172,6 +173,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private SparseArray recordSp2 = new SparseArray(0);
     private SparseArray recordSp3 = new SparseArray(0);
     protected SystemBarTintManager tintManager;
+    private MyZuHeAdapter myZuHeAdapter;
 
     /**
      * 初始化适配器数据
@@ -266,8 +268,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             }
         });
         myList.setOnScrollListener(null);
-        MyZuHeAdapter myZuHeAdapter = new MyZuHeAdapter(getActivity());
-        getMyListData(myZuHeAdapter);
+        myZuHeAdapter = new MyZuHeAdapter(getActivity());
+        getMyListData();
 
 
 
@@ -430,7 +432,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     /**
      * 我的组合列表
      */
-    public void getMyListData(final MyZuHeAdapter myZuHeAdapter) {
+    public void getMyListData() {
         new AsyncTask() {
 
             @Override
@@ -451,13 +453,67 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     Gson gson = new Gson();
                     niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
                     if (niuRenListInfo.getHead().getStatus() == 0) {
-                        myZuHeAdapter.setData(setMyZuHeData());
-                        myList.setAdapter(myZuHeAdapter);
+
+                        getMyCollect(setMyZuHeData());
                     }
                 }
 
             }
         }.execute();
+    }
+
+    /**
+     * 我的订阅
+     */
+    public void getMyCollect(final ArrayList<NiuRenInfo> niurenList){
+            new AsyncTask(){
+
+                @Override
+                protected Object doInBackground(Object[] objects) {
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("PageIndex", "0");
+                    map.put("PageCount", "0");
+                    map.put("PageSize", "0");
+                    String message = HttpManager.newInstance().getHttpDataByTwoLayer(mToken, map, HttpManager.MyCollectPorfolio_URL);
+                    return message;
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+                    super.onPostExecute(o);
+                    String message = (String) o;
+                    if (!TextUtils.isEmpty(message)) {
+                        Gson gson = new Gson();
+                        niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
+                        if (niuRenListInfo.getHead().getStatus() == 0) {
+                            setMyZuHeInfo(niurenList);
+                        }
+                    }
+
+
+
+                }
+            }.execute();
+    }
+
+    /**
+     * 设置我的组合、订阅等
+     * @param niurenList
+     */
+    public void setMyZuHeInfo(ArrayList<NiuRenInfo> niurenList){
+        List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfo.getResult().getStrategies();
+        for (int i = 0; i < starPorfolioBeen.size(); i++) {
+            NiuRenListInfo.ResultBean.StrategiesBean ben = starPorfolioBeen.get(i);
+            NiuRenInfo info = new NiuRenInfo();
+            info.setId(ben.getId());
+            info.setNiurenName(ben.getTitle());
+            info.setShouyiRate(ben.getTotleReturns());
+            info.setStockType(ben.getType());
+            info.setTradeTime(ben.getFavorites() + "人 关注");
+            niurenList.add(info);
+        }
+        myZuHeAdapter.setData(niurenList);
+        myList.setAdapter(myZuHeAdapter);
     }
 
     /**
@@ -473,6 +529,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             if (i == 0) {
                 info.setType(1);
             }
+            info.setId(ben.getId());
             info.setCeluePersent(ben.getRecruitment());
             info.setTitle(ben.getName());
             info.setJingZhiNum(ben.getTargetReturns() + "%");
@@ -496,14 +553,15 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     public ArrayList<NiuRenInfo> setNiuRenData() {
         ArrayList<NiuRenInfo> niuRenInfos = new ArrayList<>();
         List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfo.getResult().getStrategies();
-        DecimalFormat df =new DecimalFormat("#.00");
+        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
         for (int i = 0; i < starPorfolioBeen.size(); i++) {
             NiuRenListInfo.ResultBean.StrategiesBean ben = starPorfolioBeen.get(i);
             NiuRenInfo info = new NiuRenInfo();
+            info.setId(ben.getId());
             info.setNiurenHead("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2516161713,321762461&fm=58");
             info.setNiurenName(ben.getNickName()+"");
             info.setNiurenRoundImage("http://img2.imgtn.bdimg.com/it/u=1689964256,2679873424&fm=21&gp=0.jpg");
-            info.setShouyiRate(ben.getTotleReturns());
+            info.setShouyiRate(Double.parseDouble(df.format(ben.getTotleReturns())));
             info.setVictorRate(ben.getWinRatio() + "%");
             info.setShouyiByMonth(df.format(ben.getMonthlyAverage()) + "%");
             info.setStockNum(ben.getHolding());
@@ -516,18 +574,24 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         return niuRenInfos;
     }
 
+
+    private ArrayList<NiuRenInfo> myInfoList;
     /**
      * 初始化我的组合数据
      *
      * @return
      */
     public ArrayList<NiuRenInfo> setMyZuHeData() {
-        ArrayList<NiuRenInfo> myInfoList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        myInfoList = new ArrayList<>();
+        List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfo.getResult().getStrategies();
+        for (int i = 0; i < starPorfolioBeen.size(); i++) {
+            NiuRenListInfo.ResultBean.StrategiesBean ben = starPorfolioBeen.get(i);
             NiuRenInfo info = new NiuRenInfo();
-            info.setShouyiRate(20.0);
-            info.setStockType("沪深");
-            info.setTradeTime(i + "人 关注");
+            info.setNiurenName(ben.getTitle());
+            info.setId(ben.getId());
+            info.setShouyiRate(ben.getTotleReturns());
+            info.setStockType(ben.getType());
+            info.setTradeTime(ben.getFavorites() + "人 关注");
             myInfoList.add(info);
         }
         return myInfoList;
@@ -552,16 +616,19 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         switch (adapterView.getId()) {
             case R.id.lianghuacelue_list:
                 Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
-//                intent.putExtra(CELUENAME, "量化策略");
                 startActivity(intent);
                 break;
             case R.id.niuren_listview:
+                NiuRenInfo info = (NiuRenInfo) adapterView.getAdapter().getItem(i);
                 intent = new Intent(getActivity(), CelueDatilActivity.class);
+                intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
                 intent.putExtra(CELUENAME, "牛人组合");
                 startActivity(intent);
                 break;
             case R.id.my_zuhe_listview:
-                intent = new Intent(getActivity(), CelueDatilActivity.class);
+                info = (NiuRenInfo) adapterView.getAdapter().getItem(i);
+                intent = new Intent(getActivity(), MyZuHeDatilActivity.class);
+                intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
                 intent.putExtra(CELUENAME, "我的组合");
                 startActivity(intent);
                 break;
@@ -582,6 +649,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 break;
             case R.id.add_image:
                 intent = new Intent(getActivity(), SetupZuHeActivity.class);
+                intent.putExtra(SetupZuHeActivity.TYPE,0);
                 startActivity(intent);
                 break;
             case R.id.my_zuhe_img:

@@ -49,7 +49,7 @@ import java.util.List;
  * 牛人组合和我的组合详情
  *
  */
-public class CelueDatilActivity extends BascActivity implements View.OnClickListener{
+public class MyZuHeDatilActivity extends BascActivity implements View.OnClickListener{
     public static final String ZUHE_ID = "zuheid";
     private String zuheId;
     private RadarChart mChart;
@@ -109,16 +109,16 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mflashTime.setText("("+transferPositionsBean.getLastTime()+")");
         List<StarDetailInfo.ResultBean.TransferPositionsBean.TransferPositionsInfoBean> list = transferPositionsBean.getTransferPositionsInfo();
 
-        ArrayList<TiaoCangInfo> listInfo = new ArrayList<>();
-        for (int i = 0;i<list.size();i++){
-            TiaoCangInfo info = new TiaoCangInfo();
-            info.setStockName(list.get(i).getName());
-            info.setStockNum(list.get(i).getCode());
-            info.setTradeNumStart(list.get(i).getBefor()+"");
-            info.setTradeNumEnd(list.get(i).getAfter()+"");
-            info.setTradePrice(list.get(i).getPrice()+"");
-            listInfo.add(info);
-        }
+            ArrayList<TiaoCangInfo> listInfo = new ArrayList<>();
+            for (int i = 0;i<list.size();i++){
+                TiaoCangInfo info = new TiaoCangInfo();
+                info.setStockName(list.get(i).getName());
+                info.setStockNum(list.get(i).getCode());
+                info.setTradeNumStart(list.get(i).getBefor()+"");
+                info.setTradeNumEnd(list.get(i).getAfter()+"");
+                info.setTradePrice(list.get(i).getPrice()+"");
+                listInfo.add(info);
+            }
         MyZuHeItemAdapter zuHeItemAdapter = new MyZuHeItemAdapter(this);
         zuHeItemAdapter.setData(listInfo);
         mListView.setAdapter(zuHeItemAdapter);
@@ -182,9 +182,6 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         canvasView = (CanvasView) findViewById(R.id.canvas_view);
         canvasView.setRadius(220f);    //设置图形半径
 
-        if (title.equals("我的组合")){
-            mGoOrder.setVisibility(View.GONE);
-        }
         mTitle.setText(title);
 
 
@@ -365,7 +362,8 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.order_txt:     //
-                Intent intent = new Intent(this,PayActivity.class);
+                Intent intent = new Intent(this, SetupZuHeActivity.class);
+                intent.putExtra(SetupZuHeActivity.TYPE,1);
                 startActivity(intent);
                 break;
         }

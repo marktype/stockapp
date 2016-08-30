@@ -112,7 +112,8 @@
         <activity
             android:name=".activity.SetupZuHeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyAppTheme" />
+            android:theme="@style/MyAppTheme"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".activity.DetilCelueActivity"
             android:screenOrientation="portrait"
@@ -177,7 +178,14 @@
             android:name=".activity.DiYongQuanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
-        <activity android:name=".activity.LiangHuaCelueDetialActivity"
+        <activity
+            android:name=".activity.LiangHuaCelueDetialActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme" />
+        <activity android:name=".activity.LianghuaCelueZhaoMuZhongActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme"></activity>
+        <activity android:name=".activity.MyZuHeDatilActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme"></activity>
     </application>

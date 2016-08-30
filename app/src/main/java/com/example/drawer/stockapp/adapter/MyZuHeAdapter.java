@@ -55,6 +55,7 @@ public class MyZuHeAdapter extends BaseAdapter {
             viewHolder.type = (TextView) view.findViewById(R.id.stock_name);
 //            viewHolder.getNum = (TextView) view.findViewById(R.id.jiqi_name);
             viewHolder.guanzhuNum = (TextView) view.findViewById(R.id.guanzhu_name);
+            viewHolder.name = (TextView) view.findViewById(R.id.zuhe_name);
             viewHolder.canvasViewThree = (CanvasViewThree) view.findViewById(R.id.zuhe_canvas);
             view.setTag(viewHolder);
         }else {
@@ -63,6 +64,7 @@ public class MyZuHeAdapter extends BaseAdapter {
         NiuRenInfo info = (NiuRenInfo) getItem(i);
         viewHolder.rate.setText("+"+info.getShouyiRate()+"%");
         viewHolder.type.setText(info.getStockType());
+        viewHolder.name.setText(info.getNiurenName());
 //        viewHolder.getNum.setText("赚钱"+(i+1)+"号机器");
         viewHolder.guanzhuNum.setText(info.getTradeTime());
         viewHolder.canvasViewThree.setRadius(DensityUtils.dp2px(context,40));
@@ -74,6 +76,7 @@ public class MyZuHeAdapter extends BaseAdapter {
         TextView rate;
         TextView type;
         TextView guanzhuNum;
+        TextView name;
         CanvasViewThree canvasViewThree;
     }
 

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/circle_con_bg">
+
+
+    <com.example.drawer.stockapp.customview.MyScrollView
+        android:id="@+id/celue_scroll"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <include
+                android:id="@+id/persent_celue"
+                layout="@layout/celue_persent_info_layout" />
+
+            <include
+                android:id="@+id/month_layout"
+                layout="@layout/month_rank_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/persent_celue"
+                android:layout_marginLeft="@dimen/margin_15dp"
+                android:layout_marginRight="@dimen/margin_15dp" />
+
+            <RelativeLayout
+                android:id="@+id/advice_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/month_layout"
+                android:layout_marginLeft="@dimen/margin_15dp"
+                android:layout_marginRight="@dimen/margin_15dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:background="@color/write_color">
+
+                <TextView
+                    android:id="@+id/advice_txt_t"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_10dp"
+                    android:layout_marginLeft="@dimen/margin_15dp"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:text="主理人建议"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="@dimen/title_text_size" />
+
+                <TextView
+                    android:id="@+id/advice_content"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/advice_txt_t"
+                    android:layout_marginLeft="@dimen/margin_15dp"
+
+                    android:text="司法环境的恢复技术及" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/advice_image_txt"
+                    android:layout_width="@dimen/margin_60dp"
+                    android:layout_height="@dimen/margin_60dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="@dimen/margin_5dp"
+                    android:layout_marginRight="@dimen/margin_15dp"
+                    android:layout_marginTop="@dimen/margin_15dp"
+                    app:civ_border_color="@color/write_color"
+                    app:civ_border_width="@dimen/margin_1dp" />
+
+                <TextView
+                    android:id="@+id/niuren_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/advice_image_txt"
+                    android:layout_marginRight="@dimen/margin_20dp"
+                    android:text="牛人" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/yeji_rank_lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/advice_txt"
+                android:layout_marginLeft="@dimen/margin_15dp"
+                android:layout_marginRight="@dimen/margin_15dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:background="@color/write_color">
+
+                <TextView
+                    android:id="@+id/yeji_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="@dimen/margin_10dp"
+                    android:layout_marginTop="@dimen/margin_15dp"
+                    android:text="业绩评级"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="@dimen/activity_horizontal_margin" />
+
+                <TextView
+                    android:id="@+id/yeji_rank_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_10dp"
+                    android:layout_marginTop="@dimen/margin_15dp"
+                    android:layout_toRightOf="@id/yeji_rank"
+                    android:text="(最后评估时间: 2016-06-20 10:30:23)"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/margin_13dp" />
+
+
+                <com.github.mikephil.charting.charts.RadarChart
+                    android:id="@+id/chart1"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_below="@id/yeji_rank_time" />
+
+                <RatingBar
+                    android:id="@+id/celue_seekbar"
+                    style="@style/MyRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/chart1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="@dimen/margin_5dp"
+                    android:numStars="5"
+                    android:rating="3.5" />
+            </RelativeLayout>
+
+            <include
+                android:id="@+id/dioacang_layout"
+                layout="@layout/celue_diaocang_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/yeji_rank_lin"
+                android:layout_marginLeft="@dimen/margin_15dp"
+                android:layout_marginRight="@dimen/margin_15dp"
+                android:layout_marginTop="@dimen/margin_5dp" />
+
+            <RelativeLayout
+                android:id="@+id/set_stock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dioacang_layout"
+                android:layout_marginLeft="@dimen/margin_15dp"
+                android:layout_marginRight="@dimen/margin_15dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:background="@color/write_color">
+
+                <TextView
+                    android:id="@+id/stock_config"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_10dp"
+                    android:text="股票配置"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="@dimen/activity_horizontal_margin" />
+
+                <TextView
+                    android:id="@+id/stock_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_8dp"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:layout_toRightOf="@id/stock_config"
+                    android:background="@drawable/rect_red_shape"
+                    android:padding="@dimen/margin_3dp"
+                    android:text="沪深"
+                    android:textColor="@color/write_color" />
+
+                <com.example.drawer.stockapp.customview.CanvasView
+                    android:id="@+id/canvas_view"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/stock_config" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@id/set_stock" />
+        </RelativeLayout>
+
+    </com.example.drawer.stockapp.customview.MyScrollView>
+
+    <RelativeLayout
+        android:id="@+id/all_celue_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/arrowlift"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/margin_10dp"/>
+        <TextView
+            android:id="@+id/back_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/background_dark"
+            android:layout_centerHorizontal="true"
+            android:text="@string/niurenzuhe_txt"
+            android:textSize="@dimen/content_text_size"/>
+        <TextView
+            android:id="@+id/build_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/back_txt"
+            android:layout_centerHorizontal="true"
+            android:text="创建于2016.08.08"
+            android:layout_margin="@dimen/margin_3dp"
+            />
+        <ImageView
+            android:id="@+id/changjianwenti_txt"
+            android:src="@mipmap/help"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_20dp"
+            android:padding="@dimen/margin_10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <!--<TextView-->
+        <!--android:id="@+id/order_txt"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@color/colorPrimary"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="@dimen/margin_15dp"-->
+        <!--android:text="@string/order_txt"-->
+        <!--android:textColor="@color/write_color"-->
+        <!--android:visibility="gone" />-->
+    <ImageView
+        android:id="@+id/order_txt"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/tabbar"/>
+</RelativeLayout>

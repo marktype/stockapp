@@ -16,6 +16,15 @@ public class CeLueInfo {
     private String otherInfo;    //内容
     private int type;   //类型
     private String levelImage;    //等级图片
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getLevelImage() {
         return levelImage;

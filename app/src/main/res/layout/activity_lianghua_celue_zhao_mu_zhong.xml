@@ -24,7 +24,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:padding="@dimen/margin_10dp"
-            android:text="@string/lianghuacelue_txt"
+            android:text="组合招募中"
             android:textColor="@android:color/background_dark"
             android:textSize="@dimen/title_text_size" />
     </RelativeLayout>
@@ -40,83 +40,215 @@
             android:layout_height="match_parent">
 
             <RelativeLayout
-                android:id="@+id/zoushi_relat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/MyContentStyle"
-                android:background="@color/write_color">
-
-                <TextView
-                    android:id="@+id/title_one"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_10dp"
-                    android:text="@string/celue_title_one_txt"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/title_text_size" />
-
-                <include
-                    android:id="@+id/layout_item"
-                    layout="@layout/celue_item_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/title_one"
-                    ></include>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_below="@id/layout_item"
-                    android:background="@color/gray_con_bg" />
-            </RelativeLayout>
-
-            <include layout="@layout/tiaocang_item_layout"
-                android:id="@+id/tiaocang_relat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/MyContentStyle"
-                android:layout_below="@id/zoushi_relat"></include>
-
-            <RelativeLayout
-                android:id="@+id/chicang_relat"
+                android:id="@+id/zhaomu_zhong_relat"
                 style="@style/MyContentStyle"
                 android:background="@color/write_color"
-                android:layout_below="@id/tiaocang_relat"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/celue_circle"
+                    android:layout_margin="@dimen/margin_10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/celue_persent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textColor="@android:color/background_dark"
+                        android:layout_marginTop="@dimen/margin_20dp"
+                        android:textSize="18sp"
+                        android:layout_centerHorizontal="true"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="目标收益"
+                        android:textSize="@dimen/my_txt_size"
+                        android:layout_below="@id/celue_persent"
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginTop="@dimen/margin_5dp"
+                        android:layout_centerHorizontal="true"
+                        />
+                    <com.example.drawer.stockapp.customview.CanvasViewThree
+                        android:id="@+id/chart1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                    <TextView
+                        android:id="@+id/zuhe_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/my_txt_size"
+                        android:layout_toRightOf="@id/celue_circle"
+                        android:layout_marginTop="@dimen/margin_15dp"
+                        android:textColor="@android:color/black"
+                        android:text="实盈量化策略"/>
+                <include layout="@layout/zuhe_zhaomu_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:layout_below="@id/zuhe_name"
+                    android:layout_toRightOf="@id/celue_circle"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:id="@+id/zuhe_zhong_line"
+                    android:background="@color/circle_con_bg"
+                    android:layout_below="@id/celue_circle"/>
+                    <TextView
+                        android:id="@+id/fencheng_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_10dp"
+                        android:layout_marginRight="@dimen/margin_10dp"
+                        android:layout_marginTop="@dimen/margin_5dp"
+                        android:layout_below="@id/zuhe_zhong_line"
+                        android:text="@string/fencheng_txt"
+                        android:textSize="@dimen/my_txt_size"
+                        />
+                <RelativeLayout
+                    android:id="@+id/mianfei_relat"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@id/fencheng_txt"
+                    android:layout_marginLeft="@dimen/margin_10dp"
+                    android:layout_marginRight="@dimen/margin_10dp"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:layout_marginBottom="@dimen/margin_5dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/my_txt_size"
+                        android:textColor="@android:color/black"
+                        android:id="@+id/mianfei_txt"
+                        android:text="免费: "/>
+                    <TextView
+                        android:layout_toRightOf="@+id/mianfei_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mianfei_txt"
+                        android:textSize="@dimen/my_txt_size"
+                        />
+                </RelativeLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:id="@+id/zuhe_zhong_line_two"
+                    android:background="@color/circle_con_bg"
+                    android:layout_below="@id/mianfei_relat"/>
+                <RelativeLayout
+                    android:id="@+id/target_shouyi_relat"
+                    android:layout_below="@id/zuhe_zhong_line_two"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/margin_10dp"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/my_txt_size"
+                        android:id="@+id/target_txt"
+                        android:text="目标收益: "/>
+                    <TextView
+                        android:layout_toRightOf="@id/target_txt"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/my_txt_size"
+                        android:textColor="@android:color/black"
+                        android:text="@string/target_txt"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/fencheng_money_relat"
+                    android:layout_below="@id/target_shouyi_relat"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/margin_10dp"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/my_txt_size"
+                        android:id="@+id/fencheng_money_txt"
+                        android:layout_marginBottom="@dimen/margin_5dp"
+                        android:text="分成费: "/>
+                    <TextView
+                        android:layout_toRightOf="@id/fencheng_money_txt"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/my_txt_size"
+                        android:textColor="@android:color/black"
+                        android:text="@string/fencheng_money_txt"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                style="@style/MyContentStyle"
+                android:id="@+id/gengtou_relat"
+                android:background="@color/write_color"
+                android:layout_below="@id/zhaomu_zhong_relat"
+                android:layout_width="match_parent"
+                android:padding="@dimen/margin_10dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="当前持仓"
-                    android:id="@+id/chicang_title"
-                    android:textSize="@dimen/title_text_size"
+                    android:textSize="@dimen/my_txt_size"
                     android:textColor="@android:color/black"
-                    android:layout_margin="@dimen/margin_10dp"
+                    android:text="跟投余额"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/my_txt_size"
+                    android:text="10000元"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/MyContentStyle"
+                android:id="@+id/gentou_money_relat"
+                android:layout_below="@id/gengtou_relat"
+                android:layout_width="match_parent"
+                android:padding="@dimen/margin_10dp"
+                android:background="@color/write_color"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/my_txt_size"
+                    android:textColor="@android:color/black"
+                    android:id="@+id/gentou_txt"
+                    android:text="跟投金额"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gentou_start_txt"
+                    android:layout_alignParentRight="true"
                     />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1px"
+                    android:id="@+id/gentou_line"
+                    android:layout_marginTop="@dimen/margin_5dp"
                     android:background="@color/circle_con_bg"
-                    android:layout_below="@id/chicang_title"
-                    android:id="@+id/chicang_line"/>
-
-                <include
-                    android:id="@+id/chicang_layout_title"
-                    android:layout_width="match_parent"
-                    android:layout_margin="@dimen/margin_10dp"
+                    android:layout_below="@id/gentou_txt"/>
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/chicang_line"
-                    layout="@layout/now_have_cang_layout"></include>
-                <com.example.drawer.stockapp.customview.MyListView
-                    android:layout_width="match_parent"
-                    android:id="@+id/chicang_listview"
-                    android:layout_below="@id/chicang_layout_title"
-                    android:layout_height="wrap_content"/>
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:layout_below="@+id/gentou_line"
+                    android:textSize="@dimen/my_txt_size"
+                    android:text="目标收益: 150.20，分成费: 0元"/>
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/zuhe_detial_relat"
-                android:layout_below="@id/chicang_relat"
+                android:layout_below="@id/gentou_money_relat"
                 android:layout_width="match_parent"
                 android:background="@color/write_color"
                 style="@style/MyContentStyle"
@@ -254,8 +386,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/refund_name"
-                        android:layout_margin="@dimen/margin_10dp"
                         android:textSize="@dimen/my_txt_size"
+                        android:layout_margin="@dimen/margin_10dp"
                         android:layout_toRightOf="@id/time_img"
                         android:text="@string/time_success_txt" />
                 </RelativeLayout>

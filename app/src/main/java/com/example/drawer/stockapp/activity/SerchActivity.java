@@ -1,10 +1,12 @@
 package com.example.drawer.stockapp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -65,7 +67,30 @@ public class SerchActivity extends BascActivity implements View.OnClickListener,
         mBackimg.setOnClickListener(this);
         mSearchTxt.setOnClickListener(this);
         mList.setOnItemClickListener(this);
+        setEditChangeListener();
     }
+
+    private void setEditChangeListener(){
+        mEditTxt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String key = mEditTxt.getText().toString();
+                SearchAsyn asyn = new SearchAsyn();
+                asyn.execute(key,url);
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -103,7 +128,6 @@ public class SerchActivity extends BascActivity implements View.OnClickListener,
                 }
 
                 //点击进行逻辑处理
-                Log.d("tag","正在处理。。。");
                 String key = mEditTxt.getText().toString();
                 SearchAsyn asyn = new SearchAsyn();
                 asyn.execute(key,url);
@@ -129,6 +153,11 @@ public class SerchActivity extends BascActivity implements View.OnClickListener,
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Toast.makeText(this,"选择项目"+i,Toast.LENGTH_SHORT).show();
+
+        //选择后直接跳转返回
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 

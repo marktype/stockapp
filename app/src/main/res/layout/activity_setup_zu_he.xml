@@ -39,14 +39,60 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <RelativeLayout
+                android:id="@+id/zuhe_name"
+                style="@style/MyContentStyle"
+                android:background="@color/write_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/txt_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/my_txt_size"
+                    android:textColor="@android:color/black"
+                    android:padding="@dimen/margin_10dp"
+                    android:text="组合名称:"/>
+                <EditText
+                    android:id="@+id/edit_name"
+                    android:layout_toRightOf="@id/txt_name"
+                    android:hint="你的组合名"
+                    android:layout_alignBaseline="@id/txt_name"
+                    android:textSize="@dimen/my_txt_size"
+                    android:padding="@dimen/margin_10dp"
+                    android:textColor="@color/circle_con_bg"
+                    android:background="@color/write_color"
+                    android:singleLine="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/jianjie_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="组合简介:"
+                    android:textColor="@android:color/black"
+                    android:padding="@dimen/margin_10dp"
+                    android:textSize="@dimen/my_txt_size"
+                    android:layout_below="@id/txt_name"/>
+                <EditText
+                    android:id="@+id/edit_jianjie_text"
+                    android:layout_toRightOf="@id/jianjie_name"
+                    android:hint="你的组合简介"
+                    android:layout_alignBaseline="@id/jianjie_name"
+                    android:textSize="@dimen/my_txt_size"
+                    android:padding="@dimen/margin_10dp"
+                    android:textColor="@color/circle_con_bg"
+                    android:background="@color/write_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
             <include
+                android:layout_below="@+id/zuhe_name"
                 android:id="@+id/my_stock_layout"
                 layout="@layout/add_stock_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_15dp"
-                android:layout_marginRight="@dimen/margin_15dp"
-                android:layout_marginTop="@dimen/margin_5dp" />
+                style="@style/MyContentStyle" />
 
             <!--<RelativeLayout-->
                 <!--android:id="@+id/use_celue_relat"-->

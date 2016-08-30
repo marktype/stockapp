@@ -54,6 +54,7 @@ public class HttpManager {
     public static final String StrategyList_URL = BASE_URL + "Intelligent/StrategyList";      //  获取策略列表
     public static final String StarPorfolio_URL = BASE_URL + "Intelligent/StarPorfolio";      //  获取牛人组合列表
     public static final String MyPorfolio_URL = BASE_URL + "Intelligent/MyPorfolio";      //  获取我的组合列表
+    public static final String MyCollectPorfolio_URL = BASE_URL + "Intelligent/MyCollectPorfolio";      //  获取我的订阅、收藏列表
     public static final String StrategyDetail_URL = BASE_URL + "Intelligent/StrategyDetail";      // 策略详情
     public static final String StrategyBefor_URL = BASE_URL + "Intelligent/StrategyBefor";      // 量化策略支付前信息
     public static final String CollectStrategy_URL = BASE_URL + "Intelligent/CollectStrategy";      // 收藏策略
@@ -61,6 +62,7 @@ public class HttpManager {
     public static final String StarPorfolioDetail_URL = BASE_URL + "Intelligent/StarPorfolioDetail";      // 牛人组合详情
     public static final String PayPorfolio_URL = BASE_URL + "Intelligent/PayPorfolio";      // 支付组合
     public static final String CodeList_URL = BASE_URL + "Intelligent/CodeList";      // 股票名称列表
+    public static final String ChangePosition_URL = BASE_URL + "Intelligent/ChangePosition";      // 调仓
     public static final String ShortStrategiesList_URL = BASE_URL + "Intelligent/ShortStrategiesList";      // 策略名称列表
     public static final String CreatePorfolio_URL = BASE_URL + "Intelligent/CreatePorfolio";      // 创建组合
     public static final String CodeHotKeys_URL = BASE_URL + "Intelligent/HotKeys";      // 热门搜索股票关键字
@@ -324,6 +326,9 @@ public class HttpManager {
                 Log.d("tag", "getHttpData: 1111111--" + url);
                 Log.d("tag", "getHttpData: 2222222--" + info);
                 return info;
+            }else {
+                Log.d("tag", "body-code--" + response.code() + "--string ---" + response.message());
+                return FAILED;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -435,6 +440,131 @@ public class HttpManager {
                 Log.d("tag", "getHttpData: 1111111--" + url);
                 Log.d("tag", "getHttpData: 2222222--" + info);
                 return info;
+            }else {
+                Log.d("tag", "body-code--" + response.code() + "--string ---" + response.message());
+                return FAILED;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    /**
+     * {
+     "Head": {
+     "Uid": "string",
+     "Lang": "string",
+     "Token": "string"
+     },
+     "Param": {
+     "Name": "string",
+     "CodeList": [
+     {
+     "Code": "string",
+     "Price": 0,
+     "Name": "string",
+     "Volume": 0,
+     "TradeTime": "2016-08-29T03:10:22.016Z",
+     "TradeType": "Open"
+     }
+     ],
+     "Amount": 0,
+     "TargetReturn": 0,
+     "Desc": "string"
+     }
+     }
+     * @param token
+     * @param map
+     * @param url
+     * @return
+     */
+    public String getHttpDataByThreeLayerArrayObject(String token, HashMap<String, Object> map, String url) {
+        if (TextUtils.isEmpty(token)) {   //token为null请求时会报异常
+            token = "";
+        }
+        JSONObject kk = new JSONObject();
+        try {
+            JSONObject object = new JSONObject();
+            object.put("Uid", UID);
+            object.put("Lang", LANG);
+            object.put("Token", token);
+            kk.put("Head", object);
+            JSONObject object2 = new JSONObject();
+            if (map != null) {
+                Iterator iter = map.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    if (entry.getKey().equals("CodeList")){
+                        JSONArray object3 = new JSONArray();
+
+                        ArrayList<HashMap<String,String>> mapinfo = (ArrayList<HashMap<String, String>>) map.get("CodeList");
+                        for (int i = 0; i < mapinfo.size(); i++) {
+                            Iterator itermap = mapinfo.get(i).entrySet().iterator();
+                            JSONObject json = new JSONObject();
+                            while (itermap.hasNext()){
+                                Map.Entry entryThree = (Map.Entry) itermap.next();
+                                String key = (String) entryThree.getKey();
+                                String val = (String) entryThree.getValue();
+                                json.put(key, val);
+                            }
+                            object3.put(i, json);
+                        }
+                        object2.put("CodeList", object3);
+                    }else if (entry.getKey().equals("Codes")){
+                        JSONArray object3 = new JSONArray();
+
+                        ArrayList<HashMap<String,String>> mapinfo = (ArrayList<HashMap<String, String>>) map.get("Codes");
+                        for (int i = 0; i < mapinfo.size(); i++) {
+                            Iterator itermap = mapinfo.get(i).entrySet().iterator();
+                            JSONObject json = new JSONObject();
+                            while (itermap.hasNext()){
+                                Map.Entry entryThree = (Map.Entry) itermap.next();
+                                String key = (String) entryThree.getKey();
+                                String val = (String) entryThree.getValue();
+                                json.put(key, val);
+                            }
+                            object3.put(i, json);
+                        }
+                        object2.put("Codes", object3);
+                    }else {
+                        String key = (String) entry.getKey();
+                        String val = (String) entry.getValue();
+                        object2.put(key, val);
+                    }
+                }
+            }
+            kk.put("Param", object2);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String str = kk.toString();
+
+        Log.d("tag","str---调仓--"+str);
+        RequestBody formBody = RequestBody.create(JSON, str);
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+
+        //发送请求获取响应(同步请求)
+        Response response = null;
+        try {
+            //请求加入调度
+            response = mOkHttpClient.newCall(request).execute();
+            //判断请求是否成功
+            if (response.isSuccessful()) {
+                //打印服务端返回结果
+                String info = response.body().string();
+                Log.d("tag", "getHttpData: 1111111--" + url);
+                Log.d("tag", "getHttpData: 2222222--" + info);
+                return info;
+            }else {
+                Log.d("tag", "body-code--" + response.code() + "--string ---" + response.message());
+                return FAILED;
             }
         } catch (IOException e) {
             e.printStackTrace();

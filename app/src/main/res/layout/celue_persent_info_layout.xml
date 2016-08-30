@@ -9,7 +9,8 @@
         android:text="0.0"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:textSize="@dimen/margin_60dp"
+        android:textSize="60sp"
+        android:singleLine="true"
         android:layout_width="wrap_content"
         android:textColor="@android:color/background_dark"
         android:layout_marginLeft="@dimen/margin_10dp"
@@ -20,7 +21,7 @@
         android:text="%"
         android:textStyle="bold"
         android:textColor="@android:color/background_dark"
-        android:textSize="@dimen/title_size"
+        android:textSize="@dimen/title_text_size"
         android:layout_below="@id/all_celue_title"
         android:layout_alignBaseline="@id/persent_num"
         android:layout_toRightOf="@id/persent_num"/>
@@ -30,7 +31,7 @@
         android:layout_height="wrap_content"
         android:text="平稳增长"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/title_size"
+        android:textSize="@dimen/title_text_size"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_below="@id/persent_num"/>
 
@@ -50,6 +51,7 @@
             <TextView
                 android:id="@+id/guanzhu_num_txt"
                 android:text="关注人数"
+                android:textSize="@dimen/title_text_size"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,6 +77,7 @@
         <TextView
             android:id="@+id/title_one_name"
             android:text="日"
+            android:textSize="@dimen/title_text_size"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/margin_10dp"
             android:layout_width="wrap_content"
@@ -101,6 +104,7 @@
         <TextView
             android:id="@+id/title_two_name"
             android:text="月"
+            android:textSize="@dimen/title_text_size"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/margin_10dp"
             android:layout_width="wrap_content"
@@ -134,6 +138,7 @@
         <TextView
             android:id="@+id/rate_num"
             android:text="0.0000"
+            android:textSize="@dimen/title_text_size"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

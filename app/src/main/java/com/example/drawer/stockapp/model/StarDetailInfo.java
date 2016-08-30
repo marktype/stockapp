@@ -7,19 +7,22 @@ import java.util.List;
  */
 public class StarDetailInfo {
 
+
     /**
      * Status : 0
-     * Msg : success
+     * Msg : Success
      */
 
     private HeadBean Head;
     /**
-     * PorfolioInfo : {"Id":"0","UserName":"牛人1号","Title":"牛人1号超级组合","SecondTitle":"二级小标题","TotleReturns":102,"ImgUrl":"","WinRatio":95,"MonthlyAverage":60,"Holding":12,"Position":85,"AveragePosition":21,"AverageTrading":3,"Favorites":888,"CreateTime":"2017-01-01"}
-     * StarInfo : {"Id":"12","Name":"牛人5号","ImgUrl":"http://www.supwin.com/media/1009/logo.png","Title":"超级期待牛人5号","MonthlyAverage":35,"PorfolioSucc":100,"StockPick":79,"Desc":"未来市场震荡明显，只要震荡，就是赚的时候"}
-     * StrategyDetail : {"Id":"0","Name":"牛人1号","Type":0,"ImgUrl":"http://www.supwin.com/media/1009/logo.png","RecuitmentStartTDay":"2016-07-07 00:00:00","RecuitmentEndTimeDay":"2016-07-12 23:59:59","StarInvestment":1000000,"MostFollow":2000000,"Desc":"高风险，高回报","MaxDay":90,"StopLoss":15,"ShareRatio":60,"RunStartDay":"2016-07-13","RunEndDay":"2016-10-12","TargetReturns":0,"Recruitment":92,"Rights":"享受服务<p>第一，....<\/p>"}
-     * Advantage : {"MoreYuEBao":388,"MoreOther":120,"DayRatio":8,"MonthRatio":123,"NetWorth":321567.8}
-     * Achievemnt : {"Id":"3","LastTime":"2016-07-07 12:00:00","Profitability":5,"AntiRiskAbility":5,"Stability":4.9,"Dispersion":5,"Replication":3,"General":4.9}
-     * TransferPositions : {"Id":"1","LastTime":"2016-07-07 12:00:00","TransferPositionsInfo":[{"Id":"0","Code":"000001","Name":"上证指数","BuyType":0,"Befor":200,"After":230,"Price":2990},{"Id":"0","Code":"390001","Name":"深圳成指","BuyType":0,"Befor":30,"After":23,"Price":10610},{"Id":"0","Code":"000300","Name":"沪深300","BuyType":0,"Befor":12,"After":9,"Price":3191}]}
+     * Id : 1606
+     * PorfolioInfo : {"Id":"1606","UserName":null,"NickName":null,"Title":"string","UserImgUrl":null,"TotleReturns":-0.05499999999999978,"ImgData":[{"Date":"2016-08-25T00:00:00","CumulativeReturn":0.2699999999999995},{"Date":"2016-08-26T00:00:00","CumulativeReturn":-0.05499999999999978}],"RecuitmentStartTime":"","RecuitmentEndTime":"","StarInvestment":0,"MostFollow":0,"Desc":"150***0882的组合","MaxDay":0,"StopLoss":0,"ShareRatio":0,"RunStartDay":null,"RunEndDay":null,"RunTargetEndDay":null,"TargetReturns":0,"Recruitment":0,"WinRatio":50,"MonthlyAverage":-0.36608662688102367,"Holding":0,"Position":0,"AveragePosition":0,"AverageTrading":0,"Favorites":3,"CreateTime":null,"IsShare":false,"Type":null,"Return":0,"NetValue":99945,"Cash":88495.6392,"PorfolioType":0,"RecruitType":0,"PorfolioChooseType":0,"PorfolioAmount":0}
+     * PorfolioDetail : {"LimtAmount":0,"StartAmount":0,"PorfolioType":0,"Investment":0,"RunEndState":0,"IsStart":false,"IsEndInvestment":false,"MaxReturn":0.2699999999999995,"MinReturn":-0.05499999999999978}
+     * TransferPositions : {"Id":null,"LastTime":"2016-08-25 04:18:58","TransferPositionsInfo":[{"Id":null,"Code":"000002.SZ","Name":"万科A","BuyType":0,"Befor":0,"After":500,"Price":23}]}
+     * StockRatio : [{"Name":"房地产","Ratio":1}]
+     * StarInfo : {"Id":null,"Name":"15018400882","NickName":null,"ImgUrl":null,"Title":null,"MonthlyAverage":0,"PorfolioSucc":0,"StockPick":0}
+     * Achievemnt : {"Id":null,"LastTime":null,"Profitability":0,"AntiRiskAbility":100,"Stability":100,"Dispersion":100,"Replication":100,"General":0}
+     * HoldingDetail : [{"Code":"000002.SZ","Name":"万科A","Price":24.43,"AvgPrice":23,"Volumn":500,"ProfitRate":0,"Profit":0,"CumulativeReturnRate":6.22,"CumulativeReturn":714.9999999999999}]
      */
 
     private ResultBean Result;
@@ -62,64 +65,119 @@ public class StarDetailInfo {
     }
 
     public static class ResultBean {
+        private int Id;
         /**
-         * Id : 0
-         * UserName : 牛人1号
-         * Title : 牛人1号超级组合
-         * SecondTitle : 二级小标题
-         * TotleReturns : 102.0
-         * ImgUrl :
-         * WinRatio : 95.0
-         * MonthlyAverage : 60.0
-         * Holding : 12
-         * Position : 85.0
-         * AveragePosition : 21
-         * AverageTrading : 3.0
-         * Favorites : 888
-         * CreateTime : 2017-01-01
+         * Id : 1606
+         * UserName : null
+         * NickName : null
+         * Title : string
+         * UserImgUrl : null
+         * TotleReturns : -0.05499999999999978
+         * ImgData : [{"Date":"2016-08-25T00:00:00","CumulativeReturn":0.2699999999999995},{"Date":"2016-08-26T00:00:00","CumulativeReturn":-0.05499999999999978}]
+         * RecuitmentStartTime :
+         * RecuitmentEndTime :
+         * StarInvestment : 0.0
+         * MostFollow : 0.0
+         * Desc : 150***0882的组合
+         * MaxDay : 0
+         * StopLoss : 0.0
+         * ShareRatio : 0.0
+         * RunStartDay : null
+         * RunEndDay : null
+         * RunTargetEndDay : null
+         * TargetReturns : 0.0
+         * Recruitment : 0.0
+         * WinRatio : 50.0
+         * MonthlyAverage : -0.36608662688102367
+         * Holding : 0
+         * Position : 0.0
+         * AveragePosition : 0
+         * AverageTrading : 0.0
+         * Favorites : 3
+         * CreateTime : null
+         * IsShare : false
+         * Type : null
+         * Return : 0.0
+         * NetValue : 99945.0
+         * Cash : 88495.6392
+         * PorfolioType : 0
+         * RecruitType : 0
+         * PorfolioChooseType : 0
+         * PorfolioAmount : 0.0
          */
 
         private PorfolioInfoBean PorfolioInfo;
         /**
-         * Id : 12
-         * Name : 牛人5号
-         * ImgUrl : http://www.supwin.com/media/1009/logo.png
-         * Title : 超级期待牛人5号
-         * MonthlyAverage : 35.0
-         * PorfolioSucc : 100.0
-         * StockPick : 79.0
-         * Desc : 未来市场震荡明显，只要震荡，就是赚的时候
+         * LimtAmount : 0.0
+         * StartAmount : 0.0
+         * PorfolioType : 0
+         * Investment : 0
+         * RunEndState : 0
+         * IsStart : false
+         * IsEndInvestment : false
+         * MaxReturn : 0.2699999999999995
+         * MinReturn : -0.05499999999999978
+         */
+
+        private PorfolioDetailBean PorfolioDetail;
+        /**
+         * Id : null
+         * LastTime : 2016-08-25 04:18:58
+         * TransferPositionsInfo : [{"Id":null,"Code":"000002.SZ","Name":"万科A","BuyType":0,"Befor":0,"After":500,"Price":23}]
+         */
+
+        private TransferPositionsBean TransferPositions;
+        /**
+         * Id : null
+         * Name : 15018400882
+         * NickName : null
+         * ImgUrl : null
+         * Title : null
+         * MonthlyAverage : 0.0
+         * PorfolioSucc : 0.0
+         * StockPick : 0.0
          */
 
         private StarInfoBean StarInfo;
         /**
-         * MoreYuEBao : 388.0
-         * MoreOther : 120.0
-         * DayRatio : 8.0
-         * MonthRatio : 123.0
-         * NetWorth : 321567.8
-         */
-
-        private AdvantageBean Advantage;
-        /**
-         * Id : 3
-         * LastTime : 2016-07-07 12:00:00
-         * Profitability : 5.0
-         * AntiRiskAbility : 5.0
-         * Stability : 4.9
-         * Dispersion : 5.0
-         * Replication : 3.0
-         * General : 4.9
+         * Id : null
+         * LastTime : null
+         * Profitability : 0.0
+         * AntiRiskAbility : 100.0
+         * Stability : 100.0
+         * Dispersion : 100.0
+         * Replication : 100.0
+         * General : 0.0
          */
 
         private AchievemntBean Achievemnt;
         /**
-         * Id : 1
-         * LastTime : 2016-07-07 12:00:00
-         * TransferPositionsInfo : [{"Id":"0","Code":"000001","Name":"上证指数","BuyType":0,"Befor":200,"After":230,"Price":2990},{"Id":"0","Code":"390001","Name":"深圳成指","BuyType":0,"Befor":30,"After":23,"Price":10610},{"Id":"0","Code":"000300","Name":"沪深300","BuyType":0,"Befor":12,"After":9,"Price":3191}]
+         * Name : 房地产
+         * Ratio : 1.0
          */
 
-        private TransferPositionsBean TransferPositions;
+        private List<StockRatioBean> StockRatio;
+        /**
+         * Code : 000002.SZ
+         * Name : 万科A
+         * Price : 24.43
+         * AvgPrice : 23.0
+         * Volumn : 500.0
+         * ProfitRate : 0.0
+         * Profit : 0.0
+         * CumulativeReturnRate : 6.22
+         * CumulativeReturn : 714.9999999999999
+         */
+
+        private List<HoldingDetailBean> HoldingDetail;
+
+        public int getId() {
+            return Id;
+        }
+
+        public void setId(int Id) {
+            this.Id = Id;
+        }
 
         public PorfolioInfoBean getPorfolioInfo() {
             return PorfolioInfo;
@@ -129,28 +187,12 @@ public class StarDetailInfo {
             this.PorfolioInfo = PorfolioInfo;
         }
 
-        public StarInfoBean getStarInfo() {
-            return StarInfo;
+        public PorfolioDetailBean getPorfolioDetail() {
+            return PorfolioDetail;
         }
 
-        public void setStarInfo(StarInfoBean StarInfo) {
-            this.StarInfo = StarInfo;
-        }
-
-        public AdvantageBean getAdvantage() {
-            return Advantage;
-        }
-
-        public void setAdvantage(AdvantageBean Advantage) {
-            this.Advantage = Advantage;
-        }
-
-        public AchievemntBean getAchievemnt() {
-            return Achievemnt;
-        }
-
-        public void setAchievemnt(AchievemntBean Achievemnt) {
-            this.Achievemnt = Achievemnt;
+        public void setPorfolioDetail(PorfolioDetailBean PorfolioDetail) {
+            this.PorfolioDetail = PorfolioDetail;
         }
 
         public TransferPositionsBean getTransferPositions() {
@@ -161,15 +203,81 @@ public class StarDetailInfo {
             this.TransferPositions = TransferPositions;
         }
 
+        public StarInfoBean getStarInfo() {
+            return StarInfo;
+        }
+
+        public void setStarInfo(StarInfoBean StarInfo) {
+            this.StarInfo = StarInfo;
+        }
+
+        public AchievemntBean getAchievemnt() {
+            return Achievemnt;
+        }
+
+        public void setAchievemnt(AchievemntBean Achievemnt) {
+            this.Achievemnt = Achievemnt;
+        }
+
+        public List<StockRatioBean> getStockRatio() {
+            return StockRatio;
+        }
+
+        public void setStockRatio(List<StockRatioBean> StockRatio) {
+            this.StockRatio = StockRatio;
+        }
+
+        public List<HoldingDetailBean> getHoldingDetail() {
+            return HoldingDetail;
+        }
+
+        public void setHoldingDetail(List<HoldingDetailBean> HoldingDetail) {
+            this.HoldingDetail = HoldingDetail;
+        }
+
         public static class PorfolioInfoBean {
             private String Id;
-            private String UserName;
+            private Object UserName;
+            private String NickName;
             private String Title;
-            private String SecondTitle;
+            private String UserImgUrl;
             private double TotleReturns;
-            private String ImgUrl;
+            private String RecuitmentStartTime;
+            private String RecuitmentEndTime;
+            private double StarInvestment;
+            private double MostFollow;
+            private String Desc;
+            private int MaxDay;
+            private double StopLoss;
+            private double ShareRatio;
+            private Object RunStartDay;
+            private Object RunEndDay;
+            private Object RunTargetEndDay;
+            private double TargetReturns;
+            private double Recruitment;
+            private double WinRatio;
+            private double MonthlyAverage;
+            private int Holding;
+            private double Position;
+            private int AveragePosition;
+            private double AverageTrading;
             private int Favorites;
-            private String CreateTime;
+            private Object CreateTime;
+            private boolean IsShare;
+            private Object Type;
+            private double Return;
+            private double NetValue;
+            private double Cash;
+            private int PorfolioType;
+            private int RecruitType;
+            private int PorfolioChooseType;
+            private double PorfolioAmount;
+            /**
+             * Date : 2016-08-25T00:00:00
+             * CumulativeReturn : 0.2699999999999995
+             */
+
+            private List<ImgDataBean> ImgData;
 
             public String getId() {
                 return Id;
@@ -179,12 +287,20 @@ public class StarDetailInfo {
                 this.Id = Id;
             }
 
-            public String getUserName() {
+            public Object getUserName() {
                 return UserName;
             }
 
-            public void setUserName(String UserName) {
+            public void setUserName(Object UserName) {
                 this.UserName = UserName;
+            }
+
+            public String getNickName() {
+                return NickName;
+            }
+
+            public void setNickName(String NickName) {
+                this.NickName = NickName;
             }
 
             public String getTitle() {
@@ -195,12 +311,12 @@ public class StarDetailInfo {
                 this.Title = Title;
             }
 
-            public String getSecondTitle() {
-                return SecondTitle;
+            public String getUserImgUrl() {
+                return UserImgUrl;
             }
 
-            public void setSecondTitle(String SecondTitle) {
-                this.SecondTitle = SecondTitle;
+            public void setUserImgUrl(String UserImgUrl) {
+                this.UserImgUrl = UserImgUrl;
             }
 
             public double getTotleReturns() {
@@ -211,12 +327,156 @@ public class StarDetailInfo {
                 this.TotleReturns = TotleReturns;
             }
 
-            public String getImgUrl() {
-                return ImgUrl;
+            public String getRecuitmentStartTime() {
+                return RecuitmentStartTime;
             }
 
-            public void setImgUrl(String ImgUrl) {
-                this.ImgUrl = ImgUrl;
+            public void setRecuitmentStartTime(String RecuitmentStartTime) {
+                this.RecuitmentStartTime = RecuitmentStartTime;
+            }
+
+            public String getRecuitmentEndTime() {
+                return RecuitmentEndTime;
+            }
+
+            public void setRecuitmentEndTime(String RecuitmentEndTime) {
+                this.RecuitmentEndTime = RecuitmentEndTime;
+            }
+
+            public double getStarInvestment() {
+                return StarInvestment;
+            }
+
+            public void setStarInvestment(double StarInvestment) {
+                this.StarInvestment = StarInvestment;
+            }
+
+            public double getMostFollow() {
+                return MostFollow;
+            }
+
+            public void setMostFollow(double MostFollow) {
+                this.MostFollow = MostFollow;
+            }
+
+            public String getDesc() {
+                return Desc;
+            }
+
+            public void setDesc(String Desc) {
+                this.Desc = Desc;
+            }
+
+            public int getMaxDay() {
+                return MaxDay;
+            }
+
+            public void setMaxDay(int MaxDay) {
+                this.MaxDay = MaxDay;
+            }
+
+            public double getStopLoss() {
+                return StopLoss;
+            }
+
+            public void setStopLoss(double StopLoss) {
+                this.StopLoss = StopLoss;
+            }
+
+            public double getShareRatio() {
+                return ShareRatio;
+            }
+
+            public void setShareRatio(double ShareRatio) {
+                this.ShareRatio = ShareRatio;
+            }
+
+            public Object getRunStartDay() {
+                return RunStartDay;
+            }
+
+            public void setRunStartDay(Object RunStartDay) {
+                this.RunStartDay = RunStartDay;
+            }
+
+            public Object getRunEndDay() {
+                return RunEndDay;
+            }
+
+            public void setRunEndDay(Object RunEndDay) {
+                this.RunEndDay = RunEndDay;
+            }
+
+            public Object getRunTargetEndDay() {
+                return RunTargetEndDay;
+            }
+
+            public void setRunTargetEndDay(Object RunTargetEndDay) {
+                this.RunTargetEndDay = RunTargetEndDay;
+            }
+
+            public double getTargetReturns() {
+                return TargetReturns;
+            }
+
+            public void setTargetReturns(double TargetReturns) {
+                this.TargetReturns = TargetReturns;
+            }
+
+            public double getRecruitment() {
+                return Recruitment;
+            }
+
+            public void setRecruitment(double Recruitment) {
+                this.Recruitment = Recruitment;
+            }
+
+            public double getWinRatio() {
+                return WinRatio;
+            }
+
+            public void setWinRatio(double WinRatio) {
+                this.WinRatio = WinRatio;
+            }
+
+            public double getMonthlyAverage() {
+                return MonthlyAverage;
+            }
+
+            public void setMonthlyAverage(double MonthlyAverage) {
+                this.MonthlyAverage = MonthlyAverage;
+            }
+
+            public int getHolding() {
+                return Holding;
+            }
+
+            public void setHolding(int Holding) {
+                this.Holding = Holding;
+            }
+
+            public double getPosition() {
+                return Position;
+            }
+
+            public void setPosition(double Position) {
+                this.Position = Position;
+            }
+
+            public int getAveragePosition() {
+                return AveragePosition;
+            }
+
+            public void setAveragePosition(int AveragePosition) {
+                this.AveragePosition = AveragePosition;
+            }
+
+            public double getAverageTrading() {
+                return AverageTrading;
+            }
+
+            public void setAverageTrading(double AverageTrading) {
+                this.AverageTrading = AverageTrading;
             }
 
             public int getFavorites() {
@@ -227,26 +487,321 @@ public class StarDetailInfo {
                 this.Favorites = Favorites;
             }
 
-            public String getCreateTime() {
+            public Object getCreateTime() {
                 return CreateTime;
             }
 
-            public void setCreateTime(String CreateTime) {
+            public void setCreateTime(Object CreateTime) {
                 this.CreateTime = CreateTime;
+            }
+
+            public boolean isIsShare() {
+                return IsShare;
+            }
+
+            public void setIsShare(boolean IsShare) {
+                this.IsShare = IsShare;
+            }
+
+            public Object getType() {
+                return Type;
+            }
+
+            public void setType(Object Type) {
+                this.Type = Type;
+            }
+
+            public double getReturn() {
+                return Return;
+            }
+
+            public void setReturn(double Return) {
+                this.Return = Return;
+            }
+
+            public double getNetValue() {
+                return NetValue;
+            }
+
+            public void setNetValue(double NetValue) {
+                this.NetValue = NetValue;
+            }
+
+            public double getCash() {
+                return Cash;
+            }
+
+            public void setCash(double Cash) {
+                this.Cash = Cash;
+            }
+
+            public int getPorfolioType() {
+                return PorfolioType;
+            }
+
+            public void setPorfolioType(int PorfolioType) {
+                this.PorfolioType = PorfolioType;
+            }
+
+            public int getRecruitType() {
+                return RecruitType;
+            }
+
+            public void setRecruitType(int RecruitType) {
+                this.RecruitType = RecruitType;
+            }
+
+            public int getPorfolioChooseType() {
+                return PorfolioChooseType;
+            }
+
+            public void setPorfolioChooseType(int PorfolioChooseType) {
+                this.PorfolioChooseType = PorfolioChooseType;
+            }
+
+            public double getPorfolioAmount() {
+                return PorfolioAmount;
+            }
+
+            public void setPorfolioAmount(double PorfolioAmount) {
+                this.PorfolioAmount = PorfolioAmount;
+            }
+
+            public List<ImgDataBean> getImgData() {
+                return ImgData;
+            }
+
+            public void setImgData(List<ImgDataBean> ImgData) {
+                this.ImgData = ImgData;
+            }
+
+            public static class ImgDataBean {
+                private String Date;
+                private double CumulativeReturn;
+
+                public String getDate() {
+                    return Date;
+                }
+
+                public void setDate(String Date) {
+                    this.Date = Date;
+                }
+
+                public double getCumulativeReturn() {
+                    return CumulativeReturn;
+                }
+
+                public void setCumulativeReturn(double CumulativeReturn) {
+                    this.CumulativeReturn = CumulativeReturn;
+                }
+            }
+        }
+
+        public static class PorfolioDetailBean {
+            private double LimtAmount;
+            private double StartAmount;
+            private int PorfolioType;
+            private int Investment;
+            private int RunEndState;
+            private boolean IsStart;
+            private boolean IsEndInvestment;
+            private double MaxReturn;
+            private double MinReturn;
+
+            public double getLimtAmount() {
+                return LimtAmount;
+            }
+
+            public void setLimtAmount(double LimtAmount) {
+                this.LimtAmount = LimtAmount;
+            }
+
+            public double getStartAmount() {
+                return StartAmount;
+            }
+
+            public void setStartAmount(double StartAmount) {
+                this.StartAmount = StartAmount;
+            }
+
+            public int getPorfolioType() {
+                return PorfolioType;
+            }
+
+            public void setPorfolioType(int PorfolioType) {
+                this.PorfolioType = PorfolioType;
+            }
+
+            public int getInvestment() {
+                return Investment;
+            }
+
+            public void setInvestment(int Investment) {
+                this.Investment = Investment;
+            }
+
+            public int getRunEndState() {
+                return RunEndState;
+            }
+
+            public void setRunEndState(int RunEndState) {
+                this.RunEndState = RunEndState;
+            }
+
+            public boolean isIsStart() {
+                return IsStart;
+            }
+
+            public void setIsStart(boolean IsStart) {
+                this.IsStart = IsStart;
+            }
+
+            public boolean isIsEndInvestment() {
+                return IsEndInvestment;
+            }
+
+            public void setIsEndInvestment(boolean IsEndInvestment) {
+                this.IsEndInvestment = IsEndInvestment;
+            }
+
+            public double getMaxReturn() {
+                return MaxReturn;
+            }
+
+            public void setMaxReturn(double MaxReturn) {
+                this.MaxReturn = MaxReturn;
+            }
+
+            public double getMinReturn() {
+                return MinReturn;
+            }
+
+            public void setMinReturn(double MinReturn) {
+                this.MinReturn = MinReturn;
+            }
+        }
+
+        public static class TransferPositionsBean {
+            private Object Id;
+            private String LastTime;
+            /**
+             * Id : null
+             * Code : 000002.SZ
+             * Name : 万科A
+             * BuyType : 0
+             * Befor : 0.0
+             * After : 500.0
+             * Price : 23.0
+             */
+
+            private List<TransferPositionsInfoBean> TransferPositionsInfo;
+
+            public Object getId() {
+                return Id;
+            }
+
+            public void setId(Object Id) {
+                this.Id = Id;
+            }
+
+            public String getLastTime() {
+                return LastTime;
+            }
+
+            public void setLastTime(String LastTime) {
+                this.LastTime = LastTime;
+            }
+
+            public List<TransferPositionsInfoBean> getTransferPositionsInfo() {
+                return TransferPositionsInfo;
+            }
+
+            public void setTransferPositionsInfo(List<TransferPositionsInfoBean> TransferPositionsInfo) {
+                this.TransferPositionsInfo = TransferPositionsInfo;
+            }
+
+            public static class TransferPositionsInfoBean {
+                private Object Id;
+                private String Code;
+                private String Name;
+                private int BuyType;
+                private double Befor;
+                private double After;
+                private double Price;
+
+                public Object getId() {
+                    return Id;
+                }
+
+                public void setId(Object Id) {
+                    this.Id = Id;
+                }
+
+                public String getCode() {
+                    return Code;
+                }
+
+                public void setCode(String Code) {
+                    this.Code = Code;
+                }
+
+                public String getName() {
+                    return Name;
+                }
+
+                public void setName(String Name) {
+                    this.Name = Name;
+                }
+
+                public int getBuyType() {
+                    return BuyType;
+                }
+
+                public void setBuyType(int BuyType) {
+                    this.BuyType = BuyType;
+                }
+
+                public double getBefor() {
+                    return Befor;
+                }
+
+                public void setBefor(double Befor) {
+                    this.Befor = Befor;
+                }
+
+                public double getAfter() {
+                    return After;
+                }
+
+                public void setAfter(double After) {
+                    this.After = After;
+                }
+
+                public double getPrice() {
+                    return Price;
+                }
+
+                public void setPrice(double Price) {
+                    this.Price = Price;
+                }
             }
         }
 
         public static class StarInfoBean {
-            private String Id;
+            private Object Id;
             private String Name;
-            private String ImgUrl;
-            private String Desc;
+            private Object NickName;
+            private Object ImgUrl;
+            private Object Title;
+            private double MonthlyAverage;
+            private double PorfolioSucc;
+            private double StockPick;
 
-            public String getId() {
+            public Object getId() {
                 return Id;
             }
 
-            public void setId(String Id) {
+            public void setId(Object Id) {
                 this.Id = Id;
             }
 
@@ -258,74 +813,58 @@ public class StarDetailInfo {
                 this.Name = Name;
             }
 
-            public String getImgUrl() {
+            public Object getNickName() {
+                return NickName;
+            }
+
+            public void setNickName(Object NickName) {
+                this.NickName = NickName;
+            }
+
+            public Object getImgUrl() {
                 return ImgUrl;
             }
 
-            public void setImgUrl(String ImgUrl) {
+            public void setImgUrl(Object ImgUrl) {
                 this.ImgUrl = ImgUrl;
             }
 
-            public String getDesc() {
-                return Desc;
+            public Object getTitle() {
+                return Title;
             }
 
-            public void setDesc(String Desc) {
-                this.Desc = Desc;
-            }
-        }
-
-        public static class AdvantageBean {
-            private double MoreYuEBao;
-            private double MoreOther;
-            private double DayRatio;
-            private double MonthRatio;
-            private double NetWorth;
-
-            public double getMoreYuEBao() {
-                return MoreYuEBao;
+            public void setTitle(Object Title) {
+                this.Title = Title;
             }
 
-            public void setMoreYuEBao(double MoreYuEBao) {
-                this.MoreYuEBao = MoreYuEBao;
+            public double getMonthlyAverage() {
+                return MonthlyAverage;
             }
 
-            public double getMoreOther() {
-                return MoreOther;
+            public void setMonthlyAverage(double MonthlyAverage) {
+                this.MonthlyAverage = MonthlyAverage;
             }
 
-            public void setMoreOther(double MoreOther) {
-                this.MoreOther = MoreOther;
+            public double getPorfolioSucc() {
+                return PorfolioSucc;
             }
 
-            public double getDayRatio() {
-                return DayRatio;
+            public void setPorfolioSucc(double PorfolioSucc) {
+                this.PorfolioSucc = PorfolioSucc;
             }
 
-            public void setDayRatio(double DayRatio) {
-                this.DayRatio = DayRatio;
+            public double getStockPick() {
+                return StockPick;
             }
 
-            public double getMonthRatio() {
-                return MonthRatio;
-            }
-
-            public void setMonthRatio(double MonthRatio) {
-                this.MonthRatio = MonthRatio;
-            }
-
-            public double getNetWorth() {
-                return NetWorth;
-            }
-
-            public void setNetWorth(double NetWorth) {
-                this.NetWorth = NetWorth;
+            public void setStockPick(double StockPick) {
+                this.StockPick = StockPick;
             }
         }
 
         public static class AchievemntBean {
-            private String Id;
-            private String LastTime;
+            private Object Id;
+            private Object LastTime;
             private double Profitability;
             private double AntiRiskAbility;
             private double Stability;
@@ -333,19 +872,19 @@ public class StarDetailInfo {
             private double Replication;
             private double General;
 
-            public String getId() {
+            public Object getId() {
                 return Id;
             }
 
-            public void setId(String Id) {
+            public void setId(Object Id) {
                 this.Id = Id;
             }
 
-            public String getLastTime() {
+            public Object getLastTime() {
                 return LastTime;
             }
 
-            public void setLastTime(String LastTime) {
+            public void setLastTime(Object LastTime) {
                 this.LastTime = LastTime;
             }
 
@@ -398,109 +937,108 @@ public class StarDetailInfo {
             }
         }
 
-        public static class TransferPositionsBean {
-            private String Id;
-            private String LastTime;
-            /**
-             * Id : 0
-             * Code : 000001
-             * Name : 上证指数
-             * BuyType : 0
-             * Befor : 200.0
-             * After : 230.0
-             * Price : 2990.0
-             */
+        public static class StockRatioBean {
+            private String Name;
+            private double Ratio;
 
-            private List<TransferPositionsInfoBean> TransferPositionsInfo;
-
-            public String getId() {
-                return Id;
+            public String getName() {
+                return Name;
             }
 
-            public void setId(String Id) {
-                this.Id = Id;
+            public void setName(String Name) {
+                this.Name = Name;
             }
 
-            public String getLastTime() {
-                return LastTime;
+            public double getRatio() {
+                return Ratio;
             }
 
-            public void setLastTime(String LastTime) {
-                this.LastTime = LastTime;
+            public void setRatio(double Ratio) {
+                this.Ratio = Ratio;
+            }
+        }
+
+        public static class HoldingDetailBean {
+            private String Code;
+            private String Name;
+            private double Price;
+            private double AvgPrice;
+            private double Volumn;
+            private double ProfitRate;
+            private double Profit;
+            private double CumulativeReturnRate;
+            private double CumulativeReturn;
+
+            public String getCode() {
+                return Code;
             }
 
-            public List<TransferPositionsInfoBean> getTransferPositionsInfo() {
-                return TransferPositionsInfo;
+            public void setCode(String Code) {
+                this.Code = Code;
             }
 
-            public void setTransferPositionsInfo(List<TransferPositionsInfoBean> TransferPositionsInfo) {
-                this.TransferPositionsInfo = TransferPositionsInfo;
+            public String getName() {
+                return Name;
             }
 
-            public static class TransferPositionsInfoBean {
-                private String Id;
-                private String Code;
-                private String Name;
-                private int BuyType;
-                private double Befor;
-                private double After;
-                private double Price;
+            public void setName(String Name) {
+                this.Name = Name;
+            }
 
-                public String getId() {
-                    return Id;
-                }
+            public double getPrice() {
+                return Price;
+            }
 
-                public void setId(String Id) {
-                    this.Id = Id;
-                }
+            public void setPrice(double Price) {
+                this.Price = Price;
+            }
 
-                public String getCode() {
-                    return Code;
-                }
+            public double getAvgPrice() {
+                return AvgPrice;
+            }
 
-                public void setCode(String Code) {
-                    this.Code = Code;
-                }
+            public void setAvgPrice(double AvgPrice) {
+                this.AvgPrice = AvgPrice;
+            }
 
-                public String getName() {
-                    return Name;
-                }
+            public double getVolumn() {
+                return Volumn;
+            }
 
-                public void setName(String Name) {
-                    this.Name = Name;
-                }
+            public void setVolumn(double Volumn) {
+                this.Volumn = Volumn;
+            }
 
-                public int getBuyType() {
-                    return BuyType;
-                }
+            public double getProfitRate() {
+                return ProfitRate;
+            }
 
-                public void setBuyType(int BuyType) {
-                    this.BuyType = BuyType;
-                }
+            public void setProfitRate(double ProfitRate) {
+                this.ProfitRate = ProfitRate;
+            }
 
-                public double getBefor() {
-                    return Befor;
-                }
+            public double getProfit() {
+                return Profit;
+            }
 
-                public void setBefor(double Befor) {
-                    this.Befor = Befor;
-                }
+            public void setProfit(double Profit) {
+                this.Profit = Profit;
+            }
 
-                public double getAfter() {
-                    return After;
-                }
+            public double getCumulativeReturnRate() {
+                return CumulativeReturnRate;
+            }
 
-                public void setAfter(double After) {
-                    this.After = After;
-                }
+            public void setCumulativeReturnRate(double CumulativeReturnRate) {
+                this.CumulativeReturnRate = CumulativeReturnRate;
+            }
 
-                public double getPrice() {
-                    return Price;
-                }
+            public double getCumulativeReturn() {
+                return CumulativeReturn;
+            }
 
-                public void setPrice(double Price) {
-                    this.Price = Price;
-                }
+            public void setCumulativeReturn(double CumulativeReturn) {
+                this.CumulativeReturn = CumulativeReturn;
             }
         }
     }

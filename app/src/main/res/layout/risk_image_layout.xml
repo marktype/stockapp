@@ -23,6 +23,7 @@
         android:layout_marginTop="@dimen/margin_10dp"
         android:progress="0"
         android:max="100"
+        android:padding="@dimen/margin_8dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/margin_10dp"
         android:layout_marginLeft="@dimen/margin_10dp"/>
