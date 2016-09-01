@@ -56,6 +56,7 @@ public class HttpManager {
     public static final String MyPorfolio_URL = BASE_URL + "Intelligent/MyPorfolio";      //  获取我的组合列表
     public static final String MyCollectPorfolio_URL = BASE_URL + "Intelligent/MyCollectPorfolio";      //  获取我的订阅、收藏列表
     public static final String StrategyDetail_URL = BASE_URL + "Intelligent/StrategyDetail";      // 策略详情
+    public static final String PorfolioTrades_URL = BASE_URL + "Intelligent/PorfolioTrades";      // 跟投记录
     public static final String StrategyBefor_URL = BASE_URL + "Intelligent/StrategyBefor";      // 量化策略支付前信息
     public static final String CollectStrategy_URL = BASE_URL + "Intelligent/CollectStrategy";      // 收藏策略
     public static final String PayStrategy_URL = BASE_URL + "Intelligent/PayStrategy";      // 支付策略

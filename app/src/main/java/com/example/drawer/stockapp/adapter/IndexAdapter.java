@@ -80,7 +80,7 @@ public class IndexAdapter extends BaseAdapter {
             viewHolder.name.setText(headIndex.getContent());
             viewHolder.time.setText(headIndex.getTime());
             viewHolder.persent.setText(headIndex.getPeopleNum());
-            Picasso.with(context).load(headIndex.getImage()).into(viewHolder.headImahe);
+            Picasso.with(context).load(headIndex.getImage()).placeholder(R.mipmap.img_replace).into(viewHolder.headImahe);
         }else if (type == TYPE_THREE_IMAGE){
             if (view == null){
                 view = mInflater.inflate(R.layout.zixun_list_three_image_item,null);
@@ -101,9 +101,9 @@ public class IndexAdapter extends BaseAdapter {
             viewHolderTwo.xontent.setText(headIndex.getContent());
             viewHolderTwo.timeThree.setText(headIndex.getTime());
             viewHolderTwo.commentNum.setText(headIndex.getPeopleNum());
-            Picasso.with(context).load(headIndex.getImgaes().get(0)).into(viewHolderTwo.oneImage);
-            Picasso.with(context).load(headIndex.getImgaes().get(1)).into(viewHolderTwo.twoImage);
-            Picasso.with(context).load(headIndex.getImgaes().get(2)).into(viewHolderTwo.threeImage);
+            Picasso.with(context).load(headIndex.getImgaes().get(0)).placeholder(R.mipmap.img_replace).into(viewHolderTwo.oneImage);
+            Picasso.with(context).load(headIndex.getImgaes().get(1)).placeholder(R.mipmap.img_replace).into(viewHolderTwo.twoImage);
+            Picasso.with(context).load(headIndex.getImgaes().get(2)).placeholder(R.mipmap.img_replace).into(viewHolderTwo.threeImage);
         }
 
 

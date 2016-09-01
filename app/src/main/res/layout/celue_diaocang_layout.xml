@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/background_dark"
-        android:textSize="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/title_text_size"
         android:layout_margin="@dimen/margin_10dp"
         android:text="最新调仓"
         />
@@ -17,6 +17,7 @@
         android:id="@+id/diaocang_time_txt"
         android:layout_alignBaseline="@id/diaocang_txt"
         android:layout_toRightOf="@id/diaocang_txt"
+        android:textSize="@dimen/my_txt_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="(2016-06-20 10:30:23)"

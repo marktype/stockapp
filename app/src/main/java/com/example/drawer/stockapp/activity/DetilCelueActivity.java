@@ -24,7 +24,6 @@ import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,9 +54,9 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
         SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
         ManagerUtil.setStataBarColorWhite(this,tintManager);
     }
-    /**
+   /* *//**
      * 设置控件数据
-     */
+     *//*
     public void setWidghtData() {
         StargDetial.ResultBean.StrategyDetailBean strategy = stargDetial.getResult().getStrategyDetail();
         StargDetial.ResultBean.StarInfoBean starInfoBean = stargDetial.getResult().getStarInfo();
@@ -90,7 +89,7 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
 
 
 
-    }
+    }*/
 
     public void initWeight() {
 
@@ -198,7 +197,7 @@ public class DetilCelueActivity extends BascActivity implements View.OnClickList
                     Gson gson = new Gson();
                     stargDetial = gson.fromJson(message, StargDetial.class);
                     if (stargDetial.getHead().getStatus() == 0) {
-                        setWidghtData();
+//                        setWidghtData();
                     }
                 }
             }

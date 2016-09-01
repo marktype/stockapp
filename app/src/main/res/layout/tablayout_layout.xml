@@ -56,23 +56,44 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_5dp"
             android:layout_weight="1"
             android:orientation="vertical" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/margin_13dp"
-                android:padding="5dp"
                 android:layout_gravity="center_horizontal"
-                android:text="平均持股周期(天)" />
+                android:padding="5dp"
+                android:text="仓位" />
             <TextView
-                android:id="@+id/round_every"
+                android:id="@+id/cangwei"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
                 android:layout_gravity="center_horizontal"
-                android:text="232" />
+                android:padding="5dp"
+                android:text="38" />
         </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:orientation="vertical" >-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="@dimen/margin_13dp"-->
+                <!--android:padding="5dp"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:text="平均持股周期(天)" />-->
+            <!--<TextView-->
+                <!--android:id="@+id/round_every"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="5dp"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:text="232" />-->
+        <!--</LinearLayout>-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -100,52 +121,52 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@android:color/darker_gray"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_5dp"
-                android:orientation="vertical" >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/margin_13dp"
-                    android:layout_gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:text="仓位" />
-                <TextView
-                    android:id="@+id/cangwei"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:text="38" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/margin_13dp"
-                    android:text="月均交易次数" />
-                <TextView
-                    android:id="@+id/trade_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    android:layout_gravity="center_horizontal"
-                    android:text="38" />
-            </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="@dimen/margin_5dp"-->
+                <!--android:orientation="vertical" >-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="@dimen/margin_13dp"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:padding="5dp"-->
+                    <!--android:text="仓位" />-->
+                <!--<TextView-->
+                    <!--android:id="@+id/cangwei"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:padding="5dp"-->
+                    <!--android:text="38" />-->
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical" >-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="5dp"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:textSize="@dimen/margin_13dp"-->
+                    <!--android:text="月均交易次数" />-->
+                <!--<TextView-->
+                    <!--android:id="@+id/trade_time"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="3dp"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:text="38" />-->
+            <!--</LinearLayout>-->
 
-        </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@android:color/darker_gray"/>
+        <!--</LinearLayout>-->
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1px"-->
+        <!--android:background="@android:color/darker_gray"/>-->
 </LinearLayout>

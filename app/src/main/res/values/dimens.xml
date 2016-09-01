@@ -25,5 +25,6 @@
     <dimen name="title_size">20sp</dimen>
     <dimen name="title_text_size">14sp</dimen>
     <dimen name="my_txt_size">12sp</dimen>
+    <dimen name="min_txt_size">10sp</dimen>
     <dimen name="content_text_size">16sp</dimen>
 </resources>

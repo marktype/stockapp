@@ -71,7 +71,7 @@ public class TrendsAdapter extends BaseAdapter {
         }
         final TrendsInfo info = (TrendsInfo) getItem(i);
         if (!TextUtils.isEmpty(info.getImage())){
-            Picasso.with(context).load(info.getImage()).into(viewHolder.head);
+            Picasso.with(context).load(info.getImage()).placeholder(R.mipmap.img_replace).into(viewHolder.head);
         }
 
             adapter = new ImageAdapter(context);

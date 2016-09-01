@@ -17,6 +17,33 @@ public class CeLueInfo {
     private int type;   //类型
     private String levelImage;    //等级图片
     private String id;
+    private Boolean IsEndInvestment;   //true  已结束
+    private Boolean IsEndRecruit;   //fales   正在招募
+    private Boolean IsStartInvestment;    //true   运行中
+
+    public Boolean getEndInvestment() {
+        return IsEndInvestment;
+    }
+
+    public void setEndInvestment(Boolean endInvestment) {
+        IsEndInvestment = endInvestment;
+    }
+
+    public Boolean getEndRecruit() {
+        return IsEndRecruit;
+    }
+
+    public void setEndRecruit(Boolean endRecruit) {
+        IsEndRecruit = endRecruit;
+    }
+
+    public Boolean getStartInvestment() {
+        return IsStartInvestment;
+    }
+
+    public void setStartInvestment(Boolean startInvestment) {
+        IsStartInvestment = startInvestment;
+    }
 
     public String getId() {
         return id;

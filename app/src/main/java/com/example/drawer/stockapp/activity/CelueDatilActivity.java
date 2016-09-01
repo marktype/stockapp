@@ -21,6 +21,7 @@ import com.example.drawer.stockapp.customview.MyScrollView;
 import com.example.drawer.stockapp.customview.chartview.MyMarkerView;
 import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
+import com.example.drawer.stockapp.model.ChartInfo;
 import com.example.drawer.stockapp.model.StarDetailInfo;
 import com.example.drawer.stockapp.model.StockBean;
 import com.example.drawer.stockapp.model.TiaoCangInfo;
@@ -51,6 +52,7 @@ import java.util.List;
  */
 public class CelueDatilActivity extends BascActivity implements View.OnClickListener{
     public static final String ZUHE_ID = "zuheid";
+    private String[] colors = {"#FFF000","#74E7D3","#74D3E7","#51B4F3","#5173F3"};     //饼图颜色
     private String zuheId;
     private RadarChart mChart;
     private ArrayList<StockBean> list;
@@ -87,7 +89,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
      */
     public void setWidghtData(){
         DecimalFormat df =new DecimalFormat("#0.000");   //保留三位小数
-
+        List<StarDetailInfo.ResultBean.StockRatioBean> stock = starDetailInfo.getResult().getStockRatio();   //饼图
         StarDetailInfo.ResultBean.PorfolioInfoBean porfolioInfoBean = starDetailInfo.getResult().getPorfolioInfo();
 //        StarDetailInfo.ResultBean.AdvantageBean advantageBean = starDetailInfo.getResult().getAdvantage();
         StarDetailInfo.ResultBean.StarInfoBean starInfoBean = starDetailInfo.getResult().getStarInfo();
@@ -111,7 +113,13 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
 
         ArrayList<TiaoCangInfo> listInfo = new ArrayList<>();
         for (int i = 0;i<list.size();i++){
+
             TiaoCangInfo info = new TiaoCangInfo();
+            if (list.get(i).getBuyType() == 0){
+                info.setBuyCome(true);
+            }else {
+                info.setBuyCome(false);
+            }
             info.setStockName(list.get(i).getName());
             info.setStockNum(list.get(i).getCode());
             info.setTradeNumStart(list.get(i).getBefor()+"");
@@ -125,6 +133,15 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
 
         mRating.setRating((float) achievemntBean.getGeneral());
         setChartData(achievemntBean);
+
+        ArrayList<ChartInfo> chartList = new ArrayList<>();
+        for (int i = 0;i<stock.size();i++){
+            ChartInfo info = new ChartInfo();
+            info.setName(stock.get(i).getName());
+            info.setParsent(stock.get(i).getRatio()+"");
+            chartList.add(info);
+        }
+        setCanvasData(chartList);
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -182,25 +199,22 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         canvasView = (CanvasView) findViewById(R.id.canvas_view);
         canvasView.setRadius(220f);    //设置图形半径
 
-        if (title.equals("我的组合")){
-            mGoOrder.setVisibility(View.GONE);
-        }
         mTitle.setText(title);
-
-
-        setCanvasData();
 
         mBackimg.setOnClickListener(this);
         mGoOrder.setOnClickListener(this);
     }
 
-    public void setCanvasData(){
+    public void setCanvasData(ArrayList<ChartInfo> list){
         data = new ArrayList<>();
-        setDataToView("医药生物", "#FFF000", 0.1f);
-        setDataToView("农林牧渔", "#74E7D3", 0.15f);
-        setDataToView("电器设备", "#74D3E7", 0.15f);
-        setDataToView("公用事业", "#51B4F3", 0.4f);
-        setDataToView("食品饮料", "#5173F3", 0.1f);
+        for (int i= 0;i<list.size();i++){
+            ChartInfo info = list.get(i);
+            setDataToView(info.getName(), colors[i], Float.parseFloat(info.getParsent()));
+        }
+//        setDataToView("农林牧渔", "#74E7D3", 0.15f);
+//        setDataToView("电器设备", "#74D3E7", 0.15f);
+//        setDataToView("公用事业", "#51B4F3", 0.4f);
+//        setDataToView("食品饮料", "#5173F3", 0.1f);
         canvasView.setData(data);
     }
 

@@ -51,12 +51,22 @@ public class MyZuHeItemAdapter extends BaseAdapter{
             viewHolder.num = (TextView) view.findViewById(R.id.diaocang_num);     //股票编号
             viewHolder.tradeNum = (TextView) view.findViewById(R.id.price_num);    //变动价格
             viewHolder.price = (TextView) view.findViewById(R.id.price_start);     //参考成交价
+            viewHolder.buyTxt = (TextView) view.findViewById(R.id.dioacang_image);  //调仓图片
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
 
         TiaoCangInfo info = (TiaoCangInfo) getItem(i);
+
+        if (info.getBuyCome()){
+            viewHolder.buyTxt.setText("买入");
+            viewHolder.buyTxt.setBackground(context.getResources().getDrawable(R.drawable.rect_edit_bg_shape));
+        }else {
+            viewHolder.buyTxt.setText("卖出");
+            viewHolder.buyTxt.setBackground(context.getResources().getDrawable(R.drawable.rect_write_black_shape));
+        }
+
         viewHolder.name.setText(info.getStockName());
         viewHolder.num.setText(info.getStockNum());
         viewHolder.tradeNum.setText(info.getTradeNumStart()+"→"+info.getTradeNumEnd());

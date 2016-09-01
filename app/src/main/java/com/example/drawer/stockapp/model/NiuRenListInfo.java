@@ -112,7 +112,7 @@ public class NiuRenListInfo {
             private String UserName;
             private Object NickName;
             private String Title;
-            private Object UserImgUrl;
+            private String UserImgUrl;
             private double TotleReturns;
             private Object RecuitmentStartTime;
             private Object RecuitmentEndTime;
@@ -181,11 +181,11 @@ public class NiuRenListInfo {
                 this.Title = Title;
             }
 
-            public Object getUserImgUrl() {
+            public String getUserImgUrl() {
                 return UserImgUrl;
             }
 
-            public void setUserImgUrl(Object UserImgUrl) {
+            public void setUserImgUrl(String UserImgUrl) {
                 this.UserImgUrl = UserImgUrl;
             }
 

@@ -16,10 +16,12 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.CelueDatilActivity;
 import com.example.drawer.stockapp.activity.LiangHuaCelueDetialActivity;
+import com.example.drawer.stockapp.activity.LianghuaCelueZhaoMuZhongActivity;
 import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.activity.MessageActivity;
 import com.example.drawer.stockapp.activity.MyZuHeDatilActivity;
@@ -539,6 +541,9 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setMinGengTou(ben.getMinFollow() + "");
             info.setOtherInfo((String) ben.getDesc());
             info.setHeadImage((String) ben.getUserImgUrl());
+            info.setEndInvestment(ben.isIsEndInvestment());      //运行是否结束
+            info.setEndRecruit(ben.isIsEndRecruit());      //招募是否结束
+            info.setStartInvestment(ben.isIsStartInvestment());   //运行是否结束
 //            info.setLevelImage(ben.getUserLevelImgUrl());
             ceLueInfos.add(info);
         }
@@ -558,7 +563,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             NiuRenListInfo.ResultBean.StrategiesBean ben = starPorfolioBeen.get(i);
             NiuRenInfo info = new NiuRenInfo();
             info.setId(ben.getId());
-            info.setNiurenHead("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2516161713,321762461&fm=58");
+            info.setNiurenHead(ben.getUserImgUrl());
             info.setNiurenName(ben.getNickName()+"");
             info.setNiurenRoundImage("http://img2.imgtn.bdimg.com/it/u=1689964256,2679873424&fm=21&gp=0.jpg");
             info.setShouyiRate(Double.parseDouble(df.format(ben.getTotleReturns())));
@@ -615,12 +620,28 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()) {
             case R.id.lianghuacelue_list:
-                Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
-                startActivity(intent);
+                CeLueInfo celueinfo = (CeLueInfo) adapterView.getAdapter().getItem(i);
+                if (!celueinfo.getEndInvestment()&&celueinfo.getEndRecruit()&&celueinfo.getStartInvestment()){   //运行中
+                    Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
+                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
+                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,"运行中"+celueinfo.getTitle());
+                    startActivity(intent);
+                }else if (!celueinfo.getEndInvestment()&&!celueinfo.getEndRecruit()&&!celueinfo.getStartInvestment()){   //招募中
+                    Intent intent = new Intent(getActivity(), LianghuaCelueZhaoMuZhongActivity.class);
+                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
+                    startActivity(intent);
+                }else if (celueinfo.getEndInvestment()&&celueinfo.getEndRecruit()&&!celueinfo.getStartInvestment()){    //已结束
+                    Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
+                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
+                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,"已结束"+celueinfo.getTitle());
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(getActivity(),"策略状态出错",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.niuren_listview:
                 NiuRenInfo info = (NiuRenInfo) adapterView.getAdapter().getItem(i);
-                intent = new Intent(getActivity(), CelueDatilActivity.class);
+                Intent intent = new Intent(getActivity(), CelueDatilActivity.class);
                 intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
                 intent.putExtra(CELUENAME, "牛人组合");
                 startActivity(intent);
