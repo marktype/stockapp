@@ -1,6 +1,7 @@
 package com.example.drawer.stockapp.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.widget.BubbleSeekBar;
+import com.example.drawer.stockapp.listener.StockCallBack;
 import com.example.drawer.stockapp.model.HeadIndex;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class SetUpZuHeAdapter extends BaseAdapter{
     private ArrayList<HeadIndex> list ;
     private HashMap<Integer,Integer> map = new HashMap<>();
     private int progressNum;    //进度数
+    private StockCallBack stockCallBack;
     public SetUpZuHeAdapter(Context context){
         this.context = context;
     }
@@ -32,6 +35,10 @@ public class SetUpZuHeAdapter extends BaseAdapter{
         this.list = list;
         notifyDataSetChanged();
 
+    }
+
+    public void setOnStockPersentListener(StockCallBack stockCallBack){
+        this.stockCallBack = stockCallBack;
     }
     @Override
     public int getCount() {
@@ -68,7 +75,10 @@ public class SetUpZuHeAdapter extends BaseAdapter{
 
         HeadIndex index = (HeadIndex) getItem(i);
         map.put(i,viewHolder.seekBar.getProgress());
-
+        if (index.getIndexPersent() != null&& !TextUtils.isEmpty(index.getIndexPersent())){
+            viewHolder.seekBar.setProgress(Integer.parseInt(index.getIndexPersent()));
+            viewHolder.num.setText(index.getIndexPersent()+"%");
+        }
         viewHolder.name.setText(index.getIndexName());
         viewHolder.number.setText(index.getIndexNum());
         viewHolder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -94,13 +104,14 @@ public class SetUpZuHeAdapter extends BaseAdapter{
                     viewHolder.num.setText((100-progressNum)+"%");
                     seekBar.setProgress(100-progressNum);
                     map.put(i,(100-progressNum));
+                    stockCallBack.OnBackStockPersent(i,(100-progressNum));
                     Toast.makeText(context,"您的仓位已经超过了100%",Toast.LENGTH_SHORT).show();
                 }else {
                     viewHolder.num.setText(seekBar.getProgress()+"%");
                     seekBar.setProgress(seekBar.getProgress());
                     map.put(i,seekBar.getProgress());
+                    stockCallBack.OnBackStockPersent(i,seekBar.getProgress());
                 }
-
             }
         });
 
@@ -120,4 +131,6 @@ public class SetUpZuHeAdapter extends BaseAdapter{
         TextView num;
         BubbleSeekBar seekBar;
     }
+
+
 }

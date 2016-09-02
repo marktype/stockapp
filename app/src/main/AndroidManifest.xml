@@ -87,6 +87,9 @@
             android:name=".activity.SerchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
+        <activity android:name=".activity.SerchSetUpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme"/>
         <activity
             android:name=".activity.PayActivity"
             android:screenOrientation="portrait"

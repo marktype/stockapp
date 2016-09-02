@@ -33,8 +33,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class SerchActivity extends BascActivity implements View.OnClickListener,AdapterView.OnItemClickListener{
+public class SerchSetUpActivity extends BascActivity implements View.OnClickListener,AdapterView.OnItemClickListener{
     public static final String URL_SEARCH = "search";     //不同地方传入的url不同
+    public static final String HEADINDEX = "headindx";    //股票信息
     private String url;
     private  EditText mEditTxt;
     private ListView mList;
@@ -99,7 +100,6 @@ public class SerchActivity extends BascActivity implements View.OnClickListener,
                 finish();
                 break;
             case R.id.search_txt:
-                Toast.makeText(this,"正在搜索。。",Toast.LENGTH_SHORT).show();
                 String key = mEditTxt.getText().toString();
                 SearchAsyn asyn = new SearchAsyn();
                 asyn.execute(key,url);
@@ -152,12 +152,16 @@ public class SerchActivity extends BascActivity implements View.OnClickListener,
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(this,"选择项目"+i,Toast.LENGTH_SHORT).show();
-
-        //选择后直接跳转返回
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
-        finish();
+        HeadIndex headIndex = (HeadIndex) adapterView.getAdapter().getItem(i);
+        if (headIndex.getPrice() == 0){
+            Toast.makeText(this,"该股票已停盘，不能创建",Toast.LENGTH_SHORT).show();
+        }else {
+            //选择后直接跳转返回
+            Intent intent = new Intent();
+            intent.putExtra(HEADINDEX,headIndex);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
     }
 
 
@@ -187,6 +191,7 @@ public class SerchActivity extends BascActivity implements View.OnClickListener,
                         HeadIndex index = new HeadIndex();
                         index.setIndexName(mark.get(i).getName());
                         index.setIndexNum(mark.get(i).getCode());
+                        index.setPrice(mark.get(i).getPoints());
                         list.add(index);
                     }
                     searchAdapter.setData(list);
