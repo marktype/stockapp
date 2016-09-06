@@ -455,8 +455,10 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     Gson gson = new Gson();
                     niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
                     if (niuRenListInfo.getHead().getStatus() == 0) {
-
                         getMyCollect(setMyZuHeData());
+                        mLogin.setVisibility(View.GONE);
+                    }else {
+                        mLogin.setVisibility(View.VISIBLE);
                     }
                 }
 

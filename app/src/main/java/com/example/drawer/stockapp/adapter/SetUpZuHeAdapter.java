@@ -2,6 +2,7 @@ package com.example.drawer.stockapp.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,9 +75,9 @@ public class SetUpZuHeAdapter extends BaseAdapter{
         }
 
         HeadIndex index = (HeadIndex) getItem(i);
-        map.put(i,viewHolder.seekBar.getProgress());
+
         if (index.getIndexPersent() != null&& !TextUtils.isEmpty(index.getIndexPersent())){
-            viewHolder.seekBar.setProgress(Integer.parseInt(index.getIndexPersent()));
+                viewHolder.seekBar.setProgress(Integer.parseInt(index.getIndexPersent()));
             viewHolder.num.setText(index.getIndexPersent()+"%");
         }
         viewHolder.name.setText(index.getIndexName());
@@ -100,12 +101,12 @@ public class SetUpZuHeAdapter extends BaseAdapter{
                         progressNum += map.get(key);
                     }
                 }
-                if (seekBar.getProgress()>(100-progressNum)){
-                    viewHolder.num.setText((100-progressNum)+"%");
-                    seekBar.setProgress(100-progressNum);
-                    map.put(i,(100-progressNum));
-                    stockCallBack.OnBackStockPersent(i,(100-progressNum));
-                    Toast.makeText(context,"您的仓位已经超过了100%",Toast.LENGTH_SHORT).show();
+                if (seekBar.getProgress()>(99-progressNum)){
+                    viewHolder.num.setText((99-progressNum)+"%");
+                    seekBar.setProgress(99-progressNum);
+                    map.put(i,(99-progressNum));
+                    stockCallBack.OnBackStockPersent(i,(99-progressNum));
+                    Toast.makeText(context,"您的仓位已经超过了99%",Toast.LENGTH_SHORT).show();
                 }else {
                     viewHolder.num.setText(seekBar.getProgress()+"%");
                     seekBar.setProgress(seekBar.getProgress());
@@ -116,7 +117,7 @@ public class SetUpZuHeAdapter extends BaseAdapter{
         });
 
 
-
+        map.put(i,viewHolder.seekBar.getProgress());
 
 
         return view;

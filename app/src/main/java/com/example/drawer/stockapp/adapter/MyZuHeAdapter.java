@@ -62,7 +62,11 @@ public class MyZuHeAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         NiuRenInfo info = (NiuRenInfo) getItem(i);
-        viewHolder.rate.setText("+"+info.getShouyiRate()+"%");
+        if (info.getShouyiRate()>0){
+            viewHolder.rate.setText("+"+info.getShouyiRate()+"%");
+        }else {
+            viewHolder.rate.setText(info.getShouyiRate()+"%");
+        }
         viewHolder.type.setText(info.getStockType());
         viewHolder.name.setText(info.getNiurenName());
 //        viewHolder.getNum.setText("赚钱"+(i+1)+"号机器");

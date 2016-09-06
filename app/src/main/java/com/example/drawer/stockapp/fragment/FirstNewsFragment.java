@@ -423,8 +423,11 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                     Gson gson = new Gson();
                     dynamicsInfo = gson.fromJson(message, DynamicsInfo.class);
                     if (dynamicsInfo.getHead().getStatus()==0){
+                        mBackgroud.setVisibility(View.GONE);
                         trendsAdapter.setData(initdongtaiData());
                         mDongTaiList.setAdapter(trendsAdapter);
+                    }else {
+                        mBackgroud.setVisibility(View.VISIBLE);
                     }
 
                 }

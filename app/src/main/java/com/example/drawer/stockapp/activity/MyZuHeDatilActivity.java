@@ -23,8 +23,10 @@ import com.example.drawer.stockapp.customview.chartview.MyMarkerView;
 import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.ChartInfo;
+import com.example.drawer.stockapp.model.HeadIndex;
 import com.example.drawer.stockapp.model.StarDetailInfo;
 import com.example.drawer.stockapp.model.StockBean;
+import com.example.drawer.stockapp.model.TiaoCangClass;
 import com.example.drawer.stockapp.model.TiaoCangInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
@@ -48,13 +50,13 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 牛人组合和我的组合详情
+ * 我的组合详情
  *
  */
 public class MyZuHeDatilActivity extends BascActivity implements View.OnClickListener{
     public static final String ZUHE_ID = "zuheid";
     private String[] colors = {"#FFF000","#74E7D3","#74D3E7","#51B4F3","#5173F3"};     //饼图颜色
-    private String zuheId;
+    private String zuheId,zuheName,zuheDesc;
     private RadarChart mChart;
     private ArrayList<StockBean> list;
     private CanvasView canvasView;
@@ -68,6 +70,8 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
     private RatingBar mRating;
     private RelativeLayout mTitleRelat;
     private MyListView mListView;
+    private ArrayList<HeadIndex> stockList;
+    private double remainMoney;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,8 +96,6 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         DecimalFormat df =new DecimalFormat("#0.000");   //保留三位小数
             List<StarDetailInfo.ResultBean.StockRatioBean> stock = starDetailInfo.getResult().getStockRatio();   //饼图
         StarDetailInfo.ResultBean.PorfolioInfoBean porfolioInfoBean = starDetailInfo.getResult().getPorfolioInfo();
-//        StarDetailInfo.ResultBean.AdvantageBean advantageBean = starDetailInfo.getResult().getAdvantage();
-        StarDetailInfo.ResultBean.StarInfoBean starInfoBean = starDetailInfo.getResult().getStarInfo();
         StarDetailInfo.ResultBean.AchievemntBean achievemntBean = starDetailInfo.getResult().getAchievemnt();
         StarDetailInfo.ResultBean.TransferPositionsBean transferPositionsBean = starDetailInfo.getResult().getTransferPositions();
         mLikes.setText(porfolioInfoBean.getFavorites()+"");
@@ -106,6 +108,10 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         if (porfolioInfoBean.getUserImgUrl() != null&&!TextUtils.isEmpty(porfolioInfoBean.getUserImgUrl())){
             Picasso.with(this).load(porfolioInfoBean.getUserImgUrl()).into(mStarImage);
         }
+
+        remainMoney = porfolioInfoBean.getCash();   //可用余额
+        zuheName = porfolioInfoBean.getTitle();
+        zuheDesc = porfolioInfoBean.getDesc();
 
         mNiuRenName.setText(porfolioInfoBean.getNickName());
         mLastTime.setText("（最后评估时间："+achievemntBean.getLastTime()+")");
@@ -141,6 +147,20 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
             chartList.add(info);
         }
         setCanvasData(chartList);
+        //持仓股票
+        List<StarDetailInfo.ResultBean.HoldingDetailBean> hold =  starDetailInfo.getResult().getHoldingDetail();
+        stockList = new ArrayList<>();
+        for (int i = 0;i<hold.size();i++){
+            StarDetailInfo.ResultBean.HoldingDetailBean holdDetial = hold.get(i);
+            HeadIndex headIndex = new HeadIndex();
+            headIndex.setIndexName(holdDetial.getName());
+            headIndex.setIndexNum(holdDetial.getCode());
+            headIndex.setPrice(holdDetial.getPrice());
+            headIndex.setStockNum((int) holdDetial.getVolumn());
+            headIndex.setType(1);    //标记为老仓位
+            stockList.add(headIndex);
+        }
+
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -248,7 +268,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                     Gson gson = new Gson();
                     starDetailInfo = gson.fromJson(message, StarDetailInfo.class);
                     if (starDetailInfo.getHead().getStatus()==0){
-                        setWidghtData();     //此时数据有问题，字段改变，待修改后设置
+                        setWidghtData();     //
 
                     }
 
@@ -379,8 +399,15 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.order_txt:     //
+                TiaoCangClass tiaoCangClass = new TiaoCangClass();
+                tiaoCangClass.setStockID(zuheId);
+                tiaoCangClass.setTotalMoney(remainMoney);
+                tiaoCangClass.setName(zuheName);
+                tiaoCangClass.setDesc(zuheDesc);
+                tiaoCangClass.setList(stockList);
                 Intent intent = new Intent(this, SetupZuHeActivity.class);
-                intent.putExtra(SetupZuHeActivity.TYPE,1);
+                intent.putExtra(SetupZuHeActivity.TYPE,1);     //调仓
+                intent.putExtra(SetupZuHeActivity.CHICANG_STOCK,tiaoCangClass);
                 startActivity(intent);
                 break;
         }

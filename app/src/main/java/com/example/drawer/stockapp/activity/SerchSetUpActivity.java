@@ -192,6 +192,7 @@ public class SerchSetUpActivity extends BascActivity implements View.OnClickList
                         index.setIndexName(mark.get(i).getName());
                         index.setIndexNum(mark.get(i).getCode());
                         index.setPrice(mark.get(i).getPoints());
+                        index.setType(2);    //标记为新仓位
                         list.add(index);
                     }
                     searchAdapter.setData(list);

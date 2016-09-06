@@ -60,7 +60,7 @@
                     android:layout_alignBaseline="@id/txt_name"
                     android:textSize="@dimen/my_txt_size"
                     android:padding="@dimen/margin_10dp"
-                    android:textColor="@color/circle_con_bg"
+                    android:textColorHint="@color/circle_con_bg"
                     android:background="@color/write_color"
                     android:singleLine="true"
                     android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
                     android:layout_alignBaseline="@id/jianjie_name"
                     android:textSize="@dimen/my_txt_size"
                     android:padding="@dimen/margin_10dp"
-                    android:textColor="@color/circle_con_bg"
+                    android:textColorHint="@color/circle_con_bg"
                     android:background="@color/write_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

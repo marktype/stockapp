@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 /**
  * 资讯指数对象(和精选课程、合集，推荐人信息共用)
- *  搜索信息
+ *  搜索信息    ，我的组合持仓信息
  */
 public class HeadIndex implements Parcelable {
     private String indexName;    //指数名称   （精选课程/合集名字）（推荐人名字）(我的组合添加，策略名)  (搜索名称)
@@ -13,6 +13,24 @@ public class HeadIndex implements Parcelable {
     private String indexNum;     //数量     （定制精选数量）（我的组合添加，编号）     （搜索编号）
     private String indexPersent;    //百分比     （评论人数）（由谁推荐）（我的组合添加，百分数）
     private double price;    //股票价格
+    private int stockNum;    //股票数量
+    private int type;     //老仓位和新仓位判断   1、老，2、新
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getStockNum() {
+        return stockNum;
+    }
+
+    public void setStockNum(int stockNum) {
+        this.stockNum = stockNum;
+    }
 
     public double getPrice() {
         return price;
@@ -66,6 +84,8 @@ public class HeadIndex implements Parcelable {
         dest.writeString(this.indexNum);
         dest.writeString(this.indexPersent);
         dest.writeDouble(price);
+        dest.writeInt(stockNum);
+        dest.writeInt(type);
     }
 
     public HeadIndex() {
@@ -77,6 +97,8 @@ public class HeadIndex implements Parcelable {
         this.indexNum = in.readString();
         this.indexPersent = in.readString();
         this.price = in.readDouble();
+        this.stockNum = in.readInt();
+        this.type = in.readInt();
     }
 
     public static final Parcelable.Creator<HeadIndex> CREATOR = new Parcelable.Creator<HeadIndex>() {

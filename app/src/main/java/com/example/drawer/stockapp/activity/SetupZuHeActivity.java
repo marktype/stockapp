@@ -18,6 +18,7 @@ import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.listener.StockCallBack;
 import com.example.drawer.stockapp.model.HeadIndex;
+import com.example.drawer.stockapp.model.TiaoCangClass;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.example.drawer.stockapp.utils.ShapePreferenceManager;
@@ -34,19 +35,37 @@ import java.util.HashMap;
 public class SetupZuHeActivity extends BascActivity implements View.OnClickListener{
     private String mToken;
     public static final String TYPE = "type";     //调仓还是创建
+    public static final String CHICANG_STOCK = "chicang";    //持仓所有股票,及id等信息
     private int type;
+    private double mAllMoney = 1000000;     //总资产
     private SetUpZuHeAdapter adapter;
     private MyListView mList;
+    private TextView mSrueBuild;
     private EditText mName,mJIanJie;
     private ArrayList<HeadIndex> list;
+    private TiaoCangClass tiaoCangClass;   //调仓信息
+    private int[] persentNum;      //调仓百分数
+    private double[] stockNum;     //股票数
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_zu_he);
         tintManager.setStatusBarTintResource(R.color.write_color);
         mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
-        type = getIntent().getIntExtra(TYPE,0);
         initWight();
+
+        type = getIntent().getIntExtra(TYPE,0);
+        if (type == 1){
+            mSrueBuild.setText("确认调仓");
+            tiaoCangClass = getIntent().getParcelableExtra(CHICANG_STOCK);
+            list.addAll(getTiaoCangParsent(tiaoCangClass.getList()));
+            adapter.setData(list);
+            mList.setAdapter(adapter);
+            mName.setText(tiaoCangClass.getName());
+            mJIanJie.setText(tiaoCangClass.getDesc());
+        }
+
+
     }
 
     public void initWight(){
@@ -60,7 +79,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
 
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         TextView mAddTxt = (TextView) findViewById(R.id.add_stock_txt);
-        TextView mSrueBuild = (TextView) findViewById(R.id.setup_sure_txt);
+        mSrueBuild = (TextView) findViewById(R.id.setup_sure_txt);
         mName = (EditText) findViewById(R.id.edit_name);    //组合名字
         mJIanJie = (EditText) findViewById(R.id.edit_jianjie_text);   //简介
 
@@ -72,9 +91,8 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
             public void OnBackStockPersent(int position, int persent) {
                HeadIndex headIndex = list.get(position);
                 headIndex.setIndexPersent(persent+"");
-               list.remove(position);
-                list.add(headIndex);
-                Log.d("tag","百分数------"+list.get(position).getIndexName());
+                Log.d("tag","百分数-------"+persent);
+                list.set(position,headIndex);
             }
         });
 
@@ -93,6 +111,36 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
     }
 
 
+    /**
+     * 获取调仓百分数
+     */
+    public ArrayList<HeadIndex> getTiaoCangParsent(ArrayList<HeadIndex> listHead){
+        persentNum = new int[listHead.size()];
+        stockNum = new double[listHead.size()];
+
+        ArrayList<HeadIndex> headIndices = new ArrayList<>();
+        double price = 0;     //所有股票总价
+        for (int i = 0;i<listHead.size();i++){
+           HeadIndex headIndex = listHead.get(i);
+            price += headIndex.getPrice()*headIndex.getStockNum();
+        }
+        mAllMoney = tiaoCangClass.getTotalMoney()+price;    //总价
+        Log.d("tag","mAllMoney-------"+mAllMoney);
+        //现有股票百分比
+        for (int i= 0;i<listHead.size();i++){
+            HeadIndex headIndex = listHead.get(i);
+            stockNum[i] = headIndex.getStockNum();
+            try {
+                int parsent = (int)(headIndex.getPrice()*headIndex.getStockNum()/mAllMoney*100);
+                persentNum[i] = parsent;
+                headIndex.setIndexPersent(parsent+"");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            headIndices.add(headIndex);
+        }
+        return headIndices;
+    }
 
 
     public static final int RESLUT_SURE = 1;
@@ -108,23 +156,35 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
                 startActivityForResult(intent,RESLUT_SURE);
                 break;
             case R.id.setup_sure_txt:
-                Log.d("tag","type------"+type);
                 if (type == 0){
                     String name = mName.getText().toString();
                     String jianjie = mJIanJie.getText().toString();
                     if (!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(jianjie)){
+                        Boolean flag = true;
                         for (int i = 0;i<list.size();i++) {
                             if (list.get(i).getIndexPersent() != null&& !TextUtils.isEmpty(list.get(i).getIndexPersent())){
+                            }else {
+                                flag = false;
+                                Toast.makeText(this,"股票百分比不能为空",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        if (flag){
+                            if (list.size()>0){
                                 setUpZuHe(name,jianjie,getVolume());
                             }else {
-                                Toast.makeText(this,"股票百分比不能为空",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this,"还没有添加股票，不能创建",Toast.LENGTH_SHORT).show();
                             }
                         }
                     }else {
                         Toast.makeText(this,"创建组合名字或简介不能为空",Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    TiaoCangAsyn();
+                }else if (type == 1){
+                    ArrayList<HashMap<String,String>> mapList = getTiaoVolume();
+                    if (mapList != null&&mapList.size()>0){
+                        TiaoCangAsyn(tiaoCangClass.getStockID(),mapList);
+                    }else {
+                        Toast.makeText(this,"还未进行操作，不能调仓",Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 break;
@@ -148,22 +208,20 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
     }
 
     /**
-     * 计算股票数
+     * 计算创建时股票数
      */
     private ArrayList<HashMap<String,String>> getVolume(){
         ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = format.format(date);
-        Log.d("tag","data-----"+time);
         for (int i = 0;i<list.size();i++){
             int volume = 0;
             HashMap<String,String> hasp = new HashMap<>();
             HeadIndex headIndex = list.get(i);
             if (headIndex.getIndexPersent() != null&& !TextUtils.isEmpty(headIndex.getIndexPersent())){
-                volume = (int) (((10000*Integer.parseInt(headIndex.getIndexPersent()))/(headIndex.getPrice()*100))*100);
+                volume = (int) (((mAllMoney*Integer.parseInt(headIndex.getIndexPersent())/100)/(headIndex.getPrice()*100))*100);
             }
-            Log.d("tag","volume-------"+volume);
             hasp.put("Code",headIndex.getIndexNum());
             hasp.put("Price",headIndex.getPrice()+"");
             hasp.put("Name",headIndex.getIndexName());
@@ -174,28 +232,87 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
         }
         return mapList;
     }
+
+    /**
+     * 计算调仓时股票数
+     */
+    private ArrayList<HashMap<String,String>> getTiaoVolume(){
+        ArrayList<HashMap<String,String>> mapList = new ArrayList<>();
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = format.format(date);
+
+        for (int i = 0;i<list.size();i++){
+            int volume = 0;
+            HashMap<String,String> hasp = new HashMap<>();
+            HeadIndex headIndex = list.get(i);
+            if (headIndex.getType() == 1){     //老仓位
+                int persent = Integer.parseInt(headIndex.getIndexPersent());
+                Log.d("tag","persent-----"+persent+"-----num----"+persentNum[i]);
+                if (persent == 0){
+                    hasp.put("Code",headIndex.getIndexNum());
+                    hasp.put("Price",headIndex.getPrice()+"");
+                    hasp.put("Name",headIndex.getIndexName());
+                    hasp.put("Volume",stockNum[i]+"");
+                    hasp.put("TradeTime",time);
+                    hasp.put("TradeType","Close");
+                    mapList.add(hasp);
+                }else if (persent != persentNum[i]){
+
+                    if (persent>persentNum[i]){
+                            volume = (int) (((mAllMoney*(persent-persentNum[i])/100)/(headIndex.getPrice()*100))*100);
+                        hasp.put("TradeType","Open");
+                    }else {
+                        volume = (int) (((mAllMoney*(persentNum[i]-persent)/100)/(headIndex.getPrice()*100))*100);
+                        hasp.put("TradeType","Close");
+                    }
+                    Log.d("tag","volume-------"+volume);
+                    hasp.put("Code",headIndex.getIndexNum());
+                    hasp.put("Price",headIndex.getPrice()+"");
+                    hasp.put("Name",headIndex.getIndexName());
+                    hasp.put("Volume",volume+"");
+                    hasp.put("TradeTime",time);
+                    mapList.add(hasp);
+                }
+
+
+            }else if (headIndex.getType() == 2){      //新仓位
+                if (headIndex.getIndexPersent() != null&& !TextUtils.isEmpty(headIndex.getIndexPersent())){
+                    volume = (int) (((mAllMoney*Integer.parseInt(headIndex.getIndexPersent())/100)/(headIndex.getPrice()*100))*100);
+                }
+                hasp.put("Code",headIndex.getIndexNum());
+                hasp.put("Price",headIndex.getPrice()+"");
+                hasp.put("Name",headIndex.getIndexName());
+                hasp.put("Volume",volume+"");
+                hasp.put("TradeTime",time);
+                hasp.put("TradeType","Open");
+                mapList.add(hasp);
+            }
+        }
+        return mapList;
+    }
     /**
      * 调仓
      */
-    private void TiaoCangAsyn(){
+    private void TiaoCangAsyn(final String id, final ArrayList<HashMap<String,String>> listCode){
         new AsyncTask(){
 
             @Override
             protected Object doInBackground(Object[] objects) {
                 HashMap<String, Object> map = new HashMap<>();
-                map.put("PorfolioId", "0");
-                ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
-                for (int i = 0;i<2;i++){
-                    HashMap<String,String> hasp = new HashMap<String, String>();
-                    hasp.put("Code","1");
-                    hasp.put("Price","2");
-                    hasp.put("Name","3");
-                    hasp.put("Volume","4");
-                    hasp.put("TradeTime","5");
-                    hasp.put("TradeType","Open");
-                    list.add(hasp);
-                }
-                map.put("Codes",list);
+                map.put("PorfolioId", id);
+//                ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
+//                for (int i = 0;i<2;i++){
+//                    HashMap<String,String> hasp = new HashMap<String, String>();
+//                    hasp.put("Code","1");
+//                    hasp.put("Price","2");
+//                    hasp.put("Name","3");
+//                    hasp.put("Volume","4");
+//                    hasp.put("TradeTime","5");
+//                    hasp.put("TradeType","Open");
+//                    list.add(hasp);
+//                }
+                map.put("Codes",listCode);
                 String message = HttpManager.newInstance().getHttpDataByThreeLayerArrayObject(mToken, map, HttpManager.ChangePosition_URL);
                 return message;
             }
@@ -203,6 +320,22 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                Log.d("tag","o---调仓返回信息-----"+o);
+                String message = (String) o;
+                if (!TextUtils.isEmpty(message)){
+                    try {
+                        JSONObject object = new JSONObject(message);
+                        JSONObject head = object.getJSONObject("Head");
+                        if (head.getInt("Status") == 0){
+                            Toast.makeText(SetupZuHeActivity.this,"调仓成功",Toast.LENGTH_SHORT).show();
+                            finish();
+                        }else {
+                            Toast.makeText(SetupZuHeActivity.this,"调仓失败",Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
 
             }
         }.execute();
@@ -221,19 +354,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
                 map.put("Amount", "1000000");
                 map.put("TargetReturn", "0");
                 map.put("Desc", desc);
-//                ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
-//                for (int i = 0;i<listCode.size();i++){
-//                    HashMap<String,String> hasp = new HashMap<String, String>();
-//                    hasp.put("Code","1");
-//                    hasp.put("Price","2");
-//                    hasp.put("Name","3");
-//                    hasp.put("Volume","4");
-//                    hasp.put("TradeTime","5");
-//                    hasp.put("TradeType","Open");
-//                    list.add(hasp);
-//                }
                 map.put("CodeList",listCode);
-
 
                 String message = HttpManager.newInstance().getHttpDataByThreeLayerArrayObject(mToken, map, HttpManager.CreatePorfolio_URL);
                 return message;
@@ -242,7 +363,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                Log.d("tag","o--------"+o);
+                Log.d("tag","o---创建返回-----"+o);
                 String message = (String) o;
                 if (!TextUtils.isEmpty(message)){
                     try {
