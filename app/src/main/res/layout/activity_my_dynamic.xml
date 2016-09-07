@@ -26,9 +26,14 @@
             android:padding="@dimen/margin_10dp"
             android:textSize="@dimen/title_text_size"/>
     </RelativeLayout>
+    <ScrollView
+        android:id="@+id/scoll_buttom"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <RelativeLayout
         android:id="@+id/comment_relat"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:background="@color/write_color"
         android:layout_height="@dimen/title_height">
@@ -55,14 +60,18 @@
             android:textSize="@dimen/title_text_size"
             android:inputType="text"
             android:layout_toRightOf="@id/share_img"/>
+
     </RelativeLayout>
+
+
+    </ScrollView>
     <ListView
-        android:layout_below="@id/dynamic_title"
         android:id="@+id/dynamic_list"
         android:scrollbars="none"
         android:divider="@null"
+        android:layout_below="@id/dynamic_title"
         android:listSelector="@android:color/transparent"
-        android:layout_above="@id/comment_relat"
+        android:layout_above="@id/scoll_buttom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

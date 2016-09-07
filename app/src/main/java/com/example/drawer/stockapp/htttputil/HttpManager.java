@@ -58,7 +58,7 @@ public class HttpManager {
     public static final String StrategyDetail_URL = BASE_URL + "Intelligent/StrategyDetail";      // 策略详情
     public static final String PorfolioTrades_URL = BASE_URL + "Intelligent/PorfolioTrades";      // 跟投记录
     public static final String StrategyBefor_URL = BASE_URL + "Intelligent/StrategyBefor";      // 量化策略支付前信息
-    public static final String CollectStrategy_URL = BASE_URL + "Intelligent/CollectStrategy";      // 收藏策略
+    public static final String CollectStrategy_URL = BASE_URL + "Intelligent/CollectStrategy";      // 收藏、订阅策略组合
     public static final String PayStrategy_URL = BASE_URL + "Intelligent/PayStrategy";      // 支付策略
     public static final String StarPorfolioDetail_URL = BASE_URL + "Intelligent/StarPorfolioDetail";      // 牛人组合详情
     public static final String PayPorfolio_URL = BASE_URL + "Intelligent/PayPorfolio";      // 支付组合
@@ -66,6 +66,7 @@ public class HttpManager {
     public static final String ChangePosition_URL = BASE_URL + "Intelligent/ChangePosition";      // 调仓
     public static final String ShortStrategiesList_URL = BASE_URL + "Intelligent/ShortStrategiesList";      // 策略名称列表
     public static final String CreatePorfolio_URL = BASE_URL + "Intelligent/CreatePorfolio";      // 创建组合
+    public static final String DeletePorfolio_URL = BASE_URL + "Intelligent/DeletePorfolio";      // 删除组合
     public static final String CodeHotKeys_URL = BASE_URL + "Intelligent/HotKeys";      // 热门搜索股票关键字
     public static final String FindCode_URL = BASE_URL + "Intelligent/FindCode";      // 搜索股票
     public static final String send_dynamic_URL = BASE_URL + "Dynamics/AddDynamic";      // 发布动态

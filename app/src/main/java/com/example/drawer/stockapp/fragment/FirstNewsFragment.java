@@ -76,7 +76,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private RelativeLayout mTitleRelat;
     private XListView mDongTaiList;
     private  String token;
-    private ImageView mImgHead,mMessage,mSendImg,mBackgroud;
+    private ImageView mImgHead,mMessage,mSendImg,mBackgroud,loadingFailed;
     private Boolean isFlag = false;
     private String[] images = {""};
     private String[] strings = {""};
@@ -196,10 +196,12 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
      * 获取资讯信息
      */
     public void getMessageInfo(){
+
         new AsyncTask(){
 
             @Override
             protected Object doInBackground(Object[] objects) {
+
                 String message = HttpManager.newInstance().getHttpData(HttpManager.Information_URL);
                 return message;
             }
@@ -207,6 +209,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                onLoadZx();
                 String message = (String) o;
                 Log.d("tag","message--"+message);
                 if (!TextUtils.isEmpty(message)){
@@ -225,6 +228,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         getDataZixun();   //解析数据稍后放开
                     }
 
+                }else {
+                    loadingFailed.setVisibility(View.VISIBLE);
                 }
             }
         }.execute();
@@ -246,6 +251,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
         zixunView = mInflater.inflate(R.layout.zixun_layout,null);     //资讯大框架在这儿
         dongtaiView = mInflater.inflate(R.layout.dongtai_layout,null);   //动态框架在这儿
+
+        loadingFailed = (ImageView) zixunView.findViewById(R.id.loading_failed);   //加载失败显示图
+        loadingFailed.setOnClickListener(this);
 
         viewList.add(zixunView);
         viewList.add(dongtaiView);
@@ -311,13 +319,10 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mlist.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+                getMessageInfo();
 
-                        onLoadZx();
-                    }
-                }, 2000);
+
+
             }
 
             @Override
@@ -430,6 +435,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         mBackgroud.setVisibility(View.VISIBLE);
                     }
 
+                }else {
+                    loadingFailed.setVisibility(View.VISIBLE);
                 }
             }
         }.execute();
@@ -571,6 +578,19 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             case R.id.img_no_login:   //未登录
                 intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.loading_failed:   //加载失败图片
+                switch (mPager.getCurrentItem()){
+                    case 0:
+                        loadingFailed.setVisibility(View.GONE);
+                        getMessageInfo();
+                        break;
+                    case 1:
+                        loadingFailed.setVisibility(View.GONE);
+                        dymnicesData(token);
+                        break;
+                }
+
                 break;
         }
     }

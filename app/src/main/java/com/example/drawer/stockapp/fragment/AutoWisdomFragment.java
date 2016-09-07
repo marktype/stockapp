@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +33,7 @@ import com.example.drawer.stockapp.adapter.NiuRenAdapter;
 import com.example.drawer.stockapp.customview.PagerSlidingTabStrip;
 import com.example.drawer.stockapp.customview.view.XListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
+import com.example.drawer.stockapp.listener.DeleteCallBack;
 import com.example.drawer.stockapp.model.CeLueInfo;
 import com.example.drawer.stockapp.model.CeLueListInfo;
 import com.example.drawer.stockapp.model.NiuRenInfo;
@@ -47,6 +47,9 @@ import com.scxh.slider.library.Indicators.PagerIndicator;
 import com.scxh.slider.library.SliderLayout;
 import com.scxh.slider.library.SliderTypes.BaseSliderView;
 import com.scxh.slider.library.SliderTypes.TextSliderView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -202,11 +205,11 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         mPager.setAdapter(adapter);
         tabs.setViewPager(mPager);
 
-
         //添加轮播图数据
         getSliderLayoutView(images, null);
         getSliderLayoutViewTwo(images, null);
         getSliderLayoutViewThree(images, null);
+
         //量化策略
         listView = (XListView) liangHuaZuHeView.findViewById(R.id.lianghuacelue_list);
         listView.setPullLoadEnable(true);    //设置上拉加载
@@ -217,7 +220,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         listView.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                onLoad();
+                getCelueInfo();
+
             }
 
             @Override
@@ -233,12 +237,13 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         niurenList.setOnItemClickListener(this);
         niurenList.setPullLoadEnable(true);    //设置上拉加载
         niurenList.addHeaderView(mSliderVIewTwo);
-        NiuRenAdapter niuRenAdapter = new NiuRenAdapter(getActivity());
+        final NiuRenAdapter niuRenAdapter = new NiuRenAdapter(getActivity());
         getNiuRenListData(niuRenAdapter);
         niurenList.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                onLoadNiu();
+                getNiuRenListData(niuRenAdapter);
+
             }
 
             @Override
@@ -254,14 +259,15 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         ImageView mAddImg = (ImageView) myZuHeView.findViewById(R.id.add_image);
         mLogin = (ImageView) myZuHeView.findViewById(R.id.my_zuhe_img);
         mLogin.setOnClickListener(this);
-
+        myList.setPullLoadEnable(true);    //设置上拉加载
         mAddImg.setOnClickListener(this);
         myList.setOnItemClickListener(this);
         myList.addHeaderView(mSliderVIewThree);
         myList.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                onLoadMy();
+                getMyListData();
+
             }
 
             @Override
@@ -273,7 +279,13 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         myZuHeAdapter = new MyZuHeAdapter(getActivity());
         getMyListData();
 
-
+        myZuHeAdapter.setOnClickDeleteListener(new DeleteCallBack() {
+            @Override
+            public void onDeleteId(String id) {
+                DeleteMyZuheAsyn deleteMyZuheAsyn = new DeleteMyZuheAsyn();
+                deleteMyZuheAsyn.execute(id,mToken);
+            }
+        });
 
     }
 
@@ -365,6 +377,42 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 
     }
 
+
+
+    /**
+     * 删除我的组合
+     */
+        private class DeleteMyZuheAsyn extends AsyncTask<String,Void,String>{
+
+            @Override
+            protected String doInBackground(String... strings) {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("id", strings[0]);
+                String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[1], map, HttpManager.DeletePorfolio_URL);
+                return message;
+            }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!TextUtils.isEmpty(s)){
+                try {
+                    JSONObject object = new JSONObject(s);
+                    JSONObject head = object.getJSONObject("Head");
+                    if (head.getInt("Status") == 0){
+                        getMyListData();
+                    }else {
+                        Toast.makeText(getActivity(),"删除失败",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+
     /**
      * 获取量化策略列表
      */
@@ -385,6 +433,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                onLoad();
                 String message = (String) o;
                 if (!TextUtils.isEmpty(message)) {
                     Gson gson = new Gson();
@@ -418,6 +467,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                onLoadNiu();
+
                 String message = (String) o;
                 if (!TextUtils.isEmpty(message)) {
                     Gson gson = new Gson();
@@ -485,6 +536,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 @Override
                 protected void onPostExecute(Object o) {
                     super.onPostExecute(o);
+                    onLoadMy();
+
                     String message = (String) o;
                     if (!TextUtils.isEmpty(message)) {
                         Gson gson = new Gson();
@@ -682,19 +735,26 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         }
     }
 
-
+    /**
+     * 策略组合停止加载和刷新
+     */
     private void onLoad() {
         listView.stopRefresh();
         listView.stopLoadMore();
 //        listView.setRefreshTime("刚刚");
     }
-
+    /**
+     * 牛人组合停止加载和刷新
+     */
     private void onLoadNiu() {
         niurenList.stopRefresh();
         niurenList.stopLoadMore();
 //        niurenList.setRefreshTime("刚刚");
     }
 
+    /**
+     * 我的组合停止加载和刷新
+     */
     private void onLoadMy() {
         myList.stopRefresh();
         myList.stopLoadMore();
@@ -862,7 +922,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         //当前页面被滑动时调用
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            Log.d("tag", "position---" + position + "----pooffest---" + positionOffset + "----pixel---" + positionOffsetPixels);
+//            Log.d("tag", "position---" + position + "----pooffest---" + positionOffset + "----pixel---" + positionOffsetPixels);
         }
 
         //当新的页面被选中时调用

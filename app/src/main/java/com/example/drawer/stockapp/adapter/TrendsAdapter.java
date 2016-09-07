@@ -61,7 +61,7 @@ public class TrendsAdapter extends BaseAdapter {
             viewHolder.content = (TextView) view.findViewById(R.id.dongtai_content);
             viewHolder.contentImage = (MyGridView) view.findViewById(R.id.dongtai_cntent_image);
             viewHolder.time = (TextView) view.findViewById(R.id.dongtai_time);
-            viewHolder.collect = (ImageView) view.findViewById(R.id.collect_info_img);
+//            viewHolder.collect = (ImageView) view.findViewById(R.id.collect_info_img);
             viewHolder.zhuanFaNum = (TextView) view.findViewById(R.id.dongtai_zhuanfa);
             viewHolder.commentNum = (TextView) view.findViewById(R.id.dongtai_pinglun);
             viewHolder.goodNum = (TextView) view.findViewById(R.id.dongtai_zan);
@@ -83,27 +83,27 @@ public class TrendsAdapter extends BaseAdapter {
         viewHolder.zhuanFaNum.setText(info.getZhuanFaNum()+"");
         viewHolder.commentNum.setText(info.getCommentNum()+"");
         viewHolder.goodNum.setText(info.getGoodNum()+"");
-        if (info.getCollect()){
-            viewHolder.collect.setImageResource(R.mipmap.collection_yes);
-        }else {
-            viewHolder.collect.setImageResource(R.mipmap.collection);
-        }
-
-        //收藏
-        viewHolder.collect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (info.getCollect()){
-                    viewHolder.collect.setImageResource(R.mipmap.collection);
-                    info.setCollect(false);
-                    callBack.setCollectOrLikes(i,"1");
-                }else {
-                    viewHolder.collect.setImageResource(R.mipmap.collection_yes);
-                    info.setCollect(true);
-                    callBack.setCollectOrLikes(i,"0");
-                }
-            }
-        });
+//        if (info.getCollect()){
+//            viewHolder.collect.setImageResource(R.mipmap.collection_yes);
+//        }else {
+//            viewHolder.collect.setImageResource(R.mipmap.collection);
+//        }
+//
+//        //收藏
+//        viewHolder.collect.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (info.getCollect()){
+//                    viewHolder.collect.setImageResource(R.mipmap.collection);
+//                    info.setCollect(false);
+//                    callBack.setCollectOrLikes(i,"1");
+//                }else {
+//                    viewHolder.collect.setImageResource(R.mipmap.collection_yes);
+//                    info.setCollect(true);
+//                    callBack.setCollectOrLikes(i,"0");
+//                }
+//            }
+//        });
         //转发
         viewHolder.zhuanFaNum.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +139,7 @@ public class TrendsAdapter extends BaseAdapter {
         TextView zhuanFaNum;
         TextView commentNum;
         TextView goodNum;
-        ImageView collect;
+//        ImageView collect;
     }
 
 

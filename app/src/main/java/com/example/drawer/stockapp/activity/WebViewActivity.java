@@ -1,6 +1,7 @@
 package com.example.drawer.stockapp.activity;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -14,13 +15,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.DynamicInfoAdapter;
+import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.CommnetInfo;
 import com.example.drawer.stockapp.model.NewsDetial;
@@ -34,6 +35,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +49,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
     private EditText mCommentEdit;
     private DynamicInfoAdapter adapter;
     private String mToken;
-    private ListView mList;
+    private MyListView mList;
     private CommnetInfo commnetInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +92,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         mComment = (TextView) findViewById(R.id.dongtai_pinglun);
         mLikes = (TextView) findViewById(R.id.dongtai_zan);
 
-        mList = (ListView) findViewById(R.id.dynamic_list);
+        mList = (MyListView) findViewById(R.id.dynamic_list);
         adapter = new DynamicInfoAdapter(this);
 
         mBackImg.setOnClickListener(this);
@@ -171,6 +173,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                     NewsDetial.ResultBean bean = newsDetial.getResult();
                     if (bean.getContent() != null&&!TextUtils.isEmpty(bean.getContent())){
                         mTxt.setText(Html.fromHtml(bean.getContent()));
+//                        mTxt.setText(Html.fromHtml(bean.getContent(), imageGetter, null));
                         webView.setVisibility(View.GONE);
                         mTxt.setVisibility(View.VISIBLE);
                     }else if (bean.getTargetUrl() != null&&TextUtils.isEmpty(bean.getTargetUrl()+"")){
@@ -186,6 +189,22 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
             }
         }
     }
+    Html.ImageGetter imageGetter = new Html.ImageGetter() {
+
+        public Drawable getDrawable(String source) {
+            Drawable drawable = null;
+            URL url;
+            try {
+                url = new URL(source);
+                drawable = Drawable.createFromStream(url.openStream(), "");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            return drawable;
+        }
+    };
 
     /**
      * 获取新闻评论

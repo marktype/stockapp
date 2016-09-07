@@ -4,9 +4,15 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:background="@color/write_color"
+        android:layout_height="match_parent">
+    <RelativeLayout
         android:id="@+id/zuhe_circle"
         android:orientation="vertical"
-
         android:layout_margin="@dimen/margin_10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -17,14 +23,14 @@
             android:text="+0%"
             android:textColor="@android:color/background_dark"
             android:layout_marginTop="@dimen/margin_20dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:layout_centerHorizontal="true"/>
         <TextView
             android:layout_below="@id/zuhe_persent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="总收益"
-            android:textSize="13sp"
+            android:textSize="@dimen/my_txt_size"
             android:textColor="@android:color/darker_gray"
             android:layout_marginTop="@dimen/margin_5dp"
             android:layout_centerHorizontal="true"/>
@@ -82,4 +88,5 @@
         android:padding="@dimen/margin_10dp"
         android:layout_marginRight="@dimen/margin_20dp"
         android:id="@+id/zuhe_delete"/>
+    </RelativeLayout>
 </RelativeLayout>

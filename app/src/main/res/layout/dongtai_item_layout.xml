@@ -42,15 +42,15 @@
             android:layout_toRightOf="@id/dongtai_image"
             android:layout_below="@id/dongtai_name"
             android:text="6月6号 08:36" />
-        <ImageView
-            android:id="@+id/collect_info_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/collection"
-            android:layout_alignParentRight="true"
-            android:padding="@dimen/margin_10dp"
-            android:layout_marginTop="@dimen/margin_10dp"
-            />
+        <!--<ImageView-->
+            <!--android:id="@+id/collect_info_img"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@mipmap/collection"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:padding="@dimen/margin_10dp"-->
+            <!--android:layout_marginTop="@dimen/margin_10dp"-->
+            <!--/>-->
         <TextView
             android:id="@+id/line_one"
             android:layout_width="match_parent"

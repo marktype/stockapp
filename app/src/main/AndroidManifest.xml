@@ -187,10 +187,10 @@
             android:theme="@style/MyAppTheme" />
         <activity android:name=".activity.LianghuaCelueZhaoMuZhongActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyAppTheme"></activity>
+            android:theme="@style/MyAppTheme"/>
         <activity android:name=".activity.MyZuHeDatilActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyAppTheme"></activity>
+            android:theme="@style/MyAppTheme"/>
     </application>
 
 </manifest>

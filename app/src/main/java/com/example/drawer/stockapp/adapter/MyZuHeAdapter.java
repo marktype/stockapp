@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.CanvasView;
 import com.example.drawer.stockapp.customview.CanvasViewThree;
+import com.example.drawer.stockapp.customview.CustomDialog;
+import com.example.drawer.stockapp.listener.DeleteCallBack;
 import com.example.drawer.stockapp.model.NiuRenInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
 
@@ -23,12 +25,17 @@ import java.util.HashMap;
 public class MyZuHeAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<NiuRenInfo> list;
+    private DeleteCallBack deleteCallBack;
     public MyZuHeAdapter(Context context){
         this.context = context;
     }
     public void setData(ArrayList<NiuRenInfo> list){
         this.list = list;
         notifyDataSetChanged();
+    }
+
+    public void setOnClickDeleteListener(DeleteCallBack deleteCallBack){
+        this.deleteCallBack = deleteCallBack;
     }
     @Override
     public int getCount() {
@@ -53,7 +60,7 @@ public class MyZuHeAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.my_zuhe_item_layout,null);
             viewHolder.rate = (TextView) view.findViewById(R.id.zuhe_persent);
             viewHolder.type = (TextView) view.findViewById(R.id.stock_name);
-//            viewHolder.getNum = (TextView) view.findViewById(R.id.jiqi_name);
+            viewHolder.delete = (TextView) view.findViewById(R.id.zuhe_delete);
             viewHolder.guanzhuNum = (TextView) view.findViewById(R.id.guanzhu_name);
             viewHolder.name = (TextView) view.findViewById(R.id.zuhe_name);
             viewHolder.canvasViewThree = (CanvasViewThree) view.findViewById(R.id.zuhe_canvas);
@@ -61,7 +68,7 @@ public class MyZuHeAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        NiuRenInfo info = (NiuRenInfo) getItem(i);
+        final NiuRenInfo info = (NiuRenInfo) getItem(i);
         if (info.getShouyiRate()>0){
             viewHolder.rate.setText("+"+info.getShouyiRate()+"%");
         }else {
@@ -72,7 +79,32 @@ public class MyZuHeAdapter extends BaseAdapter {
 //        viewHolder.getNum.setText("赚钱"+(i+1)+"号机器");
         viewHolder.guanzhuNum.setText(info.getTradeTime());
         viewHolder.canvasViewThree.setRadius(DensityUtils.dp2px(context,40));
-        setCanvasData(viewHolder.canvasViewThree,info.getShouyiRate());
+       if (info.getShouyiRate()<100){
+           setCanvasData(viewHolder.canvasViewThree,info.getShouyiRate());
+       }
+        viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CustomDialog dialog = new CustomDialog(context);
+                dialog.setMessageText("确认要删除组合吗？");
+                dialog.show();
+                dialog.setOnPositiveListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deleteCallBack.onDeleteId(info.getId());
+                        dialog.dismiss();
+                    }
+                });
+                dialog.setOnNegativeListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+
+            }
+        });
         return view;
     }
 
@@ -81,6 +113,7 @@ public class MyZuHeAdapter extends BaseAdapter {
         TextView type;
         TextView guanzhuNum;
         TextView name;
+        TextView delete;
         CanvasViewThree canvasViewThree;
     }
 
@@ -100,4 +133,6 @@ public class MyZuHeAdapter extends BaseAdapter {
         map.put(CanvasView.WEIGHT, weight);
         data.add(map);
     }
+
+
 }

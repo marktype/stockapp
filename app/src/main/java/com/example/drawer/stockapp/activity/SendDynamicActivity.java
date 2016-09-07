@@ -366,15 +366,13 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
                 break;
             case R.id.send_dynamic_txt:
                 String edit = mEditTxt.getText().toString();
-
-                if (!TextUtils.isEmpty(token)){
+                if (edit.length()<1){
+                    Toast.makeText(this,"你还未输入内容哦",Toast.LENGTH_SHORT).show();
+                }else if (!TextUtils.isEmpty(token)){
                     SendDynmaic(list,token,edit);
-                }else if (edit.length()<1){
-                Toast.makeText(this,"你还未输入内容哦",Toast.LENGTH_SHORT).show();
-                }else {
-                Toast.makeText(this,"你还未登录，请登录后发表",Toast.LENGTH_SHORT).show();
-            }
-
+                 }else {
+                    Toast.makeText(this,"你还未登录，请登录后发表",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.add_image:
                 showChangeBgDialog();
