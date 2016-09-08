@@ -177,7 +177,7 @@ public class ManagerUtil {
      * @return
      */
     public static MyDialog getDiaLog(Context context){
-        MyDialog dialog = new MyDialog(context, 120, 80,R.layout.progress_layout,R.style.MyDialogStyle);
+        MyDialog dialog = new MyDialog(context, 120, 80,R.layout.progress_layout,R.style.MyDialogStyleDia);
         dialog.setCancelable(true);
         dialog.show();
         return dialog;

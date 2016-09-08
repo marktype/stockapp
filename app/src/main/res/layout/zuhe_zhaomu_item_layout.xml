@@ -58,6 +58,7 @@
             android:text="免费"/>
 
         <TextView
+            android:id="@+id/fengcheng_detial"
             android:layout_width="wrap_content"
             android:textSize="@dimen/my_txt_size"
             android:layout_marginTop="@dimen/margin_10dp"

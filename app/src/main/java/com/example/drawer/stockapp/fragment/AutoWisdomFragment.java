@@ -135,6 +135,9 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         ManagerUtil.setStataBarColorWhite(getActivity(), tintManager);
 
         mToken = ShapePreferenceManager.getMySharedPreferences(getContext()).getString(ShapePreferenceManager.TOKEN,null);
+        if (!TextUtils.isEmpty(mToken)){
+            getMyListData();
+        }
     }
 
     private PagerSlidingTabStrip tabs;
@@ -277,7 +280,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         });
         myList.setOnScrollListener(null);
         myZuHeAdapter = new MyZuHeAdapter(getActivity());
-        getMyListData();
+
 
         myZuHeAdapter.setOnClickDeleteListener(new DeleteCallBack() {
             @Override
@@ -583,9 +586,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             CeLueListInfo.ResultBean.StrategiesBean ben = strategiesBeen.get(i);
 
             CeLueInfo info = new CeLueInfo();
-            if (i == 0) {
-                info.setType(1);
-            }
             info.setId(ben.getId());
             info.setCeluePersent(ben.getRecruitment());
             info.setTitle(ben.getName());
@@ -599,8 +599,16 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setEndInvestment(ben.isIsEndInvestment());      //运行是否结束
             info.setEndRecruit(ben.isIsEndRecruit());      //招募是否结束
             info.setStartInvestment(ben.isIsStartInvestment());   //运行是否结束
-//            info.setLevelImage(ben.getUserLevelImgUrl());
-            ceLueInfos.add(info);
+            if (ben.isIsStartRecruit()){   //招募中
+                info.setType(2);
+                ceLueInfos.add(info);
+            }else if (ben.isIsStartInvestment()&&ben.isIsStartRun()&&ben.getRunEndDay() == null){//运行中
+                info.setType(1);
+                ceLueInfos.add(info);
+            }else if (ben.isIsEndInvestment()||ben.getRunEndDay() != null){   //已结束
+                info.setType(3);
+                ceLueInfos.add(info);
+            }
         }
         return ceLueInfos;
     }
@@ -652,6 +660,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setShouyiRate(ben.getTotleReturns());
             info.setStockType(ben.getType());
             info.setTradeTime(ben.getFavorites() + "人 关注");
+            info.setZuheType(ben.getPorfolioChooseType());
             myInfoList.add(info);
         }
         return myInfoList;
@@ -676,16 +685,16 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         switch (adapterView.getId()) {
             case R.id.lianghuacelue_list:
                 CeLueInfo celueinfo = (CeLueInfo) adapterView.getAdapter().getItem(i);
-                if (!celueinfo.getEndInvestment()&&celueinfo.getEndRecruit()&&celueinfo.getStartInvestment()){   //运行中
+                if (celueinfo.getType() == 1){   //运行中
                     Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,"运行中"+celueinfo.getTitle());
                     startActivity(intent);
-                }else if (!celueinfo.getEndInvestment()&&!celueinfo.getEndRecruit()&&!celueinfo.getStartInvestment()){   //招募中
+                }else if (celueinfo.getType() == 2){   //招募中
                     Intent intent = new Intent(getActivity(), LianghuaCelueZhaoMuZhongActivity.class);
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
                     startActivity(intent);
-                }else if (celueinfo.getEndInvestment()&&celueinfo.getEndRecruit()&&!celueinfo.getStartInvestment()){    //已结束
+                }else if (celueinfo.getType() == 3){    //已结束
                     Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,"已结束"+celueinfo.getTitle());
@@ -703,6 +712,9 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 break;
             case R.id.my_zuhe_listview:
                 info = (NiuRenInfo) adapterView.getAdapter().getItem(i);
+                if (info.getZuheType() == 1){
+
+                }
                 intent = new Intent(getActivity(), MyZuHeDatilActivity.class);
                 intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
                 intent.putExtra(CELUENAME, "我的组合");
@@ -943,6 +955,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                         mLogin.setVisibility(View.VISIBLE);
                     }else {
                         mLogin.setVisibility(View.GONE);
+
                     }
                     listView.setOnScrollListener(null);
                     niurenList.setOnScrollListener(null);

@@ -14,7 +14,7 @@ public class CeLueInfo {
     private String headImage;    //头像
     private String name;      //名字
     private String otherInfo;    //内容
-    private int type;   //类型
+    private int type;   //类型    1，运行中   2，招募中   3，已结束
     private String levelImage;    //等级图片
     private String id;
     private Boolean IsEndInvestment;   //true  已结束

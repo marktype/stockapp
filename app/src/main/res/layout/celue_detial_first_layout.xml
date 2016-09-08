@@ -112,6 +112,15 @@
                     android:id="@+id/chicang_listview"
                     android:layout_below="@id/chicang_layout_title"
                     android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/no_data_img_chicang"
+                    android:layout_below="@id/chicang_layout_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="需要登录才能查看"
+                    android:visibility="gone"
+                    android:layout_centerHorizontal="true"
+                    android:drawableTop="@mipmap/img"/>
             </RelativeLayout>
 
             <RelativeLayout

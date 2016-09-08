@@ -14,6 +14,7 @@ import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.GenTouAdapter;
 import com.example.drawer.stockapp.customview.CanvasView;
 import com.example.drawer.stockapp.customview.CanvasViewThree;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.ChiCangInfo;
@@ -38,6 +39,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
     private MyListView mGenTouLiat;
     private CanvasViewThree canvasViewThree;
     private String LiangHuaId;    //量化id
+    private MyDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,8 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         liangHuaAsyn.execute(LiangHuaId);
         FollowAsyn followAsyn = new FollowAsyn();
         followAsyn.execute(LiangHuaId);
+
+        dialog = ManagerUtil.getDiaLog(this);
     }
 
     private void initWight(){
@@ -66,6 +70,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         mRunDay = (TextView) findViewById(R.id.run_time);    //运行天数
         mZhisunXian = (TextView) findViewById(R.id.zhi_zhun_xian);   //止损线
         mGentouMoney = (TextView) findViewById(R.id.gentou_money);   //跟投金额
+        TextView mFencheng = (TextView) findViewById(R.id.fengcheng_detial);   //分成信息
 
         mLimitMoney = (TextView) findViewById(R.id.limit_money);   //跟投总金额
         mStartMoney = (TextView) findViewById(R.id.start_price);    //起投金额
@@ -88,6 +93,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
 
         mBackimg.setOnClickListener(this);
+        mFencheng.setOnClickListener(this);
     }
 
     @Override
@@ -103,7 +109,29 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             case R.id.back_img:
                 finish();
                 break;
+            case R.id.fengcheng_detial:
+                getDiaLogInfo();
+                break;
         }
+    }
+
+    /**
+     * 分成说明
+     */
+    private void getDiaLogInfo(){
+        final MyDialog dialog = new MyDialog(this, 300, 200,R.layout.fencheng_detial_layout,R.style.MyDialogStyleDia);
+        dialog.setCancelable(true);
+        dialog.show();
+
+        View view = dialog.getView();
+        TextView ok = (TextView) view.findViewById(R.id.fencheng_sure);
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 
     /**
@@ -122,6 +150,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            dialog.dismiss();
             Log.d("tag","量化策略---详情----"+s);
             if (s != null&& !TextUtils.isEmpty(s)){
                 Gson gson = new Gson();
@@ -147,9 +176,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             StargDetial.ResultBean.StarInfoBean starInfoBean = stargDetial.getResult().getStarInfo();
             mAdvice.setText(starInfoBean.getTitle());
             mNiurenName.setText(starInfoBean.getName());
-            if (starInfoBean.getImgUrl() != null&&!TextUtils.isEmpty(starInfoBean.getImgUrl())){
-                Picasso.with(this).load(starInfoBean.getImgUrl()).into(headImg);
-            }
+            Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
             mParsent.setText(infoBean.getTargetReturns()+"%");
             setCanvasData(canvasViewThree, Double.parseDouble(infoBean.getTargetReturns()+""));
             mZuHeName.setText(infoBean.getTitle());

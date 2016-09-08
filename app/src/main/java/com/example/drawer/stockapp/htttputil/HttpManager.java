@@ -51,6 +51,7 @@ public class HttpManager {
     public static final String NewsDetail_URL = BASE_URL + "HeadLine/NewsDetail";      //  新闻详情
     public static final String News_Comment_URL = BASE_URL + "HeadLine/Comment";      //  新闻评论或转发
     public static final String CommentsList_URL = BASE_URL + "HeadLine/CommentsList";      //  评论列表
+    public static final String MarketData_URL = BASE_URL + "HeadLine/MarketData";      //  指数信息
     public static final String StrategyList_URL = BASE_URL + "Intelligent/StrategyList";      //  获取策略列表
     public static final String StarPorfolio_URL = BASE_URL + "Intelligent/StarPorfolio";      //  获取牛人组合列表
     public static final String MyPorfolio_URL = BASE_URL + "Intelligent/MyPorfolio";      //  获取我的组合列表

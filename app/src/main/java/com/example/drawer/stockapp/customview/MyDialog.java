@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,13 +26,14 @@ public class MyDialog extends Dialog {
 
     public MyDialog(Context context, int layout, int style) {
         this(context, default_width, default_height, layout, style);
-
+        mView = LayoutInflater.from(context).inflate(layout,null);
     }
 
     public MyDialog(Context context, int width, int height, int layout, int style) {
         super(context, style);
 //set content
-        setContentView(layout);
+        mView = LayoutInflater.from(context).inflate(layout,null);
+        setContentView(mView);
 
 //set window params
         Window window = getWindow();
@@ -51,5 +53,7 @@ public class MyDialog extends Dialog {
         return dm.density;
     }
 
-
+    public View getView(){
+        return mView;
+    }
 }

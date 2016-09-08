@@ -84,12 +84,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <TextView
-                    android:id="@+id/test_txt"
-                    android:background="@color/write_color"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
+                <!--<TextView-->
+                    <!--android:id="@+id/test_txt"-->
+                    <!--android:background="@color/write_color"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:visibility="gone" />-->
                 <!--<com.example.drawer.stockapp.customview.MyListView-->
                 <!--android:id="@+id/comment_listview"-->
                 <!--android:layout_width="match_parent"-->

@@ -1,7 +1,6 @@
 package com.example.drawer.stockapp.activity;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -12,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.DynamicInfoAdapter;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.CommnetInfo;
@@ -35,7 +36,6 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +51,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
     private String mToken;
     private MyListView mList;
     private CommnetInfo commnetInfo;
+    private MyDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,9 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
 
         DynamicTask dynamicTask = new DynamicTask();
         dynamicTask.execute(urlId);
+
+        // 切换页面
+        dialog = ManagerUtil.getDiaLog(this);
     }
 
     /**
@@ -82,12 +86,13 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         webView.getSettings().setLoadsImagesAutomatically(true);//auto load images
         webView.getSettings().setSupportZoom(false);
         webView.getSettings().setBuiltInZoomControls(false);//zoom
-        webView.getSettings().setUseWideViewPort(true); //auto adjust screen
+        webView.getSettings().setUseWideViewPort(false); //auto adjust screen
         webView.getSettings().setLoadWithOverviewMode(true);
+        webView.setWebChromeClient(new WebChromeClientInfo());
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
         mCommentEdit = (EditText) findViewById(R.id.dongtai_comment_edit);
-        mTxt = (TextView) findViewById(R.id.test_txt);   //文本展示
+//        mTxt = (TextView) findViewById(R.id.test_txt);   //文本展示
         mZhuanFa = (TextView) findViewById(R.id.dongtai_zhuanfa);
         mComment = (TextView) findViewById(R.id.dongtai_pinglun);
         mLikes = (TextView) findViewById(R.id.dongtai_zan);
@@ -141,7 +146,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         switch (type){
             case 1:
                 mCommentEdit.setHint("写下你的评论");
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN|WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 break;
             case 2:
                 mCommentEdit.setHint("写下你的转发内容");
@@ -172,14 +177,10 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                 if (newsDetial.getHead().getStatus() == 0){
                     NewsDetial.ResultBean bean = newsDetial.getResult();
                     if (bean.getContent() != null&&!TextUtils.isEmpty(bean.getContent())){
-                        mTxt.setText(Html.fromHtml(bean.getContent()));
-//                        mTxt.setText(Html.fromHtml(bean.getContent(), imageGetter, null));
-                        webView.setVisibility(View.GONE);
-                        mTxt.setVisibility(View.VISIBLE);
+                        //Html.fromHtml(bean.getContent()).toString()    此种转换有点奇葩，通常是不加Html.fromHtml转换的
+                        webView.loadDataWithBaseURL("about:blank", Html.fromHtml(bean.getContent()).toString(), "text/html", "utf-8",null);
                     }else if (bean.getTargetUrl() != null&&TextUtils.isEmpty(bean.getTargetUrl()+"")){
                         webView.loadUrl(bean.getTargetUrl()+"");
-                        webView.setVisibility(View.VISIBLE);
-                        mTxt.setVisibility(View.GONE);
                     }
 
                     mZhuanFa.setText(bean.getForward()+"");
@@ -189,22 +190,6 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
             }
         }
     }
-    Html.ImageGetter imageGetter = new Html.ImageGetter() {
-
-        public Drawable getDrawable(String source) {
-            Drawable drawable = null;
-            URL url;
-            try {
-                url = new URL(source);
-                drawable = Drawable.createFromStream(url.openStream(), "");
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-            return drawable;
-        }
-    };
 
     /**
      * 获取新闻评论
@@ -371,6 +356,19 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                     e.printStackTrace();
                 }
 
+            }
+        }
+    }
+
+    /**
+     * web加载进度
+     */
+    private class WebChromeClientInfo extends WebChromeClient {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            super.onProgressChanged(view, newProgress);
+            if (newProgress >= 100) {
+                dialog.dismiss();
             }
         }
     }

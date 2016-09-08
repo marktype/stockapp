@@ -13,10 +13,12 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.MyZuHeItemAdapter;
 import com.example.drawer.stockapp.customview.CanvasView;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.customview.MyScrollView;
 import com.example.drawer.stockapp.customview.chartview.MyMarkerView;
@@ -71,7 +73,8 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
     private RelativeLayout mTitleRelat;
     private MyListView mListView;
     private ArrayList<HeadIndex> stockList;
-    private double remainMoney;
+    private double remainMoney;    //余额
+    private MyDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +83,8 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         zuheId = getIntent().getStringExtra(ZUHE_ID);
         initWight();
         getStargeDetialData(zuheId);
+
+        dialog = ManagerUtil.getDiaLog(this);
     }
 
 
@@ -93,7 +98,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
      * 设置数据
      */
     public void setWidghtData(){
-        DecimalFormat df =new DecimalFormat("#0.000");   //保留三位小数
+        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
             List<StarDetailInfo.ResultBean.StockRatioBean> stock = starDetailInfo.getResult().getStockRatio();   //饼图
         StarDetailInfo.ResultBean.PorfolioInfoBean porfolioInfoBean = starDetailInfo.getResult().getPorfolioInfo();
         StarDetailInfo.ResultBean.AchievemntBean achievemntBean = starDetailInfo.getResult().getAchievemnt();
@@ -203,7 +208,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         mScrollview.setOnScrollListener(new MyScrollView.OnScrollListener() {
             @Override
             public void onScroll(int scrollY) {
-               if (scrollY>100){
+               if (scrollY>50){
                    mTitleRelat.setBackgroundResource(R.color.write_color);
                    tintManager.setStatusBarTintResource(R.color.write_color);
                }else {
@@ -246,7 +251,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
     }
 
     /**
-     * 牛人组合/我的组合详情
+     * 我的组合详情
      */
     public void getStargeDetialData(final String id){
         new AsyncTask(){
@@ -262,6 +267,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                dialog.dismiss();
                 String message = (String) o;
                 Log.d("tag","我的组合--------"+message);
                 if (!TextUtils.isEmpty(message)){
@@ -269,9 +275,9 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                     starDetailInfo = gson.fromJson(message, StarDetailInfo.class);
                     if (starDetailInfo.getHead().getStatus()==0){
                         setWidghtData();     //
-
                     }
-
+                }else {
+                    Toast.makeText(MyZuHeDatilActivity.this,"获取数据失败",Toast.LENGTH_SHORT).show();
                 }
 
             }

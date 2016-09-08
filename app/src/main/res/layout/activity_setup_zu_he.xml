@@ -60,6 +60,7 @@
                     android:layout_alignBaseline="@id/txt_name"
                     android:textSize="@dimen/my_txt_size"
                     android:padding="@dimen/margin_10dp"
+                    android:maxLength="10"
                     android:textColorHint="@color/circle_con_bg"
                     android:background="@color/write_color"
                     android:singleLine="true"
@@ -73,6 +74,7 @@
                     android:textColor="@android:color/black"
                     android:padding="@dimen/margin_10dp"
                     android:textSize="@dimen/my_txt_size"
+                    android:maxLength="30"
                     android:layout_below="@id/txt_name"/>
                 <EditText
                     android:id="@+id/edit_jianjie_text"

@@ -3,6 +3,7 @@ package com.example.drawer.stockapp.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,13 +13,16 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.LoginActivity;
@@ -37,6 +41,7 @@ import com.example.drawer.stockapp.listener.OnFragmentInteractionListener;
 import com.example.drawer.stockapp.listener.TypeCallBack;
 import com.example.drawer.stockapp.model.DynamicsInfo;
 import com.example.drawer.stockapp.model.HeadMassageInfo;
+import com.example.drawer.stockapp.model.IndexMarkInfo;
 import com.example.drawer.stockapp.model.NewsInfo;
 import com.example.drawer.stockapp.model.TrendsInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
@@ -52,6 +57,7 @@ import com.scxh.slider.library.SliderTypes.TextSliderView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +93,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private Handler mHandler;
     private int mDongTaiType;   //动态跳转类型
     private SharedPreferences sharedPreferences;
+    private ApplyHttpThread thread;
 
     public FirstNewsFragment() {
         // Required empty public constructor
@@ -119,6 +126,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         }
         mHandler = new Handler();
         sharedPreferences = ShapePreferenceManager.getMySharedPreferences(getActivity());
+
+
+
     }
 
     @Override
@@ -128,16 +138,27 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             mView = inflater.inflate(R.layout.fragment_first_news, container, false);
         initWight();
         initData();
-//        if (headMassageInfo == null){
         getMessageInfo();
 
-//        }
+        IndexAsyn indexAsyn = new IndexAsyn();
+        indexAsyn.execute();
+
+
+
+
         return mView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        isNow = true;
+        if (thread == null){
+            thread = new ApplyHttpThread();
+            thread.start();
+        }
+
+
         token = sharedPreferences.getString(ShapePreferenceManager.TOKEN,null);
         switch (mPager.getCurrentItem()){
             case 0:
@@ -287,6 +308,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 startActivity(intent);
             }
         });
+        mDongTaiList.setPullLoadEnable(true);    //设置上拉加载
         mDongTaiList.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
@@ -336,13 +358,14 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     /**
      * /初始化股票数据（资讯）
      */
-   /* public void initListData(){
+    public void initListData(List<IndexMarkInfo.ResultBean.MarketDataBean> MarketData){
 
         LinearLayout layout = (LinearLayout) mSliderVIew.findViewById(R.id.first_lin);   //scrollview下的布局
+        layout.removeAllViews();
+        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
 
-        List<HeadMassageInfo.ResultBean.MarketDataBean> marketDataBeen = headMassageInfo.getResult().getMarketData();
-        for (int i = 0;i<marketDataBeen.size();i++){
-            double addOrDec = marketDataBeen.get(i).getVariabilityPoints();
+        for (int i = 0;i<MarketData.size();i++){
+            double addOrDec = Double.parseDouble(df.format(MarketData.get(i).getVariabilityPoints()));
             LinearLayout layout1 = new LinearLayout(getActivity());
             LinearLayout.LayoutParams lay = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             lay.weight = 1;
@@ -354,7 +377,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             LinearLayout.LayoutParams aaaa = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT , LinearLayout.LayoutParams.WRAP_CONTENT);
             aaaa.setMargins(10,10,10,10);
             txt.setLayoutParams(aaaa);
-            txt.setText( marketDataBeen.get(i).getName());
+            txt.setText( MarketData.get(i).getName());
             txt.setGravity(Gravity.CENTER);
             txt.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
 
@@ -363,7 +386,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             LinearLayout.LayoutParams aaaa1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             aaaa1.setMargins(10,10,10,10);
             txt1.setLayoutParams(aaaa1);
-            txt1.setText( marketDataBeen.get(i).getPoints()+"");
+            txt1.setText( Double.parseDouble(df.format(MarketData.get(i).getPoints()))+"");
             txt1.setGravity(Gravity.CENTER);
             txt1.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
             if (addOrDec>0){
@@ -382,17 +405,17 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             txt2.setGravity(Gravity.CENTER);
             txt2.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
             if (addOrDec>0){
-                txt2.setText( "+"+addOrDec+"+"+ marketDataBeen.get(i).getVariabilityRate()+"%");
+                txt2.setText( "+"+addOrDec+"+"+ Double.parseDouble(df.format(MarketData.get(i).getVariabilityRate()))+"%");
                 txt2.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
             }else {
-                txt2.setText( ""+addOrDec+""+ marketDataBeen.get(i).getVariabilityRate()+"%");
+                txt2.setText( ""+addOrDec+""+ Double.parseDouble(df.format(MarketData.get(i).getVariabilityRate()))+"%");
                 txt2.setTextColor(getActivity().getResources().getColor(R.color.green_color));
             }
             layout1.addView(txt2);
 
             layout.addView(layout1);
         }
-    }*/
+    }
 
     protected SystemBarTintManager tintManager;
     private int mCurrentfirstVisibleItem = 0;
@@ -793,6 +816,64 @@ class ItemRecod {
                     e.printStackTrace();
                 }
 
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isNow = false;
+//        thread.interrupt();
+        thread = null;
+    }
+
+
+
+    private Boolean isNow = true;   //是否停止线程
+    /**
+     * 执行循环请求
+     */
+    private class ApplyHttpThread extends Thread{
+
+
+        @Override
+        public void run() {
+            super.run();
+            while (isNow){
+                try {
+                    Thread.sleep(7000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                IndexAsyn asyn = new IndexAsyn();
+                asyn.execute();
+            }
+        }
+    }
+
+    /**
+     * 获取指数信息
+     */
+    private class IndexAsyn extends AsyncTask<Void,Void,String>{
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            String message = HttpManager.newInstance().getHttpData(HttpManager.MarketData_URL);
+            return message;
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!TextUtils.isEmpty(s)){
+                Gson gson = new Gson();
+                IndexMarkInfo indexMarkInfo = gson.fromJson(s,IndexMarkInfo.class);
+                if (indexMarkInfo.getHead().getStatus() == 0){
+                    initListData(indexMarkInfo.getResult().getMarketData());
+                }
             }
         }
     }

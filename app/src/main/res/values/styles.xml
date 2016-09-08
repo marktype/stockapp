@@ -60,7 +60,7 @@
         <item name="android:windowNoTitle">true</item>
     </style> <!-- 自定义dialog -->
 
-    <style name="MyDialogStyle">
+    <style name="MyDialogStyleDia">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>

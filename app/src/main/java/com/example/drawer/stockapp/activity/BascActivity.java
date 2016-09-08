@@ -9,6 +9,8 @@ import android.view.WindowManager;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * 基类，几乎所有的activity都继承他
  */
@@ -46,5 +48,15 @@ public class BascActivity extends AppCompatActivity {
         win.setAttributes(winParams);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
 }

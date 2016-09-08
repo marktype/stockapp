@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.MyZuHeItemAdapter;
 import com.example.drawer.stockapp.customview.CanvasView;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.customview.MyScrollView;
 import com.example.drawer.stockapp.customview.chartview.MyMarkerView;
@@ -47,7 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 牛人组合和我的组合详情
+ * 牛人组合详情
  *
  */
 public class CelueDatilActivity extends BascActivity implements View.OnClickListener{
@@ -67,6 +68,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     private RatingBar mRating;
     private RelativeLayout mTitleRelat;
     private MyListView mListView;
+    private MyDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +77,8 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         zuheId = getIntent().getStringExtra(ZUHE_ID);
         initWight();
         getStargeDetialData(zuheId);
+
+        dialog = ManagerUtil.getDiaLog(this);
     }
 
 
@@ -88,7 +92,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
      * 设置数据
      */
     public void setWidghtData(){
-        DecimalFormat df =new DecimalFormat("#0.000");   //保留三位小数
+        DecimalFormat df =new DecimalFormat("#0.00");   //保留兩位位小数
         List<StarDetailInfo.ResultBean.StockRatioBean> stock = starDetailInfo.getResult().getStockRatio();   //饼图
         StarDetailInfo.ResultBean.PorfolioInfoBean porfolioInfoBean = starDetailInfo.getResult().getPorfolioInfo();
 //        StarDetailInfo.ResultBean.AdvantageBean advantageBean = starDetailInfo.getResult().getAdvantage();
@@ -227,7 +231,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     }
 
     /**
-     * 牛人组合/我的组合详情
+     * 牛人组合详情
      */
     public void getStargeDetialData(final String id){
         new AsyncTask(){
@@ -243,6 +247,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                dialog.dismiss();
                 String message = (String) o;
                 if (!TextUtils.isEmpty(message)){
                     Gson gson = new Gson();

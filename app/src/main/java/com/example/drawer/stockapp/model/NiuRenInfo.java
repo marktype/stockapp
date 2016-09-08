@@ -16,6 +16,24 @@ public class NiuRenInfo {
     private int dayNum;        //持股周期
     private String tradeTime;      //交易次数  （我的，关注人数）
     private String id;      //组合id    （我的id）
+    private int zuheType;    //组合类型   1跟投   2创建   其余牛人订阅
+    private int type;     //策略类型
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getZuheType() {
+        return zuheType;
+    }
+
+    public void setZuheType(int zuheType) {
+        this.zuheType = zuheType;
+    }
 
     public String getId() {
         return id;
