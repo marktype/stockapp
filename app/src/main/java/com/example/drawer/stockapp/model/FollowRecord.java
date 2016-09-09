@@ -7,19 +7,13 @@ import java.util.List;
  */
 public class FollowRecord {
 
+
     /**
      * Status : 0
      * Msg : Success
      */
 
     private HeadBean Head;
-    /**
-     * Id : 1611
-     * Name : 大涨
-     * PorfolioChooseType : 1
-     * CodeList : [{"Code":"002002.SZ","Price":6.8,"Name":"鸿达兴业","Volume":2000,"TradeTime":"2016-08-29T02:11:32Z","TradeType":0},{"Code":"002023.SZ","Price":17.45,"Name":"海特高新","Volume":1000,"TradeTime":"2016-08-29T02:11:32Z","TradeType":0}]
-     */
-
     private ResultBean Result;
 
     public HeadBean getHead() {
@@ -60,106 +54,49 @@ public class FollowRecord {
     }
 
     public static class ResultBean {
-        private int Id;
-        private String Name;
-        private int PorfolioChooseType;
         /**
-         * Code : 002002.SZ
-         * Price : 6.8
-         * Name : 鸿达兴业
-         * Volume : 2000
-         * TradeTime : 2016-08-29T02:11:32Z
-         * TradeType : 0
+         * AlongUserName : 13533638462
+         * AlongAmount : 50000
+         * AlongTime : 2016-09-08 16:37:26
          */
 
-        private List<CodeListBean> CodeList;
+        private List<AlongRecordsBean> AlongRecords;
 
-        public int getId() {
-            return Id;
+        public List<AlongRecordsBean> getAlongRecords() {
+            return AlongRecords;
         }
 
-        public void setId(int Id) {
-            this.Id = Id;
+        public void setAlongRecords(List<AlongRecordsBean> AlongRecords) {
+            this.AlongRecords = AlongRecords;
         }
 
-        public String getName() {
-            return Name;
-        }
+        public static class AlongRecordsBean {
+            private String AlongUserName;
+            private int AlongAmount;
+            private String AlongTime;
 
-        public void setName(String Name) {
-            this.Name = Name;
-        }
-
-        public int getPorfolioChooseType() {
-            return PorfolioChooseType;
-        }
-
-        public void setPorfolioChooseType(int PorfolioChooseType) {
-            this.PorfolioChooseType = PorfolioChooseType;
-        }
-
-        public List<CodeListBean> getCodeList() {
-            return CodeList;
-        }
-
-        public void setCodeList(List<CodeListBean> CodeList) {
-            this.CodeList = CodeList;
-        }
-
-        public static class CodeListBean {
-            private String Code;
-            private double Price;
-            private String Name;
-            private int Volume;
-            private String TradeTime;
-            private int TradeType;
-
-            public String getCode() {
-                return Code;
+            public String getAlongUserName() {
+                return AlongUserName;
             }
 
-            public void setCode(String Code) {
-                this.Code = Code;
+            public void setAlongUserName(String AlongUserName) {
+                this.AlongUserName = AlongUserName;
             }
 
-            public double getPrice() {
-                return Price;
+            public int getAlongAmount() {
+                return AlongAmount;
             }
 
-            public void setPrice(double Price) {
-                this.Price = Price;
+            public void setAlongAmount(int AlongAmount) {
+                this.AlongAmount = AlongAmount;
             }
 
-            public String getName() {
-                return Name;
+            public String getAlongTime() {
+                return AlongTime;
             }
 
-            public void setName(String Name) {
-                this.Name = Name;
-            }
-
-            public int getVolume() {
-                return Volume;
-            }
-
-            public void setVolume(int Volume) {
-                this.Volume = Volume;
-            }
-
-            public String getTradeTime() {
-                return TradeTime;
-            }
-
-            public void setTradeTime(String TradeTime) {
-                this.TradeTime = TradeTime;
-            }
-
-            public int getTradeType() {
-                return TradeType;
-            }
-
-            public void setTradeType(int TradeType) {
-                this.TradeType = TradeType;
+            public void setAlongTime(String AlongTime) {
+                this.AlongTime = AlongTime;
             }
         }
     }

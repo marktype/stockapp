@@ -7,8 +7,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,13 +35,8 @@ import android.widget.Toast;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.AllCanUseActivity;
 import com.example.drawer.stockapp.activity.AlterNameActivity;
-import com.example.drawer.stockapp.activity.AlterPhoneActivity;
-import com.example.drawer.stockapp.activity.AttentionActivity;
-import com.example.drawer.stockapp.activity.CollectionActivity;
-import com.example.drawer.stockapp.activity.DiYongQuanActivity;
 import com.example.drawer.stockapp.activity.ForgetPasswordActivity;
 import com.example.drawer.stockapp.activity.LoginActivity;
-import com.example.drawer.stockapp.activity.MyWalletActivity;
 import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.customview.MyReboundScrollView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -124,28 +119,28 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         mNologin = (ImageView) mView.findViewById(R.id.img_no_login);
 
         mSexTxt = (TextView) mView.findViewById(R.id.man_sex_txt);     //性别
-        scoreTxt = (TextView) mView.findViewById(R.id.score_txt);     //积分
-        mFansTxt = (TextView) mView.findViewById(R.id.fensi_num_txt);   //粉丝数
-        mAttionTxt = (TextView) mView.findViewById(R.id.foucs_txt);    //关注数
-        mCollectTxt = (TextView) mView.findViewById(R.id.collect_num_txt);   //收藏数
+//        scoreTxt = (TextView) mView.findViewById(R.id.score_txt);     //积分
+//        mFansTxt = (TextView) mView.findViewById(R.id.fensi_num_txt);   //粉丝数
+//        mAttionTxt = (TextView) mView.findViewById(R.id.foucs_txt);    //关注数
+//        mCollectTxt = (TextView) mView.findViewById(R.id.collect_num_txt);   //收藏数
         mUserName = (TextView) mView.findViewById(R.id.user_name);      //用户名
 
-        TextView mFenSi = (TextView) mView.findViewById(R.id.fensi_num_txt);
-        mFenSi.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
-        TextView mFoucs = (TextView) mView.findViewById(R.id.foucs_txt);
-        mFoucs.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));
-        TextView mCollect = (TextView) mView.findViewById(R.id.collect_num_txt);
-        mCollect.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));
+//        TextView mFenSi = (TextView) mView.findViewById(R.id.fensi_num_txt);
+//        mFenSi.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
+//        TextView mFoucs = (TextView) mView.findViewById(R.id.foucs_txt);
+//        mFoucs.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));
+//        TextView mCollect = (TextView) mView.findViewById(R.id.collect_num_txt);
+//        mCollect.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));
 
-        LinearLayout mAttention = (LinearLayout) mView.findViewById(R.id.attention_lin);    //关注
-        RelativeLayout mMyWallet = (RelativeLayout) mView.findViewById(R.id.my_wallet_lin);    //我的钱包
+//        LinearLayout mAttention = (LinearLayout) mView.findViewById(R.id.attention_lin);    //关注
+//        RelativeLayout mMyWallet = (RelativeLayout) mView.findViewById(R.id.my_wallet_lin);    //我的钱包
         RelativeLayout mName = (RelativeLayout) mView.findViewById(R.id.user_name_lin);    //修改昵称
         RelativeLayout mSex = (RelativeLayout) mView.findViewById(R.id.sex_lin);      //性别
-        LinearLayout mCollectLin = (LinearLayout) mView.findViewById(R.id.collect_lin);    //收藏
+//        LinearLayout mCollectLin = (LinearLayout) mView.findViewById(R.id.collect_lin);    //收藏
         RelativeLayout mAllCan = (RelativeLayout) mView.findViewById(R.id.all_can_lin);    //通用
         RelativeLayout mBindPhone = (RelativeLayout) mView.findViewById(R.id.bind_phone_lin);  //绑定手机号
         RelativeLayout mAlterPassword = (RelativeLayout) mView.findViewById(R.id.reset_password_lin);  //修改密码
-        RelativeLayout mMyQuan = (RelativeLayout) mView.findViewById(R.id.my_quan_lin);     //优惠券
+//        RelativeLayout mMyQuan = (RelativeLayout) mView.findViewById(R.id.my_quan_lin);     //优惠券
 
         TextView mExit = (TextView) mView.findViewById(R.id.exit_txt);    //退出
 
@@ -174,16 +169,16 @@ public class MyFragment extends Fragment implements View.OnClickListener{
 
         mSex.setOnClickListener(this);
         mName.setOnClickListener(this);
-        mMyWallet.setOnClickListener(this);
-        mAttention.setOnClickListener(this);
+//        mMyWallet.setOnClickListener(this);
+//        mAttention.setOnClickListener(this);
         circleImageView.setOnClickListener(this);
-        mCollectLin.setOnClickListener(this);
+//        mCollectLin.setOnClickListener(this);
         mAllCan.setOnClickListener(this);
         mExit.setOnClickListener(this);
         mNologin.setOnClickListener(this);
         mBindPhone.setOnClickListener(this);
         mAlterPassword.setOnClickListener(this);
-        mMyQuan.setOnClickListener(this);
+//        mMyQuan.setOnClickListener(this);
     }
 
     @Override
@@ -211,19 +206,19 @@ public class MyFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.attention_lin:
-                Intent intent = new Intent(getContext(), AttentionActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.my_wallet_lin:
-                intent = new Intent(getContext(), MyWalletActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.attention_lin:
+//                Intent intent = new Intent(getContext(), AttentionActivity.class);
+//                startActivity(intent);
+//                break;
+//            case R.id.my_wallet_lin:
+//                intent = new Intent(getContext(), MyWalletActivity.class);
+//                startActivity(intent);
+//                break;
             case R.id.user_head:
                 showChangeBgDialog();
                 break;
             case R.id.user_name_lin:
-                intent = new Intent(getContext(), AlterNameActivity.class);
+                Intent intent = new Intent(getContext(), AlterNameActivity.class);
                 startActivity(intent);
                 break;
             case R.id.sex_lin:
@@ -233,21 +228,27 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 UpdataUserIfoAsyn asyn = new UpdataUserIfoAsyn();
                 asyn.execute("Man",token);
                 mSexTxt.setText("男");
+                Drawable rightDrawable = getResources().getDrawable(R.mipmap.man);
+                rightDrawable.setBounds(0, 0, rightDrawable.getMinimumWidth(), rightDrawable.getMinimumHeight());
+                mUserName.setCompoundDrawables(null, null, rightDrawable, null);
                 mClassifyPop.dismiss();
                 break;
             case R.id.woman_txt:
                 asyn = new UpdataUserIfoAsyn();
                 asyn.execute("Woman",token);
                 mSexTxt.setText("女");
+                rightDrawable = getResources().getDrawable(R.mipmap.woman);
+                rightDrawable.setBounds(0, 0, rightDrawable.getMinimumWidth(), rightDrawable.getMinimumHeight());
+                mUserName.setCompoundDrawables(null, null, rightDrawable, null);
                 mClassifyPop.dismiss();
                 break;
             case R.id.cancel_txt:
                 mClassifyPop.dismiss();
                 break;
-            case R.id.collect_lin:
-                intent = new Intent(getContext(), CollectionActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.collect_lin:
+//                intent = new Intent(getContext(), CollectionActivity.class);
+//                startActivity(intent);
+//                break;
             case R.id.all_can_lin:
                 intent = new Intent(getContext(), AllCanUseActivity.class);
                 startActivity(intent);
@@ -260,17 +261,18 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.bind_phone_lin:
-                intent = new Intent(getContext(), AlterPhoneActivity.class);
-                startActivity(intent);
+//                intent = new Intent(getContext(), AlterPhoneActivity.class);
+//                startActivity(intent);
+                Toast.makeText(getActivity(),"请联系客服  QQ 2436899110",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.reset_password_lin:
                 intent = new Intent(getContext(), ForgetPasswordActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.my_quan_lin:
-                intent = new Intent(getContext(), DiYongQuanActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.my_quan_lin:
+//                intent = new Intent(getContext(), DiYongQuanActivity.class);
+//                startActivity(intent);
+//                break;
         }
     }
     /**
@@ -405,9 +407,9 @@ public class MyFragment extends Fragment implements View.OnClickListener{
      */
     public void parseUserInfo(UserInfo userInfo){
         if (userInfo.getHead().getStatus() == 0){
-            scoreTxt.setText(userInfo.getResult().getScore()+"");
-            mAttionTxt.setText(userInfo.getResult().getFollower()+"");
-            mFansTxt.setText(userInfo.getResult().getFans()+"");
+//            scoreTxt.setText(userInfo.getResult().getScore()+"");
+//            mAttionTxt.setText(userInfo.getResult().getFollower()+"");
+//            mFansTxt.setText(userInfo.getResult().getFans()+"");
             if (userInfo.getResult().getNickName() != null&&!TextUtils.isEmpty(userInfo.getResult().getNickName()+"")){
                 mUserName.setText(userInfo.getResult().getNickName()+"");
             }

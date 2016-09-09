@@ -15,6 +15,15 @@ public class HeadIndex implements Parcelable {
     private double price;    //股票价格
     private int stockNum;    //股票数量
     private int type;     //老仓位和新仓位判断   1、老，2、新
+    private String xuetangId;    //学堂id
+
+    public String getXuetangId() {
+        return xuetangId;
+    }
+
+    public void setXuetangId(String xuetangId) {
+        this.xuetangId = xuetangId;
+    }
 
     public int getType() {
         return type;
@@ -86,6 +95,7 @@ public class HeadIndex implements Parcelable {
         dest.writeDouble(price);
         dest.writeInt(stockNum);
         dest.writeInt(type);
+        dest.writeString(xuetangId);
     }
 
     public HeadIndex() {
@@ -99,6 +109,7 @@ public class HeadIndex implements Parcelable {
         this.price = in.readDouble();
         this.stockNum = in.readInt();
         this.type = in.readInt();
+        this.xuetangId = in.readString();
     }
 
     public static final Parcelable.Creator<HeadIndex> CREATOR = new Parcelable.Creator<HeadIndex>() {

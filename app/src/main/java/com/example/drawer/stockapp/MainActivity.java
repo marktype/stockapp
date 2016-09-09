@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +20,7 @@ import com.example.drawer.stockapp.activity.UserInfoActivity;
 import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.fragment.FirstNewsFragment;
 import com.example.drawer.stockapp.fragment.MyFragment;
-import com.example.drawer.stockapp.fragment.SchoolFragment;
+import com.example.drawer.stockapp.fragment.XueTangFragment;
 import com.example.drawer.stockapp.listener.OnFragmentInteractionListener;
 
 public class MainActivity extends BascActivity implements OnFragmentInteractionListener,View.OnClickListener {
@@ -87,39 +89,33 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(setTabMenu("头条", R.drawable.tab_item1_selector)), FirstNewsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(setTabMenu("智能投顾", R.drawable.tab_item2_selector)), AutoWisdomFragment.class, null);
 //        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(setTabMenu("自选股", R.drawable.tab_item3_selector)), AutoStockFragment.class, null);   //暂时隐藏
-        tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(setTabMenu("学堂", R.drawable.tab_item4_selector)), SchoolFragment.class, null);
+//        tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(setTabMenu("学堂", R.drawable.tab_item4_selector)), SchoolFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(setTabMenu("学堂", R.drawable.tab_item4_selector)), XueTangFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab5").setIndicator(setTabMenu("我的", R.drawable.tab_item5_selector)), MyFragment.class, null);
 
         tabHost.getTabWidget().setDividerDrawable(null);     //去除tab之间的分割线
-
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String s) {
+                switch (s){
+                    case "tab1":
+                        tintManager.setStatusBarTintResource(android.R.color.transparent);
+                        break;
+                    case "tab2":
+                        tintManager.setStatusBarTintResource(android.R.color.transparent);
+                        break;
+                    case "tab4":
+                        tintManager.setStatusBarTintResource(R.color.write_color);
+                        break;
+                    case "tab5":
+                        tintManager.setStatusBarTintResource(android.R.color.transparent);
+                        break;
+                }
+            }
+        });
 
     }
 
-
-
-
-//    /**
-//     * 销毁activity的时候注销广播
-//     */
-//
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        unregisterReceiver(select);
-//    }
-//
-//    /**
-//     * 广播接收者
-//     */
-//    private BroadcastReceiver select = new BroadcastReceiver() {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            Log.d("tag","------------------");
-//            tabHost.setCurrentTab(0);//tabhost位于第一个界面；
-//        }
-//
-//    };
 
 
     private long mExitTime;

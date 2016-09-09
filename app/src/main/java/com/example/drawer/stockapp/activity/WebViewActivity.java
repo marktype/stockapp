@@ -66,6 +66,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         DynamicTask dynamicTask = new DynamicTask();
         dynamicTask.execute(urlId);
 
+        initSoftWindow(type);
         // 切换页面
         dialog = ManagerUtil.getDiaLog(this);
     }
@@ -89,6 +90,8 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         webView.getSettings().setUseWideViewPort(false); //auto adjust screen
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.setWebChromeClient(new WebChromeClientInfo());
+
+        RelativeLayout mLayout = (RelativeLayout) findViewById(R.id.pinglun_relat);    //评论选项
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
         mCommentEdit = (EditText) findViewById(R.id.dongtai_comment_edit);
@@ -144,9 +147,13 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
      */
     public void initSoftWindow(int type){
         switch (type){
-            case 1:
+            case 0:
                 mCommentEdit.setHint("写下你的评论");
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                break;
+            case 1:
+                mCommentEdit.setHint("写下你的评论");
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN|WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 break;
             case 2:
                 mCommentEdit.setHint("写下你的转发内容");
@@ -311,7 +318,8 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                             Toast.makeText(WebViewActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(WebViewActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
-                            finish();
+                            DynamicTask dynamicTask = new DynamicTask();
+                            dynamicTask.execute(urlId);
                         }
                     }
                 } catch (JSONException e) {

@@ -46,21 +46,25 @@ public class HttpManager {
     public static final String TEST_URL = BASE_URL + "quant/ProductList";      //测试地址
     public static final String SHARE_LIST_URL = BASE_URL + "Dynamics/StartShareList";      //牛人分享列表
     public static final String COMMENT_LIST_URL = BASE_URL + "Dynamics/ShareCommentsList";      //评论列表
+    public static final String DeleteDynamic_URL = BASE_URL + "Dynamics/DeleteDynamic";      //删除自己的动态
     public static final String StatementDetail_URL = BASE_URL + "Financial/StatementDetail";      //
     public static final String Information_URL = BASE_URL + "HeadLine/Information";      //  一级界面资讯
     public static final String NewsDetail_URL = BASE_URL + "HeadLine/NewsDetail";      //  新闻详情
     public static final String News_Comment_URL = BASE_URL + "HeadLine/Comment";      //  新闻评论或转发
     public static final String CommentsList_URL = BASE_URL + "HeadLine/CommentsList";      //  评论列表
     public static final String MarketData_URL = BASE_URL + "HeadLine/MarketData";      //  指数信息
+    public static final String BannerList_URL = BASE_URL + "HeadLine/BannerList";      //  获取banner图片
+    public static final String NewsList_URL = BASE_URL + "HeadLine/NewsList";      //  获取列表
     public static final String StrategyList_URL = BASE_URL + "Intelligent/StrategyList";      //  获取策略列表
     public static final String StarPorfolio_URL = BASE_URL + "Intelligent/StarPorfolio";      //  获取牛人组合列表
     public static final String MyPorfolio_URL = BASE_URL + "Intelligent/MyPorfolio";      //  获取我的组合列表
     public static final String MyCollectPorfolio_URL = BASE_URL + "Intelligent/MyCollectPorfolio";      //  获取我的订阅、收藏列表
     public static final String StrategyDetail_URL = BASE_URL + "Intelligent/StrategyDetail";      // 策略详情
-    public static final String PorfolioTrades_URL = BASE_URL + "Intelligent/PorfolioTrades";      // 跟投记录
+    public static final String AlongRecords_URL = BASE_URL + "Intelligent/AlongRecords";      // 跟投记录
     public static final String StrategyBefor_URL = BASE_URL + "Intelligent/StrategyBefor";      // 量化策略支付前信息
     public static final String CollectStrategy_URL = BASE_URL + "Intelligent/CollectStrategy";      // 收藏、订阅策略组合
-    public static final String PayStrategy_URL = BASE_URL + "Intelligent/PayStrategy";      // 支付策略
+    public static final String PayStrategy_URL = BASE_URL + "Intelligent/PayStrategy";      // 跟投策略
+    public static final String CancelAlong_URL = BASE_URL + "Intelligent/CancelAlong";      // 取消跟头
     public static final String StarPorfolioDetail_URL = BASE_URL + "Intelligent/StarPorfolioDetail";      // 牛人组合详情
     public static final String PayPorfolio_URL = BASE_URL + "Intelligent/PayPorfolio";      // 支付组合
     public static final String CodeList_URL = BASE_URL + "Intelligent/CodeList";      // 股票名称列表
@@ -100,6 +104,7 @@ public class HttpManager {
     public static final String ArticleList_URL = BASE_URL + "QuantCollege/ArticleList";      //文章列表
     public static final String ArticleDetails_URL = BASE_URL + "QuantCollege/ArticleDetails";      //获取文章详细
     public static final String Information_School_URL = BASE_URL + "School/Information";      //一级界面资讯
+    public static final String CourseInfoList_URL = BASE_URL + "School/CourseInfoList";      //学堂列表
     public static final String My_School_URL = BASE_URL + "School/MyInformation";      //我的课堂列表
     public static final String CourseCommentsInfo_URL = BASE_URL + "School/CourseCommentsInfo";      //评论转发列表
     public static final String CourseDetail_URL = BASE_URL + "School/CourseDetail";      //课堂详情
@@ -204,7 +209,7 @@ public class HttpManager {
             e.printStackTrace();
         }
         String str = kk.toString();
-
+        Log.d("tag","str-----"+str);
         RequestBody formBody = RequestBody.create(JSON, str);
         OkHttpClient mOkHttpClient = new OkHttpClient();
 //        mOkHttpClient.newBuilder().connectTimeout(10000, TimeUnit.MILLISECONDS);      //设置链接超时

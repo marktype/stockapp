@@ -186,110 +186,110 @@
             android:layout_marginRight="@dimen/margin_15dp"
             android:background="@color/circle_con_bg" />
 
-        <RelativeLayout
-            android:id="@+id/my_point_lin"
-            style="@style/MyInfoStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/line_five">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/my_point_lin"-->
+            <!--style="@style/MyInfoStyle"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/line_five">-->
 
-            <TextView
-                android:id="@+id/my_point"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/my_point_txt"
-                android:textSize="@dimen/my_txt_size"
-                android:textColor="@android:color/background_dark" />
+            <!--<TextView-->
+                <!--android:id="@+id/my_point"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/my_point_txt"-->
+                <!--android:textSize="@dimen/my_txt_size"-->
+                <!--android:textColor="@android:color/background_dark" />-->
 
-            <TextView
-                android:id="@+id/score_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:drawablePadding="@dimen/margin_10dp"
-                android:text="" />
-        </RelativeLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/score_txt"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:drawablePadding="@dimen/margin_10dp"-->
+                <!--android:text="" />-->
+        <!--</RelativeLayout>-->
 
-        <TextView
-            android:id="@+id/line_six"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/my_point_lin"
-            android:layout_marginLeft="@dimen/margin_15dp"
-            android:layout_marginRight="@dimen/margin_15dp"
-            android:background="@color/circle_con_bg" />
+        <!--<TextView-->
+            <!--android:id="@+id/line_six"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:layout_below="@id/my_point_lin"-->
+            <!--android:layout_marginLeft="@dimen/margin_15dp"-->
+            <!--android:layout_marginRight="@dimen/margin_15dp"-->
+            <!--android:background="@color/circle_con_bg" />-->
 
-        <RelativeLayout
-            android:id="@+id/my_wallet_lin"
-            style="@style/MyInfoStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/line_six">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/my_wallet_lin"-->
+            <!--style="@style/MyInfoStyle"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/line_six">-->
 
-            <TextView
-                android:id="@+id/my_wallet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/my_wallet_txt"
-                android:textSize="@dimen/my_txt_size"
-                android:textColor="@android:color/background_dark" />
+            <!--<TextView-->
+                <!--android:id="@+id/my_wallet"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/my_wallet_txt"-->
+                <!--android:textSize="@dimen/my_txt_size"-->
+                <!--android:textColor="@android:color/background_dark" />-->
 
-            <ImageView
-                android:id="@+id/img_three"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@mipmap/arrowright" />
-        </RelativeLayout>
+            <!--<ImageView-->
+                <!--android:id="@+id/img_three"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:src="@mipmap/arrowright" />-->
+        <!--</RelativeLayout>-->
 
-        <TextView
-            android:id="@+id/line_seven"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/my_wallet_lin"
-            android:layout_marginLeft="@dimen/margin_15dp"
-            android:layout_marginRight="@dimen/margin_15dp"
-            android:background="@color/circle_con_bg" />
+        <!--<TextView-->
+            <!--android:id="@+id/line_seven"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:layout_below="@id/my_wallet_lin"-->
+            <!--android:layout_marginLeft="@dimen/margin_15dp"-->
+            <!--android:layout_marginRight="@dimen/margin_15dp"-->
+            <!--android:background="@color/circle_con_bg" />-->
 
-        <RelativeLayout
-            android:id="@+id/my_quan_lin"
-            style="@style/MyInfoStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/line_seven">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/my_quan_lin"-->
+            <!--style="@style/MyInfoStyle"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/line_seven">-->
 
-            <TextView
-                android:id="@+id/my_quan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/my_quan_txt"
-                android:textSize="@dimen/my_txt_size"
-                android:textColor="@android:color/background_dark" />
+            <!--<TextView-->
+                <!--android:id="@+id/my_quan"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/my_quan_txt"-->
+                <!--android:textSize="@dimen/my_txt_size"-->
+                <!--android:textColor="@android:color/background_dark" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:drawablePadding="@dimen/margin_10dp"
-                android:drawableRight="@mipmap/arrowright"
-                android:text="" />
-        </RelativeLayout>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:drawablePadding="@dimen/margin_10dp"-->
+                <!--android:drawableRight="@mipmap/arrowright"-->
+                <!--android:text="" />-->
+        <!--</RelativeLayout>-->
 
-        <TextView
-            android:id="@+id/line_eight"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/my_quan_lin"
-            android:layout_marginLeft="@dimen/margin_15dp"
-            android:layout_marginRight="@dimen/margin_15dp"
-            android:background="@color/circle_con_bg" />
+        <!--<TextView-->
+            <!--android:id="@+id/line_eight"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:layout_below="@id/my_quan_lin"-->
+            <!--android:layout_marginLeft="@dimen/margin_15dp"-->
+            <!--android:layout_marginRight="@dimen/margin_15dp"-->
+            <!--android:background="@color/circle_con_bg" />-->
 
         <RelativeLayout
             android:id="@+id/all_can_lin"
             style="@style/MyInfoStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/line_eight">
+            android:layout_below="@id/line_five">
 
             <TextView
                 android:id="@+id/all_can"

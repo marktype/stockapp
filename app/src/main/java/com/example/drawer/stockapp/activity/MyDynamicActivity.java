@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.DynamicInfoAdapter;
 import com.example.drawer.stockapp.adapter.ImageAdapter;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyGridView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.CommnetInfo;
@@ -50,6 +51,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
     private int type;     //跳转类型
     private EditText mCommentEdit;
     private String mToken;
+    private MyDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         initSoftWindow(type);
         DynamicTask task = new DynamicTask();
         task.execute();
+        dialog = ManagerUtil.getDiaLog(this);
     }
 
     public void initWight(){
@@ -179,6 +182,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            dialog.dismiss();
             String message = s;
             if (!TextUtils.isEmpty(message)){
                 Gson gson = new Gson();

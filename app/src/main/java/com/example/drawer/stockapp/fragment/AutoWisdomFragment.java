@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
@@ -33,7 +35,6 @@ import com.example.drawer.stockapp.adapter.NiuRenAdapter;
 import com.example.drawer.stockapp.customview.PagerSlidingTabStrip;
 import com.example.drawer.stockapp.customview.view.XListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
-import com.example.drawer.stockapp.listener.DeleteCallBack;
 import com.example.drawer.stockapp.model.CeLueInfo;
 import com.example.drawer.stockapp.model.CeLueListInfo;
 import com.example.drawer.stockapp.model.NiuRenInfo;
@@ -47,9 +48,6 @@ import com.scxh.slider.library.Indicators.PagerIndicator;
 import com.scxh.slider.library.SliderLayout;
 import com.scxh.slider.library.SliderTypes.BaseSliderView;
 import com.scxh.slider.library.SliderTypes.TextSliderView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -69,6 +67,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static final String CELUENAME = "celuename";
+    public static final String ZUHETYPE = "type";
     private View mView, liangHuaZuHeView, niuRenZuHeView, myZuHeView, mSliderVIew, mSliderVIewTwo, mSliderVIewThree;
     private ViewPager mPager;
     private RadioButton mLiangHuaCelue, mNiuRenZuHe, mMyZuHe;
@@ -137,6 +136,9 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         mToken = ShapePreferenceManager.getMySharedPreferences(getContext()).getString(ShapePreferenceManager.TOKEN,null);
         if (!TextUtils.isEmpty(mToken)){
             getMyListData();
+            mLogin.setVisibility(View.GONE);
+        }else {
+            mLogin.setVisibility(View.VISIBLE);
         }
     }
 
@@ -146,6 +148,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      * 初始化控件
      */
     public void initWight() {
+
+
 
         mTitle = (RelativeLayout) mView.findViewById(R.id.all_title);
         //设置距离顶部状态栏高度
@@ -259,11 +263,11 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 
         //我的组合
         myList = (XListView) myZuHeView.findViewById(R.id.my_zuhe_listview);
-        ImageView mAddImg = (ImageView) myZuHeView.findViewById(R.id.add_image);
+//        ImageView mAddImg = (ImageView) myZuHeView.findViewById(R.id.add_image);
         mLogin = (ImageView) myZuHeView.findViewById(R.id.my_zuhe_img);
         mLogin.setOnClickListener(this);
         myList.setPullLoadEnable(true);    //设置上拉加载
-        mAddImg.setOnClickListener(this);
+//        mAddImg.setOnClickListener(this);
         myList.setOnItemClickListener(this);
         myList.addHeaderView(mSliderVIewThree);
         myList.setXListViewListener(new XListView.IXListViewListener() {
@@ -281,14 +285,12 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         myList.setOnScrollListener(null);
         myZuHeAdapter = new MyZuHeAdapter(getActivity());
 
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_zuhe_layout,null);
+        TextView mAddZuhe = (TextView) view.findViewById(R.id.add_image_txt);
+        myList.addFooterView(view);
 
-        myZuHeAdapter.setOnClickDeleteListener(new DeleteCallBack() {
-            @Override
-            public void onDeleteId(String id) {
-                DeleteMyZuheAsyn deleteMyZuheAsyn = new DeleteMyZuheAsyn();
-                deleteMyZuheAsyn.execute(id,mToken);
-            }
-        });
+        mAddZuhe.setOnClickListener(this);
+
 
     }
 
@@ -378,41 +380,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 //        mSliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);  //将小圆点设置到右下方
         mSliderLayout.setCustomIndicator(pagerIndicator);  //将小圆点设置到右下方(自定义控件指示器)
 
-    }
-
-
-
-    /**
-     * 删除我的组合
-     */
-        private class DeleteMyZuheAsyn extends AsyncTask<String,Void,String>{
-
-            @Override
-            protected String doInBackground(String... strings) {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("id", strings[0]);
-                String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[1], map, HttpManager.DeletePorfolio_URL);
-                return message;
-            }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if (!TextUtils.isEmpty(s)){
-                try {
-                    JSONObject object = new JSONObject(s);
-                    JSONObject head = object.getJSONObject("Head");
-                    if (head.getInt("Status") == 0){
-                        getMyListData();
-                    }else {
-                        Toast.makeText(getActivity(),"删除失败",Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
     }
 
 
@@ -510,9 +477,11 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
                     if (niuRenListInfo.getHead().getStatus() == 0) {
                         getMyCollect(setMyZuHeData());
-                        mLogin.setVisibility(View.GONE);
                     }else {
-                        mLogin.setVisibility(View.VISIBLE);
+                        if (myInfoList == null){
+                            myInfoList = new ArrayList<>();   //我的组合信息
+                        }
+                        getMyCollect(myInfoList);
                     }
                 }
 
@@ -569,7 +538,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setNiurenName(ben.getTitle());
             info.setShouyiRate(ben.getTotleReturns());
             info.setStockType(ben.getType());
-            info.setTradeTime(ben.getFavorites() + "人 关注");
+            info.setZuheType(ben.getPorfolioChooseType());
+            info.setTradeTime(ben.getFavorites()+"");
             niurenList.add(info);
         }
         myZuHeAdapter.setData(niurenList);
@@ -650,7 +620,9 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      * @return
      */
     public ArrayList<NiuRenInfo> setMyZuHeData() {
-        myInfoList = new ArrayList<>();
+
+        myInfoList = new ArrayList<>();   //我的组合信息
+
         List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfo.getResult().getStrategies();
         for (int i = 0; i < starPorfolioBeen.size(); i++) {
             NiuRenListInfo.ResultBean.StrategiesBean ben = starPorfolioBeen.get(i);
@@ -707,18 +679,30 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 NiuRenInfo info = (NiuRenInfo) adapterView.getAdapter().getItem(i);
                 Intent intent = new Intent(getActivity(), CelueDatilActivity.class);
                 intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
-                intent.putExtra(CELUENAME, "牛人组合");
+                intent.putExtra(CELUENAME, info.getNiurenName());
                 startActivity(intent);
                 break;
             case R.id.my_zuhe_listview:
                 info = (NiuRenInfo) adapterView.getAdapter().getItem(i);
-                if (info.getZuheType() == 1){
-
+                Log.d("tag","type-------"+info.getZuheType());
+                if (info.getZuheType() == 1){    //跟投
+                    intent = new Intent(getActivity(), CelueDatilActivity.class);
+                    intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
+                    intent.putExtra(CELUENAME, info.getNiurenName());
+                    intent.putExtra(ZUHETYPE,"1");
+                    startActivity(intent);
+                }else if (info.getZuheType() == 2){   //创建
+                    intent = new Intent(getActivity(), MyZuHeDatilActivity.class);
+                    intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
+                    intent.putExtra(CELUENAME, info.getNiurenName());
+                    startActivity(intent);
+                }else {    //订阅
+                    intent = new Intent(getActivity(), CelueDatilActivity.class);
+                    intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
+                    intent.putExtra(CELUENAME, info.getNiurenName());
+                    intent.putExtra(ZUHETYPE,"3");
+                    startActivity(intent);
                 }
-                intent = new Intent(getActivity(), MyZuHeDatilActivity.class);
-                intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
-                intent.putExtra(CELUENAME, "我的组合");
-                startActivity(intent);
                 break;
         }
     }
@@ -735,7 +719,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 intent.putExtra(SerchActivity.URL_SEARCH,HttpManager.FindCode_URL);
                 startActivity(intent);
                 break;
-            case R.id.add_image:
+            case R.id.add_image_txt:
                 intent = new Intent(getActivity(), SetupZuHeActivity.class);
                 intent.putExtra(SetupZuHeActivity.TYPE,0);
                 startActivity(intent);
@@ -951,6 +935,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     myList.setOnScrollListener(null);
                     break;
                 case 2:
+                    Log.d("tag","yoken------"+mToken);
                     if (TextUtils.isEmpty(mToken)){
                         mLogin.setVisibility(View.VISIBLE);
                     }else {

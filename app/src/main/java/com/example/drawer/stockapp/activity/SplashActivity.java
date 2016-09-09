@@ -2,8 +2,10 @@ package com.example.drawer.stockapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -14,8 +16,7 @@ import com.example.drawer.stockapp.adapter.SplashViewpagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class LaunchActivity extends Activity {
+public class SplashActivity extends BascActivity {
     private ViewPager vp_plash;
     private LinearLayout ll_point_container;
     private SplashViewpagerAdapter splashViewpagerAdapter;
@@ -23,7 +24,9 @@ public class LaunchActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
         setContentView(R.layout.activity_launch);
         initWight();
     }
@@ -33,10 +36,9 @@ public class LaunchActivity extends Activity {
         ll_point_container = (LinearLayout) findViewById(R.id.ll_point_container);
         splashImageResourceIdList = new ArrayList<>();
         final List<ImageView> imageViews = new ArrayList<>();
-        splashImageResourceIdList.add(R.mipmap.wallhaven);
-        splashImageResourceIdList.add(R.mipmap.wallhaven);
-        splashImageResourceIdList.add(R.mipmap.wallhaven);
-        splashImageResourceIdList.add(R.mipmap.wallhaven);
+        splashImageResourceIdList.add(R.mipmap.splash_1);
+        splashImageResourceIdList.add(R.mipmap.splash_2);
+        splashImageResourceIdList.add(R.mipmap.splash_3);
         for (int i = 0; i < splashImageResourceIdList.size(); i++) {
             ImageView addView = new ImageView(this);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -66,8 +68,10 @@ public class LaunchActivity extends Activity {
                 }
                 imageViews.get(position).setImageResource(R.mipmap.pager_dot_selected);
                 if (position + 1 == splashImageResourceIdList.size()) {
-                    Intent intent = new Intent(LaunchActivity.this,MainActivity.class);
+                    Intent intent = new Intent(SplashActivity.this,MainActivity.class);
                     startActivity(intent);
+                    initSp();
+                    finish();
                 }
             }
             @Override
@@ -77,5 +81,16 @@ public class LaunchActivity extends Activity {
         });
     }
 
+    private void initSp() {
+        //实例化SharedPreferences对象（第一步）
+        SharedPreferences mySharedPreferences = getSharedPreferences("launch",
+                Activity.MODE_PRIVATE);
+        //实例化SharedPreferences.Editor对象（第二步）
 
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        //用putString的方法保存数据
+        editor.putInt("first", 1);
+        //提交当前数据
+        editor.commit();
+    }
 }

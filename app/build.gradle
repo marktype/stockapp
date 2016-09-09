@@ -31,6 +31,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':imageSlider_viktor_library')
     compile project(':oneKeyShareNew')
+    compile files('libs/jpush-android-2.1.9.jar')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
@@ -40,5 +41,4 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
-    compile files('libs/jpush-android-2.1.9.jar')
 }

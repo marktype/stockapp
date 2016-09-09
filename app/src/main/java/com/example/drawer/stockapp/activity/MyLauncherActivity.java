@@ -16,11 +16,13 @@ public class MyLauncherActivity extends Activity {
          */
         int first = mySharedPreferences.getInt("first", 0);//
         if (first == 0) {
-            Intent intent = new Intent(MyLauncherActivity.this, LaunchActivity.class);//这个activity是没改吗?没我把他的名字重新命名,以及纳米改名怎么搞
+            Intent intent = new Intent(MyLauncherActivity.this, SplashActivity.class);//这个activity是没改吗?没我把他的名字重新命名,以及纳米改名怎么搞
             startActivity(intent);
             finish();
         } else {
-            Intent intent = new Intent(MyLauncherActivity.this, HomeLauncherActivity.class);
+//            Intent intent = new Intent(MyLauncherActivity.this, MainTab.class);
+            Intent   intent = new Intent(MyLauncherActivity.this, HomeLauncherActivity.class);
+
             startActivity(intent);
             finish();
         }

@@ -267,8 +267,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
         tintManager = ManagerUtil.newInstance(getActivity());
         tintManager.setStatusBarTintEnabled(true);
-        mTitleRelat.setBackgroundResource(R.color.write_color);
         tintManager.setStatusBarTintResource(R.color.write_color);
+        mTitleRelat.setBackgroundResource(R.color.write_color);
 
         zixunView = mInflater.inflate(R.layout.zixun_layout,null);     //资讯大框架在这儿
         dongtaiView = mInflater.inflate(R.layout.dongtai_layout,null);   //动态框架在这儿
@@ -748,7 +748,7 @@ class ItemRecod {
                     mlist.setOnScrollListener(null);     //此处为了不让滚动监听事件冲突
                     mDongTaiList.setOnScrollListener(FirstNewsFragment.this);
                     mTitleRelat.getBackground().setAlpha(255);
-                    tintManager.setTintAlpha(1);
+                    tintManager.setStatusBarTintResource(R.color.write_color);
                     mImgHead.setImageResource(R.mipmap.message_black);
                     mMessage.setImageResource(R.mipmap.searchblack);
                     ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
@@ -875,6 +875,49 @@ class ItemRecod {
                     initListData(indexMarkInfo.getResult().getMarketData());
                 }
             }
+        }
+    }
+
+    /**
+     * 获取banner图
+     */
+    private class GetBannerInfo extends AsyncTask<Void,Void,String>{
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("PageIndex", "0");
+            map.put("PageCount", "0");
+            map.put("PageSize", "0");
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer("", map, HttpManager.BannerList_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
+
+    /**
+     * 获取新闻列表
+     */
+    private class GetNewsListAsyn extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("PageIndex", "0");
+            map.put("PageCount", "0");
+            map.put("PageSize", "0");
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer("", map, HttpManager.NewsList_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
         }
     }
 }

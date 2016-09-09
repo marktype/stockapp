@@ -39,9 +39,9 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/MyAppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MyLauncherActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme">
@@ -51,6 +51,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme"></activity>
+        <activity android:name=".activity.HomeLauncherActivity"></activity>
+        <activity android:name=".activity.SplashActivity"></activity>
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -186,6 +193,7 @@
         <activity
             android:name=".activity.WebViewActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateVisible"
             android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.CelueDatilActivity"

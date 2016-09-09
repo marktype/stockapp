@@ -57,7 +57,7 @@ public class ImageAdapter extends BaseAdapter{
         }
         String str = (String) getItem(i);
         if (!TextUtils.isEmpty(str))
-        Picasso.with(context).load(str).placeholder(R.mipmap.ic_launcher).resize(180,180).into(viewHolder.head);
+        Picasso.with(context).load(str).placeholder(R.mipmap.img_replace).resize(180,180).into(viewHolder.head);
         viewHolder.head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

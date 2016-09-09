@@ -1,14 +1,19 @@
 package com.example.drawer.stockapp.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.GenTouAdapter;
@@ -22,9 +27,13 @@ import com.example.drawer.stockapp.model.FollowRecord;
 import com.example.drawer.stockapp.model.StargDetial;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
+import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,13 +42,18 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements View.OnClickListener{
-    private TextView mLimitMoney,mStartMoney,mType,mStartType,mMuJiTime,mRunTime,mAdvice,mNiurenName,mParsent,mZuHeName,mRunDay,mZhisunXian,mGentouMoney;
+    private TextView mLimitMoney,mStartMoney,mType,mStartType,
+            mMuJiTime,mRunTime,mAdvice,mNiurenName,mParsent
+            ,mZuHeName,mRunDay,mZhisunXian,mGentouMoney,mStartEndMoney,mTargetMoney,mfenchengMoney;
     private CircleImageView headImg;
     private GenTouAdapter genTouAdapter;
     private MyListView mGenTouLiat;
     private CanvasViewThree canvasViewThree;
     private String LiangHuaId;    //量化id
     private MyDialog dialog;
+    private EditText mWriteGentouMoney;
+    private double targetshouyi,fengchengRate,totalMoney,money;
+    private String mToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +85,10 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         mZhisunXian = (TextView) findViewById(R.id.zhi_zhun_xian);   //止损线
         mGentouMoney = (TextView) findViewById(R.id.gentou_money);   //跟投金额
         TextView mFencheng = (TextView) findViewById(R.id.fengcheng_detial);   //分成信息
+        mStartEndMoney = (TextView) findViewById(R.id.gentou_qujian);   //跟投区间
+        mWriteGentouMoney = (EditText) findViewById(R.id.write_start_money);   //输入跟投金额
+        mTargetMoney = (TextView) findViewById(R.id.target_money);   //目标收益
+        mfenchengMoney = (TextView) findViewById(R.id.fengcheng_money);   //分成的收益
 
         mLimitMoney = (TextView) findViewById(R.id.limit_money);   //跟投总金额
         mStartMoney = (TextView) findViewById(R.id.start_price);    //起投金额
@@ -91,9 +109,32 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         genTouAdapter = new GenTouAdapter(this);
 
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
+        TextView mGentou = (TextView) findViewById(R.id.now_gentou);   //跟投
 
         mBackimg.setOnClickListener(this);
         mFencheng.setOnClickListener(this);
+        mGentou.setOnClickListener(this);
+
+
+        mWriteGentouMoney.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                money = Double.parseDouble(mWriteGentouMoney.getText().toString());
+                mTargetMoney.setText("目标收益  "+money*targetshouyi/100);
+                mfenchengMoney.setText("  分成费 "+(money*targetshouyi/100)*fengchengRate/100);
+                mGentouMoney.setText((totalMoney-money)+" 元");
+            }
+        });
     }
 
     @Override
@@ -101,6 +142,8 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         super.onResume();
         SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
         ManagerUtil.setStataBarColor(this,tintManager);
+
+        mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
     }
 
     @Override
@@ -111,6 +154,20 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                 break;
             case R.id.fengcheng_detial:
                 getDiaLogInfo();
+                break;
+            case R.id.now_gentou:
+                if (!TextUtils.isEmpty(mToken)){
+                    GentouAsyn gentouAsyn = new GentouAsyn();
+                    if (money>0){
+                        dialog = ManagerUtil.getDiaLog(this);
+                        gentouAsyn.execute(LiangHuaId,money+"",mToken);
+                    }else {
+                        Toast.makeText(this,"跟投余额必须大于0",Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Intent intent = new Intent(this,LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }
@@ -173,19 +230,63 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             mMuJiTime.setText(infoBean.getRecuitmentStartTime().substring(0,10)+"-"+infoBean.getRecuitmentEndTime().substring(0,10));
             mRunTime.setText(infoBean.getRunStartDay().substring(0,10)+"-"+infoBean.getRunTargetEndDay().substring(0,10));
 
+            mStartEndMoney.setText("跟投区间"+infoBean.getStarInvestment()+"-"+infoBean.getMostFollow()+"(虚拟资金)");
+
             StargDetial.ResultBean.StarInfoBean starInfoBean = stargDetial.getResult().getStarInfo();
             mAdvice.setText(starInfoBean.getTitle());
             mNiurenName.setText(starInfoBean.getName());
             Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
             mParsent.setText(infoBean.getTargetReturns()+"%");
+            targetshouyi = infoBean.getTargetReturns();
+            fengchengRate = infoBean.getShareRatio();   //分成率
             setCanvasData(canvasViewThree, Double.parseDouble(infoBean.getTargetReturns()+""));
             mZuHeName.setText(infoBean.getTitle());
             mRunDay.setText(infoBean.getMaxDay()+"天");
             mZhisunXian.setText(infoBean.getStopLoss()+"%");
-            mGentouMoney.setText(infoBean.getMostFollow()+"元");
+            mGentouMoney.setText(infoBean.getPorfolioAmount()+"元");
+            totalMoney = infoBean.getPorfolioAmount();
         }
     }
 
+
+    /**
+     * 策略跟投
+     */
+    private class GentouAsyn extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HashMap<String,String> map = new HashMap<>();
+            map.put("Id", strings[0]);
+            map.put("Money", strings[1]);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[2],map,HttpManager.PayStrategy_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+            Log.d("tag","sss----跟投---"+s);
+            if (!TextUtils.isEmpty(s)){
+                if (s.contains("Head")){
+                    try {
+                        JSONObject object = new JSONObject(s);
+                        JSONObject head = object.getJSONObject("Head");
+                        if (head.getInt("Status") == 0){
+                            Toast.makeText(LianghuaCelueZhaoMuZhongActivity.this,"跟投成功",Toast.LENGTH_SHORT).show();
+                            finish();
+                        }else {
+                            Toast.makeText(LianghuaCelueZhaoMuZhongActivity.this,head.getString("Msg"),Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }
+    }
 
     /**
      * 跟头记录
@@ -196,8 +297,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         protected String doInBackground(String... strings) {
             HashMap<String,String> map = new HashMap<>();
             map.put("Id", strings[0]);
-            map.put("AlongHistoryType", "PorfolioTrades");
-            String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.PorfolioTrades_URL);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.AlongRecords_URL);
             return message;
         }
 
@@ -210,14 +310,14 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                 FollowRecord record = gson.fromJson(s,FollowRecord.class);
                 if (record.getHead().getStatus() == 0){
                     ArrayList<ChiCangInfo> chicangList = new ArrayList<>();
-                    List<FollowRecord.ResultBean.CodeListBean> codeListBeen = record.getResult().getCodeList();
+                    List<FollowRecord.ResultBean.AlongRecordsBean> codeListBeen = record.getResult().getAlongRecords();
                     for (int i = 0;i<codeListBeen.size();i++){
-                        FollowRecord.ResultBean.CodeListBean bean = codeListBeen.get(i);
+                        FollowRecord.ResultBean.AlongRecordsBean bean = codeListBeen.get(i);
                         ChiCangInfo info = new ChiCangInfo();
-                        info.setTodayAdd(bean.getCode());
-                        info.setNowPrice(bean.getName());
-                        info.setBascPrice(bean.getPrice()+"");
-                        info.setCangwei(bean.getTradeTime().substring(0,10));
+                        info.setTodayAdd(i+"");
+                        info.setNowPrice(bean.getAlongUserName().replaceAll("(?<=[\\d]{3})\\d(?=[\\d]{4})", "*"));    //中间4位用*代替
+                        info.setBascPrice(bean.getAlongAmount()+"");
+                        info.setCangwei(bean.getAlongTime().substring(0,10));
                         chicangList.add(info);
                     }
                     genTouAdapter.setData(chicangList);

@@ -189,7 +189,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 mTiaoCangList.setAdapter(tiaoCangAdapter);
                 if (tiaoCang.size() == 0){
                     mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
-                    mNoDataImgTiaoCang.setText("需要购买后才能查看");
+                    mNoDataImgTiaoCang.setText("");
                 }
             }else {
                 mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
@@ -214,7 +214,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 mChiCnagList.setAdapter(chiCangAdapter);
                 if (chicangList.size() == 0){
                     mNoDataImgChiCang.setVisibility(View.VISIBLE);
-                    mNoDataImgChiCang.setText("需要购买后才能查看");
+                    mNoDataImgChiCang.setText("");
                 }
             }else {
                 mNoDataImgChiCang.setVisibility(View.VISIBLE);
@@ -246,7 +246,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             HashMap<String,String> map = new HashMap<>();
             map.put("Id", strings[0]);
             map.put("AlongHistoryType", "PorfolioTrades");
-            String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.PorfolioTrades_URL);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.AlongRecords_URL);
             return message;
         }
 
@@ -259,14 +259,14 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 FollowRecord record = gson.fromJson(s,FollowRecord.class);
                 if (record.getHead().getStatus() == 0){
                     ArrayList<ChiCangInfo> chicangList = new ArrayList<>();
-                    List<FollowRecord.ResultBean.CodeListBean> codeListBeen = record.getResult().getCodeList();
+                    List<FollowRecord.ResultBean.AlongRecordsBean> codeListBeen = record.getResult().getAlongRecords();
                     for (int i = 0;i<codeListBeen.size();i++){
-                        FollowRecord.ResultBean.CodeListBean bean = codeListBeen.get(i);
+                        FollowRecord.ResultBean.AlongRecordsBean bean = codeListBeen.get(i);
                         ChiCangInfo info = new ChiCangInfo();
-                        info.setTodayAdd(bean.getCode());
-                        info.setNowPrice(bean.getName());
-                        info.setBascPrice(bean.getPrice()+"");
-                        info.setCangwei(bean.getTradeTime().substring(0,10));
+                        info.setTodayAdd(i+"");
+                        info.setNowPrice(bean.getAlongUserName().replaceAll("(?<=[\\d]{3})\\d(?=[\\d]{4})", "*"));    //中间4位用*代替
+                        info.setBascPrice(bean.getAlongAmount()+"");
+                        info.setCangwei(bean.getAlongTime().substring(0,10));
                         chicangList.add(info);
                     }
                     genTouAdapter.setData(chicangList);

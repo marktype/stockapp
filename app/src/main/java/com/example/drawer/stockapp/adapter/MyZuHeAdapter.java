@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.CanvasView;
 import com.example.drawer.stockapp.customview.CanvasViewThree;
-import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.listener.DeleteCallBack;
 import com.example.drawer.stockapp.model.NiuRenInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
@@ -59,8 +58,8 @@ public class MyZuHeAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.my_zuhe_item_layout,null);
             viewHolder.rate = (TextView) view.findViewById(R.id.zuhe_persent);
-            viewHolder.type = (TextView) view.findViewById(R.id.stock_name);
-            viewHolder.delete = (TextView) view.findViewById(R.id.zuhe_delete);
+//            viewHolder.type = (TextView) view.findViewById(R.id.stock_name);
+//            viewHolder.delete = (TextView) view.findViewById(R.id.zuhe_delete);
             viewHolder.guanzhuNum = (TextView) view.findViewById(R.id.guanzhu_name);
             viewHolder.name = (TextView) view.findViewById(R.id.zuhe_name);
             viewHolder.canvasViewThree = (CanvasViewThree) view.findViewById(R.id.zuhe_canvas);
@@ -74,37 +73,43 @@ public class MyZuHeAdapter extends BaseAdapter {
         }else {
             viewHolder.rate.setText(info.getShouyiRate()+"%");
         }
-        viewHolder.type.setText(info.getStockType());
+//        viewHolder.type.setText(info.getStockType());
         viewHolder.name.setText(info.getNiurenName());
 //        viewHolder.getNum.setText("赚钱"+(i+1)+"号机器");
-        viewHolder.guanzhuNum.setText(info.getTradeTime());
+        if (info.getZuheType() == 1){
+            viewHolder.guanzhuNum.setText("跟投");
+        }else if (info.getZuheType() == 2){
+            viewHolder.guanzhuNum.setText("创建");
+        }else {
+            viewHolder.guanzhuNum.setText("订阅人数"+info.getTradeTime());
+        }
         viewHolder.canvasViewThree.setRadius(DensityUtils.dp2px(context,40));
        if (info.getShouyiRate()<100){
            setCanvasData(viewHolder.canvasViewThree,info.getShouyiRate());
        }
-        viewHolder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final CustomDialog dialog = new CustomDialog(context);
-                dialog.setMessageText("确认要删除组合吗？");
-                dialog.show();
-                dialog.setOnPositiveListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        deleteCallBack.onDeleteId(info.getId());
-                        dialog.dismiss();
-                    }
-                });
-                dialog.setOnNegativeListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-
-
-            }
-        });
+//        viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                final CustomDialog dialog = new CustomDialog(context);
+//                dialog.setMessageText("确认要删除组合吗？");
+//                dialog.show();
+//                dialog.setOnPositiveListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        deleteCallBack.onDeleteId(info.getId());
+//                        dialog.dismiss();
+//                    }
+//                });
+//                dialog.setOnNegativeListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//
+//            }
+//        });
         return view;
     }
 

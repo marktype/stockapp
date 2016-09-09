@@ -63,6 +63,7 @@ public class CeLueAdapter extends BaseAdapter {
             viewHolder.canvasViewThree = (CanvasViewThree) view.findViewById(R.id.chart1);
             viewHolder.nowGen = (TextView) view.findViewById(R.id.celue_name_other);
             viewHolder.status = (TextView) view.findViewById(R.id.status_celue);
+            viewHolder.zhaomuName = (TextView) view.findViewById(R.id.zhaomu_name);
 //            viewHolder.layout = (RelativeLayout) view.findViewById(R.id.lianghuacelue_item_relat);
 //            viewHolder.zuheName = (TextView) view.findViewById(R.id.lianghuacelue_title);
 //            viewHolder.levelImage = (ImageView) view.findViewById(R.id.line_celue_three);
@@ -74,14 +75,17 @@ public class CeLueAdapter extends BaseAdapter {
         if (info.getType() == 1){
             viewHolder.status.setText("运行中");
             viewHolder.nowGen.setVisibility(View.GONE);
+            viewHolder.zhaomuName.setText("当前收益");
         }else if (info.getType() == 2){
             viewHolder.status.setText("招募中");
             viewHolder.nowGen.setVisibility(View.VISIBLE);
+            viewHolder.zhaomuName.setText("招募进度");
         }else if (info.getType() == 3){
             viewHolder.status.setText("已结束");
             viewHolder.nowGen.setVisibility(View.GONE);
+            viewHolder.zhaomuName.setText("实现收益");
         }else {
-            viewHolder.status.setText("待发行");
+            viewHolder.status.setText("");
             viewHolder.nowGen.setVisibility(View.GONE);
         }
 
@@ -111,7 +115,7 @@ public class CeLueAdapter extends BaseAdapter {
         TextView rateNum;
         TextView nowGen;
 //        ImageView headImage,levelImage;
-//        TextView name;
+        TextView zhaomuName;
         TextView gengtouTxt;
         CanvasViewThree canvasViewThree;
         TextView status;

@@ -93,7 +93,7 @@ public class ShowImageActivity extends AppCompatActivity {
             });
             String path = mImageList.get(position % mImageList.size());
             if (!TextUtils.isEmpty(path)) {
-                Picasso.with(mContext).load(path).placeholder(R.mipmap.ic_launcher).into(photo);
+                Picasso.with(mContext).load(path).placeholder(R.mipmap.img_replace).into(photo);
             }
             container.addView(photo);
             return photo;

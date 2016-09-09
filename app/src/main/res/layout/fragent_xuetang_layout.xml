@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/xuetang_title"
+        android:layout_width="match_parent"
+        android:background="@color/write_color"
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:id="@+id/my_class_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:src="@mipmap/message_black"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="学堂"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/my_txt_size"
+            android:textColor="@android:color/background_dark"/>
+
+        <ImageView
+            android:id="@+id/search_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/searchblack"
+            android:padding="@dimen/margin_10dp" />
+    </RelativeLayout>
+
+    <com.example.drawer.stockapp.customview.view.XListView
+        android:id="@+id/xuetang_list"
+        android:layout_below="@id/xuetang_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</RelativeLayout>

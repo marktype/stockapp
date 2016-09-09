@@ -46,20 +46,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_25dp"
         android:textSize="@dimen/title_text_size"
+        android:singleLine="true"
         android:textColor="@android:color/background_dark"
         android:layout_toRightOf="@id/zuhe_circle"
         android:text="战必胜组合"/>
-    <TextView
-        android:id="@+id/stock_name"
-        android:text="沪深"
-        android:textColor="@color/write_color"
-        android:background="@drawable/rect_red_shape"
-        android:layout_toRightOf="@id/zuhe_name"
-        android:layout_marginTop="22dp"
-        android:layout_marginLeft="@dimen/margin_8dp"
-        android:padding="@dimen/margin_3dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <!--<TextView-->
+        <!--android:id="@+id/stock_name"-->
+        <!--android:text="沪深"-->
+        <!--android:textColor="@color/write_color"-->
+        <!--android:background="@drawable/rect_red_shape"-->
+        <!--android:layout_toRightOf="@id/zuhe_name"-->
+        <!--android:layout_marginTop="22dp"-->
+        <!--android:layout_marginLeft="@dimen/margin_8dp"-->
+        <!--android:padding="@dimen/margin_3dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
 
     <TextView
         android:id="@+id/guanzhu_name"
@@ -67,7 +68,7 @@
         android:layout_marginLeft="@dimen/margin_8dp"
         android:layout_toRightOf="@id/zuhe_circle"
         android:layout_marginTop="@dimen/margin_10dp"
-        android:layout_below="@id/stock_name"
+        android:layout_below="@id/zuhe_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ImageView
@@ -79,14 +80,14 @@
         android:padding="@dimen/margin_10dp"
         android:visibility="gone"
         android:src="@mipmap/share_img"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="删除"
-        android:layout_centerVertical="true"
-        android:padding="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_20dp"
-        android:id="@+id/zuhe_delete"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:text="删除"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:padding="@dimen/margin_10dp"-->
+        <!--android:layout_marginRight="@dimen/margin_20dp"-->
+        <!--android:id="@+id/zuhe_delete"/>-->
     </RelativeLayout>
 </RelativeLayout>

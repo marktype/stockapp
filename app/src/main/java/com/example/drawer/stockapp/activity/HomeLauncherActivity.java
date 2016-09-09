@@ -1,6 +1,5 @@
 package com.example.drawer.stockapp.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -12,11 +11,12 @@ import com.squareup.picasso.Picasso;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class HomeLauncherActivity extends Activity {
+public class HomeLauncherActivity extends BascActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
         setContentView(R.layout.activity_home_launcher);
         initWidget();
 
@@ -26,7 +26,7 @@ public class HomeLauncherActivity extends Activity {
 
     private void initWidget() {
         ImageView homeLauncherImageView = (ImageView) findViewById(R.id.home_launcher_imageview);
-        Picasso.with(this).load(R.mipmap.wallhaven).into(homeLauncherImageView);
+        Picasso.with(this).load(R.mipmap.start).into(homeLauncherImageView);
         Timer timer = new Timer();
         timer.schedule(new MyTask(), 3000);
     }

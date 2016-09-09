@@ -18,10 +18,9 @@
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/goal_shouyi"
-        android:text="15%"
-        android:textSize="@dimen/content_text_size"
+        android:text="0.0%"
+        android:textSize="@dimen/title_text_size"
         android:textColor="@android:color/black"
-        android:layout_marginTop="@dimen/margin_10dp"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -46,11 +45,11 @@
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/max_long_time"
-        android:text="90%"
+        android:text="0%"
         android:layout_gravity="center_horizontal"
-        android:textSize="@dimen/content_text_size"
+        android:textSize="@dimen/title_text_size"
         android:textColor="@android:color/black"
-        android:layout_marginTop="@dimen/margin_10dp"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     </LinearLayout>
@@ -74,11 +73,10 @@
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/zhishunxian_txt"
-        android:text="10%"
+        android:text="0%"
         android:layout_gravity="center_horizontal"
-        android:textSize="@dimen/content_text_size"
+        android:textSize="@dimen/title_text_size"
         android:textColor="@android:color/black"
-        android:layout_marginTop="@dimen/margin_10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     </LinearLayout>
@@ -102,11 +100,10 @@
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/shouyi_txt"
-        android:text="40"
+        android:text="0"
         android:layout_gravity="center_horizontal"
-        android:textSize="@dimen/content_text_size"
+        android:textSize="@dimen/title_text_size"
         android:textColor="@android:color/black"
-        android:layout_marginTop="@dimen/margin_10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     </LinearLayout>

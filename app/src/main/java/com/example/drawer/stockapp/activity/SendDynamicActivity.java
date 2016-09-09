@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
@@ -358,6 +359,7 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
         }
     }
 
+    private MyDialog dialog;
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -369,6 +371,7 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
                 if (edit.length()<1){
                     Toast.makeText(this,"你还未输入内容哦",Toast.LENGTH_SHORT).show();
                 }else if (!TextUtils.isEmpty(token)){
+                    dialog = ManagerUtil.getDiaLog(this);
                     SendDynmaic(list,token,edit);
                  }else {
                     Toast.makeText(this,"你还未登录，请登录后发表",Toast.LENGTH_SHORT).show();
@@ -404,6 +407,7 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                dialog.dismiss();
                 String str = (String) o;
                 Log.d("tag","str---------"+str);
                 if (!TextUtils.isEmpty(str)){

@@ -213,7 +213,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:textSize="@dimen/my_txt_size"
-                    android:text="10000元"/>
+                    android:text="0元"/>
 
             </RelativeLayout>
 
@@ -234,10 +234,19 @@
                     android:id="@+id/gentou_txt"
                     android:text="跟投金额"/>
                 <TextView
+                    android:id="@+id/gentou_qujian"
+                    android:layout_toRightOf="@id/gentou_txt"
+                    android:layout_alignBaseline="@id/gentou_txt"
+                    android:text="(跟投金额500-1000)（虚拟资金）"
+                    android:textSize="@dimen/min_txt_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
                     android:id="@+id/yuan_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="元"
+                    android:textSize="@dimen/my_txt_size"
                     android:layout_alignParentRight="true"
                     />
 
@@ -247,9 +256,10 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/write_start_money"
                     android:gravity="end"
+                    android:inputType="number"
                     android:paddingRight="@dimen/margin_10dp"
                     android:textSize="@dimen/title_text_size"
-                    android:layout_toRightOf="@id/gentou_txt"
+                    android:layout_toRightOf="@id/gentou_qujian"
                     android:layout_toLeftOf="@id/yuan_txt"/>
                 <TextView
                     android:layout_width="match_parent"
@@ -259,12 +269,22 @@
                     android:background="@color/circle_con_bg"
                     android:layout_below="@id/gentou_txt"/>
                 <TextView
+                    android:id="@+id/target_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5dp"
                     android:layout_below="@+id/gentou_line"
                     android:textSize="@dimen/my_txt_size"
-                    android:text="目标收益: 150.20，分成费: 0元"/>
+                    android:text="目标收益: 0"/>
+                <TextView
+                    android:id="@+id/fengcheng_money"
+                    android:layout_toRightOf="@id/target_money"
+                    android:layout_below="@+id/gentou_line"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/my_txt_size"
+                    android:text="，分成费: 0元"/>
             </RelativeLayout>
 
             <RelativeLayout

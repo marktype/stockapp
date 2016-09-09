@@ -285,6 +285,7 @@ containing a value of this type.
     public static final class drawable {
         public static int ic_launcher=0x7f020000;
         public static int indicator_corner_bg=0x7f020001;
+        public static int loading=0x7f020002;
     }
     public static final class id {
         public static int Accordion=0x7f050005;
