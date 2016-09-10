@@ -69,7 +69,7 @@ public class MyZuHeItemAdapter extends BaseAdapter{
 
         viewHolder.name.setText(info.getStockName());
         viewHolder.num.setText(info.getStockNum());
-        viewHolder.tradeNum.setText(info.getTradeNumStart()+"→"+info.getTradeNumEnd());
+        viewHolder.tradeNum.setText((info.getTradeNumEnd()-info.getTradeNumStart())+"股");
         viewHolder.price.setText("参考成交价"+info.getTradePrice());
 
         return view;

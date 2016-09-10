@@ -64,10 +64,12 @@
 
     <TextView
         android:id="@+id/guanzhu_name"
-        android:text="2人 关注"
+        android:text="关注"
         android:layout_marginLeft="@dimen/margin_8dp"
         android:layout_toRightOf="@id/zuhe_circle"
         android:layout_marginTop="@dimen/margin_10dp"
+        android:maxLength="20"
+        android:ellipsize="end"
         android:layout_below="@id/zuhe_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

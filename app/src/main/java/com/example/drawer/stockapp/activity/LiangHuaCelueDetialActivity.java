@@ -178,8 +178,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 }
                 info.setStockName(bean.getName());
                 info.setStockNum(bean.getCode());
-                info.setTradeNumStart(bean.getBefor()+"");
-                info.setTradeNumEnd(bean.getAfter()+"");
+                info.setTradeNumStart(bean.getBefor());
+                info.setTradeNumEnd(bean.getAfter());
                 info.setTradePrice(bean.getPrice()+"");
                 tiaoCang.add(info);
             }
@@ -223,7 +223,20 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             StargDetial.ResultBean.PorfolioDetailBean proinfo = stargDetial.getResult().getPorfolioDetail();
             mLimitMoney.setText(proinfo.getLimtAmount()+"元");
             mStartMoney.setText(proinfo.getStartAmount()+"元");
-            mType.setText(proinfo.getPorfolioType()+"");
+            if (proinfo.getPorfolioType() == 0){
+                mType.setText("短线");
+            }else if (proinfo.getPorfolioType() == 1){
+                mType.setText("中线");
+            }else if (proinfo.getPorfolioType() == 2){
+                mType.setText("长线");
+            }
+            if (proinfo.getRecruitType() == 0){
+                mStartType.setText("稳健型");
+            }else if (proinfo.getRecruitType() == 1){
+                mStartType.setText("激进型");
+            }else if (proinfo.getRecruitType() == 2){
+                mStartType.setText("保本型");
+            }
 
             StargDetial.ResultBean.PorfolioInfoBean infoBean = stargDetial.getResult().getPorfolioInfo();
             mMuJiTime.setText(infoBean.getRecuitmentStartTime().substring(0,10)+"-"+infoBean.getRecuitmentEndTime().substring(0,10));

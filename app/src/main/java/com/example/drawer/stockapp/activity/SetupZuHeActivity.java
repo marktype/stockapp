@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.SetUpZuHeAdapter;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.listener.StockCallBack;
@@ -46,6 +47,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
     private TiaoCangClass tiaoCangClass;   //调仓信息
     private int[] persentNum;      //调仓百分数
     private double[] stockNum;     //股票数
+    private MyDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,31 +161,33 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
                 if (type == 0){
                     String name = mName.getText().toString();
                     String jianjie = mJIanJie.getText().toString();
-                    if (!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(jianjie)){
+                    if (!TextUtils.isEmpty(name)){
                         Boolean flag = true;
                         for (int i = 0;i<list.size();i++) {
                             if (list.get(i).getIndexPersent() != null&& !TextUtils.isEmpty(list.get(i).getIndexPersent())){
                             }else {
                                 flag = false;
-                                Toast.makeText(this,"股票百分比不能为空",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this,"0仓位，你让我怎么买！",Toast.LENGTH_SHORT).show();
                             }
                         }
                         if (flag){
                             if (list.size()>0){
+                                dialog = ManagerUtil.getDiaLog(this);
                                 setUpZuHe(name,jianjie,getVolume());
                             }else {
-                                Toast.makeText(this,"还没有添加股票，不能创建",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this,"你还没有选择股票呢",Toast.LENGTH_SHORT).show();
                             }
                         }
                     }else {
-                        Toast.makeText(this,"创建组合名字或简介不能为空",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"你还没有输入名字呢",Toast.LENGTH_SHORT).show();
                     }
                 }else if (type == 1){
                     ArrayList<HashMap<String,String>> mapList = getTiaoVolume();
                     if (mapList != null&&mapList.size()>0){
+                        dialog = ManagerUtil.getDiaLog(this);
                         TiaoCangAsyn(tiaoCangClass.getStockID(),mapList);
                     }else {
-                        Toast.makeText(this,"还未进行操作，不能调仓",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"你什么都没动，我怎么调,不调就返回",Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -301,17 +305,6 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
             protected Object doInBackground(Object[] objects) {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("PorfolioId", id);
-//                ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String, String>>();
-//                for (int i = 0;i<2;i++){
-//                    HashMap<String,String> hasp = new HashMap<String, String>();
-//                    hasp.put("Code","1");
-//                    hasp.put("Price","2");
-//                    hasp.put("Name","3");
-//                    hasp.put("Volume","4");
-//                    hasp.put("TradeTime","5");
-//                    hasp.put("TradeType","Open");
-//                    list.add(hasp);
-//                }
                 map.put("Codes",listCode);
                 String message = HttpManager.newInstance().getHttpDataByThreeLayerArrayObject(mToken, map, HttpManager.ChangePosition_URL);
                 return message;
@@ -321,6 +314,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 Log.d("tag","o---调仓返回信息-----"+o);
+                dialog.dismiss();
                 String message = (String) o;
                 if (!TextUtils.isEmpty(message)){
                     try {
@@ -364,6 +358,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 Log.d("tag","o---创建返回-----"+o);
+                dialog.dismiss();
                 String message = (String) o;
                 if (!TextUtils.isEmpty(message)){
                     try {

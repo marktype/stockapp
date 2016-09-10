@@ -85,7 +85,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     private MyListView mListView;
     private MyDialog dialog;
     private String mToken;
-    private String type;
+    private int type;
     private LineChart mLineChart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,8 +147,8 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
             }
             info.setStockName(list.get(i).getName());
             info.setStockNum(list.get(i).getCode());
-            info.setTradeNumStart(list.get(i).getBefor()+"");
-            info.setTradeNumEnd(list.get(i).getAfter()+"");
+            info.setTradeNumStart(list.get(i).getBefor());
+            info.setTradeNumEnd(list.get(i).getAfter());
             info.setTradePrice(list.get(i).getPrice()+"");
             listInfo.add(info);
         }
@@ -186,7 +186,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mTitleRelat.setLayoutParams(params);
 
         String  title = getIntent().getStringExtra(AutoWisdomFragment.CELUENAME);    //传参
-        type = getIntent().getStringExtra(AutoWisdomFragment.ZUHETYPE);
+        type = getIntent().getIntExtra(AutoWisdomFragment.ZUHETYPE,0);
 
         ImageView mMore = (ImageView) findViewById(R.id.changjianwenti_txt);
 
@@ -195,9 +195,9 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         TextView mTitle = (TextView) findViewById(R.id.back_txt);
         ImageView mGoOrder = (ImageView) findViewById(R.id.order_txt);
 
-        if (!TextUtils.isEmpty(type)&&type != null&&type.equals("1")){
+        if (type==1){
             mGoOrder.setVisibility(View.GONE);
-        }else if (!TextUtils.isEmpty(type)&&type != null&&type.equals("3")){
+        }else if (type==3){
             mGoOrder.setImageResource(R.mipmap.un_order);
             mMore.setVisibility(View.GONE);
         }else {
@@ -429,14 +429,12 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.order_txt:     //
-//                Intent intent = new Intent(this,PayActivity.class);
-//                startActivity(intent);
                 switch (type){
-                    case "3":
+                    case 3:
                         CancalOrderAsyn asyn = new CancalOrderAsyn();
                         asyn.execute(zuheId,mToken);
                         break;
-                    default:
+                    case 0:
                         if (!TextUtils.isEmpty(mToken)){
                             GentouAsyn gentouAsyn = new GentouAsyn();
                             dialog = ManagerUtil.getDiaLog(this);

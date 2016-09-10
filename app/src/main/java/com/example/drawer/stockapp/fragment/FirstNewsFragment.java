@@ -4,14 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,8 +21,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.activity.AgreementWebActivity;
 import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.activity.MessageActivity;
 import com.example.drawer.stockapp.activity.MyDynamicActivity;
@@ -39,6 +39,7 @@ import com.example.drawer.stockapp.customview.view.XListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.listener.OnFragmentInteractionListener;
 import com.example.drawer.stockapp.listener.TypeCallBack;
+import com.example.drawer.stockapp.model.BannerInfo;
 import com.example.drawer.stockapp.model.DynamicsInfo;
 import com.example.drawer.stockapp.model.HeadMassageInfo;
 import com.example.drawer.stockapp.model.IndexMarkInfo;
@@ -60,7 +61,9 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,6 +85,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private RelativeLayout mTitleRelat;
     private XListView mDongTaiList;
     private  String token;
+    private int page;
     private ImageView mImgHead,mMessage,mSendImg,mBackgroud,loadingFailed;
     private Boolean isFlag = false;
     private String[] images = {""};
@@ -138,13 +142,16 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             mView = inflater.inflate(R.layout.fragment_first_news, container, false);
         initWight();
         initData();
-        getMessageInfo();
+//        getMessageInfo();
 
         IndexAsyn indexAsyn = new IndexAsyn();
         indexAsyn.execute();
 
+        GetBannerInfo getBannerInfo = new GetBannerInfo();
+        getBannerInfo.execute();
 
-
+        GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
+        getNewsListAsyn.execute(page+"");
 
         return mView;
     }
@@ -213,48 +220,48 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
     }
 
-    /**
-     * 获取资讯信息
-     */
-    public void getMessageInfo(){
-
-        new AsyncTask(){
-
-            @Override
-            protected Object doInBackground(Object[] objects) {
-
-                String message = HttpManager.newInstance().getHttpData(HttpManager.Information_URL);
-                return message;
-            }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                onLoadZx();
-                String message = (String) o;
-                Log.d("tag","message--"+message);
-                if (!TextUtils.isEmpty(message)){
-                    Gson gson = new Gson();
-                    headMassageInfo = gson.fromJson(message, HeadMassageInfo.class);
-                    Log.d("tag","---"+headMassageInfo.getHead().getStatus());
-                    if (headMassageInfo.getHead().getStatus()==0){
-                        List<HeadMassageInfo.ResultBean.BannerUrlBean> size = headMassageInfo.getResult().getBannerUrl();
-                        images = new String[size.size()];
-                        strings = new String[size.size()];
-                        for (int i = 0;i<size.size();i++){
-                            images[i] = size.get(i).getBannerUrl();
-                            strings[i] = size.get(i).getTargetUrl();     //bar图
-                        }
-//                        initListData();   //
-                        getDataZixun();   //解析数据稍后放开
-                    }
-
-                }else {
-                    loadingFailed.setVisibility(View.VISIBLE);
-                }
-            }
-        }.execute();
-    }
+//    /**
+//     * 获取资讯信息
+//     */
+//    public void getMessageInfo(){
+//
+//        new AsyncTask(){
+//
+//            @Override
+//            protected Object doInBackground(Object[] objects) {
+//
+//                String message = HttpManager.newInstance().getHttpData(HttpManager.Information_URL);
+//                return message;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Object o) {
+//                super.onPostExecute(o);
+//                onLoadZx();
+//                String message = (String) o;
+//                Log.d("tag","message--"+message);
+//                if (!TextUtils.isEmpty(message)){
+//                    Gson gson = new Gson();
+//                    headMassageInfo = gson.fromJson(message, HeadMassageInfo.class);
+//                    Log.d("tag","---"+headMassageInfo.getHead().getStatus());
+//                    if (headMassageInfo.getHead().getStatus()==0){
+//                        List<HeadMassageInfo.ResultBean.BannerUrlBean> size = headMassageInfo.getResult().getBannerUrl();
+//                        images = new String[size.size()];
+//                        strings = new String[size.size()];
+//                        for (int i = 0;i<size.size();i++){
+//                            images[i] = size.get(i).getBannerUrl();
+//                            strings[i] = size.get(i).getTargetUrl();     //bar图
+//                        }
+////                        initListData();   //
+//                        getDataZixun();   //解析数据稍后放开
+//                    }
+//
+//                }else {
+//                    loadingFailed.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        }.execute();
+//    }
 
     /**
      * 初始化适配器数据
@@ -332,24 +339,33 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
      * 设置首页数据
      */
     public void getDataZixun(){
-        getSliderLayoutView(images,strings);
-
-        indexAdapter.setData(setNewsInfo());
-        mlist.setAdapter(indexAdapter);
-
+        ArrayList<NewsInfo> listInfo = setNewsInfo();
+        if (page == 0){
+            indexAdapter.setData(listInfo);
+            mlist.setAdapter(indexAdapter);
+        }else if (page>0&&listInfo.size()>0){
+            indexAdapter.addData(listInfo);
+        }else {
+            Toast.makeText(getActivity(),"已经到底了哦",Toast.LENGTH_SHORT).show();
+        }
 
         mlist.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                getMessageInfo();
-
+//                getMessageInfo();
+                page = 0;
+                GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
+                getNewsListAsyn.execute(page+"");
 
 
             }
 
             @Override
             public void onLoadMore() {
-                onLoadZx();
+                page++;
+                GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
+                getNewsListAsyn.execute(page+"");
+
             }
         });
 
@@ -544,11 +560,13 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             sliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                 @Override
                 public void onSliderClick(BaseSliderView slider) {
-                    Intent intent = new Intent();
-                    intent.setAction("android.intent.action.VIEW");
-                    Uri content_url = Uri.parse(mString[finalI]);
-                    intent.setData(content_url);
-                    intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+                    Intent intent = new Intent(getContext(), AgreementWebActivity.class);
+//                    intent.setAction("android.intent.action.VIEW");
+//                    Uri content_url = Uri.parse(mString[finalI]);
+//                    intent.setData(content_url);
+//                    intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+                    intent.putExtra(AgreementWebActivity.URLTYPE,3);
+                    intent.putExtra(AgreementWebActivity.URL,mString[finalI]);
                     startActivity(intent);
                 }
             });
@@ -606,7 +624,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 switch (mPager.getCurrentItem()){
                     case 0:
                         loadingFailed.setVisibility(View.GONE);
-                        getMessageInfo();
+                        GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
+                        getNewsListAsyn.execute(page+"");
                         break;
                     case 1:
                         loadingFailed.setVisibility(View.GONE);
@@ -881,7 +900,7 @@ class ItemRecod {
     /**
      * 获取banner图
      */
-    private class GetBannerInfo extends AsyncTask<Void,Void,String>{
+    private class GetBannerInfo extends AsyncTask<Void,Void,String> {
 
         @Override
         protected String doInBackground(Void... voids) {
@@ -896,19 +915,41 @@ class ItemRecod {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            if (!TextUtils.isEmpty(s)) {
+                Gson gson = new Gson();
+                BannerInfo bannerInfo = gson.fromJson(s, BannerInfo.class);
+                if (bannerInfo.getHead().getStatus() == 0) {
+                    SharedPreferences.Editor edit = ShapePreferenceManager.getMySharedPreferences(getActivity()).edit();
+                    Set<String> set = new HashSet<>();
+                    List<BannerInfo.ResultBean.BannerUrlBean> size = bannerInfo.getResult().getBannerUrl();
+                    images = new String[3];
+                    strings = new String[3];
+                    for (int i = 0; i < size.size(); i++) {
+                        if (i<3){
+                            images[i] = size.get(i).getBannerUrl();
+                            strings[i] = size.get(i).getTargetUrl();     //bar图
+                        }else {
+                            set.add(size.get(i).getBannerUrl());
+                        }
+                    }
+                    edit.putStringSet(ShapePreferenceManager.IMAGE_CELUE,set);
+                    edit.commit();
+                    getSliderLayoutView(images, strings);
+                }
+            }
         }
-    }
 
+    }
     /**
      * 获取新闻列表
      */
-    private class GetNewsListAsyn extends AsyncTask<String,Void,String>{
+    private class GetNewsListAsyn extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... strings) {
             HashMap<String, String> map = new HashMap<>();
             map.put("PageIndex", "0");
-            map.put("PageCount", "0");
+            map.put("PageCount", strings[0]);
             map.put("PageSize", "0");
             String message = HttpManager.newInstance().getHttpDataByTwoLayer("", map, HttpManager.NewsList_URL);
             return message;
@@ -917,7 +958,19 @@ class ItemRecod {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            onLoadZx();
 
+            if (!TextUtils.isEmpty(s)) {
+                Gson gson = new Gson();
+                headMassageInfo = gson.fromJson(s, HeadMassageInfo.class);
+                if (headMassageInfo.getHead().getStatus() == 0) {
+                    getDataZixun();   //解析数据稍后放开
+                }else {
+                    Toast.makeText(getActivity(),"还没找到相关信息哦",Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                loadingFailed.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

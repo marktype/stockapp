@@ -40,15 +40,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 public class WebViewActivity extends BascActivity implements View.OnClickListener{
     public static final String URLID = "urlid";
     private String urlId;    //新闻id
     private WebView webView;
-    private TextView mTxt,mZhuanFa,mComment,mLikes;
+    private TextView mTxt,mZhuanFa,mComment,mLikes,mTitle;
     private int type;     //跳转类型
     private EditText mCommentEdit;
     private DynamicInfoAdapter adapter;
-    private String mToken;
+    private String mToken,urlGet;
     private MyListView mList;
     private CommnetInfo commnetInfo;
     private MyDialog dialog;
@@ -99,11 +102,14 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         mZhuanFa = (TextView) findViewById(R.id.dongtai_zhuanfa);
         mComment = (TextView) findViewById(R.id.dongtai_pinglun);
         mLikes = (TextView) findViewById(R.id.dongtai_zan);
+        mTitle = (TextView) findViewById(R.id.back_txt);    //题目
+        ImageView mShare = (ImageView) findViewById(R.id.share_img);   //分享
 
         mList = (MyListView) findViewById(R.id.dynamic_list);
         adapter = new DynamicInfoAdapter(this);
 
         mBackImg.setOnClickListener(this);
+        mShare.setOnClickListener(this);
         mZhuanFa.setOnClickListener(this);
         mComment.setOnClickListener(this);
         mLikes.setOnClickListener(this);
@@ -139,7 +145,53 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                     Toast.makeText(this,"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.share_img:
+                if (!TextUtils.isEmpty(urlGet)){
+                    showShare(mTitle.getText().toString(),urlGet);
+                }else {
+                    showShare(mTitle.getText().toString(),"");
+                }
+                break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ShareSDK.stopSDK();
+    }
+    /**
+     * 分享
+     */
+    private void showShare(String shareTxt,String image) {
+
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+
+        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
+        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        oks.setTitle(shareTxt);
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+        oks.setTitleUrl("");
+
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText(shareTxt);
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        oks.setImageUrl(image);
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl("");
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("我是测试评论文本");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite(getString(R.string.app_name));
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl("");
+
+// 启动分享GUI
+        oks.show(this);
     }
     /**
      * r软件盘弹出状况
@@ -189,7 +241,8 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                     }else if (bean.getTargetUrl() != null&&TextUtils.isEmpty(bean.getTargetUrl()+"")){
                         webView.loadUrl(bean.getTargetUrl()+"");
                     }
-
+                    urlGet  = bean.getTargetUrl();
+                    mTitle.setText(bean.getTitle());
                     mZhuanFa.setText(bean.getForward()+"");
                     mComment.setText(bean.getComments()+"");
                     mLikes.setText(bean.getLikes()+"");

@@ -8,8 +8,8 @@ public class TiaoCangInfo {
     private Boolean isBuyCome;   //买入还是卖出 true(买入)
     private String stockName;   //股票名字
     private String stockNum;   //股票编号
-    private String tradeNumStart;    //交易量前
-    private String tradeNumEnd;    //交易量后
+    private int tradeNumStart;    //交易量前
+    private int tradeNumEnd;    //交易量后
     private String tradePrice;   //成交价
 
     public Boolean getBuyCome() {
@@ -28,11 +28,11 @@ public class TiaoCangInfo {
         this.stockName = stockName;
     }
 
-    public String getTradeNumStart() {
+    public int getTradeNumStart() {
         return tradeNumStart;
     }
 
-    public void setTradeNumStart(String tradeNumStart) {
+    public void setTradeNumStart(int tradeNumStart) {
         this.tradeNumStart = tradeNumStart;
     }
 
@@ -44,11 +44,11 @@ public class TiaoCangInfo {
         this.stockNum = stockNum;
     }
 
-    public String getTradeNumEnd() {
+    public int getTradeNumEnd() {
         return tradeNumEnd;
     }
 
-    public void setTradeNumEnd(String tradeNumEnd) {
+    public void setTradeNumEnd(int tradeNumEnd) {
         this.tradeNumEnd = tradeNumEnd;
     }
 

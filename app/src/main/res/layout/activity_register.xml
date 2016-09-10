@@ -20,7 +20,10 @@
                 android:id="@+id/back_img"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="@dimen/margin_10dp"
+                android:paddingLeft="@dimen/margin_20dp"
+                android:paddingTop="@dimen/margin_10dp"
+                android:paddingBottom="@dimen/margin_10dp"
+                android:paddingRight="@dimen/margin_40dp"
                 android:src="@mipmap/arrowlift" />
 
             <TextView
@@ -126,6 +129,7 @@
             android:hint="密码"
             android:textSize="@dimen/title_text_size"
             android:inputType="textPassword"
+            android:digits="1234567890abcdefghijklmnopqrstuvwxyz"
             android:textColorHint="@android:color/darker_gray" />
 
         <ImageView
@@ -138,11 +142,38 @@
             android:src="@mipmap/eye" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/above_check_relat"
+        android:layout_below="@+id/password_relat"
+        android:layout_marginLeft="@dimen/margin_25dp"
+        android:layout_marginRight="@dimen/margin_25dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/isCheck"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/btn_check"
+            android:button="@null"
+            android:checked="true"
+            />
+        <TextView
+            android:id="@+id/above_txt"
+            android:layout_toRightOf="@id/isCheck"
+            android:text="《关于爱猫爪用户协议》"
+            android:textColor="#ed9e00"
+            android:textSize="@dimen/my_txt_size"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/login_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/password_relat"
+        android:layout_below="@id/above_check_relat"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/margin_25dp"
         android:background="@drawable/rect_blue_shape"

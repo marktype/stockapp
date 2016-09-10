@@ -54,25 +54,31 @@
         android:imeOptions="actionSearch"
         android:background="@drawable/rect_write_shape"
         android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/hot_layout"
+        android:layout_width="match_parent"
+        android:layout_below="@id/search_edit"
+        android:layout_height="wrap_content">
     <TextView
         android:id="@+id/hot_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_edit"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:text="@string/hot_search_txt"/>
-    <LinearLayout
-        android:id="@+id/hot_lin"
-        android:layout_below="@id/hot_txt"
-        android:orientation="horizontal"
-        android:layout_margin="@dimen/margin_10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </LinearLayout>
+        <com.example.drawer.stockapp.customview.FlowLayout
+            android:id="@+id/search_flow"
+            android:layout_margin="@dimen/margin_10dp"
+            android:layout_below="@id/hot_txt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
     <ListView
-        android:layout_below="@+id/hot_lin"
+        android:layout_below="@id/search_edit"
         android:id="@+id/search_listview"
         android:divider="@null"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
 </RelativeLayout>

@@ -62,6 +62,11 @@ public class SerchSetUpActivity extends BascActivity implements View.OnClickList
         TextView mSearchTxt = (TextView) findViewById(R.id.search_txt);
         mEditTxt = (EditText) findViewById(R.id.search_edit);
         mList = (ListView) findViewById(R.id.search_listview);
+        mList.setVisibility(View.VISIBLE);
+
+        RelativeLayout mLayout = (RelativeLayout) findViewById(R.id.hot_layout);
+        mLayout.setVisibility(View.GONE);
+
         searchAdapter = new SearchAdapter(this);
 
         mEditTxt.setOnKeyListener(onKeyListener);

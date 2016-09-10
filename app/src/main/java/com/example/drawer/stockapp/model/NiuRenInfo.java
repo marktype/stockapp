@@ -7,7 +7,7 @@ public class NiuRenInfo {
     private String niurenHead;    //牛人头像
     private String niurenName;   //名字    （我的，组合名）
     private String niurenRoundImage;   //曲线图片
-    private String stockType;    //股票类型  (我的，例如沪深)
+    private String stockType;    //股票类型  (我的，例如  组合简介)
     private double shouyiRate;    //总收益率  （我的 ，百分比）
     private String victorRate;    //胜率
     private String shouyiByMonth;   //月均收益

@@ -34,11 +34,12 @@ public class AllCanUseActivity extends BascActivity implements View.OnClickListe
        ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
        RelativeLayout mNewInfo = (RelativeLayout) findViewById(R.id.news_info_lin);
        RelativeLayout mClean = (RelativeLayout) findViewById(R.id.clean_lin);
-
+       RelativeLayout mAbove = (RelativeLayout) findViewById(R.id.above_lin);
 
        mClean.setOnClickListener(this);
        mNewInfo.setOnClickListener(this);
        mBackImg.setOnClickListener(this);
+       mAbove.setOnClickListener(this);
    }
     @Override
     protected void onResume() {
@@ -60,6 +61,11 @@ public class AllCanUseActivity extends BascActivity implements View.OnClickListe
             case R.id.clean_lin:
                 DataCleanManager.cleanCacheData(this);
                 Toast.makeText(this, "清除缓存成功！", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.above_lin:
+                intent = new Intent(this,AgreementWebActivity.class);
+                intent.putExtra(AgreementWebActivity.URLTYPE,1);
+                startActivity(intent);
                 break;
         }
     }

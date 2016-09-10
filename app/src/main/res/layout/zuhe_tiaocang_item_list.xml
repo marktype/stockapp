@@ -38,7 +38,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:id="@+id/price_num"
-        android:text="0.91 → 7.00"
+        android:text="0"
         android:layout_below="@id/line_diaocang"
         android:layout_alignParentRight="true"
         android:textColor="@android:color/background_dark"

@@ -79,7 +79,7 @@ public class MyZuHeAdapter extends BaseAdapter {
         if (info.getZuheType() == 1){
             viewHolder.guanzhuNum.setText("跟投");
         }else if (info.getZuheType() == 2){
-            viewHolder.guanzhuNum.setText("创建");
+            viewHolder.guanzhuNum.setText(info.getStockType());
         }else {
             viewHolder.guanzhuNum.setText("订阅人数"+info.getTradeTime());
         }

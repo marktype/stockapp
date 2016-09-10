@@ -256,7 +256,7 @@ public class StargDetial {
             private String RunEndDay;
             private String RunTargetEndDay;
             private int TargetReturns;
-            private int Recruitment;
+            private double Recruitment;
             private double WinRatio;
             private double MonthlyAverage;
             private int Holding;
@@ -432,11 +432,11 @@ public class StargDetial {
                 this.TargetReturns = TargetReturns;
             }
 
-            public int getRecruitment() {
+            public double getRecruitment() {
                 return Recruitment;
             }
 
-            public void setRecruitment(int Recruitment) {
+            public void setRecruitment(double Recruitment) {
                 this.Recruitment = Recruitment;
             }
 
@@ -647,11 +647,20 @@ public class StargDetial {
             private int LimtAmount;
             private int StartAmount;
             private int PorfolioType;
+            private int RecruitType;
             private int Investment;
             private boolean IsStart;
             private boolean IsEndInvestment;
             private double MaxReturn;
             private double MinReturn;
+
+            public int getRecruitType() {
+                return RecruitType;
+            }
+
+            public void setRecruitType(int recruitType) {
+                RecruitType = recruitType;
+            }
 
             public int getLimtAmount() {
                 return LimtAmount;

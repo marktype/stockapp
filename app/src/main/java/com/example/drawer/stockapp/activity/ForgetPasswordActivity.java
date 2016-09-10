@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
@@ -26,12 +27,14 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
     private EditText mUserName,mPassword,mVerify;
     private TextView mGetVerify;
     private String verify;
+    private MyDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         initWight();
+
     }
 
     /**
@@ -85,6 +88,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                 String password = mPassword.getText().toString();
                 verify = mVerify.getText().toString();
                 if (phone.length() == 11&& !TextUtils.isEmpty(verify)){
+                    dialog = ManagerUtil.getDiaLog(this);
                     AlterAsyn getRegister = new AlterAsyn();
                     getRegister.execute(phone,password,verify);
                 }else {
@@ -114,34 +118,11 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
             HashMap<String,String> map = new HashMap<>();
             map.put("PhoneNum", strings[0]);
             String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.ReSetPasswordCode_URL);
-            int i=60;
-
-            while(i>0){
-                if (!TextUtils.isEmpty(verify)){
-                    i= 1;
-                }
-                i--;
-                publishProgress(i);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                }
-            }
             return message;
         }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            verify = mVerify.getText().toString();
-            mGetVerify.setText(values[0]+"");
-        }
-
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            mGetVerify.setText("发送验证码");
-            mGetVerify.setEnabled(true);
             String message = s;
             String stutas = null;
             String msg = null;
@@ -154,9 +135,48 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                 e.printStackTrace();
             }
             if (stutas.equals("1")){
+                mGetVerify.setEnabled(true);
                 Toast.makeText(ForgetPasswordActivity.this,msg,Toast.LENGTH_SHORT).show();
+            }else {
+                DaojiShiAsyn daojiShiAsyn = new DaojiShiAsyn();
+                daojiShiAsyn.execute(60);
             }
 
+        }
+    }
+
+    /**
+     * 倒计时
+     */
+    private class DaojiShiAsyn extends AsyncTask<Integer,Integer,String>{
+        @Override
+        protected String doInBackground(Integer... integers) {
+            int i= integers[0];
+            while(i>0){
+                if (!TextUtils.isEmpty(verify)){
+                    i= 1;
+                }
+                i--;
+                publishProgress(i);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                }
+            }
+            return null;
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            verify = mVerify.getText().toString();
+            mGetVerify.setText(values[0]+"");
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            mGetVerify.setText("发送验证码");
+            mGetVerify.setEnabled(true);
         }
     }
 
@@ -179,6 +199,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            dialog.dismiss();
             String message = s;
             String stutas = null;
             String msg = null;

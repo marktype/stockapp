@@ -33,17 +33,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20dp"
             android:layout_toRightOf="@id/friend_name"
-            android:layout_toLeftOf="@+id/collect_info_img"
             android:text="dsfsdfjsdfhjdsjkfhjkd" />
-        <ImageView
-            android:id="@+id/collect_info_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/pinglun"
-            android:padding="@dimen/margin_5dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/margin_20dp"
-            android:layout_marginRight="@dimen/margin_10dp"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/collect_info_img"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@mipmap/pinglun"-->
+            <!--android:padding="@dimen/margin_5dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginTop="@dimen/margin_20dp"-->
+            <!--android:layout_marginRight="@dimen/margin_10dp"/>-->
 
     </RelativeLayout>
 </LinearLayout>

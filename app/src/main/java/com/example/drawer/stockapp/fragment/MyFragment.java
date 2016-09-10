@@ -35,7 +35,7 @@ import android.widget.Toast;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.AllCanUseActivity;
 import com.example.drawer.stockapp.activity.AlterNameActivity;
-import com.example.drawer.stockapp.activity.ForgetPasswordActivity;
+import com.example.drawer.stockapp.activity.AlterPasswordActivity;
 import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.customview.MyReboundScrollView;
@@ -266,7 +266,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 Toast.makeText(getActivity(),"请联系客服  QQ 2436899110",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.reset_password_lin:
-                intent = new Intent(getContext(), ForgetPasswordActivity.class);
+                intent = new Intent(getContext(), AlterPasswordActivity.class);
                 startActivity(intent);
                 break;
 //            case R.id.my_quan_lin:
@@ -433,7 +433,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         @Override
         protected String doInBackground(String... strings) {
             HashMap<String,String> map = new HashMap<>();
-            map.put("Param", strings[0]);
+            map.put("Avatar", strings[0]);
             String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[1],map,HttpManager.UpdateAvatar_URL);
             return message;
 

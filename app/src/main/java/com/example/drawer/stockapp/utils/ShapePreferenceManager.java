@@ -15,6 +15,7 @@ public class ShapePreferenceManager {
     public static final String TOKEN = "token";    //保存用户token信息
     public static final String USER_NMAE = "username";    //保存用户名信息
     public static final String USER_ID = "uid";    //保存用户id信息
+    public static final String IMAGE_CELUE = "image";    //保存量化策略图片
 
     private ShapePreferenceManager(){
 

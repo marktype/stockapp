@@ -32,6 +32,10 @@ public class IndexAdapter extends BaseAdapter {
         notifyDataSetChanged();
 
     }
+    public void addData(ArrayList<NewsInfo> list){
+        this.list.addAll(list);
+        notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
         return list.size();

@@ -77,7 +77,7 @@ public class NewsDetial {
         private int Forward;
         private int Likes;
         private int Favorites;
-        private Object TargetUrl;
+        private String TargetUrl;
         private boolean HasFavorites;
         private boolean HasForward;
         private boolean HasLike;
@@ -154,11 +154,11 @@ public class NewsDetial {
             this.Favorites = Favorites;
         }
 
-        public Object getTargetUrl() {
+        public String getTargetUrl() {
             return TargetUrl;
         }
 
-        public void setTargetUrl(Object TargetUrl) {
+        public void setTargetUrl(String TargetUrl) {
             this.TargetUrl = TargetUrl;
         }
 

@@ -87,7 +87,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
     private MyListView mListView;
     private ArrayList<HeadIndex> stockList;
     private double remainMoney;    //余额
-    private MyDialog dialog;
+    private MyDialog dialog,delDialog;
     private String mToken;
     private LineChart mLineChart;
     @Override
@@ -149,8 +149,8 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                 }
                 info.setStockName(list.get(i).getName());
                 info.setStockNum(list.get(i).getCode());
-                info.setTradeNumStart(list.get(i).getBefor()+"");
-                info.setTradeNumEnd(list.get(i).getAfter()+"");
+                info.setTradeNumStart(list.get(i).getBefor());
+                info.setTradeNumEnd(list.get(i).getAfter());
                 info.setTradePrice(list.get(i).getPrice()+"");
                 listInfo.add(info);
             }
@@ -476,6 +476,8 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                     dialog.setOnPositiveListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+
+                            delDialog = ManagerUtil.getDiaLog(MyZuHeDatilActivity.this);
                             DeleteMyZuheAsyn deleteMyZuheAsyn = new DeleteMyZuheAsyn();
                             deleteMyZuheAsyn.execute(zuheId,mToken);
                             dialog.dismiss();
@@ -518,6 +520,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            delDialog.dismiss();
             if (!TextUtils.isEmpty(s)){
                 try {
                     JSONObject object = new JSONObject(s);

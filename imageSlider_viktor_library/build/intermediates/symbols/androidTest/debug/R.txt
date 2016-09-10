@@ -30,6 +30,7 @@ int dimen activity_horizontal_margin 0x7f060000
 int dimen activity_vertical_margin 0x7f060001
 int drawable ic_launcher 0x7f020000
 int drawable indicator_corner_bg 0x7f020001
+int drawable loading 0x7f020002
 int id Accordion 0x7f050005
 int id Background2Foreground 0x7f050006
 int id CubeIn 0x7f050007

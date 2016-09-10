@@ -35,6 +35,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,10 +130,21 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
 
             @Override
             public void afterTextChanged(Editable editable) {
-                money = Double.parseDouble(mWriteGentouMoney.getText().toString());
+                DecimalFormat df =new DecimalFormat("#0.00");   //保留兩位位小数
+                String gentouMoney = mWriteGentouMoney.getText().toString();
+                if (!TextUtils.isEmpty(gentouMoney)){
+                    money = Double.parseDouble(gentouMoney);
+                }else {
+                    money = 0;
+                }
+                if (money>totalMoney){
+                    mGentouMoney.setText(totalMoney+" 元");
+                    money = totalMoney;
+                }else {
+                    mGentouMoney.setText((totalMoney-money)+" 元");
+                }
                 mTargetMoney.setText("目标收益  "+money*targetshouyi/100);
-                mfenchengMoney.setText("  分成费 "+(money*targetshouyi/100)*fengchengRate/100);
-                mGentouMoney.setText((totalMoney-money)+" 元");
+                mfenchengMoney.setText("  分成费 "+df.format((money*targetshouyi/100)*fengchengRate/100));
             }
         });
     }
@@ -224,7 +236,20 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             StargDetial.ResultBean.PorfolioDetailBean proinfo = stargDetial.getResult().getPorfolioDetail();
             mLimitMoney.setText(proinfo.getLimtAmount()+"元");
             mStartMoney.setText(proinfo.getStartAmount()+"元");
-            mType.setText(proinfo.getPorfolioType()+"");
+            if (proinfo.getPorfolioType() == 0){
+                mType.setText("短线");
+            }else if (proinfo.getPorfolioType() == 1){
+                mType.setText("中线");
+            }else if (proinfo.getPorfolioType() == 2){
+                mType.setText("长线");
+            }
+            if (proinfo.getRecruitType() == 0){
+                mStartType.setText("稳健型");
+            }else if (proinfo.getRecruitType() == 1){
+                mStartType.setText("激进型");
+            }else if (proinfo.getRecruitType() == 2){
+                mStartType.setText("保本型");
+            }
 
             StargDetial.ResultBean.PorfolioInfoBean infoBean = stargDetial.getResult().getPorfolioInfo();
             mMuJiTime.setText(infoBean.getRecuitmentStartTime().substring(0,10)+"-"+infoBean.getRecuitmentEndTime().substring(0,10));
@@ -233,7 +258,11 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             mStartEndMoney.setText("跟投区间"+infoBean.getStarInvestment()+"-"+infoBean.getMostFollow()+"(虚拟资金)");
 
             StargDetial.ResultBean.StarInfoBean starInfoBean = stargDetial.getResult().getStarInfo();
-            mAdvice.setText(starInfoBean.getTitle());
+            if (starInfoBean.getTitle() != null&&!TextUtils.isEmpty(starInfoBean.getTitle())){
+                mAdvice.setText(starInfoBean.getTitle());
+            }else {
+                mAdvice.setText("牛逼的组合不需要解释！");
+            }
             mNiurenName.setText(starInfoBean.getName());
             Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
             mParsent.setText(infoBean.getTargetReturns()+"%");

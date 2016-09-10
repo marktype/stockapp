@@ -138,7 +138,6 @@
                     android:textSize="@dimen/title_text_size"
                     android:textColor="@android:color/black"
                     android:layout_margin="@dimen/margin_10dp"
-                    android:drawableRight="@mipmap/arrowright"
                     />
                 <TextView
                     android:layout_width="match_parent"
@@ -286,7 +285,6 @@
                     android:layout_margin="@dimen/margin_10dp"
                     android:textSize="@dimen/title_text_size"
                     android:textColor="@android:color/black"
-                    android:drawableRight="@mipmap/arrowright"
                     />
                 <include
                     android:id="@+id/gentou_item"

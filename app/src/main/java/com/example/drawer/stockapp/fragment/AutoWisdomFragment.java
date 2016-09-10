@@ -1,6 +1,7 @@
 package com.example.drawer.stockapp.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -53,6 +54,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,6 +81,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private ImageView mMessage, mSearch;
     private String mToken;
     private ImageView mLogin;
+    private SharedPreferences sp;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -117,9 +120,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        if (ceLueListInfo == null){
         mView = inflater.inflate(R.layout.fragment_auto_wisdom, container, false);
+        sp = ShapePreferenceManager.getMySharedPreferences(getContext());
         initWight();
         initData();
 //        }
@@ -133,7 +135,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
         ManagerUtil.setStataBarColorWhite(getActivity(), tintManager);
 
-        mToken = ShapePreferenceManager.getMySharedPreferences(getContext()).getString(ShapePreferenceManager.TOKEN,null);
+        mToken = sp.getString(ShapePreferenceManager.TOKEN,null);
         if (!TextUtils.isEmpty(mToken)){
             getMyListData();
             mLogin.setVisibility(View.GONE);
@@ -212,6 +214,14 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         mPager.setAdapter(adapter);
         tabs.setViewPager(mPager);
 
+        Set<String> imagesSet = sp.getStringSet(ShapePreferenceManager.IMAGE_CELUE,null);
+        images = new ArrayList<>();
+        Log.d("tag","set-----"+imagesSet);
+        if (imagesSet != null&&imagesSet.size()>0){
+            for (String str : imagesSet) {
+                images.add(str);
+            }
+        }
         //添加轮播图数据
         getSliderLayoutView(images, null);
         getSliderLayoutViewTwo(images, null);
@@ -295,22 +305,22 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     }
 
 
-    private int[] images = {R.mipmap.banner, R.mipmap.banner, R.mipmap.banner, R.mipmap.banner};
+    private ArrayList<String> images;
 
     /**
      * imageSlider控件加入
      */
-    public void getSliderLayoutView(int[] mImage, final String[] mString) {
+    public void getSliderLayoutView(ArrayList<String> mImage, final String[] mString) {
         SliderLayout mSliderLayout = (SliderLayout) mSliderVIew.findViewById(R.id.image_slider_layout);
 //        mSliderLayout.setMinimumHeight(180);
 
         PagerIndicator pagerIndicator = (PagerIndicator) mSliderVIew.findViewById(R.id.custom1_indicator);
 
         mSliderLayout.removeAllSliders();
-        int length = mImage.length;
+        int length = mImage.size();
         for (int i = 0; i < length; i++) {
             TextSliderView sliderView = new TextSliderView(getContext());   //向SliderLayout中添加控件
-            sliderView.image(mImage[i]);
+            sliderView.image(mImage.get(i));
 //            sliderView.description(mString[i]);
             final int finalI = i;
             sliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
@@ -328,17 +338,17 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     /**
      * imageSlider控件加入
      */
-    public void getSliderLayoutViewTwo(int[] mImage, final String[] mString) {
+    public void getSliderLayoutViewTwo(ArrayList<String> mImage, final String[] mString) {
         SliderLayout mSliderLayout = (SliderLayout) mSliderVIewTwo.findViewById(R.id.image_slider_layout);
 //        mSliderLayout.setMinimumHeight(180);
 
         PagerIndicator pagerIndicator = (PagerIndicator) mSliderVIewTwo.findViewById(R.id.custom1_indicator);
 
         mSliderLayout.removeAllSliders();
-        int length = mImage.length;
+        int length = mImage.size();
         for (int i = 0; i < length; i++) {
             TextSliderView sliderView = new TextSliderView(getContext());   //向SliderLayout中添加控件
-            sliderView.image(mImage[i]);
+            sliderView.image(mImage.get(i));
 //            sliderView.description(mString[i]);
             final int finalI = i;
             sliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
@@ -357,17 +367,17 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     /**
      * imageSlider控件加入
      */
-    public void getSliderLayoutViewThree(int[] mImage, final String[] mString) {
+    public void getSliderLayoutViewThree(ArrayList<String> mImage, final String[] mString) {
         SliderLayout mSliderLayout = (SliderLayout) mSliderVIewThree.findViewById(R.id.image_slider_layout);
 //        mSliderLayout.setMinimumHeight(180);
 
         PagerIndicator pagerIndicator = (PagerIndicator) mSliderVIewThree.findViewById(R.id.custom1_indicator);
 
         mSliderLayout.removeAllSliders();
-        int length = mImage.length;
+        int length = mImage.size();
         for (int i = 0; i < length; i++) {
             TextSliderView sliderView = new TextSliderView(getContext());   //向SliderLayout中添加控件
-            sliderView.image(mImage[i]);
+            sliderView.image(mImage.get(i));
 //            sliderView.description(mString[i]);
             final int finalI = i;
             sliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
@@ -537,7 +547,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setId(ben.getId());
             info.setNiurenName(ben.getTitle());
             info.setShouyiRate(ben.getTotleReturns());
-            info.setStockType(ben.getType());
+            info.setStockType(ben.getDesc());
             info.setZuheType(ben.getPorfolioChooseType());
             info.setTradeTime(ben.getFavorites()+"");
             niurenList.add(info);
@@ -630,8 +640,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setNiurenName(ben.getTitle());
             info.setId(ben.getId());
             info.setShouyiRate(ben.getTotleReturns());
-            info.setStockType(ben.getType());
-            info.setTradeTime(ben.getFavorites() + "人 关注");
+            info.setStockType(ben.getDesc());
+            info.setTradeTime(ben.getFavorites() + "人关注");
             info.setZuheType(ben.getPorfolioChooseType());
             myInfoList.add(info);
         }
@@ -684,12 +694,11 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 break;
             case R.id.my_zuhe_listview:
                 info = (NiuRenInfo) adapterView.getAdapter().getItem(i);
-                Log.d("tag","type-------"+info.getZuheType());
                 if (info.getZuheType() == 1){    //跟投
                     intent = new Intent(getActivity(), CelueDatilActivity.class);
                     intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
                     intent.putExtra(CELUENAME, info.getNiurenName());
-                    intent.putExtra(ZUHETYPE,"1");
+                    intent.putExtra(ZUHETYPE,1);
                     startActivity(intent);
                 }else if (info.getZuheType() == 2){   //创建
                     intent = new Intent(getActivity(), MyZuHeDatilActivity.class);
@@ -700,7 +709,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     intent = new Intent(getActivity(), CelueDatilActivity.class);
                     intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
                     intent.putExtra(CELUENAME, info.getNiurenName());
-                    intent.putExtra(ZUHETYPE,"3");
+                    intent.putExtra(ZUHETYPE,3);
                     startActivity(intent);
                 }
                 break;
@@ -716,7 +725,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 break;
             case R.id.pop_item_img:
                 intent = new Intent(getActivity(), SerchActivity.class);
-                intent.putExtra(SerchActivity.URL_SEARCH,HttpManager.FindCode_URL);
+//                intent.putExtra(SerchActivity.URL_SEARCH,HttpManager.FindCode_URL);
                 startActivity(intent);
                 break;
             case R.id.add_image_txt:
