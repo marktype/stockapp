@@ -19,6 +19,15 @@ public class TrendsInfo {
     private String friendName;     //好友名字
     private String friendContent;    //好友评论内容
     private Boolean isCollect;   //是否收藏
+    private Boolean isLikes;     //是否点赞
+
+    public Boolean getLikes() {
+        return isLikes;
+    }
+
+    public void setLikes(Boolean likes) {
+        isLikes = likes;
+    }
 
     public Boolean getCollect() {
         return isCollect;

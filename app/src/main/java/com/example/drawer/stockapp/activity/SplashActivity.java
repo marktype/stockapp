@@ -36,8 +36,8 @@ public class SplashActivity extends BascActivity {
         ll_point_container = (LinearLayout) findViewById(R.id.ll_point_container);
         splashImageResourceIdList = new ArrayList<>();
         final List<ImageView> imageViews = new ArrayList<>();
-        splashImageResourceIdList.add(R.mipmap.splash_1);
         splashImageResourceIdList.add(R.mipmap.splash_2);
+        splashImageResourceIdList.add(R.mipmap.splash_1);
         splashImageResourceIdList.add(R.mipmap.splash_3);
         for (int i = 0; i < splashImageResourceIdList.size(); i++) {
             ImageView addView = new ImageView(this);

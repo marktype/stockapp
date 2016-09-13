@@ -54,6 +54,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
     private EditText mCommentEdit;
     private String mToken;
     private MyDialog dialog;
+    private TextView mComment,mZhuanFa;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,8 +89,8 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         TextView content = (TextView) headRelat.findViewById(R.id.dongtai_content);
         MyGridView contentImage = (MyGridView) headRelat.findViewById(R.id.dongtai_cntent_image);
         TextView time = (TextView) headRelat.findViewById(R.id.dongtai_time);
-        TextView mZhuanFa = (TextView) headRelat.findViewById(R.id.dongtai_zhuanfa);
-        TextView mComment = (TextView) headRelat.findViewById(R.id.dongtai_pinglun);
+        mZhuanFa = (TextView) headRelat.findViewById(R.id.dongtai_zhuanfa);
+        mComment = (TextView) headRelat.findViewById(R.id.dongtai_pinglun);
         TextView mLikes = (TextView) headRelat.findViewById(R.id.dongtai_zan);
 //        ImageView mCollect = (ImageView) headRelat.findViewById(R.id.collect_info_img);
 
@@ -282,13 +283,15 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                 if(inputMethodManager.isActive()){
                     inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
                 }
-
+                dialog = ManagerUtil.getDiaLog(MyDynamicActivity.this);
                 //点击进行逻辑处理
                 String key = mCommentEdit.getText().toString();
                 LikeOrForwordAsyn likeOrForwordAsyn = new LikeOrForwordAsyn();
                 if (type == 2){
+                    mZhuanFa.setText((Integer.parseInt(mZhuanFa.getText().toString())+1)+"");
                     likeOrForwordAsyn.execute(shareBean.getId(),"Forward",key,mToken,HttpManager.Comment_URL);
                 }else {
+                    mComment.setText((Integer.parseInt(mComment.getText().toString())+1)+"");
                     likeOrForwordAsyn.execute(shareBean.getId(),"Comment",key,mToken,HttpManager.Comment_URL);
                 }
 
@@ -368,6 +371,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            dialog.dismiss();
             if (!TextUtils.isEmpty(s)){
                 try {
                     JSONObject object = new JSONObject(s);
@@ -377,6 +381,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                             Toast.makeText(MyDynamicActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(MyDynamicActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
+                            mCommentEdit.setText("");
                             DynamicTask task = new DynamicTask();
                             task.execute();
                         }

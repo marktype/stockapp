@@ -123,7 +123,7 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
     public void showChangeBgDialog() {
         bitmapList = new ArrayList<Bitmap>();
 
-        final Dialog dialog = new Dialog(this, R.style.dialog_no_black_border);
+        final Dialog dialog = new Dialog(this, R.style.myDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LinearLayout dialogLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.pic_select_item_layout, null, false);
         dialog.setContentView(dialogLayout);

@@ -209,10 +209,10 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         TextView mTitle = (TextView) findViewById(R.id.back_txt);
         ImageView mGoOrder = (ImageView) findViewById(R.id.order_txt);
-        mGoOrder.setVisibility(View.GONE);
+        mGoOrder.setImageResource(R.mipmap.tiaocang);
 
-        mPersent = (TextView) findViewById(R.id.rank_parsent);    //百分比字体设置
-        mTimes = (TextView) findViewById(R.id.rank_times);      //倍数设置
+//        mPersent = (TextView) findViewById(R.id.rank_parsent);    //百分比字体设置
+//        mTimes = (TextView) findViewById(R.id.rank_times);      //倍数设置
         mLikes = (TextView) findViewById(R.id.guanzhu_num);   //关注人数
         mBuildTime = (TextView) findViewById(R.id.build_time);   //创建时间
         mDataNum = (TextView) findViewById(R.id.jingzhi_num);   //日增长
@@ -550,7 +550,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         //设置描述文字
-        mLineChart.setDescription("股票走势图");
+        mLineChart.setDescription("收益率曲线图");
 
         //模拟一个x轴的数据  12/1 12/2 ... 12/7
         ArrayList<String> xValues = new ArrayList<>();
@@ -564,19 +564,24 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         ArrayList<Entry> yValue = new ArrayList<>();
         for (int i = 0; i < ImgData.size(); i++) {
             StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean dataBean = ImgData.get(i);
-            yValue.add(new Entry((float)dataBean.getCumulativeReturn(), i));
+            yValue.add(new Entry(Float.parseFloat(df.format(dataBean.getCumulativeReturn())), i));
         }
 
         //构建一个LineDataSet 代表一组Y轴数据 （比如不同的彩票： 七星彩  双色球）
-        LineDataSet dataSet = new LineDataSet(yValue, "基准");
-
+        LineDataSet dataSet = new LineDataSet(yValue, "沪深300");
+        dataSet.setCircleRadius(4.0f);
+        dataSet.setColor(R.color.quxian_nan);
+        dataSet.setCircleColor(R.color.quxian_nan);
+        dataSet.setFillColor(R.color.quxian_nan);
+        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataSet.setLineWidth(2f);
 
         //模拟第二组组y轴数据(存放y轴数据的是一个Entry的ArrayList) 他是构建LineDataSet的参数之一
 
         ArrayList<Entry> yValue1 = new ArrayList<>();
         for (int i = 0; i < ImgData.size(); i++) {
             StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean benchmarkImgDataBean = BenchmarkImgData.get(i);
-            yValue1.add(new Entry((float)benchmarkImgDataBean.getCumulativeReturn(), i));
+            yValue1.add(new Entry(Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())), i));
         }
 //        yValue1.add(new Entry(7, 0));
 //        yValue1.add(new Entry(17, 1));
@@ -593,8 +598,11 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
 
         //构建一个LineDataSet 代表一组Y轴数据 （比如不同的彩票： 七星彩  双色球）
 
-        LineDataSet dataSet1 = new LineDataSet(yValue1, "组合");
-        dataSet1.setColor(Color.BLACK);
+        LineDataSet dataSet1 = new LineDataSet(yValue1, "组合收益");
+        dataSet1.setColor(getResources().getColor(R.color.quxian_huang));
+        dataSet1.setCircleColor(getResources().getColor(R.color.quxian_huang));
+        dataSet1.setCircleRadius(4.0f);
+        dataSet1.setLineWidth(2f);
         //构建一个类型为LineDataSet的ArrayList 用来存放所有 y的LineDataSet   他是构建最终加入LineChart数据集所需要的参数
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
 

@@ -59,6 +59,11 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style> <!-- 自定义dialog -->
+    <!-- 自定义dialog -->
+    <style name="myDialogFragment" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@color/write_color</item>
+        <item name="android:windowNoTitle">true</item>
+    </style> <!-- 自定义dialog -->
 
     <style name="MyDialogStyleDia">
         <item name="android:windowBackground">@android:color/transparent</item>

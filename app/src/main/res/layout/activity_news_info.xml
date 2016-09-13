@@ -41,12 +41,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:text="接收新消息通知"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="已关闭"
-            android:layout_alignParentRight="true"/>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="已关闭"-->
+            <!--android:layout_alignParentRight="true"/>-->
+        <com.example.drawer.stockapp.customview.WiperSwitch
+            android:id="@+id/wiperSwitch_four"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp" />
     </RelativeLayout>
     <TextView
         android:id="@+id/hint_info_txt"

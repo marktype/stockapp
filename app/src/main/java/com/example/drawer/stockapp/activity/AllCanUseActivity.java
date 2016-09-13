@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.utils.DataCleanManager;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
@@ -59,8 +60,7 @@ public class AllCanUseActivity extends BascActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.clean_lin:
-                DataCleanManager.cleanCacheData(this);
-                Toast.makeText(this, "清除缓存成功！", Toast.LENGTH_SHORT).show();
+                popWinDow();
                 break;
             case R.id.above_lin:
                 intent = new Intent(this,AgreementWebActivity.class);
@@ -68,5 +68,30 @@ public class AllCanUseActivity extends BascActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
         }
+    }
+
+    /**
+     * 退出弹框
+     */
+    public void popWinDow(){
+        final CustomDialog dialog = new CustomDialog(this);
+        dialog.setMessageText("确认要清除缓存吗？");
+        dialog.show();
+        dialog.setOnPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataCleanManager.cleanCacheData(AllCanUseActivity.this);
+                Toast.makeText(AllCanUseActivity.this, "清除缓存成功！", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+        dialog.setOnNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+
     }
 }

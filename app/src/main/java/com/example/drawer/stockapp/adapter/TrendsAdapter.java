@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
@@ -65,6 +66,8 @@ public class TrendsAdapter extends BaseAdapter {
             viewHolder.zhuanFaNum = (TextView) view.findViewById(R.id.dongtai_zhuanfa);
             viewHolder.commentNum = (TextView) view.findViewById(R.id.dongtai_pinglun);
             viewHolder.goodNum = (TextView) view.findViewById(R.id.dongtai_zan);
+            viewHolder.likes = (ImageView) view.findViewById(R.id.dianzan_img);    //点赞图
+            viewHolder.mChick = (RelativeLayout) view.findViewById(R.id.zan_relate);   //点赞
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();
@@ -83,6 +86,15 @@ public class TrendsAdapter extends BaseAdapter {
         viewHolder.zhuanFaNum.setText(info.getZhuanFaNum()+"");
         viewHolder.commentNum.setText(info.getCommentNum()+"");
         viewHolder.goodNum.setText(info.getGoodNum()+"");
+
+
+        if (info.getLikes()){
+            viewHolder.likes.setImageResource(R.mipmap.y_dianzan);
+        }else {
+            viewHolder.likes.setImageResource(R.mipmap.zan);
+        }
+
+
 //        if (info.getCollect()){
 //            viewHolder.collect.setImageResource(R.mipmap.collection_yes);
 //        }else {
@@ -119,11 +131,22 @@ public class TrendsAdapter extends BaseAdapter {
             }
         });
         //点赞
-        viewHolder.goodNum.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mChick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(context,"点赞",Toast.LENGTH_SHORT).show();
-                callBack.setCollectOrLikes(i,"2");
+                if (info.getLikes()){
+                    callBack.setCollectOrLikes(i,"3");    //取消点赞
+                    viewHolder.likes.setImageResource(R.mipmap.zan);
+                    viewHolder.goodNum.setText((Integer.parseInt(viewHolder.goodNum.getText().toString())-1)+"");
+                    info.setLikes(false);
+                    list.set(i,info);
+                }else {
+                    callBack.setCollectOrLikes(i,"2");    //点赞
+                    viewHolder.likes.setImageResource(R.mipmap.y_dianzan);
+                    viewHolder.goodNum.setText((Integer.parseInt(viewHolder.goodNum.getText().toString())+1)+"");
+                    info.setLikes(true);
+                    list.set(i,info);
+                }
             }
         });
 
@@ -139,9 +162,14 @@ public class TrendsAdapter extends BaseAdapter {
         TextView zhuanFaNum;
         TextView commentNum;
         TextView goodNum;
+        ImageView likes;
+        RelativeLayout mChick;
 //        ImageView collect;
     }
 
-
-
-}
+    public int  getResource(String imageName) {
+        Context ctx = context.getApplicationContext();
+        int resId = context.getResources().getIdentifier(imageName, "mipmap", ctx.getPackageName());
+        return resId;
+    }
+    }

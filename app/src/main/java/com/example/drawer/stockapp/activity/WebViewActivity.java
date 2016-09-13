@@ -1,11 +1,12 @@
 package com.example.drawer.stockapp.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,6 +49,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
     private String urlId;    //新闻id
     private WebView webView;
     private TextView mTxt,mZhuanFa,mComment,mLikes,mTitle;
+    private TextView mLogin;
     private int type;     //跳转类型
     private EditText mCommentEdit;
     private DynamicInfoAdapter adapter;
@@ -55,12 +57,14 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
     private MyListView mList;
     private CommnetInfo commnetInfo;
     private MyDialog dialog;
+    private SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
         tintManager.setStatusBarTintResource(R.color.write_color);
-        mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
+        sp = ShapePreferenceManager.getMySharedPreferences(this);
+        mToken = sp.getString(ShapePreferenceManager.TOKEN,null);
         urlId = getIntent().getStringExtra(URLID);
         initWight();
         NewsInfoAsyn newsInfoAsyn = new NewsInfoAsyn();
@@ -73,6 +77,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         // 切换页面
         dialog = ManagerUtil.getDiaLog(this);
     }
+
 
     /**
      * 初始化控件
@@ -97,13 +102,17 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         RelativeLayout mLayout = (RelativeLayout) findViewById(R.id.pinglun_relat);    //评论选项
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
-        mCommentEdit = (EditText) findViewById(R.id.dongtai_comment_edit);
 //        mTxt = (TextView) findViewById(R.id.test_txt);   //文本展示
+
+        mCommentEdit = (EditText) findViewById(R.id.dongtai_comment_edit);
         mZhuanFa = (TextView) findViewById(R.id.dongtai_zhuanfa);
         mComment = (TextView) findViewById(R.id.dongtai_pinglun);
         mLikes = (TextView) findViewById(R.id.dongtai_zan);
         mTitle = (TextView) findViewById(R.id.back_txt);    //题目
         ImageView mShare = (ImageView) findViewById(R.id.share_img);   //分享
+        mLogin = (TextView) findViewById(R.id.login_btn);    //登录
+
+
 
         mList = (MyListView) findViewById(R.id.dynamic_list);
         adapter = new DynamicInfoAdapter(this);
@@ -113,12 +122,22 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         mZhuanFa.setOnClickListener(this);
         mComment.setOnClickListener(this);
         mLikes.setOnClickListener(this);
+        mLogin.setOnClickListener(this);
         mCommentEdit.setOnKeyListener(onKeyListener);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mToken = sp.getString(ShapePreferenceManager.TOKEN,null);
+
+        if (!TextUtils.isEmpty(mToken)){
+            mLogin.setVisibility(View.GONE);
+        }else {
+            mLogin.setVisibility(View.VISIBLE);
+        }
+
         SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
         ManagerUtil.setStataBarColor(this,tintManager);
     }
@@ -130,12 +149,22 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.dongtai_zhuanfa:
-                type  = 2;
-                initSoftWindow(type);
+                if (!TextUtils.isEmpty(mToken)){
+                    type  = 2;
+                    initSoftWindow(type);
+                }else {
+                    Intent intent = new Intent(this,LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.dongtai_pinglun:
-                type = 1;
-                initSoftWindow(type);
+                if (!TextUtils.isEmpty(mToken)){
+                    type = 1;
+                    initSoftWindow(type);
+                }else {
+                    Intent intent = new Intent(this,LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.dongtai_zan:
                 if (!TextUtils.isEmpty(mToken)){
@@ -143,6 +172,8 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                     likeOrCollectAsyn.execute(urlId,"Like",mToken);
                 }else {
                     Toast.makeText(this,"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this,LoginActivity.class);
+                    startActivity(intent);
                 }
                 break;
             case R.id.share_img:
@@ -151,6 +182,10 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                 }else {
                     showShare(mTitle.getText().toString(),"");
                 }
+                break;
+            case R.id.login_btn:
+                Intent intent = new Intent(this,LoginActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -293,7 +328,6 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
             info.setFriendContent(dataBean.getContent());
             info.setFriendImage(dataBean.getImgUrl());
             list.add(info);
-            Log.d("tag","list--------"+dataBean.getNickName());
         }
         adapter.setData(list);
         mList.setAdapter(adapter);

@@ -165,7 +165,11 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
     private void parseData(StargDetial stargDetial){
         if (stargDetial.getHead().getStatus() == 0){
             StargDetial.ResultBean.TransferPositionsBean Transfer = stargDetial.getResult().getTransferPositions();
-            mLastTime.setText("("+Transfer.getLastTime()+")");
+            if (Transfer.getLastTime() != null&&!TextUtils.isEmpty(Transfer.getLastTime())){
+                mLastTime.setText("("+Transfer.getLastTime()+")");
+            }else {
+                mLastTime.setText("(暂无调仓信息)");
+            }
             List<StargDetial.ResultBean.TransferPositionsBean.TransferPositionsInfoBean> infoBeanList = Transfer.getTransferPositionsInfo();
             ArrayList<TiaoCangInfo> tiaoCang = new ArrayList<>();
             for (int i = 0;i<infoBeanList.size();i++){
@@ -243,7 +247,11 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             mRunTime.setText(infoBean.getRunStartDay().substring(0,10)+"-"+infoBean.getRunTargetEndDay().substring(0,10));
 
             StargDetial.ResultBean.StarInfoBean starInfoBean = stargDetial.getResult().getStarInfo();
-            mAdvice.setText(starInfoBean.getTitle());
+            if (starInfoBean.getTitle() != null&&!TextUtils.isEmpty(starInfoBean.getTitle())){
+                mAdvice.setText(starInfoBean.getTitle());
+            }else {
+                mAdvice.setText("牛逼的组合不需要解释！");
+            }
             mNiurenName.setText(starInfoBean.getName());
             Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
         }

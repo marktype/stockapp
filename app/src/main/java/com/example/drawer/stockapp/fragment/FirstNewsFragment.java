@@ -385,6 +385,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             LinearLayout layout1 = new LinearLayout(getActivity());
             LinearLayout.LayoutParams lay = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             lay.weight = 1;
+            layout1.setBackgroundColor(getResources().getColor(R.color.write_color));
             layout1.setLayoutParams(lay);
             layout1.setGravity(Gravity.CENTER);
             layout1.setOrientation(LinearLayout.VERTICAL);
@@ -502,6 +503,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             info.setCommentNum(ben.getComments());
             info.setGoodNum(ben.getLikes());
             info.setCollect(ben.isHasFavorites());
+            info.setLikes(ben.isHasLike());
             trendsInfos.add(info);
         }
         return trendsInfos;
@@ -561,10 +563,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 @Override
                 public void onSliderClick(BaseSliderView slider) {
                     Intent intent = new Intent(getContext(), AgreementWebActivity.class);
-//                    intent.setAction("android.intent.action.VIEW");
-//                    Uri content_url = Uri.parse(mString[finalI]);
-//                    intent.setData(content_url);
-//                    intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
                     intent.putExtra(AgreementWebActivity.URLTYPE,3);
                     intent.putExtra(AgreementWebActivity.URL,mString[finalI]);
                     startActivity(intent);
@@ -613,8 +611,13 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 startActivity(intent);
                 break;
             case R.id.send_dynamic:   //发表动态
-                intent = new Intent(getContext(), SendDynamicActivity.class);
-                startActivity(intent);
+                if (!TextUtils.isEmpty(token)){
+                    intent = new Intent(getContext(), SendDynamicActivity.class);
+                    startActivity(intent);
+                }else {
+                    intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.img_no_login:   //未登录
                 intent = new Intent(getContext(), LoginActivity.class);

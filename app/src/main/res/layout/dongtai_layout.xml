@@ -16,6 +16,7 @@
     <ImageView
         android:id="@+id/img_no_login"
         android:visibility="gone"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@mipmap/dynamic_no_login"/>

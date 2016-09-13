@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/register_title"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="wrap_content"
         android:background="@mipmap/loginbg">
 
         <RelativeLayout
@@ -60,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/register_title"
         android:textSize="@dimen/title_text_size"
+        android:textCursorDrawable="@null"
         android:layout_marginLeft="@dimen/margin_25dp"
         android:layout_marginRight="@dimen/margin_25dp"
         android:layout_marginTop="@dimen/margin_40dp"
@@ -88,6 +89,7 @@
             android:layout_marginLeft="@dimen/margin_5dp"
             android:textSize="@dimen/title_text_size"
             android:layout_weight="1"
+            android:textCursorDrawable="@null"
             android:background="@color/write_color"
             android:hint="验证码"
             android:inputType="number"
@@ -127,6 +129,7 @@
             android:layout_centerVertical="true"
             android:background="@color/write_color"
             android:hint="密码"
+            android:textCursorDrawable="@null"
             android:textSize="@dimen/title_text_size"
             android:inputType="textPassword"
             android:digits="1234567890abcdefghijklmnopqrstuvwxyz"
@@ -178,7 +181,7 @@
         android:layout_margin="@dimen/margin_25dp"
         android:background="@drawable/rect_blue_shape"
         android:gravity="center"
-        android:padding="@dimen/margin_10dp"
+        android:padding="@dimen/margin_15dp"
         android:text="@string/register_finish_txt"
         android:textColor="@android:color/background_dark"
         android:textSize="14sp" />

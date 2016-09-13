@@ -1,5 +1,6 @@
 package com.example.drawer.stockapp.activity;
 
+import android.app.Notification;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -14,12 +15,20 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.customview.WiperSwitch;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import cn.jpush.android.api.BasicPushNotificationBuilder;
+import cn.jpush.android.api.JPushInterface;
+
 public class NewsInfoActivity extends BascActivity implements View.OnClickListener,TimePicker.OnTimeChangedListener{
     private TextView time;
+    private BasicPushNotificationBuilder builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +39,7 @@ public class NewsInfoActivity extends BascActivity implements View.OnClickListen
 
 
     public void initWight(){
+        builder = new BasicPushNotificationBuilder(NewsInfoActivity.this);
 
         RelativeLayout mTitleRelat = (RelativeLayout) findViewById(R.id.news_info_title);    //title布局
         //设置距离顶部状态栏高度
@@ -41,6 +51,70 @@ public class NewsInfoActivity extends BascActivity implements View.OnClickListen
         RelativeLayout mTime = (RelativeLayout) findViewById(R.id.time_select_relat);
 
         time = (TextView) findViewById(R.id.time_info);   //时间设置
+
+        WiperSwitch wiperSwitchSounds = (WiperSwitch) findViewById(R.id.wiperSwitch_one);    //声音
+        WiperSwitch wiperSwitchZhenDong = (WiperSwitch) findViewById(R.id.wiperSwitch_two);   //震动
+        WiperSwitch wiperSwitchEvening = (WiperSwitch) findViewById(R.id.wiperSwitch_three);   //免打扰模式
+        WiperSwitch wiperSwitchOpenClose = (WiperSwitch) findViewById(R.id.wiperSwitch_four);   //推送的开关
+
+        wiperSwitchOpenClose.setChecked(true);
+        wiperSwitchSounds.setChecked(true);
+        wiperSwitchZhenDong.setChecked(true);
+
+        wiperSwitchOpenClose.setOnChangedListener(new WiperSwitch.OnChangedListener() {
+            @Override
+            public void OnChanged(WiperSwitch wiperSwitch, boolean checkState) {
+                if (checkState){
+                    JPushInterface.init(NewsInfoActivity.this);
+                }else {
+                    JPushInterface.stopPush(NewsInfoActivity.this);
+                }
+            }
+        });
+
+        wiperSwitchSounds.setOnChangedListener(new WiperSwitch.OnChangedListener() {
+            @Override
+            public void OnChanged(WiperSwitch wiperSwitch, boolean checkState) {
+                if (checkState){
+
+                    builder.notificationFlags = Notification.FLAG_AUTO_CANCEL; // 设置为自动消失
+                    builder.notificationDefaults = Notification.DEFAULT_SOUND; // 设置为铃声
+                }else {
+                    builder = new BasicPushNotificationBuilder(NewsInfoActivity.this);
+                    builder.notificationFlags = Notification.FLAG_AUTO_CANCEL; // 设置为自动消失
+                }
+                JPushInterface.setDefaultPushNotificationBuilder(builder);
+                JPushInterface.setPushNotificationBuilder(1, builder);
+
+            }
+        });
+
+        wiperSwitchZhenDong.setOnChangedListener(new WiperSwitch.OnChangedListener() {
+            @Override
+            public void OnChanged(WiperSwitch wiperSwitch, boolean checkState) {
+                if (checkState){
+                    builder.notificationFlags = Notification.FLAG_AUTO_CANCEL; // 设置为自动消失
+                    builder.notificationDefaults = Notification.DEFAULT_VIBRATE; // 设置震动
+                }else {
+                    builder = new BasicPushNotificationBuilder(NewsInfoActivity.this);
+                    builder.notificationFlags = Notification.FLAG_AUTO_CANCEL; // 设置为自动消失
+                }
+                JPushInterface.setDefaultPushNotificationBuilder(builder);
+                JPushInterface.setPushNotificationBuilder(1, builder);
+            }
+        });
+
+        wiperSwitchEvening.setOnChangedListener(new WiperSwitch.OnChangedListener() {
+            @Override
+            public void OnChanged(WiperSwitch wiperSwitch, boolean checkState) {
+                if (checkState){
+                    setTime(endHour,endMinte,24-startHour,59-startMinte);
+                }else {
+                    setTime(0,0,0,0);
+                }
+            }
+        });
+
 
         mTime.setOnClickListener(this);
         mBackImg.setOnClickListener(this);
@@ -70,6 +144,33 @@ public class NewsInfoActivity extends BascActivity implements View.OnClickListen
                 break;
         }
     }
+
+    /**
+     * 推送开始和结束时间（静音）
+     * @param startHour
+     * @param endHour
+     */
+    private void setTime(int startHour,int startMinte,int endHour,int endMinte){
+        JPushInterface.setSilenceTime(getApplicationContext(), startHour, startMinte, endHour, endMinte);
+
+    }
+
+    /**
+     * 允许推送时间
+     * @param startHour
+     * @param endHour
+     */
+   private void setSlience(int startHour,int endHour){
+       Set<Integer> days = new HashSet<Integer>();
+       days.add(0);
+       days.add(1);
+       days.add(2);
+       days.add(3);
+       days.add(4);
+       days.add(5);
+       days.add(6);
+       JPushInterface.setPushTime(getApplicationContext(), days, startHour, endHour);
+   }
 
     private PopupWindow mClassifyPop;
 //    private TimePicker start,end;

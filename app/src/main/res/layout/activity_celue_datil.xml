@@ -22,20 +22,20 @@
                 android:id="@+id/persent_celue"
                 layout="@layout/celue_persent_info_layout" />
 
-            <include
-                android:id="@+id/month_layout"
-                layout="@layout/month_rank_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/persent_celue"
-                android:layout_marginLeft="@dimen/margin_15dp"
-                android:layout_marginRight="@dimen/margin_15dp" />
+            <!--<include-->
+                <!--android:id="@+id/month_layout"-->
+                <!--layout="@layout/month_rank_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/persent_celue"-->
+                <!--android:layout_marginLeft="@dimen/margin_15dp"-->
+                <!--android:layout_marginRight="@dimen/margin_15dp" />-->
 
             <RelativeLayout
                 android:id="@+id/advice_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/month_layout"
+                android:layout_below="@id/persent_celue"
                 android:layout_marginLeft="@dimen/margin_15dp"
                 android:layout_marginRight="@dimen/margin_15dp"
                 android:layout_marginTop="@dimen/margin_5dp"
@@ -44,7 +44,6 @@
                 <TextView
                     android:id="@+id/advice_txt_t"
                     android:layout_width="wrap_content"
-
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_10dp"
                     android:layout_marginLeft="@dimen/margin_15dp"
@@ -60,7 +59,7 @@
                     android:layout_below="@id/advice_txt_t"
                     android:layout_marginLeft="@dimen/margin_15dp"
 
-                    android:text="司法环境的恢复技术及" />
+                    android:text="" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/advice_image_txt"
@@ -196,13 +195,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_10dp"
-                    android:text="股票走势曲线"
+                    android:text="收益率曲线图"
                     android:textColor="@android:color/background_dark"
                     android:textSize="@dimen/title_text_size" />
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/lineChart"
                     android:layout_width="match_parent"
-                    android:layout_height="320dp"
+                    android:layout_height="260dp"
                     android:layout_below="@id/stock_quxian">
 
                 </com.github.mikephil.charting.charts.LineChart>

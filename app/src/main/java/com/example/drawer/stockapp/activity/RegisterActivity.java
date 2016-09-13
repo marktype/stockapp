@@ -113,6 +113,7 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
                         GetVerify getVerify = new GetVerify();
                         getVerify.execute(phoneV);
                 }else {
+                    mGetVerify.setEnabled(true);
                     Toast.makeText(this,"输入有误",Toast.LENGTH_SHORT).show();
                 }
                 break;

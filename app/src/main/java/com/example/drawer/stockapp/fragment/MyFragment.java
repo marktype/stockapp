@@ -38,6 +38,7 @@ import com.example.drawer.stockapp.activity.AlterNameActivity;
 import com.example.drawer.stockapp.activity.AlterPasswordActivity;
 import com.example.drawer.stockapp.activity.LoginActivity;
 import com.example.drawer.stockapp.customview.CustomDialog;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyReboundScrollView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.UserInfo;
@@ -76,6 +77,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
     private CircleImageView circleImageView;
     private ImageView mNologin;
     private MyReboundScrollView mScrollview;
+    private MyDialog dialog;
 
     private static int CAMERA_REQUST_CODE = 1;
     private static int GALLERY_REQUST_CODE = 2;
@@ -263,7 +265,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             case R.id.bind_phone_lin:
 //                intent = new Intent(getContext(), AlterPhoneActivity.class);
 //                startActivity(intent);
-                Toast.makeText(getActivity(),"请联系客服  QQ 2436899110",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"请联系客服  QQ 2436899110",Toast.LENGTH_LONG).show();
                 break;
             case R.id.reset_password_lin:
                 intent = new Intent(getContext(), AlterPasswordActivity.class);
@@ -376,8 +378,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 parseUserInfo(userInfo);
             }else {
                 Toast.makeText(getContext(),"获取信息失败,请重新登录",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(),LoginActivity.class);
-                startActivity(intent);
+                mNologin.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -416,12 +417,12 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             if (userInfo.getResult().getAvatar() != null&&!TextUtils.isEmpty(userInfo.getResult().getAvatar()+"")){
                 Picasso.with(getActivity()).load(userInfo.getResult().getAvatar()+"").into(circleImageView);
             }else {
-                Picasso.with(getActivity()).load(R.mipmap.ic_launcher).into(circleImageView);
+                Picasso.with(getActivity()).load(R.mipmap.img_place).into(circleImageView);
             }
+            mNologin.setVisibility(View.GONE);
         }else {
             Toast.makeText(getContext(),"获取信息失败,请重新登录",Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getContext(),LoginActivity.class);
-            startActivity(intent);
+            mNologin.setVisibility(View.VISIBLE);
         }
     }
 
@@ -442,6 +443,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            dialog.dismiss();
 
         }
     }
@@ -461,6 +463,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         byte[] dd = Base64.encode(bytes, Base64.DEFAULT);
         String mm = new String(dd);
         //到此已经得到了头像的字节字符串
+        dialog = ManagerUtil.getDiaLog(getActivity());
         UpdateAvterAsyn updateAvterAsyn = new UpdateAvterAsyn();
         updateAvterAsyn.execute(mm,token);
     }
@@ -468,7 +471,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
      * 显示更换背景对话框
      */
     public void showChangeBgDialog() {
-        final Dialog dialog = new Dialog(getContext(), R.style.dialog_no_black_border);
+        final Dialog dialog = new Dialog(getContext(), R.style.myDialogFragment);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LinearLayout dialogLayout = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.pic_select_item_layout, null, false);
         dialog.setContentView(dialogLayout);

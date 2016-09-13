@@ -17,12 +17,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="开始日期" />
+            android:text="开始时间" />
 
         <TimePicker
             android:id="@+id/datePickerStart"
             android:layout_width="180dp"
             android:layout_height="200dp"
+            android:background="@color/write_color"
             android:timePickerMode = "spinner"
                 />
         <TextView
@@ -45,13 +46,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:text="结束日期" />
+            android:text="结束时间" />
 
         <TimePicker
             android:id="@+id/datePickerEnd"
             android:layout_width="180dp"
             android:layout_height="200dp"
+            android:background="@color/write_color"
             android:timePickerMode = "spinner"
              />
         <TextView

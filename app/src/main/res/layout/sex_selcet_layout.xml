@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+
         android:background="@drawable/layout_selector"
         android:padding="@dimen/margin_20dp"
         android:text="女"/>
