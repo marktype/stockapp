@@ -184,7 +184,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
 //                        mZanImg.setImageResource(R.mipmap.y_dianzan);
                     }
                 }else {
-                    Toast.makeText(this,"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this,LoginActivity.class);
                     startActivity(intent);
                 }
@@ -378,7 +378,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                         likeOrForwordAsyn.execute(urlId,"Comment",key,mToken,HttpManager.News_Comment_URL);
                     }
                 }else {
-                    Toast.makeText(WebViewActivity.this,"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
@@ -424,9 +424,9 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                     if (object.has("Head")){
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getString("Status").equals("1")){
-                            Toast.makeText(WebViewActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(WebViewActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_SHORT).show();
                             DynamicTask dynamicTask = new DynamicTask();
                             dynamicTask.execute(urlId);
                         }
@@ -463,7 +463,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                     if (object.has("Head")){
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getString("Status").equals("1")){
-                            Toast.makeText(WebViewActivity.this,head.getString("Msg"),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),head.getString("Msg"),Toast.LENGTH_SHORT).show();
                         }else {
 //                            Toast.makeText(context,"发布成功",Toast.LENGTH_SHORT).show();
                             NewsInfoAsyn newsInfoAsyn = new NewsInfoAsyn();

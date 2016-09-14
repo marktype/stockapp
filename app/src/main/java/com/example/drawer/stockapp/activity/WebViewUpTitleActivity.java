@@ -277,7 +277,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                         likeOrForwordAsyn.execute(urlId,"Comment",key,mToken,HttpManager.CourseComment_URL);
                     }
                 }else {
-                    Toast.makeText(WebViewUpTitleActivity.this,"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
@@ -323,9 +323,9 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                     if (object.has("Head")){
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getString("Status").equals("1")){
-                            Toast.makeText(WebViewUpTitleActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(WebViewUpTitleActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }

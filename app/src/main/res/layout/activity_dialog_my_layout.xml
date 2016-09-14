@@ -60,17 +60,17 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/positiveButton"
+                android:id="@+id/negativeButton"
                 android:layout_weight="1"
                 android:layout_width="114dp"
                 android:layout_height="40dp"
                 android:background="@drawable/layout_selector"
                 android:focusableInTouchMode="false"
                 android:gravity="center"
-                android:text="确定" />
+                android:text="取消" />
 
             <Button
-                android:id="@+id/negativeButton"
+                android:id="@+id/positiveButton"
                 android:layout_width="114dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="20dp"
@@ -78,7 +78,7 @@
                 android:background="@drawable/layout_selector"
                 android:focusableInTouchMode="false"
                 android:gravity="center"
-                android:text="取消" />
+                android:text="确认" />
         </LinearLayout>
     </LinearLayout>
 

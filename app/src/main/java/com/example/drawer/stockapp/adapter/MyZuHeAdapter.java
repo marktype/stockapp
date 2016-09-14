@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
@@ -63,11 +64,13 @@ public class MyZuHeAdapter extends BaseAdapter {
             viewHolder.guanzhuNum = (TextView) view.findViewById(R.id.guanzhu_name);
             viewHolder.name = (TextView) view.findViewById(R.id.zuhe_name);
             viewHolder.canvasViewThree = (CanvasViewThree) view.findViewById(R.id.zuhe_canvas);
+            viewHolder.contentBg = (RelativeLayout) view.findViewById(R.id.my_zuhe_relat_item);
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
         final NiuRenInfo info = (NiuRenInfo) getItem(i);
+        viewHolder.contentBg.setBackgroundColor(context.getResources().getColor(R.color.write_color));
         if (info.getShouyiRate()>0){
             viewHolder.rate.setText("+"+info.getShouyiRate()+"%");
         }else {
@@ -120,6 +123,7 @@ public class MyZuHeAdapter extends BaseAdapter {
         TextView name;
         TextView delete;
         CanvasViewThree canvasViewThree;
+        RelativeLayout contentBg;
     }
 
     private ArrayList<HashMap<String, Object>> data;

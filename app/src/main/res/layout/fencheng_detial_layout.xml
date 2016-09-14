@@ -12,6 +12,7 @@
         android:layout_marginRight="@dimen/margin_10dp"
         android:layout_marginTop="@dimen/margin_5dp"
         android:text="@string/fencheng_txt"
+        android:gravity="center"
         android:textSize="@dimen/my_txt_size"
         />
     <RelativeLayout
@@ -22,6 +23,7 @@
         android:layout_marginRight="@dimen/margin_10dp"
         android:layout_marginTop="@dimen/margin_5dp"
         android:layout_marginBottom="@dimen/margin_5dp"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
@@ -47,9 +49,10 @@
     <RelativeLayout
         android:id="@+id/target_shouyi_relat"
         android:layout_below="@id/zuhe_zhong_line_two"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_marginTop="@dimen/margin_5dp"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
@@ -69,9 +72,10 @@
     <RelativeLayout
         android:id="@+id/fencheng_money_relat"
         android:layout_below="@id/target_shouyi_relat"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_marginTop="@dimen/margin_5dp"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
@@ -88,21 +92,23 @@
             android:textColor="@android:color/black"
             android:text="@string/fencheng_money_txt"
             android:layout_height="wrap_content" />
-        <TextView
-            android:layout_below="@+id/txt"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="@dimen/margin_3dp"
-            android:id="@+id/zuhe_zhong_line"
-            android:background="@color/circle_con_bg"
-            />
+
     </RelativeLayout>
+    <TextView
+        android:layout_below="@+id/fencheng_money_relat"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/margin_3dp"
+        android:id="@+id/zuhe_zhong_line"
+        android:background="@color/circle_con_bg"
+        />
     <TextView
         android:id="@+id/fencheng_sure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="确认"
+        android:background="@color/content_bg"
         android:gravity="center"
         android:padding="@dimen/margin_10dp"
-        android:layout_below="@id/fencheng_money_relat"/>
+        android:layout_below="@id/zuhe_zhong_line"/>
 </RelativeLayout>

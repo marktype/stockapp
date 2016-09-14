@@ -24,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -160,10 +159,10 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
                         startActivityForResult(intent, CAMERA_REQUST_CODE);
                         dialog.dismiss();
                     } catch (ActivityNotFoundException e) {
-                        Toast.makeText(SendDynamicActivity.this, "没有找到储存目录", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "没有找到储存目录", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(SendDynamicActivity.this, "没有储存卡", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "没有储存卡", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -372,14 +371,14 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
             case R.id.send_dynamic_txt:
                 String edit = mEditTxt.getText().toString();
                 if (edit.length()<1){
-//                    Toast.makeText(this,"你还未输入内容哦",Toast.LENGTH_SHORT).show();
-                    TSnackbar.make(mSendTxt,"你还未输入内容哦",TSnackbar.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"你还未输入内容哦",Toast.LENGTH_SHORT).show();
+//                    Snackbar.make(mSendTxt,"你还未输入内容哦",Snackbar.LENGTH_SHORT).show();
                 }else if (!TextUtils.isEmpty(token)){
                     dialog = ManagerUtil.getDiaLog(this);
                     SendDynmaic(list,token,edit);
                  }else {
-//                    Toast.makeText(this,"你还未登录，请登录后发表",Toast.LENGTH_SHORT).show();
-                    TSnackbar.make(mSendTxt,"你还未登录，请登录后发表",TSnackbar.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"你还未登录，请登录后发表",Toast.LENGTH_SHORT).show();
+//                    Snackbar.make(mSendTxt,"你还未登录，请登录后发表",Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.add_image:
@@ -421,11 +420,11 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
                         if (object.has("Head")){
                             JSONObject head = object.getJSONObject("Head");
                             if (head.getString("Status").equals("1")){
-                                TSnackbar.make(mSendTxt,"发布失败",TSnackbar.LENGTH_SHORT).show();
-//                                Toast.makeText(SendDynamicActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
+//                                Snackbar.make(mSendTxt,"发布失败",Snackbar.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_SHORT).show();
                             }else {
-//                                Toast.makeText(SendDynamicActivity.this,"发表成功",Toast.LENGTH_SHORT).show();
-                                TSnackbar.make(mSendTxt,"发表成功",TSnackbar.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"发表成功",Toast.LENGTH_SHORT).show();
+//                                Snackbar.make(mSendTxt,"发表成功",Snackbar.LENGTH_SHORT).show();
                                 finish();
                             }
                         }

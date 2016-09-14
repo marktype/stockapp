@@ -18,7 +18,7 @@ import com.example.drawer.stockapp.R;
  * 自定义开关控件
  */
 public class WiperSwitch extends View implements View.OnTouchListener {
-    private Bitmap bg_on, bg_off, slipper_btn;
+    private Bitmap bg_on, bg_off, slipper_btn,slipper_on;
     /**
      * 按下时的x和当前的x
      */

@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -94,8 +93,8 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                     AlterAsyn getRegister = new AlterAsyn();
                     getRegister.execute(phone,password,verify);
                 }else {
-                    TSnackbar.make(mSureTxt,"输入有误！",TSnackbar.LENGTH_SHORT).show();
-//                    Toast.makeText(this,"输入有误",Toast.LENGTH_SHORT).show();
+//                    TSnackbar.make(mSureTxt,"输入有误！",TSnackbar.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"输入有误",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.get_verify:
@@ -105,8 +104,9 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                     GetVerify getVerify = new GetVerify();
                     getVerify.execute(phoneV);
                 }else {
-//                    Toast.makeText(this,"输入有误",Toast.LENGTH_SHORT).show();
-                    TSnackbar.make(mGetVerify,"输入有误！",TSnackbar.LENGTH_SHORT).show();
+                    mGetVerify.setEnabled(true);
+                    Toast.makeText(getApplicationContext(),"输入有误",Toast.LENGTH_SHORT).show();
+//                    TSnackbar.make(mGetVerify,"输入有误！",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -140,7 +140,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
             }
             if (stutas.equals("1")){
                 mGetVerify.setEnabled(true);
-                Toast.makeText(ForgetPasswordActivity.this,msg,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
             }else {
                 DaojiShiAsyn daojiShiAsyn = new DaojiShiAsyn();
                 daojiShiAsyn.execute(60);
@@ -216,12 +216,12 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                 e.printStackTrace();
             }
             if (stutas.equals("0")){
-                TSnackbar.make(mSureTxt,"修改成功！",TSnackbar.LENGTH_SHORT).show();
-//                Toast.makeText(ForgetPasswordActivity.this,"修改成功",Toast.LENGTH_SHORT).show();
+//                TSnackbar.make(mSureTxt,"修改成功！",TSnackbar.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"修改成功",Toast.LENGTH_SHORT).show();
                 finish();
             }else if (stutas.equals("1")){
-//                Toast.makeText(ForgetPasswordActivity.this,msg,Toast.LENGTH_SHORT).show();
-                TSnackbar.make(mSureTxt,msg,TSnackbar.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
+//                TSnackbar.make(mSureTxt,msg,TSnackbar.LENGTH_SHORT).show();
             }
         }
     }

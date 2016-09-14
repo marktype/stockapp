@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/content_con_bg"
     android:layout_height="match_parent">
 
-
+    <RelativeLayout
+        android:background="@color/content_con_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <com.example.drawer.stockapp.customview.view.XListView
         android:id="@+id/listview_zixun"
         android:divider="@android:color/transparent"
@@ -12,7 +14,7 @@
         android:layout_height="match_parent">
 
     </com.example.drawer.stockapp.customview.view.XListView>
-
+    </RelativeLayout>
     <ImageView
         android:id="@+id/loading_failed"
         android:layout_width="match_parent"

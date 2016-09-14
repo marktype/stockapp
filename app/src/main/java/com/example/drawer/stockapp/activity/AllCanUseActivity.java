@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
-import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.utils.DataCleanManager;
@@ -32,10 +32,16 @@ public class AllCanUseActivity extends BascActivity implements View.OnClickListe
                DensityUtils.dp2px(this,50));
        params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
        mTitleRelat.setLayoutParams(params);
+       mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
+
        ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
        RelativeLayout mNewInfo = (RelativeLayout) findViewById(R.id.news_info_lin);
        mClean = (RelativeLayout) findViewById(R.id.clean_lin);
        RelativeLayout mAbove = (RelativeLayout) findViewById(R.id.above_lin);
+
+       mNewInfo.setBackgroundColor(getResources().getColor(R.color.write_color));
+       mClean.setBackgroundColor(getResources().getColor(R.color.write_color));
+       mAbove.setBackgroundColor(getResources().getColor(R.color.write_color));
 
        mClean.setOnClickListener(this);
        mNewInfo.setOnClickListener(this);
@@ -81,7 +87,7 @@ public class AllCanUseActivity extends BascActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
                 DataCleanManager.cleanCacheData(AllCanUseActivity.this);
-                TSnackbar.make(mClean,"清除缓存成功！",TSnackbar.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"清除缓存成功！",Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });

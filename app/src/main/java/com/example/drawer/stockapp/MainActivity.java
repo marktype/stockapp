@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,6 +85,9 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
 //        tabHost.setLayoutParams(params);
         //使用fragment代替activity转换实现
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("status","1");
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(setTabMenu("头条", R.drawable.tab_item1_selector)), FirstNewsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(setTabMenu("智能投顾", R.drawable.tab_item2_selector)), AutoWisdomFragment.class, null);
 //        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(setTabMenu("自选股", R.drawable.tab_item3_selector)), AutoStockFragment.class, null);   //暂时隐藏

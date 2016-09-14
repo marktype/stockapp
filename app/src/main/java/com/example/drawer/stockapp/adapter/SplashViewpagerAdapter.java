@@ -36,7 +36,7 @@ public class SplashViewpagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView imageView = new ImageView(mContext);
         imageView.setLayoutParams(new ViewPager.LayoutParams());
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setImageResource(splashImageResourceIdList.get(position));
         container.addView(imageView);
         return imageView;

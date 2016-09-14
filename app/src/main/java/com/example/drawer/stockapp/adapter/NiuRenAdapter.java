@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
@@ -57,6 +58,7 @@ public class NiuRenAdapter extends BaseAdapter {
             viewHolder.shouyiBymonth = (TextView) view.findViewById(R.id.shouyi_every_month);
             viewHolder.stockNum = (TextView) view.findViewById(R.id.have_stock);
             viewHolder.cangwei = (TextView) view.findViewById(R.id.cangwei);
+            viewHolder.layoutTitle = (RelativeLayout) view.findViewById(R.id.niuren_relat_item);
 //            viewHolder.roundTime = (TextView) view.findViewById(R.id.round_every);
 //            viewHolder.tradeTime = (TextView) view.findViewById(R.id.trade_time);
             view.setTag(viewHolder);
@@ -66,6 +68,7 @@ public class NiuRenAdapter extends BaseAdapter {
         NiuRenInfo info = (NiuRenInfo) getItem(i);
         Picasso.with(context).load(info.getNiurenHead()).placeholder(R.mipmap.img_place).into(viewHolder.head);
         viewHolder.name.setText(info.getNiurenName());
+        viewHolder.layoutTitle.setBackgroundColor(context.getResources().getColor(R.color.write_color));
 //        Picasso.with(context).load(info.getNiurenRoundImage()).into(viewHolder.tradeImage);
 //        viewHolder.typeTxt.setText(info.getStockType());
         viewHolder.shouyiAll.setText(info.getShouyiRate()+"%");
@@ -83,5 +86,6 @@ public class NiuRenAdapter extends BaseAdapter {
         ImageView head;
         TextView name,shouyiAll;
         TextView typeTxt,victor,shouyiBymonth,stockNum,cangwei,roundTime,tradeTime;
+        RelativeLayout layoutTitle;
     }
 }

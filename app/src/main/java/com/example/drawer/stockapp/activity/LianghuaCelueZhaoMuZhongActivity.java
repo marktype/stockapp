@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.GenTouAdapter;
 import com.example.drawer.stockapp.customview.CanvasView;
@@ -176,8 +175,8 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                         dialog = ManagerUtil.getDiaLog(this);
                         gentouAsyn.execute(LiangHuaId,money+"",mToken);
                     }else {
-//                        Toast.makeText(this,"跟投余额必须大于0",Toast.LENGTH_SHORT).show();
-                        TSnackbar.make(mGentou,"跟投余额必须大于0！",TSnackbar.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"跟投余额必须大于0",Toast.LENGTH_SHORT).show();
+//                        TSnackbar.make(mGentou,"跟投余额必须大于0！",TSnackbar.LENGTH_SHORT).show();
                     }
                 }else {
                     Intent intent = new Intent(this,LoginActivity.class);
@@ -306,10 +305,10 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                         JSONObject object = new JSONObject(s);
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getInt("Status") == 0){
-                            Toast.makeText(LianghuaCelueZhaoMuZhongActivity.this,"跟投成功",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"跟投成功",Toast.LENGTH_SHORT).show();
                             finish();
                         }else {
-                            Toast.makeText(LianghuaCelueZhaoMuZhongActivity.this,head.getString("Msg"),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),head.getString("Msg"),Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

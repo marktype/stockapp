@@ -1,6 +1,7 @@
 package com.example.drawer.stockapp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -16,8 +17,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.DynamicInfoAdapter;
 import com.example.drawer.stockapp.adapter.ImageAdapter;
@@ -56,10 +57,12 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
     private ImageView mZanImg;
     private MyDialog dialog;
     private TextView mComment,mZhuanFa,mLikes;
+    private Intent in = new Intent();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_dynamic);
+
         mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
         tintManager.setStatusBarTintResource(R.color.write_color);
         shareBean = getIntent().getParcelableExtra(DYNAMICINFO);
@@ -398,14 +401,17 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                     if (object.has("Head")){
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getString("Status").equals("1")){
-//                            Toast.makeText(MyDynamicActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
-                            TSnackbar.make(mCommentEdit,"发布失败！",TSnackbar.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_SHORT).show();
+//                            Snackbar.make(mCommentEdit,"发布失败！",Snackbar.LENGTH_SHORT).show();
                         }else {
-//                            Toast.makeText(MyDynamicActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
-                            TSnackbar.make(mCommentEdit,"发布成功！",TSnackbar.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_SHORT).show();
                             mCommentEdit.setText("");
-                            DynamicTask task = new DynamicTask();
-                            task.execute();
+//                            DynamicTask task = new DynamicTask();
+//                            task.execute();
+                            in.setAction("com.stock.sendtype");
+                            //发送广播,销毁此界面
+                            sendBroadcast(in);
+                            finish();
                         }
                     }
                 } catch (JSONException e) {
@@ -439,8 +445,8 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                     if (object.has("Head")){
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getString("Status").equals("1")){
-//                            Toast.makeText(MyDynamicActivity.this,head.getString("Msg"),Toast.LENGTH_SHORT).show();
-                            TSnackbar.make(mCommentEdit,head.getString("Msg"),TSnackbar.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),head.getString("Msg"),Toast.LENGTH_SHORT).show();
+//                            TSnackbar.make(mCommentEdit,head.getString("Msg"),TSnackbar.LENGTH_SHORT).show();
                         }else {
 //                            Toast.makeText(context,"发布成功",Toast.LENGTH_SHORT).show();
                             DynamicTask task = new DynamicTask();

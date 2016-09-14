@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
@@ -64,6 +65,7 @@ public class CeLueAdapter extends BaseAdapter {
             viewHolder.nowGen = (TextView) view.findViewById(R.id.celue_name_other);
             viewHolder.status = (TextView) view.findViewById(R.id.status_celue);
             viewHolder.zhaomuName = (TextView) view.findViewById(R.id.zhaomu_name);
+            viewHolder.titleLayout = (RelativeLayout) view.findViewById(R.id.celue_relat_item);
 //            viewHolder.layout = (RelativeLayout) view.findViewById(R.id.lianghuacelue_item_relat);
 //            viewHolder.zuheName = (TextView) view.findViewById(R.id.lianghuacelue_title);
 //            viewHolder.levelImage = (ImageView) view.findViewById(R.id.line_celue_three);
@@ -88,7 +90,7 @@ public class CeLueAdapter extends BaseAdapter {
             viewHolder.status.setText("");
             viewHolder.nowGen.setVisibility(View.GONE);
         }
-
+        viewHolder.titleLayout.setBackgroundColor(context.getResources().getColor(R.color.write_color));
         viewHolder.persent.setText(info.getCeluePersent()+"%");
         viewHolder.title.setText(info.getTitle());
         viewHolder.content.setText(info.getOtherInfo());
@@ -120,6 +122,7 @@ public class CeLueAdapter extends BaseAdapter {
         CanvasViewThree canvasViewThree;
         TextView status;
 //        RelativeLayout layout;
+        RelativeLayout titleLayout;
     }
 
     private ArrayList<HashMap<String, Object>> data;

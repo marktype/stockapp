@@ -4,6 +4,7 @@
     android:layout_height="120dp">
 
     <RelativeLayout
+        android:id="@+id/item_relat_bg_test"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginLeft="@dimen/margin_15dp"

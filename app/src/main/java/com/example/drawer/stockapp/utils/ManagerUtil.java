@@ -132,7 +132,7 @@ public class ManagerUtil {
      */
     public static void setStataBarColor(Activity activity,SystemBarTintManager tintManager){
         tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.write_color);
+        tintManager.setStatusBarTintResource(R.color.content_con_bg);
         FlymeSetStatusBarLightMode(activity.getWindow(),true);
         MIUISetStatusBarLightMode(activity.getWindow(),true);
     }

@@ -47,8 +47,22 @@ public class NewsInfoActivity extends BascActivity implements View.OnClickListen
                 DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
+        mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
+
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
         RelativeLayout mTime = (RelativeLayout) findViewById(R.id.time_select_relat);
+
+        RelativeLayout layoutOne = (RelativeLayout) findViewById(R.id.get_info);
+        RelativeLayout layoutTwo = (RelativeLayout) findViewById(R.id.sound_relat);
+        RelativeLayout layoutThree = (RelativeLayout) findViewById(R.id.shock_relat);
+        RelativeLayout layoutFour = (RelativeLayout) findViewById(R.id.aovid_relat);
+
+        mTime.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutThree.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutFour.setBackgroundColor(getResources().getColor(R.color.write_color));
+
 
         time = (TextView) findViewById(R.id.time_info);   //时间设置
 
@@ -108,7 +122,7 @@ public class NewsInfoActivity extends BascActivity implements View.OnClickListen
             @Override
             public void OnChanged(WiperSwitch wiperSwitch, boolean checkState) {
                 if (checkState){
-                    setTime(endHour,endMinte,24-startHour,59-startMinte);
+                    setTime(endHour,endMinte,23-startHour,59-startMinte);
                 }else {
                     setTime(0,0,0,0);
                 }

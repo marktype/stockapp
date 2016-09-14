@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.SetUpZuHeAdapter;
 import com.example.drawer.stockapp.customview.MyDialog;
@@ -167,7 +167,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
                             if (list.get(i).getIndexPersent() != null&& !TextUtils.isEmpty(list.get(i).getIndexPersent())){
                             }else {
                                 flag = false;
-                                TSnackbar.make(mSrueBuild,"0仓位，你让我怎么买！",TSnackbar.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"0仓位，你让我怎么买！",Toast.LENGTH_SHORT).show();
                             }
                         }
                         if (flag){
@@ -175,11 +175,11 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
                                 dialog = ManagerUtil.getDiaLog(this);
                                 setUpZuHe(name,jianjie,getVolume());
                             }else {
-                                TSnackbar.make(mSrueBuild,"你还没有选择股票呢",TSnackbar.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"你还没有选择股票呢",Toast.LENGTH_SHORT).show();
                             }
                         }
                     }else {
-                        TSnackbar.make(mSrueBuild,"你还没有输入名字呢",TSnackbar.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"你还没有输入名字呢！",Toast.LENGTH_SHORT).show();
                     }
                 }else if (type == 1){
                     ArrayList<HashMap<String,String>> mapList = getTiaoVolume();
@@ -187,7 +187,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
                         dialog = ManagerUtil.getDiaLog(this);
                         TiaoCangAsyn(tiaoCangClass.getStockID(),mapList);
                     }else {
-                        TSnackbar.make(mSrueBuild,"你什么都没动，我怎么调,不调就返回",TSnackbar.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"你什么都没动，我怎么调,不调就返回",Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -321,10 +321,10 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
                         JSONObject object = new JSONObject(message);
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getInt("Status") == 0){
-                            TSnackbar.make(mSrueBuild,"调仓成功",TSnackbar.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"调仓成功",Toast.LENGTH_SHORT).show();
                             finish();
                         }else {
-                            TSnackbar.make(mSrueBuild,"调仓失败",TSnackbar.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"调仓失败",Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -365,10 +365,10 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
                         JSONObject object = new JSONObject(message);
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getInt("Status") == 0){
-                            TSnackbar.make(mSrueBuild,"创建成功",TSnackbar.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"创建成功",Toast.LENGTH_SHORT).show();
                             finish();
                         }else {
-                            TSnackbar.make(mSrueBuild,"创建失败",TSnackbar.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"创建失败",Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

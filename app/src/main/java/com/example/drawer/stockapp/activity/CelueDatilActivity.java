@@ -547,7 +547,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                     if (head.getInt("Status") == 0){
                         finish();
                     }else {
-                        Toast.makeText(CelueDatilActivity.this,"取消失败",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"取消失败",Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -581,7 +581,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                     if (head.getInt("Status") == 0){
                         finish();
                     }else {
-                        Toast.makeText(CelueDatilActivity.this,"取消失败",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"取消失败",Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -616,10 +616,10 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                         JSONObject object = new JSONObject(s);
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getInt("Status") == 0){
-                            Toast.makeText(CelueDatilActivity.this,"订阅成功",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"订阅成功",Toast.LENGTH_SHORT).show();
                             finish();
                         }else {
-                            Toast.makeText(CelueDatilActivity.this,head.getString("Msg"),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),head.getString("Msg"),Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

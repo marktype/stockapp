@@ -173,7 +173,7 @@ public class XListView extends ListView implements OnScrollListener {
 	 */
 	public void stopRefresh() {
 		if (mPullRefreshing == true) {
-			mHeadImg.setImageResource(R.mipmap.gif);
+			mHeadImg.setImageResource(R.mipmap.mao23);
 			mPullRefreshing = false;
 			resetHeaderHeight();
 		}

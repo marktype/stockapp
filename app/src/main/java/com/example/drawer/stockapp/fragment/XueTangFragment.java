@@ -39,14 +39,23 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
     private View mView;
     private XListView mList;
     private HeJiAdapter adapter;
+    private XueTangInfo findInfo;
+    private  ArrayList<HeadIndex> listSave;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragent_xuetang_layout, container, false);
-        SchoolFindAsyn asyn = new SchoolFindAsyn();
-        asyn.execute();
         initWight();
+        if (findInfo == null){
+            listSave = new ArrayList<>();
+            SchoolFindAsyn asyn = new SchoolFindAsyn();
+            asyn.execute();
+        }else {
+            adapter.setData(listSave);
+            mList.setAdapter(adapter);
+        }
+
         return mView;
     }
 
@@ -147,7 +156,7 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
             super.onPostExecute(s);
             if (!TextUtils.isEmpty(s)&&s.length()>10){
                 Gson gson = new Gson();
-                XueTangInfo findInfo = gson.fromJson(s,XueTangInfo.class);
+                findInfo = gson.fromJson(s,XueTangInfo.class);
                 parseData(findInfo);
             }
         }
@@ -164,6 +173,7 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
                 headIndex.setXuetangId(coursesBean.getId());
                 list.add(headIndex);
             }
+            listSave = list;
             adapter.setData(list);
             mList.setAdapter(adapter);
         }

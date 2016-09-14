@@ -216,7 +216,7 @@ public class SerchActivity extends BascActivity implements View.OnClickListener,
                     searchAdapter.setData(list);
                     mList.setAdapter(searchAdapter);
                 }else {
-                    Toast.makeText(SerchActivity.this,"亲，没有找到新闻哦",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"亲，没有找到新闻哦",Toast.LENGTH_SHORT).show();
                 }
             }
         }

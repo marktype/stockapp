@@ -308,7 +308,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                         setWidghtData();     //
                     }
                 }else {
-                    Toast.makeText(MyZuHeDatilActivity.this,"获取数据失败",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"获取数据失败",Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -528,7 +528,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                     if (head.getInt("Status") == 0){
                         finish();
                     }else {
-                        Toast.makeText(MyZuHeDatilActivity.this,"删除失败",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"删除失败",Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

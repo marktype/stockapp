@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
@@ -75,11 +77,13 @@ public class IndexAdapter extends BaseAdapter {
                 viewHolder.persent = (TextView) view.findViewById(R.id.index_persent);
                 viewHolder.headImahe = (ImageView) view.findViewById(R.id.head_zixun_item);
                 viewHolder.title = (TextView) view.findViewById(R.id.index_name_title);     //标题
+                viewHolder.testRelat = (RelativeLayout) view.findViewById(R.id.item_relat_bg_test);
                 view.setTag(viewHolder);
             }else {
                 viewHolder = (ViewHolder) view.getTag();
             }
             NewsInfo headIndex = (NewsInfo) getItem(i);
+            viewHolder.testRelat.setBackgroundColor(context.getResources().getColor(R.color.write_color));
             viewHolder.title.setText(headIndex.getTitle());
             viewHolder.name.setText(headIndex.getContent());
             viewHolder.time.setText(headIndex.getTime());
@@ -96,11 +100,13 @@ public class IndexAdapter extends BaseAdapter {
                 viewHolderTwo.threeImage = (ImageView) view.findViewById(R.id.news_image_three);
                 viewHolderTwo.commentNum = (TextView) view.findViewById(R.id.index_persent_three);
                 viewHolderTwo.timeThree = (TextView) view.findViewById(R.id.index_num_three);
+                viewHolderTwo.threeImg = (LinearLayout) view.findViewById(R.id.three_img_lin);
                 view.setTag(viewHolderTwo);
             }else {
                 viewHolderTwo = (ViewHolderTwo) view.getTag();
             }
             NewsInfo headIndex = (NewsInfo) getItem(i);
+            viewHolderTwo.threeImg.setBackgroundColor(context.getResources().getColor(R.color.write_color));
             viewHolderTwo.title.setText(headIndex.getTitle());
             viewHolderTwo.xontent.setText(headIndex.getContent());
             viewHolderTwo.timeThree.setText(headIndex.getTime());
@@ -121,6 +127,7 @@ public class IndexAdapter extends BaseAdapter {
        TextView persent;
        ImageView headImahe;
        TextView title;
+       RelativeLayout testRelat;
    }
     private class ViewHolderTwo{
         TextView title;
@@ -130,5 +137,6 @@ public class IndexAdapter extends BaseAdapter {
         ImageView oneImage;
         ImageView twoImage;
         ImageView threeImage;
+        LinearLayout threeImg;
     }
 }

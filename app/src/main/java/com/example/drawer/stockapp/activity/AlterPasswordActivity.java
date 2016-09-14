@@ -1,5 +1,6 @@
 package com.example.drawer.stockapp.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
@@ -48,8 +50,11 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
         mUserName = (EditText) findViewById(R.id.user_name_txt);
         mPassWord = (EditText) findViewById(R.id.password_txt);
         mLogin = (TextView) findViewById(R.id.alter_sure_txt);
+        TextView forgetPassword = (TextView) findViewById(R.id.forget_password_txt);
+
         mLogin.setOnClickListener(this);
         mBackimg.setOnClickListener(this);
+        forgetPassword.setOnClickListener(this);
     }
 
     @Override
@@ -73,9 +78,13 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
                     LoginAsyn asyn = new LoginAsyn();
                     asyn.execute(password,name,mToken);
                 }else {
-//                    Toast.makeText(this,"输入有误，请重新输入",Toast.LENGTH_SHORT).show();
-                    TSnackbar.make(mLogin,"输入有误，请重新输入！",TSnackbar.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"输入有误，请重新输入",Toast.LENGTH_SHORT).show();
+//                    TSnackbar.make(mLogin,"输入有误，请重新输入！",TSnackbar.LENGTH_SHORT).show();
                 }
+                break;
+            case R.id.forget_password_txt:
+                Intent intent = new Intent(this,ForgetPasswordActivity.class);
+                startActivity(intent);
                 break;
         }
     }

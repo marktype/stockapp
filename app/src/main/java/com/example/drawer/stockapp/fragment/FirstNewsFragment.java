@@ -1,7 +1,9 @@
 package com.example.drawer.stockapp.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -10,6 +12,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -90,6 +93,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private Boolean isFlag = false;
     private String[] images = {""};
     private String[] strings = {""};
+    private Boolean isFlash = false;   //是否刷新动态列表
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -98,6 +102,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private int mDongTaiType;   //动态跳转类型
     private SharedPreferences sharedPreferences;
     private ApplyHttpThread thread;
+    private ArrayList<NewsInfo> listInfoSave;
+    private List<IndexMarkInfo.ResultBean.MarketDataBean> MarketDataSave;
 
     public FirstNewsFragment() {
         // Required empty public constructor
@@ -132,36 +138,58 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         sharedPreferences = ShapePreferenceManager.getMySharedPreferences(getActivity());
 
 
+    /**
+    * type广播
+    */
+        IntentFilter filter = new IntentFilter();
+        // 向过滤器中添加action
+        filter.addAction("com.stock.sendtype");
+        // 注册广播
+        getContext().registerReceiver(isFlashBroad, filter);
 
     }
+
+    /**
+     * 广播接收者
+     */
+    private BroadcastReceiver isFlashBroad = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            isFlash = true;
+        }
+
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (headMassageInfo == null) {
+//        if (headMassageInfo == null) {
             mView = inflater.inflate(R.layout.fragment_first_news, container, false);
             initWight();
             initData();
-//        getMessageInfo();
+        if (headMassageInfo == null) {
             //指数加载
             IndexAsyn indexAsyn = new IndexAsyn();
             indexAsyn.execute();
             //banner加载
             GetBannerInfo getBannerInfo = new GetBannerInfo();
             getBannerInfo.execute();
-//            if (headMassageInfo == null) {
-                //新闻列表加载
-                GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
-                getNewsListAsyn.execute(page + "");
-//            } else {
-//                getDataZixun();
-//            }
-
-        }
+            listInfoSave = new ArrayList<>();   //保存数据，下次进入时不必加载
+            //新闻列表加载
+            GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
+            getNewsListAsyn.execute(page + "");
+            } else {
+            getSliderLayoutView(images, strings);
+            initListData(MarketDataSave);
+            indexAdapter.setData(listInfoSave);
+            mlist.setAdapter(indexAdapter);
+            }
 
         return mView;
     }
+
 
     @Override
     public void onResume() {
@@ -171,7 +199,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             thread = new ApplyHttpThread();
             thread.start();
         }
-
 
         token = sharedPreferences.getString(ShapePreferenceManager.TOKEN,null);
         switch (mPager.getCurrentItem()){
@@ -183,6 +210,10 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 tintManager = ManagerUtil.newInstance(getActivity());
                 ManagerUtil.setStataBarColor(getActivity(),tintManager);
                 if (!TextUtils.isEmpty(token)){
+                    if (isFlash){    //判定是否发表动态返回
+                        dymnicesData(token);
+                        isFlash = false;
+                    }
                     if (dynamicsInfo == null){
                         dymnicesData(token);    //
                     }
@@ -229,49 +260,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
     }
 
-//    /**
-//     * 获取资讯信息
-//     */
-//    public void getMessageInfo(){
-//
-//        new AsyncTask(){
-//
-//            @Override
-//            protected Object doInBackground(Object[] objects) {
-//
-//                String message = HttpManager.newInstance().getHttpData(HttpManager.Information_URL);
-//                return message;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(Object o) {
-//                super.onPostExecute(o);
-//                onLoadZx();
-//                String message = (String) o;
-//                Log.d("tag","message--"+message);
-//                if (!TextUtils.isEmpty(message)){
-//                    Gson gson = new Gson();
-//                    headMassageInfo = gson.fromJson(message, HeadMassageInfo.class);
-//                    Log.d("tag","---"+headMassageInfo.getHead().getStatus());
-//                    if (headMassageInfo.getHead().getStatus()==0){
-//                        List<HeadMassageInfo.ResultBean.BannerUrlBean> size = headMassageInfo.getResult().getBannerUrl();
-//                        images = new String[size.size()];
-//                        strings = new String[size.size()];
-//                        for (int i = 0;i<size.size();i++){
-//                            images[i] = size.get(i).getBannerUrl();
-//                            strings[i] = size.get(i).getTargetUrl();     //bar图
-//                        }
-////                        initListData();   //
-//                        getDataZixun();   //解析数据稍后放开
-//                    }
-//
-//                }else {
-//                    loadingFailed.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        }.execute();
-//    }
-
     /**
      * 初始化适配器数据
      */
@@ -283,6 +271,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
         tintManager = ManagerUtil.newInstance(getActivity());
         tintManager.setStatusBarTintEnabled(true);
+//
+//        mTitleRelat.getBackground().setAlpha(255);
+//        tintManager.setTintAlpha(1);
         tintManager.setStatusBarTintResource(R.color.write_color);
         mTitleRelat.setBackgroundResource(R.color.write_color);
 
@@ -338,30 +329,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             }
         });
 
-
-    }
-
-    private XListView mlist;
-    private IndexAdapter indexAdapter;
-
-    /**
-     * 设置首页数据
-     */
-    public void getDataZixun(){
-        ArrayList<NewsInfo> listInfo = setNewsInfo();
-        if (page == 0){
-            indexAdapter.setData(listInfo);
-            mlist.setAdapter(indexAdapter);
-        }else if (page>0&&listInfo.size()>0){
-            indexAdapter.addData(listInfo);
-        }else {
-            Toast.makeText(getActivity(),"已经到底了哦",Toast.LENGTH_SHORT).show();
-        }
-
         mlist.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-//                getMessageInfo();
                 page = 0;
                 GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
                 getNewsListAsyn.execute(page+"");
@@ -378,6 +348,26 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             }
         });
 
+    }
+
+    private XListView mlist;
+    private IndexAdapter indexAdapter;
+
+    /**
+     * 设置首页数据
+     */
+    public void getDataZixun(){
+        ArrayList<NewsInfo> listInfo = setNewsInfo();
+        if (page == 0){
+            listInfoSave.clear();
+            indexAdapter.setData(listInfo);
+            mlist.setAdapter(indexAdapter);
+        }else if (page>0&&listInfo.size()>0){
+            indexAdapter.addData(listInfo);
+        }else {
+            Toast.makeText(getActivity(),"已经到底了哦",Toast.LENGTH_SHORT).show();
+        }
+        listInfoSave.addAll(listInfo);
 
     }
     /**
@@ -392,7 +382,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
         for (int i = 0;i<MarketData.size();i++){
             double addOrDec = Double.parseDouble(df.format(MarketData.get(i).getVariabilityPoints()));
-            LinearLayout layout1 = new LinearLayout(getActivity());
+            LinearLayout layout1 = new LinearLayout(getContext());
             LinearLayout.LayoutParams lay = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             lay.weight = 1;
             layout1.setBackgroundColor(getResources().getColor(R.color.write_color));
@@ -771,20 +761,24 @@ class ItemRecod {
         public void onPageSelected(int position) {
             switch (position) {
                 case 0:
+                    Log.d("tag","page-------0");
                     mSendImg.setVisibility(View.GONE);
                     mlist.setOnScrollListener(FirstNewsFragment.this);
                     mDongTaiList.setOnScrollListener(null);
                     break;
                 case 1:
+                    Log.d("tag","page-------1");
                     mSendImg.setVisibility(View.VISIBLE);
                     mlist.setOnScrollListener(null);     //此处为了不让滚动监听事件冲突
                     mDongTaiList.setOnScrollListener(FirstNewsFragment.this);
                     mTitleRelat.getBackground().setAlpha(255);
+//                    tintManager.setTintAlpha(1);
                     tintManager.setStatusBarTintResource(R.color.write_color);
-                    mImgHead.setImageResource(R.mipmap.message_black);
-                    mMessage.setImageResource(R.mipmap.searchblack);
                     ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
                     ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
+
+                    mImgHead.setImageResource(R.mipmap.message_black);
+                    mMessage.setImageResource(R.mipmap.searchblack);
                     tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
 
                     if (!TextUtils.isEmpty(token)){
@@ -904,7 +898,8 @@ class ItemRecod {
                 Gson gson = new Gson();
                 IndexMarkInfo indexMarkInfo = gson.fromJson(s,IndexMarkInfo.class);
                 if (indexMarkInfo.getHead().getStatus() == 0){
-                    initListData(indexMarkInfo.getResult().getMarketData());
+                    MarketDataSave = indexMarkInfo.getResult().getMarketData();
+                    initListData(MarketDataSave);
                 }
             }
         }

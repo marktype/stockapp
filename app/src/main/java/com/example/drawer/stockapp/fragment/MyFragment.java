@@ -86,6 +86,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
 
     private String localTempImgFileName = "bankgroup.jpg";
     private String localTempImgDir = "com.bruce";
+    private UserInfo userInfo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -143,6 +144,13 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         RelativeLayout mAlterPassword = (RelativeLayout) mView.findViewById(R.id.reset_password_lin);  //修改密码
 //        RelativeLayout mMyQuan = (RelativeLayout) mView.findViewById(R.id.my_quan_lin);     //优惠券
 
+        mName.setBackgroundColor(getResources().getColor(R.color.write_color));
+        mSex.setBackgroundColor(getResources().getColor(R.color.write_color));
+        mAllCan.setBackgroundColor(getResources().getColor(R.color.write_color));
+        mBindPhone.setBackgroundColor(getResources().getColor(R.color.write_color));
+        mAlterPassword.setBackgroundColor(getResources().getColor(R.color.write_color));
+
+
         TextView mExit = (TextView) mView.findViewById(R.id.exit_txt);    //退出
 
         //不设置渐变
@@ -190,9 +198,13 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         token = sharedPreferences.getString(ShapePreferenceManager.TOKEN,"");
         userId = sharedPreferences.getString(ShapePreferenceManager.USER_ID,"");
         if (!TextUtils.isEmpty(token)){
-            UserInfoAsyn userInfoAsyn = new UserInfoAsyn();
-            userInfoAsyn.execute(userId,token);
-            mNologin.setVisibility(View.GONE);
+            if (userInfo == null){
+                UserInfoAsyn userInfoAsyn = new UserInfoAsyn();
+                userInfoAsyn.execute(userId,token);
+            }else {
+                parseUserInfo(userInfo);
+            }
+//            mNologin.setVisibility(View.GONE);
             mScrollview.setVisibility(View.VISIBLE);
             mTitleRelat.getBackground().setAlpha(1);
             tintManager.setTintAlpha(0);
@@ -262,9 +274,10 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.bind_phone_lin:
+                popIsTiaoZhuanQQ();
 //                intent = new Intent(getContext(), AlterPhoneActivity.class);
 //                startActivity(intent);
-                Toast.makeText(getActivity(),"请联系客服  QQ 2436899110",Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(),"请联系客服  QQ 2436899110",Toast.LENGTH_LONG).show();
                 break;
             case R.id.reset_password_lin:
                 intent = new Intent(getContext(), AlterPasswordActivity.class);
@@ -298,9 +311,28 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 dialog.dismiss();
             }
         });
-
-
     }
+
+    private void popIsTiaoZhuanQQ(){
+        final CustomDialog dialog = new CustomDialog(getContext());
+        dialog.setMessageText("修改手机号比较麻烦，请联系爱猫爪客服 QQ 2436899110，点击确认前往");
+        dialog.show();
+        dialog.setOnPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url11 = "mqqwpa://im/chat?chat_type=wpa&uin=2436899110&version=1";
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url11)));
+                dialog.dismiss();
+            }
+        });
+        dialog.setOnNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
 
     /**
      * 性别选择弹框
@@ -373,7 +405,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             String message = s;
             if (!TextUtils.isEmpty(message)&&message.length()>10){
                 Gson gson = new Gson();
-                UserInfo userInfo = gson.fromJson(message,UserInfo.class);   //获取用户信息
+                userInfo = gson.fromJson(message,UserInfo.class);   //获取用户信息
                 parseUserInfo(userInfo);
             }else {
                 Toast.makeText(getContext(),"获取信息失败,请重新登录",Toast.LENGTH_SHORT).show();
@@ -420,7 +452,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             }
             mNologin.setVisibility(View.GONE);
         }else {
-            Toast.makeText(getContext(),"获取信息失败,请重新登录",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(),"获取信息失败,请重新登录",Toast.LENGTH_SHORT).show();
             mNologin.setVisibility(View.VISIBLE);
         }
     }
@@ -443,7 +475,8 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             dialog.dismiss();
-
+            UserInfoAsyn userInfoAsyn = new UserInfoAsyn();
+            userInfoAsyn.execute(userId,token);
         }
     }
 
@@ -477,10 +510,15 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
+        TextView picOne = (TextView) dialogLayout.findViewById(R.id.pick_picture_album_btn);
+        TextView picTwo = (TextView) dialogLayout.findViewById(R.id.pick_picture_camera_btn);
+
+        picOne.setBackgroundColor(getResources().getColor(R.color.write_color));
+        picTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
         /**
          * 相册获取图片
          */
-        dialogLayout.findViewById(R.id.pick_picture_album_btn).setOnClickListener(new View.OnClickListener() {
+        picOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -492,7 +530,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         /**
          * 拍照获取图片
          */
-        dialogLayout.findViewById(R.id.pick_picture_camera_btn).setOnClickListener(new View.OnClickListener() {
+        picTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String status = Environment.getExternalStorageState();
@@ -653,6 +691,11 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         return uri;
     }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (userInfo != null){
+            userInfo = null;
+        }
+    }
 }

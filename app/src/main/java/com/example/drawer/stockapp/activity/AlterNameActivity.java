@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.utils.DensityUtils;
@@ -29,7 +29,7 @@ public class AlterNameActivity extends BascActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alter_name);
-        tintManager.setStatusBarTintResource(R.color.write_color);
+        tintManager.setStatusBarTintResource(R.color.content_con_bg);
         initWight();
     }
 
@@ -41,8 +41,10 @@ public class AlterNameActivity extends BascActivity implements View.OnClickListe
                 DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
+        mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         mName = (EditText) findViewById(R.id.alter_name);
+        mName.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         mName.setFilters(new InputFilter[]{filter});
 
@@ -74,8 +76,8 @@ public class AlterNameActivity extends BascActivity implements View.OnClickListe
                 if (!TextUtils.isEmpty(str)){
                     updataUserIfoAsyn.execute(str, ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null));
                 }else {
-//                    Toast.makeText(this,"昵称不能为空",Toast.LENGTH_SHORT).show();
-                    TSnackbar.make(mSavaName,"昵称不能为空！",TSnackbar.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"昵称不能为空",Toast.LENGTH_SHORT).show();
+//                    TSnackbar.make(mSavaName,"昵称不能为空！",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;
         }
