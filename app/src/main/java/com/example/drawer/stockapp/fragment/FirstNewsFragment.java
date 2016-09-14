@@ -139,19 +139,26 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        if (headMassageInfo == null) {
             mView = inflater.inflate(R.layout.fragment_first_news, container, false);
-        initWight();
-        initData();
+            initWight();
+            initData();
 //        getMessageInfo();
+            //指数加载
+            IndexAsyn indexAsyn = new IndexAsyn();
+            indexAsyn.execute();
+            //banner加载
+            GetBannerInfo getBannerInfo = new GetBannerInfo();
+            getBannerInfo.execute();
+//            if (headMassageInfo == null) {
+                //新闻列表加载
+                GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
+                getNewsListAsyn.execute(page + "");
+//            } else {
+//                getDataZixun();
+//            }
 
-        IndexAsyn indexAsyn = new IndexAsyn();
-        indexAsyn.execute();
-
-        GetBannerInfo getBannerInfo = new GetBannerInfo();
-        getBannerInfo.execute();
-
-        GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
-        getNewsListAsyn.execute(page+"");
+        }
 
         return mView;
     }
@@ -176,7 +183,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 tintManager = ManagerUtil.newInstance(getActivity());
                 ManagerUtil.setStataBarColor(getActivity(),tintManager);
                 if (!TextUtils.isEmpty(token)){
-                    dymnicesData(token);    //
+                    if (dynamicsInfo == null){
+                        dymnicesData(token);    //
+                    }
                     mBackgroud.setVisibility(View.GONE);
                 }else {
                     mBackgroud.setVisibility(View.VISIBLE);
@@ -377,6 +386,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     public void initListData(List<IndexMarkInfo.ResultBean.MarketDataBean> MarketData){
 
         LinearLayout layout = (LinearLayout) mSliderVIew.findViewById(R.id.first_lin);   //scrollview下的布局
+        layout.setClickable(true);
         layout.removeAllViews();
         DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
 
@@ -407,7 +417,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             txt1.setGravity(Gravity.CENTER);
             txt1.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
             if (addOrDec>0){
-                txt1.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
+                txt1.setTextColor(getActivity().getResources().getColor(R.color.red));
             }else {
                 txt1.setTextColor(getActivity().getResources().getColor(R.color.green_color));
             }
@@ -423,7 +433,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             txt2.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
             if (addOrDec>0){
                 txt2.setText( "+"+addOrDec+"+"+ Double.parseDouble(df.format(MarketData.get(i).getVariabilityRate()))+"%");
-                txt2.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
+                txt2.setTextColor(getActivity().getResources().getColor(R.color.red));
             }else {
                 txt2.setText( ""+addOrDec+""+ Double.parseDouble(df.format(MarketData.get(i).getVariabilityRate()))+"%");
                 txt2.setTextColor(getActivity().getResources().getColor(R.color.green_color));

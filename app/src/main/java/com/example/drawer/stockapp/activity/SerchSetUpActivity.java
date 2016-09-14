@@ -17,8 +17,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.SearchAdapter;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -159,7 +159,8 @@ public class SerchSetUpActivity extends BascActivity implements View.OnClickList
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         HeadIndex headIndex = (HeadIndex) adapterView.getAdapter().getItem(i);
         if (headIndex.getPrice() == 0){
-            Toast.makeText(this,"该股票已停盘，不能创建",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,"该股票已停盘，不能创建",Toast.LENGTH_SHORT).show();
+            TSnackbar.make(mList,"该股票已停盘，不能创建！",TSnackbar.LENGTH_SHORT).show();
         }else {
             //选择后直接跳转返回
             Intent intent = new Intent();

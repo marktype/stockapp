@@ -167,9 +167,4 @@ public class TrendsAdapter extends BaseAdapter {
 //        ImageView collect;
     }
 
-    public int  getResource(String imageName) {
-        Context ctx = context.getApplicationContext();
-        int resId = context.getResources().getIdentifier(imageName, "mipmap", ctx.getPackageName());
-        return resId;
-    }
     }

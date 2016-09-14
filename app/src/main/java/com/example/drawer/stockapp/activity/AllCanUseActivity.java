@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.utils.DataCleanManager;
@@ -15,7 +15,7 @@ import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class AllCanUseActivity extends BascActivity implements View.OnClickListener{
-
+    private RelativeLayout mClean;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +34,7 @@ public class AllCanUseActivity extends BascActivity implements View.OnClickListe
        mTitleRelat.setLayoutParams(params);
        ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
        RelativeLayout mNewInfo = (RelativeLayout) findViewById(R.id.news_info_lin);
-       RelativeLayout mClean = (RelativeLayout) findViewById(R.id.clean_lin);
+       mClean = (RelativeLayout) findViewById(R.id.clean_lin);
        RelativeLayout mAbove = (RelativeLayout) findViewById(R.id.above_lin);
 
        mClean.setOnClickListener(this);
@@ -81,7 +81,7 @@ public class AllCanUseActivity extends BascActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
                 DataCleanManager.cleanCacheData(AllCanUseActivity.this);
-                Toast.makeText(AllCanUseActivity.this, "清除缓存成功！", Toast.LENGTH_SHORT).show();
+                TSnackbar.make(mClean,"清除缓存成功！",TSnackbar.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });

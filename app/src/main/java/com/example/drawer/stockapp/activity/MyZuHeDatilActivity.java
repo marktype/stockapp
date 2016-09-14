@@ -546,6 +546,17 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
 
         XAxis xAxis = mLineChart.getXAxis();
+        xAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
+        xAxis.setGridColor(getResources().getColor(android.R.color.transparent));
+
+        YAxis yAxis = mLineChart.getAxisLeft();
+        yAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
+        yAxis.setGridColor(getResources().getColor(android.R.color.transparent));
+
+        YAxis y1Axis = mLineChart.getAxisRight();
+        y1Axis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
+        y1Axis.setGridColor(getResources().getColor(R.color.circle_con_bg));
+
         //设置X轴的文字在底部
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
@@ -566,14 +577,11 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
             StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean dataBean = ImgData.get(i);
             yValue.add(new Entry(Float.parseFloat(df.format(dataBean.getCumulativeReturn())), i));
         }
-
-        //构建一个LineDataSet 代表一组Y轴数据 （比如不同的彩票： 七星彩  双色球）
+        //构建一个LineDataSet 代表一组Y轴数据
         LineDataSet dataSet = new LineDataSet(yValue, "沪深300");
-        dataSet.setCircleRadius(4.0f);
         dataSet.setColor(R.color.quxian_nan);
         dataSet.setCircleColor(R.color.quxian_nan);
-        dataSet.setFillColor(R.color.quxian_nan);
-        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataSet.setDrawCircles(false);
         dataSet.setLineWidth(2f);
 
         //模拟第二组组y轴数据(存放y轴数据的是一个Entry的ArrayList) 他是构建LineDataSet的参数之一
@@ -583,14 +591,6 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
             StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean benchmarkImgDataBean = BenchmarkImgData.get(i);
             yValue1.add(new Entry(Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())), i));
         }
-//        yValue1.add(new Entry(7, 0));
-//        yValue1.add(new Entry(17, 1));
-//        yValue1.add(new Entry(3, 2));
-//        yValue1.add(new Entry(5, 3));
-//        yValue1.add(new Entry(4, 4));
-//        yValue1.add(new Entry(3, 5));
-//        yValue1.add(new Entry(7, 6));
-
 
         Log.e("wing", yValue.size() + "");
 
@@ -599,10 +599,10 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         //构建一个LineDataSet 代表一组Y轴数据 （比如不同的彩票： 七星彩  双色球）
 
         LineDataSet dataSet1 = new LineDataSet(yValue1, "组合收益");
-        dataSet1.setColor(getResources().getColor(R.color.quxian_huang));
-        dataSet1.setCircleColor(getResources().getColor(R.color.quxian_huang));
-        dataSet1.setCircleRadius(4.0f);
-        dataSet1.setLineWidth(2f);
+        dataSet1.setLineWidth(4f); // 线宽
+        dataSet1.setDrawCircles(false);
+        dataSet1.setColor(getResources().getColor(R.color.quxian_huang));// 显示颜色
+        dataSet1.setCircleColor(getResources().getColor(R.color.quxian_huang));// 圆形的颜色
         //构建一个类型为LineDataSet的ArrayList 用来存放所有 y的LineDataSet   他是构建最终加入LineChart数据集所需要的参数
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
 
@@ -612,7 +612,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
 
         //构建一个LineData  将dataSets放入
         LineData lineData = new LineData(xValues,dataSets);
-
+        lineData.setValueTextColor(getResources().getColor(android.R.color.transparent));
         //将数据插入
         mLineChart.setData(lineData);
 

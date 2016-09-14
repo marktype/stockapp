@@ -7,6 +7,8 @@
         android:protectionLevel="signature" />
 
     <!-- Required  一些系统要求的权限，如访问网络等 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
     <uses-permission android:name="com.example.drawer.stockapp.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -328,6 +330,7 @@
             android:theme="@style/MyAppTheme" />
         <activity
             android:name=".activity.LianghuaCelueZhaoMuZhongActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
         <activity

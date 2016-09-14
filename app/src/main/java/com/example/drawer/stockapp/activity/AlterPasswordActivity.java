@@ -8,8 +8,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -25,6 +25,7 @@ import java.util.HashMap;
 public class AlterPasswordActivity extends BascActivity implements View.OnClickListener{
     private EditText mUserName,mPassWord;
     private String mToken;
+    private TextView mLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,7 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         mUserName = (EditText) findViewById(R.id.user_name_txt);
         mPassWord = (EditText) findViewById(R.id.password_txt);
-        TextView mLogin = (TextView) findViewById(R.id.alter_sure_txt);
+        mLogin = (TextView) findViewById(R.id.alter_sure_txt);
         mLogin.setOnClickListener(this);
         mBackimg.setOnClickListener(this);
     }
@@ -72,7 +73,8 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
                     LoginAsyn asyn = new LoginAsyn();
                     asyn.execute(password,name,mToken);
                 }else {
-                    Toast.makeText(this,"输入有误，请重新输入",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this,"输入有误，请重新输入",Toast.LENGTH_SHORT).show();
+                    TSnackbar.make(mLogin,"输入有误，请重新输入！",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -103,10 +105,12 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
                 Gson gson = new Gson();
                 UserInfo userInfo = gson.fromJson(message,UserInfo.class);
                 if (userInfo.getHead().getStatus()==0){
-                    Toast.makeText(AlterPasswordActivity.this,"修改成功",Toast.LENGTH_SHORT).show();
+                    TSnackbar.make(mLogin,"修改成功！",TSnackbar.LENGTH_SHORT).show();
+//                    Toast.makeText(AlterPasswordActivity.this,"修改成功",Toast.LENGTH_SHORT).show();
                     finish();
                 }else {
-                    Toast.makeText(AlterPasswordActivity.this,userInfo.getHead().getMsg(),Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(AlterPasswordActivity.this,userInfo.getHead().getMsg(),Toast.LENGTH_SHORT).show();
+                    TSnackbar.make(mLogin,userInfo.getHead().getMsg(),TSnackbar.LENGTH_SHORT).show();
                 }
             }
         }

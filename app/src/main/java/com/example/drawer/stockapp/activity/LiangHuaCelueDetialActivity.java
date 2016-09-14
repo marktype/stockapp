@@ -24,10 +24,18 @@ import com.example.drawer.stockapp.model.TiaoCangInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.example.drawer.stockapp.utils.ShapePreferenceManager;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,12 +50,16 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
     private TiaoCangAdapter tiaoCangAdapter;
     private ChiCangAdapter chiCangAdapter;
     private GenTouAdapter genTouAdapter;
-    private TextView mTarget,mMostGetMoney,mMostLose,mTradeNum,mLastTime,mLimitMoney,mStartMoney,mType,mStartType,mMuJiTime,mRunTime,mAdvice,mNiurenName,mNoDataImgTiaoCang,mNoDataImgChiCang;
+    private TextView mTarget,mMostGetMoney,mMostLose,mTradeNum,mLastTime,
+            mLimitMoney,mStartMoney,mType,mStartType,mMuJiTime,mRunTime,
+            mAdvice,mNiurenName,mNoDataImgTiaoCang,mNoDataImgChiCang;
     private String LiangHuaId;    //量化id
     private String LiangHuaName;   //量化name
     private CircleImageView headImg;
     private MyDialog dialog;
     private String mToken;
+    private LineChart mLineChart;
+    private ImageView mNoData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +108,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
 
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
 
-
+        mLineChart = (LineChart) findViewById(R.id.lineChart);
+        mNoData = (ImageView) findViewById(R.id.nodata_img);  //曲线图无数据
         mNoDataImgTiaoCang = (TextView) findViewById(R.id.no_data_img);    //无数据显示图片
         mNoDataImgChiCang = (TextView) findViewById(R.id.no_data_img_chicang);   //持仓无数据
 
@@ -254,7 +267,20 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             }
             mNiurenName.setText(starInfoBean.getName());
             Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
+
+
+            List<StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean> ImgData =  infoBean.getImgData();
+            List<StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean> BenchmarkImgData = infoBean.getBenchmarkImgData();
+            if (ImgData != null&&BenchmarkImgData != null){
+                StockQuxainMap(mLineChart,ImgData,BenchmarkImgData);
+                mNoData.setVisibility(View.GONE);
+                mLineChart.setVisibility(View.VISIBLE);
+            }else {
+                mNoData.setVisibility(View.VISIBLE);
+                mLineChart.setVisibility(View.GONE);
+            }
         }
+
     }
 
     /**
@@ -295,5 +321,91 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 }
             }
         }
+    }
+
+    /**
+     * 股票走势曲线图
+     * @param mLineChart
+     */
+    private void StockQuxainMap(LineChart mLineChart, List<StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean> ImgData, List<StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean> BenchmarkImgData){
+        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+
+        XAxis xAxis = mLineChart.getXAxis();
+        xAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
+        xAxis.setGridColor(getResources().getColor(android.R.color.transparent));
+
+        YAxis yAxis = mLineChart.getAxisLeft();
+        yAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
+        yAxis.setGridColor(getResources().getColor(android.R.color.transparent));
+
+        YAxis y1Axis = mLineChart.getAxisRight();
+        y1Axis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
+        y1Axis.setGridColor(getResources().getColor(R.color.circle_con_bg));
+
+
+        //设置X轴的文字在底部
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        //设置描述文字
+        mLineChart.setDescription("收益率曲线图");
+
+
+        //模拟一个x轴的数据  12/1 12/2 ... 12/7
+        ArrayList<String> xValues = new ArrayList<>();
+        for (int i = 0; i < ImgData.size(); i++) {
+            StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean dataBean = ImgData.get(i);
+            xValues.add(dataBean.getDate().substring(5,10));
+        }
+
+        //模拟一组y轴数据(存放y轴数据的是一个Entry的ArrayList) 他是构建LineDataSet的参数之一
+
+        ArrayList<Entry> yValue = new ArrayList<>();
+        for (int i = 0; i < ImgData.size(); i++) {
+
+            StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean dataBean = ImgData.get(i);
+            yValue.add(new Entry(Float.parseFloat(df.format(dataBean.getCumulativeReturn())), i));
+        }
+
+        //构建一个LineDataSet 代表一组Y轴数据
+        LineDataSet dataSet = new LineDataSet(yValue, "沪深300");
+        dataSet.setColor(R.color.quxian_nan);
+        dataSet.setCircleColor(R.color.quxian_nan);
+        dataSet.setDrawCircles(false);
+        dataSet.setLineWidth(2f);
+
+        //模拟第二组组y轴数据(存放y轴数据的是一个Entry的ArrayList) 他是构建LineDataSet的参数之一
+
+        ArrayList<Entry> yValue1 = new ArrayList<>();
+        for (int i = 0; i < ImgData.size(); i++) {
+            StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean benchmarkImgDataBean = BenchmarkImgData.get(i);
+            yValue1.add(new Entry(Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())), i));
+        }
+
+        Log.e("wing", yValue.size() + "");
+
+        //构建一个LineDataSet 代表一组Y轴数据 （比如不同的彩票： 七星彩  双色球）
+
+        LineDataSet dataSet1 = new LineDataSet(yValue1, "组合收益");
+
+        dataSet1.setLineWidth(4f); // 线宽
+        dataSet1.setDrawCircles(false);
+        dataSet1.setColor(getResources().getColor(R.color.quxian_huang));// 显示颜色
+        dataSet1.setCircleColor(getResources().getColor(R.color.quxian_huang));// 圆形的颜色
+
+        //构建一个类型为LineDataSet的ArrayList 用来存放所有 y的LineDataSet   他是构建最终加入LineChart数据集所需要的参数
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+
+        //将数据加入dataSets
+        dataSets.add(dataSet);
+        dataSets.add(dataSet1);
+
+        //构建一个LineData  将dataSets放入
+        LineData lineData = new LineData(xValues,dataSets);
+        lineData.setValueTextColor(getResources().getColor(android.R.color.transparent));
+
+        //将数据插入
+        mLineChart.setData(lineData);
+
+
     }
 }

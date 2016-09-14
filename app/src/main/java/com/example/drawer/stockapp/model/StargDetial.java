@@ -910,7 +910,7 @@ public class StargDetial {
 
         public static class AchievemntBean {
             private Object Id;
-            private Object LastTime;
+            private String LastTime;
             private int Profitability;
             private int AntiRiskAbility;
             private int Stability;
@@ -926,11 +926,11 @@ public class StargDetial {
                 this.Id = Id;
             }
 
-            public Object getLastTime() {
+            public String getLastTime() {
                 return LastTime;
             }
 
-            public void setLastTime(Object LastTime) {
+            public void setLastTime(String LastTime) {
                 this.LastTime = LastTime;
             }
 

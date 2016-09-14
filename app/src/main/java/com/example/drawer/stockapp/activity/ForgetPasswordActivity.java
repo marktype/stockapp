@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -28,6 +29,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
     private TextView mGetVerify;
     private String verify;
     private MyDialog dialog;
+    private TextView mSureTxt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
         ImageView mEyeImg = (ImageView) findViewById(R.id.eye_img);     //密码是否可见
-        TextView mSureTxt = (TextView) findViewById(R.id.alter_sure_txt);  //修改密码
+        mSureTxt = (TextView) findViewById(R.id.alter_sure_txt);  //修改密码
 
         mGetVerify = (TextView) findViewById(R.id.get_verify);
         mUserName = (EditText) findViewById(R.id.user_name_txt);
@@ -92,7 +94,8 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                     AlterAsyn getRegister = new AlterAsyn();
                     getRegister.execute(phone,password,verify);
                 }else {
-                    Toast.makeText(this,"输入有误",Toast.LENGTH_SHORT).show();
+                    TSnackbar.make(mSureTxt,"输入有误！",TSnackbar.LENGTH_SHORT).show();
+//                    Toast.makeText(this,"输入有误",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.get_verify:
@@ -102,7 +105,8 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                     GetVerify getVerify = new GetVerify();
                     getVerify.execute(phoneV);
                 }else {
-                    Toast.makeText(this,"输入有误",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this,"输入有误",Toast.LENGTH_SHORT).show();
+                    TSnackbar.make(mGetVerify,"输入有误！",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -212,10 +216,12 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                 e.printStackTrace();
             }
             if (stutas.equals("0")){
-                Toast.makeText(ForgetPasswordActivity.this,"修改成功",Toast.LENGTH_SHORT).show();
+                TSnackbar.make(mSureTxt,"修改成功！",TSnackbar.LENGTH_SHORT).show();
+//                Toast.makeText(ForgetPasswordActivity.this,"修改成功",Toast.LENGTH_SHORT).show();
                 finish();
             }else if (stutas.equals("1")){
-                Toast.makeText(ForgetPasswordActivity.this,msg,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ForgetPasswordActivity.this,msg,Toast.LENGTH_SHORT).show();
+                TSnackbar.make(mSureTxt,msg,TSnackbar.LENGTH_SHORT).show();
             }
         }
     }

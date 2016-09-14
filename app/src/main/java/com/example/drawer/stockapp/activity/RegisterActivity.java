@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -31,6 +32,7 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
     private String verify;
     private MyDialog dialog;
     private CheckBox mCheck;
+    private TextView mRegist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,7 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
      */
     public void initWight(){
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
-        TextView mRegist = (TextView) findViewById(R.id.login_txt);
+        mRegist = (TextView) findViewById(R.id.login_txt);
         ImageView mEyeImg = (ImageView) findViewById(R.id.eye_img);     //密码是否可见
 
         mGetVerify = (TextView) findViewById(R.id.get_verify);
@@ -93,10 +95,12 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
                     RegisterAsyn getRegister = new RegisterAsyn();
                     getRegister.execute(phone,password,verify);
                     }else {
-                        Toast.makeText(this,"同意用户协议才能注册哦",Toast.LENGTH_SHORT).show();
+                        TSnackbar.make(mRegist,"同意用户协议才能注册哦",TSnackbar.LENGTH_SHORT).show();
+//                        Toast.makeText(this,"同意用户协议才能注册哦",Toast.LENGTH_SHORT).show();
                     }
                 }else {
-                    Toast.makeText(this,"输入有误",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this,"输入有误",Toast.LENGTH_SHORT).show();
+                    TSnackbar.make(mRegist,"输入有误",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.eye_img:
@@ -114,7 +118,8 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
                         getVerify.execute(phoneV);
                 }else {
                     mGetVerify.setEnabled(true);
-                    Toast.makeText(this,"输入有误",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this,"输入有误",Toast.LENGTH_SHORT).show();
+                    TSnackbar.make(mGetVerify,"输入有误",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.above_txt:
@@ -232,10 +237,12 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
                 e.printStackTrace();
             }
             if (stutas.equals("0")){
-                Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                TSnackbar.make(mRegist,"注册成功",TSnackbar.LENGTH_SHORT).show();
                 finish();
             }else if (stutas.equals("1")){
-                Toast.makeText(RegisterActivity.this,msg,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(RegisterActivity.this,msg,Toast.LENGTH_SHORT).show();
+                TSnackbar.make(mRegist,msg,TSnackbar.LENGTH_SHORT).show();
             }
         }
     }

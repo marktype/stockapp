@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.GenTouAdapter;
 import com.example.drawer.stockapp.customview.CanvasView;
@@ -55,6 +56,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
     private EditText mWriteGentouMoney;
     private double targetshouyi,fengchengRate,totalMoney,money;
     private String mToken;
+    private TextView mGentou;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +112,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         genTouAdapter = new GenTouAdapter(this);
 
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
-        TextView mGentou = (TextView) findViewById(R.id.now_gentou);   //跟投
+        mGentou = (TextView) findViewById(R.id.now_gentou);   //跟投
 
         mBackimg.setOnClickListener(this);
         mFencheng.setOnClickListener(this);
@@ -174,7 +176,8 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                         dialog = ManagerUtil.getDiaLog(this);
                         gentouAsyn.execute(LiangHuaId,money+"",mToken);
                     }else {
-                        Toast.makeText(this,"跟投余额必须大于0",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(this,"跟投余额必须大于0",Toast.LENGTH_SHORT).show();
+                        TSnackbar.make(mGentou,"跟投余额必须大于0！",TSnackbar.LENGTH_SHORT).show();
                     }
                 }else {
                     Intent intent = new Intent(this,LoginActivity.class);

@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.DynamicInfoAdapter;
 import com.example.drawer.stockapp.adapter.ImageAdapter;
@@ -53,8 +53,9 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
     private int type;     //跳转类型
     private EditText mCommentEdit;
     private String mToken;
+    private ImageView mZanImg;
     private MyDialog dialog;
-    private TextView mComment,mZhuanFa;
+    private TextView mComment,mZhuanFa,mLikes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +84,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
 
         mCommentEdit = (EditText) findViewById(R.id.dongtai_comment_edit);
 
-
+        RelativeLayout layout = (RelativeLayout) headRelat.findViewById(R.id.zan_relate);
         ImageView head = (ImageView) headRelat.findViewById(R.id.dongtai_image);
         TextView name = (TextView) headRelat.findViewById(R.id.dongtai_name);
         TextView content = (TextView) headRelat.findViewById(R.id.dongtai_content);
@@ -91,8 +92,16 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         TextView time = (TextView) headRelat.findViewById(R.id.dongtai_time);
         mZhuanFa = (TextView) headRelat.findViewById(R.id.dongtai_zhuanfa);
         mComment = (TextView) headRelat.findViewById(R.id.dongtai_pinglun);
-        TextView mLikes = (TextView) headRelat.findViewById(R.id.dongtai_zan);
+        mLikes = (TextView) headRelat.findViewById(R.id.dongtai_zan);
+        mZanImg = (ImageView) headRelat.findViewById(R.id.dianzan_img);
+
 //        ImageView mCollect = (ImageView) headRelat.findViewById(R.id.collect_info_img);
+
+        if (shareBean.isHasLike()){
+            mZanImg.setImageResource(R.mipmap.y_dianzan);
+        }else {
+            mZanImg.setImageResource(R.mipmap.zan);
+        }
 
         if (shareBean != null){
             if (!TextUtils.isEmpty(shareBean.getImgUrl())){
@@ -122,7 +131,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         mBackimg.setOnClickListener(this);
         mZhuanFa.setOnClickListener(this);
         mComment.setOnClickListener(this);
-        mLikes.setOnClickListener(this);
+        layout.setOnClickListener(this);
         mShare.setOnClickListener(this);
 //        mCollect.setOnClickListener(this);
     }
@@ -148,9 +157,20 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                 type = 1;
                 initSoftWindow(type);
                 break;
-            case R.id.dongtai_zan:
-                LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
-                likeOrCollectAsyn.execute(shareBean.getId(),"Like",mToken);
+            case R.id.zan_relate:
+                if (shareBean.isHasLike()){
+                    LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
+                    likeOrCollectAsyn.execute(shareBean.getId(),"3",mToken);
+                    mLikes.setText((Integer.parseInt(mLikes.getText().toString())-1)+"");
+                    mZanImg.setImageResource(R.mipmap.zan);
+                    shareBean.setHasLike(false);
+                }else {
+                    LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
+                    likeOrCollectAsyn.execute(shareBean.getId(),"2",mToken);
+                    mLikes.setText((Integer.parseInt(mLikes.getText().toString())+1)+"");
+                    shareBean.setHasLike(true);
+                    mZanImg.setImageResource(R.mipmap.y_dianzan);
+                }
                 break;
 //            case R.id.collect_info_img:   //收藏
 //                likeOrCollectAsyn = new LikeOrCollectAsyn();
@@ -378,9 +398,11 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                     if (object.has("Head")){
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getString("Status").equals("1")){
-                            Toast.makeText(MyDynamicActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MyDynamicActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
+                            TSnackbar.make(mCommentEdit,"发布失败！",TSnackbar.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(MyDynamicActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MyDynamicActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
+                            TSnackbar.make(mCommentEdit,"发布成功！",TSnackbar.LENGTH_SHORT).show();
                             mCommentEdit.setText("");
                             DynamicTask task = new DynamicTask();
                             task.execute();
@@ -417,7 +439,8 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                     if (object.has("Head")){
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getString("Status").equals("1")){
-//                            Toast.makeText(context,"发布失败",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MyDynamicActivity.this,head.getString("Msg"),Toast.LENGTH_SHORT).show();
+                            TSnackbar.make(mCommentEdit,head.getString("Msg"),TSnackbar.LENGTH_SHORT).show();
                         }else {
 //                            Toast.makeText(context,"发布成功",Toast.LENGTH_SHORT).show();
                             DynamicTask task = new DynamicTask();

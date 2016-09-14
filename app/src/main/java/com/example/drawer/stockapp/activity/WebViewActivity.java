@@ -58,6 +58,8 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
     private CommnetInfo commnetInfo;
     private MyDialog dialog;
     private SharedPreferences sp;
+    private ImageView mZanImg;
+    private Boolean flag;    //是否点赞
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,8 +113,8 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         mTitle = (TextView) findViewById(R.id.back_txt);    //题目
         ImageView mShare = (ImageView) findViewById(R.id.share_img);   //分享
         mLogin = (TextView) findViewById(R.id.login_btn);    //登录
-
-
+        mZanImg = (ImageView) findViewById(R.id.dianzan_img);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.zan_relate);
 
         mList = (MyListView) findViewById(R.id.dynamic_list);
         adapter = new DynamicInfoAdapter(this);
@@ -121,7 +123,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         mShare.setOnClickListener(this);
         mZhuanFa.setOnClickListener(this);
         mComment.setOnClickListener(this);
-        mLikes.setOnClickListener(this);
+        layout.setOnClickListener(this);
         mLogin.setOnClickListener(this);
         mCommentEdit.setOnKeyListener(onKeyListener);
 
@@ -166,10 +168,21 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                     startActivity(intent);
                 }
                 break;
-            case R.id.dongtai_zan:
+            case R.id.zan_relate:
                 if (!TextUtils.isEmpty(mToken)){
-                    LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
-                    likeOrCollectAsyn.execute(urlId,"Like",mToken);
+                    dialog = ManagerUtil.getDiaLog(this);
+                    if (flag){
+                        LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
+                        likeOrCollectAsyn.execute(urlId,"3",mToken);
+//                        mLikes.setText((Integer.parseInt(mLikes.getText().toString())-1)+"");
+//                        mZanImg.setImageResource(R.mipmap.zan);
+                        flag = false;
+                    }else {
+                        LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
+                        likeOrCollectAsyn.execute(urlId,"2",mToken);
+                        flag = true;
+//                        mZanImg.setImageResource(R.mipmap.y_dianzan);
+                    }
                 }else {
                     Toast.makeText(this,"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this,LoginActivity.class);
@@ -256,6 +269,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
 
         @Override
         protected String doInBackground(String... strings) {
+
             HashMap<String,String> map = new HashMap<>();
             map.put("Id", strings[0]);
             String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.NewsDetail_URL);
@@ -281,6 +295,14 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                     mZhuanFa.setText(bean.getForward()+"");
                     mComment.setText(bean.getComments()+"");
                     mLikes.setText(bean.getLikes()+"");
+
+                    if (bean.isHasLike()){
+                        flag= true;
+                        mZanImg.setImageResource(R.mipmap.y_dianzan);
+                    }else {
+                        flag = false;
+                        mZanImg.setImageResource(R.mipmap.zan);
+                    }
                 }
             }
         }
@@ -434,6 +456,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            dialog.dismiss();
             if (!TextUtils.isEmpty(s)){
                 try {
                     JSONObject object = new JSONObject(s);

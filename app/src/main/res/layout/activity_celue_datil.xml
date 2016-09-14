@@ -114,12 +114,16 @@
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/my_txt_size" />
 
-
+                <RelativeLayout
+                    android:id="@+id/yeji_rank_relat"
+                    android:layout_below="@id/yeji_rank_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <com.github.mikephil.charting.charts.RadarChart
                     android:id="@+id/chart1"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:layout_below="@id/yeji_rank_time" />
+                     />
 
                 <RatingBar
                     android:id="@+id/celue_seekbar"
@@ -131,6 +135,14 @@
                     android:layout_margin="@dimen/margin_5dp"
                     android:numStars="5"
                     android:rating="3.5" />
+                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/nodata_img_two"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/yeji_rank_time"
+                    android:src="@mipmap/nodata"/>
             </RelativeLayout>
 
             <include
@@ -201,10 +213,15 @@
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/lineChart"
                     android:layout_width="match_parent"
-                    android:layout_height="260dp"
-                    android:layout_below="@id/stock_quxian">
-
-                </com.github.mikephil.charting.charts.LineChart>
+                    android:layout_height="200dp"
+                    android:layout_below="@id/stock_quxian"/>
+                <ImageView
+                    android:id="@+id/nodata_img"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/stock_quxian"
+                    android:src="@mipmap/nodata"/>
             </RelativeLayout>
             <TextView
                 android:layout_width="match_parent"

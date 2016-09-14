@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.utils.DensityUtils;
@@ -24,7 +24,7 @@ import java.util.HashMap;
 public class AlterNameActivity extends BascActivity implements View.OnClickListener{
 
     private EditText mName;
-
+    private TextView mSavaName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +50,7 @@ public class AlterNameActivity extends BascActivity implements View.OnClickListe
 
         mBackimg.setOnClickListener(this);
 
-        TextView mSavaName = (TextView) findViewById(R.id.save_name);
+        mSavaName = (TextView) findViewById(R.id.save_name);
 
         mSavaName.setOnClickListener(this);
     }
@@ -74,7 +74,8 @@ public class AlterNameActivity extends BascActivity implements View.OnClickListe
                 if (!TextUtils.isEmpty(str)){
                     updataUserIfoAsyn.execute(str, ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null));
                 }else {
-                    Toast.makeText(this,"昵称不能为空",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this,"昵称不能为空",Toast.LENGTH_SHORT).show();
+                    TSnackbar.make(mSavaName,"昵称不能为空！",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;
         }

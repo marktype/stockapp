@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -59,6 +60,7 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
     private LinearLayout mLinImg;
     private ArrayList<Bitmap> bitmapList;
     private ImageView mAddImg;
+    private TextView mSendTxt;
     private String[] image = new String[]{""};
     ArrayList<String> list = new ArrayList<>();
     @Override
@@ -80,7 +82,7 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
         mEditTxt = (EditText) findViewById(R.id.edit_txt);     //发表内容
-        TextView mSendTxt = (TextView) findViewById(R.id.send_dynamic_txt);
+        mSendTxt = (TextView) findViewById(R.id.send_dynamic_txt);
         mAddImg = (ImageView) findViewById(R.id.add_image);
         mLinImg = (LinearLayout) findViewById(R.id.publish_mood_add_picture_layout);   //图片加载
 
@@ -177,15 +179,16 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
 
             //如果返回码是相册,就进行处理
         } else if (requestCode == GALLERY_REQUST_CODE) {
-
-            Uri contentUri = data.getData();
-            Bitmap bitmap = getBitmapFromUri(contentUri);
-            bitmap = reduce(bitmap, 720, 720, true);
-            if (!bitmapList.contains(bitmap)) {
-                bitmapList.add(bitmap);
+            if (data != null){
+                Uri contentUri = data.getData();
+                Bitmap bitmap = getBitmapFromUri(contentUri);
+                bitmap = reduce(bitmap, 720, 720, true);
+                if (!bitmapList.contains(bitmap)) {
+                    bitmapList.add(bitmap);
+                }
+                initAddMorePicture();
+                sendImageToServer(bitmapList);
             }
-            initAddMorePicture();
-            sendImageToServer(bitmapList);
 
         }else if (requestCode == CROP_REQUST_CODE) {
             if (data == null) {
@@ -369,12 +372,14 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
             case R.id.send_dynamic_txt:
                 String edit = mEditTxt.getText().toString();
                 if (edit.length()<1){
-                    Toast.makeText(this,"你还未输入内容哦",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this,"你还未输入内容哦",Toast.LENGTH_SHORT).show();
+                    TSnackbar.make(mSendTxt,"你还未输入内容哦",TSnackbar.LENGTH_SHORT).show();
                 }else if (!TextUtils.isEmpty(token)){
                     dialog = ManagerUtil.getDiaLog(this);
                     SendDynmaic(list,token,edit);
                  }else {
-                    Toast.makeText(this,"你还未登录，请登录后发表",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this,"你还未登录，请登录后发表",Toast.LENGTH_SHORT).show();
+                    TSnackbar.make(mSendTxt,"你还未登录，请登录后发表",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.add_image:
@@ -416,9 +421,11 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
                         if (object.has("Head")){
                             JSONObject head = object.getJSONObject("Head");
                             if (head.getString("Status").equals("1")){
-                                Toast.makeText(SendDynamicActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
+                                TSnackbar.make(mSendTxt,"发布失败",TSnackbar.LENGTH_SHORT).show();
+//                                Toast.makeText(SendDynamicActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
                             }else {
-                                Toast.makeText(SendDynamicActivity.this,"发表成功",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(SendDynamicActivity.this,"发表成功",Toast.LENGTH_SHORT).show();
+                                TSnackbar.make(mSendTxt,"发表成功",TSnackbar.LENGTH_SHORT).show();
                                 finish();
                             }
                         }

@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -27,6 +27,8 @@ import java.util.HashMap;
 
 public class LoginActivity extends BascActivity implements View.OnClickListener{
     private EditText mUserName,mPassWord;
+    private TextView mLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,7 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
 
     public void initWight(){
         TextView mRegister = (TextView) findViewById(R.id.register_txt);
-        TextView mLogin = (TextView) findViewById(R.id.login_txt);
+        mLogin = (TextView) findViewById(R.id.login_txt);
         TextView mForgetPassword = (TextView) findViewById(R.id.forget_password_txt);
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         mUserName = (EditText) findViewById(R.id.user_name_txt);
@@ -76,13 +78,15 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
                 String name = mUserName.getText().toString();
                 String password = mPassWord.getText().toString();
                 if (name.length() != 11){
-                    Toast.makeText(this,"电话号码输入不正确",Toast.LENGTH_SHORT).show();
+//                    Snackbar snackbar = Snackbar.make(mLogin,"电话号码输入不正确",Snackbar.LENGTH_LONG);
+                    TSnackbar.make(mLogin,"电话号码输入不正确",TSnackbar.LENGTH_SHORT).show();
                 }else if (!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(password)){
                     dialog = ManagerUtil.getDiaLog(this);
                     LoginAsyn loginAsyn = new LoginAsyn();
                     loginAsyn.execute(name,password);
                 }else {
-                    Toast.makeText(this,"密码不能为空",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this,"密码不能为空",Toast.LENGTH_SHORT).show();
+                    TSnackbar.make(mLogin,"密码不能为空",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.forget_password_txt:
@@ -147,10 +151,12 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
                         editor.putString(ShapePreferenceManager.USER_NMAE,userInfo.getResult().getPhoneNum());
                         editor.commit();
 
-                        Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                        TSnackbar.make(mLogin,"登录成功",TSnackbar.LENGTH_SHORT).show();
                         finish();
                     }else {
-                        Toast.makeText(LoginActivity.this,userInfo.getHead().getMsg(),Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this,userInfo.getHead().getMsg(),Toast.LENGTH_SHORT).show();
+                        TSnackbar.make(mLogin,userInfo.getHead().getMsg(),TSnackbar.LENGTH_SHORT).show();
                     }
                 }
             }

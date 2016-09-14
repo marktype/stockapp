@@ -78,13 +78,14 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     private TextView mPersent,mTimes,mLikes,mBuildTime,mDataNum,mMonthNum,
             mJingZhi,mTotal,mAdavce,mLastTime,mflashTime,mName,
             mNum,mPriceChange,mSuccess,mNiuRenName;
-    private ImageView mStarImage;
+    private ImageView mStarImage,mNoData,mNoDataChart;
     private StargDetial starDetailInfo;
     private RatingBar mRating;
     private RelativeLayout mTitleRelat;
     private MyListView mListView;
     private MyDialog dialog;
     private String mToken;
+    private RelativeLayout mChartRelat;
     private int type;
     private LineChart mLineChart;
     @Override
@@ -132,7 +133,11 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         }
 
         mNiuRenName.setText(porfolioInfoBean.getNickName());
-        mLastTime.setText("（最后评估时间："+achievemntBean.getLastTime()+")");
+        if (achievemntBean.getLastTime() != null&&!TextUtils.isEmpty(achievemntBean.getLastTime())){
+            mLastTime.setText("（最后评估时间："+achievemntBean.getLastTime()+")");
+        }else {
+            mLastTime.setText("（最后评估时间：暂无)");
+        }
         mflashTime.setText("("+transferPositionsBean.getLastTime()+")");
         List<StargDetial.ResultBean.TransferPositionsBean.TransferPositionsInfoBean> list = transferPositionsBean.getTransferPositionsInfo();
 
@@ -155,7 +160,6 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         MyZuHeItemAdapter zuHeItemAdapter = new MyZuHeItemAdapter(this);
         zuHeItemAdapter.setData(listInfo);
         mListView.setAdapter(zuHeItemAdapter);
-
         setChartData(achievemntBean);
 
         ArrayList<ChartInfo> chartList = new ArrayList<>();
@@ -172,6 +176,11 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         List<StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean> BenchmarkImgData = porfolioInfoBean.getBenchmarkImgData();
         if (ImgData != null&&BenchmarkImgData != null){
             StockQuxainMap(mLineChart,ImgData,BenchmarkImgData);
+            mNoData.setVisibility(View.GONE);
+            mLineChart.setVisibility(View.VISIBLE);
+        }else {
+            mNoData.setVisibility(View.VISIBLE);
+            mLineChart.setVisibility(View.GONE);
         }
     }
 
@@ -224,6 +233,10 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mRating = (RatingBar) findViewById(R.id.celue_seekbar);   //评分
         mNiuRenName = (TextView) findViewById(R.id.niuren_name);   //牛人名字
         mListView = (MyListView) findViewById(R.id.zuhe_list_item);
+        mNoData = (ImageView) findViewById(R.id.nodata_img);    //无数据显示
+        mNoDataChart = (ImageView) findViewById(R.id.nodata_img_two);  //雷达图无数据显示
+        mChartRelat = (RelativeLayout) findViewById(R.id.yeji_rank_relat);   //业绩评级
+
 
         MyScrollView mScrollview = (MyScrollView) findViewById(R.id.celue_scroll);   //滑动条
 
@@ -306,7 +319,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         }.execute();
     }
     /**
-     * 设置饼图数据
+     * 设置雷达图图数据
      */
     public void setChartData(StargDetial.ResultBean.AchievemntBean achievemntBean){
         /**
@@ -324,7 +337,14 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         // set the marker to the chart
         mChart.setMarkerView(mv);
 
-        setData(achievemntBean);
+        if (achievemntBean.getProfitability() == 0&&achievemntBean.getAntiRiskAbility() == 0&&achievemntBean.getStability() == 0&&achievemntBean.getDispersion() == 0&&achievemntBean.getReplication() ==0){
+            mChartRelat.setVisibility(View.GONE);
+            mNoDataChart.setVisibility(View.VISIBLE);
+        }else {
+            mChartRelat.setVisibility(View.VISIBLE);
+            mNoDataChart.setVisibility(View.GONE);
+            setData(achievemntBean);
+        }
 
         mChart.animateXY(1000, 1000,
                 Easing.EasingOption.EaseInOutQuad,
@@ -388,6 +408,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
             xVals.add(list.get(i % list.size()).getName());
 
         RadarDataSet set1 = new RadarDataSet(yVals1, "");
+        set1.setVisible(false);
         set1.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
         set1.setFillColor(ColorTemplate.VORDIPLOM_COLORS[0]);
         set1.setDrawFilled(true);
@@ -654,10 +675,10 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
 
         //构建一个LineDataSet 代表一组Y轴数据
         LineDataSet dataSet = new LineDataSet(yValue, "沪深300");
-        dataSet.setColor(R.color.quxian_nan);
-        dataSet.setCircleColor(R.color.quxian_nan);
+        dataSet.setColor(getResources().getColor(R.color.quxian_nan));
+        dataSet.setCircleColor(getResources().getColor(R.color.quxian_nan));
         dataSet.setDrawCircles(false);
-        dataSet.setLineWidth(3f);
+        dataSet.setLineWidth(2f);
 
         //模拟第二组组y轴数据(存放y轴数据的是一个Entry的ArrayList) 他是构建LineDataSet的参数之一
 
@@ -672,8 +693,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         //构建一个LineDataSet 代表一组Y轴数据 （比如不同的彩票： 七星彩  双色球）
 
         LineDataSet dataSet1 = new LineDataSet(yValue1, "组合收益");
-
-        dataSet1.setLineWidth(3f); // 线宽
+        dataSet1.setLineWidth(4f); // 线宽
         dataSet1.setDrawCircles(false);
         dataSet1.setColor(getResources().getColor(R.color.quxian_huang));// 显示颜色
         dataSet1.setCircleColor(getResources().getColor(R.color.quxian_huang));// 圆形的颜色

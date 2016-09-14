@@ -41,4 +41,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
+
+    compile 'com.androidadvance:topsnackbar:1.1.1'
 }
