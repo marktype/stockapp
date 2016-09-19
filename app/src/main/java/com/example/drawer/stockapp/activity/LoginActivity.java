@@ -78,13 +78,13 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
                 String name = mUserName.getText().toString();
                 String password = mPassWord.getText().toString();
                 if (name.length() != 11){
-                    Toast.makeText(getApplicationContext(),"电话号码输入不正确",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"电话号码写错了",Toast.LENGTH_SHORT).show();
                 }else if (!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(password)){
                     dialog = ManagerUtil.getDiaLog(this);
                     LoginAsyn loginAsyn = new LoginAsyn();
                     loginAsyn.execute(name,password);
                 }else {
-                    Toast.makeText(getApplicationContext(),"密码不能为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"还没写密码哦",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.forget_password_txt:

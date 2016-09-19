@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.activity.MessageActivity;
@@ -41,6 +42,7 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
     private HeJiAdapter adapter;
     private XueTangInfo findInfo;
     private  ArrayList<HeadIndex> listSave;
+    private int page;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +52,7 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
         if (findInfo == null){
             listSave = new ArrayList<>();
             SchoolFindAsyn asyn = new SchoolFindAsyn();
-            asyn.execute();
+            asyn.execute(page+"");
         }else {
             adapter.setData(listSave);
             mList.setAdapter(adapter);
@@ -75,7 +77,7 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
     public void initWight(){
         RelativeLayout  mTitle = (RelativeLayout) mView.findViewById(R.id.xuetang_title);
         //设置距离顶部状态栏高度
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+        final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 DensityUtils.dp2px(getActivity(),50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(getActivity()),0,0);
         mTitle.setLayoutParams(params);
@@ -104,12 +106,17 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
         mList.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                onLoad();
+                page = 0;
+                SchoolFindAsyn asyn = new SchoolFindAsyn();
+                asyn.execute(page+"");
+
             }
 
             @Override
             public void onLoadMore() {
-                onLoad();
+                page++;
+                SchoolFindAsyn asyn = new SchoolFindAsyn();
+                asyn.execute(page+"");
             }
         });
     }
@@ -143,7 +150,7 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
         @Override
         protected String doInBackground(String... strings) {
             HashMap<String,String> map = new HashMap<>();
-            map.put("PageIndex", "0");
+            map.put("PageIndex", strings[0]);
             map.put("PageCount", "0");
             map.put("PageSize", "0");
             String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.CourseInfoList_URL);
@@ -154,6 +161,7 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            onLoad();
             if (!TextUtils.isEmpty(s)&&s.length()>10){
                 Gson gson = new Gson();
                 findInfo = gson.fromJson(s,XueTangInfo.class);
@@ -173,9 +181,16 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
                 headIndex.setXuetangId(coursesBean.getId());
                 list.add(headIndex);
             }
-            listSave = list;
-            adapter.setData(list);
-            mList.setAdapter(adapter);
+            if (page == 0){
+                listSave = list;
+                adapter.setData(list);
+                mList.setAdapter(adapter);
+            }else if (page >0&&list.size()>0){
+                listSave.addAll(list);
+                adapter.addData(list);
+            }else {
+                Toast.makeText(getActivity(),"没有更多了哦",Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

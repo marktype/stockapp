@@ -300,6 +300,9 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onClick(View view) {
                 sharedPreferences.edit().clear().commit();   //清除缓存sp数据
+                if (userInfo != null){
+                    userInfo = null;
+                }
                 Intent intent = new Intent(getContext(),LoginActivity.class);
                 startActivity(intent);
                 dialog.dismiss();

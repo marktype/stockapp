@@ -80,7 +80,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
     private TextView mPersent,mTimes,mLikes,mBuildTime,mDataNum,mMonthNum,
             mJingZhi,mTotal,mAdavce,mLastTime,mflashTime,mName,
             mNum,mPriceChange,mSuccess,mNiuRenName;
-    private ImageView mStarImage;
+    private ImageView mStarImage,mNoData,mNoDataChart;
     private StargDetial starDetailInfo;
     private RatingBar mRating;
     private RelativeLayout mTitleRelat;
@@ -90,6 +90,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
     private MyDialog dialog,delDialog;
     private String mToken;
     private LineChart mLineChart;
+    private RelativeLayout mChartRelat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +136,12 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         zuheDesc = porfolioInfoBean.getDesc();
 
         mNiuRenName.setText(porfolioInfoBean.getNickName());
-        mLastTime.setText("（最后评估时间："+achievemntBean.getLastTime()+")");
+        if (achievemntBean.getLastTime() != null&&!TextUtils.isEmpty(achievemntBean.getLastTime())){
+            mLastTime.setText("（最后评估时间："+achievemntBean.getLastTime()+")");
+        }else {
+            mLastTime.setText("（最后评估时间：暂无)");
+        }
+
         mflashTime.setText("("+transferPositionsBean.getLastTime()+")");
         List<StargDetial.ResultBean.TransferPositionsBean.TransferPositionsInfoBean> list = transferPositionsBean.getTransferPositionsInfo();
 
@@ -191,6 +197,11 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         List<StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean> BenchmarkImgData = porfolioInfoBean.getBenchmarkImgData();
         if (ImgData != null&&BenchmarkImgData != null){
             StockQuxainMap(mLineChart,ImgData,BenchmarkImgData);
+            mNoData.setVisibility(View.GONE);
+            mLineChart.setVisibility(View.VISIBLE);
+        }else {
+            mNoData.setVisibility(View.VISIBLE);
+            mLineChart.setVisibility(View.GONE);
         }
     }
 
@@ -203,6 +214,19 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                 DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
+
+        RelativeLayout layoutOne = (RelativeLayout) findViewById(R.id.advice_txt);
+        RelativeLayout layoutTwo = (RelativeLayout) findViewById(R.id.yeji_rank_lin);
+        RelativeLayout layoutThree = (RelativeLayout) findViewById(R.id.dioacang_layout);
+        RelativeLayout layoutFour = (RelativeLayout) findViewById(R.id.set_stock);
+        RelativeLayout layoutFive = (RelativeLayout) findViewById(R.id.set_quxian);
+
+        layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutThree.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutFour.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutFive.setBackgroundColor(getResources().getColor(R.color.write_color));
+
 
         String  title = getIntent().getStringExtra(AutoWisdomFragment.CELUENAME);    //传参
 
@@ -230,8 +254,11 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         mRating = (RatingBar) findViewById(R.id.celue_seekbar);   //评分
         mNiuRenName = (TextView) findViewById(R.id.niuren_name);   //牛人名字
         mListView = (MyListView) findViewById(R.id.zuhe_list_item);
+        mNoData = (ImageView) findViewById(R.id.nodata_img);    //无数据显示
+        mNoDataChart = (ImageView) findViewById(R.id.nodata_img_two);  //雷达图无数据显示
+        mChartRelat = (RelativeLayout) findViewById(R.id.yeji_rank_relat);   //业绩评级
 
-       ImageView mDelete = (ImageView) findViewById(R.id.changjianwenti_txt);
+        ImageView mDelete = (ImageView) findViewById(R.id.changjianwenti_txt);
 
         MyScrollView mScrollview = (MyScrollView) findViewById(R.id.celue_scroll);   //滑动条
 
@@ -239,8 +266,8 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
             @Override
             public void onScroll(int scrollY) {
                if (scrollY>50){
-                   mTitleRelat.setBackgroundResource(R.color.write_color);
-                   tintManager.setStatusBarTintResource(R.color.write_color);
+                   mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
+                   tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
                }else {
                    mTitleRelat.setBackgroundResource(android.R.color.transparent);
                    tintManager.setStatusBarTintResource(android.R.color.transparent);
@@ -333,7 +360,14 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         // set the marker to the chart
         mChart.setMarkerView(mv);
 
-        setData(achievemntBean);
+        if (achievemntBean.getProfitability() == 0&&achievemntBean.getAntiRiskAbility() == 0&&achievemntBean.getStability() == 0&&achievemntBean.getDispersion() == 0&&achievemntBean.getReplication() ==0){
+            mChartRelat.setVisibility(View.GONE);
+            mNoDataChart.setVisibility(View.VISIBLE);
+        }else {
+            mChartRelat.setVisibility(View.VISIBLE);
+            mNoDataChart.setVisibility(View.GONE);
+            setData(achievemntBean);
+        }
 
         mChart.animateXY(1000, 1000,
                 Easing.EasingOption.EaseInOutQuad,
@@ -396,13 +430,13 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         for (int i = 0; i < list.size(); i++)
             xVals.add(list.get(i % list.size()).getName());
 
-        RadarDataSet set1 = new RadarDataSet(yVals1, "Set 1");
+        RadarDataSet set1 = new RadarDataSet(yVals1, "");
         set1.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
         set1.setFillColor(ColorTemplate.VORDIPLOM_COLORS[0]);
         set1.setDrawFilled(true);
         set1.setLineWidth(2f);
 
-        RadarDataSet set2 = new RadarDataSet(yVals2, "Set 2");
+        RadarDataSet set2 = new RadarDataSet(yVals2, "");
         set2.setColor(ColorTemplate.VORDIPLOM_COLORS[4]);
         set2.setFillColor(ColorTemplate.VORDIPLOM_COLORS[4]);
         set2.setDrawHighlightCircleEnabled(true);

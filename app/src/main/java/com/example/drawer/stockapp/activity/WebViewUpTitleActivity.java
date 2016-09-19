@@ -272,7 +272,8 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                 LikeOrForwordAsyn likeOrForwordAsyn = new LikeOrForwordAsyn();
                 if (!TextUtils.isEmpty(mToken)){
                     if (type == 2){
-                        likeOrForwordAsyn.execute(urlId,"Forward",key,mToken,HttpManager.CourseComment_URL);
+                        Toast.makeText(getApplicationContext(),"该功能还在完善",Toast.LENGTH_SHORT).show();
+//                        likeOrForwordAsyn.execute(urlId,"Forward",key,mToken,HttpManager.CourseComment_URL);
                     }else {
                         likeOrForwordAsyn.execute(urlId,"Comment",key,mToken,HttpManager.CourseComment_URL);
                     }

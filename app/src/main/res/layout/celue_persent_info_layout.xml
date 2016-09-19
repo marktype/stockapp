@@ -29,7 +29,7 @@
         android:id="@+id/txt_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="平稳增长"
+        android:text="总收益率"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/title_text_size"
         android:layout_marginLeft="@dimen/margin_10dp"
@@ -50,7 +50,7 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/guanzhu_num_txt"
-                android:text="关注人数"
+                android:text="订阅人数"
                 android:textSize="@dimen/title_text_size"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
             android:orientation="vertical">
         <TextView
             android:id="@+id/title_one_name"
-            android:text="日"
+            android:text="日收益"
             android:textSize="@dimen/title_text_size"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/margin_10dp"
@@ -103,7 +103,7 @@
             android:orientation="vertical">
         <TextView
             android:id="@+id/title_two_name"
-            android:text="月"
+            android:text="月收益"
             android:textSize="@dimen/title_text_size"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/margin_10dp"

@@ -79,9 +79,10 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private ImageView mMessage, mSearch;
     private String mToken;
     private ImageView mLogin;
-    private SharedPreferences sp;
+    private SharedPreferences sp,imageSp;
     private ArrayList<CeLueInfo> ceLueInfosSave;
     private NiuRenAdapter niuRenAdapter;
+    private int page,niurenPage;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -122,18 +123,19 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_auto_wisdom, container, false);
         sp = ShapePreferenceManager.getMySharedPreferences(getContext());
+        imageSp = ShapePreferenceManager.getImageSharePreference(getContext());
         initWight();
         initData();
         if (ceLueListInfo == null){
             ceLueInfosSave = new ArrayList<>();
-            getCelueInfo();
+            getCelueInfo(page);
         }else {
             ceLueAdapter.setData(ceLueInfosSave);
             listView.setAdapter(ceLueAdapter);
         }
         if (niuRenListInfoSave == null){
             niuRenInfosSave = new ArrayList<>();
-            getNiuRenListData();
+            getNiuRenListData(niurenPage);
         }else {
             niuRenAdapter.setData(niuRenInfosSave);
             niurenList.setAdapter(niuRenAdapter);
@@ -200,8 +202,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 
         tintManager = ManagerUtil.newInstance(getActivity());
         tintManager.setStatusBarTintEnabled(true);
-        mTitle.setBackgroundResource(R.color.content_con_bg);
-        tintManager.setStatusBarTintResource(R.color.content_con_bg);
+        mTitle.setBackgroundColor(getResources().getColor(R.color.write_color));
+//        tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
 
         mMessage = (ImageView) mView.findViewById(R.id.wisdom_info);
         mSearch = (ImageView) mView.findViewById(R.id.pop_item_img);
@@ -251,7 +253,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         mPager.setAdapter(adapter);
         tabs.setViewPager(mPager);
 
-        Set<String> imagesSet = sp.getStringSet(ShapePreferenceManager.IMAGE_CELUE,null);
+        Set<String> imagesSet = imageSp.getStringSet(ShapePreferenceManager.IMAGE_CELUE,null);
         images = new ArrayList<>();
         if (imagesSet != null&&imagesSet.size()>0){
             for (String str : imagesSet) {
@@ -273,13 +275,15 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         listView.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                getCelueInfo();
+                page = 0;
+                getCelueInfo(page);
 
             }
 
             @Override
             public void onLoadMore() {
-                onLoad();
+                page++;
+                getCelueInfo(page);
             }
         });    //注册监听
 
@@ -295,13 +299,15 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         niurenList.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                getNiuRenListData();
+                niurenPage = 0;
+                getNiuRenListData(niurenPage);
 
             }
 
             @Override
             public void onLoadMore() {
-                onLoadNiu();
+                niurenPage++;
+                getNiuRenListData(niurenPage);
             }
         });    //注册监听
         niurenList.setOnScrollListener(null);
@@ -432,13 +438,13 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     /**
      * 获取量化策略列表
      */
-    public void getCelueInfo() {
+    public void getCelueInfo(final int page) {
         new AsyncTask() {
 
             @Override
             protected Object doInBackground(Object[] objects) {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("PageIndex", "0");
+                map.put("PageIndex", page+"");
                 map.put("PageCount", "0");
                 map.put("PageSize", "0");
                 String message = HttpManager.newInstance().getHttpDataByTwoLayer("", map, HttpManager.StrategyList_URL);
@@ -455,8 +461,15 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     Gson gson = new Gson();
                     ceLueListInfo = gson.fromJson(message, CeLueListInfo.class);
                     if (ceLueListInfo.getHead().getStatus() == 0) {
-                        ceLueAdapter.setData(setLianghuaCelueData());
-                        listView.setAdapter(ceLueAdapter);
+                        ArrayList<CeLueInfo> celueList = setLianghuaCelueData();
+                        if (page == 0){
+                            ceLueAdapter.setData(celueList);
+                            listView.setAdapter(ceLueAdapter);
+                        }else if (page>0&&celueList.size()>0){
+                            ceLueAdapter.addData(celueList);
+                        }else {
+                            Toast.makeText(getActivity(),"没有更多了",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
 
@@ -467,13 +480,13 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     /**
      * 获取牛人组合列表数据
      */
-    public void getNiuRenListData() {
+    public void getNiuRenListData(final int page) {
         new AsyncTask() {
 
             @Override
             protected Object doInBackground(Object[] objects) {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("PageIndex", "0");
+                map.put("PageIndex", ""+page);
                 map.put("PageCount", "0");
                 map.put("PageSize", "0");
                 String message = HttpManager.newInstance().getHttpDataByTwoLayer("", map, HttpManager.StarPorfolio_URL);
@@ -490,9 +503,18 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     Gson gson = new Gson();
                     niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
                     if (niuRenListInfo.getHead().getStatus() == 0) {
+                        ArrayList<NiuRenInfo> niurenInfoList = setNiuRenData(niuRenListInfo);
                         niuRenListInfoSave = niuRenListInfo;
-                        niuRenAdapter.setData(setNiuRenData(niuRenListInfo));
-                        niurenList.setAdapter(niuRenAdapter);
+                        if (niurenPage == 0){
+                            niuRenInfosSave = niurenInfoList;
+                            niuRenAdapter.setData(niurenInfoList);
+                            niurenList.setAdapter(niuRenAdapter);
+                        }else if (niurenPage >0&&niurenInfoList.size()>0){
+                            niuRenInfosSave.addAll(niurenInfoList);
+                            niuRenAdapter.addData(niurenInfoList);
+                        }else {
+                            Toast.makeText(getActivity(),"没有更多了",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
@@ -647,7 +669,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             NiuRenInfo info = new NiuRenInfo();
             info.setId(ben.getId());
             info.setNiurenHead(ben.getUserImgUrl());
-            info.setNiurenName(ben.getNickName()+"");
+            info.setNiurenName(ben.getTitle()+"");
             info.setNiurenRoundImage("http://img2.imgtn.bdimg.com/it/u=1689964256,2679873424&fm=21&gp=0.jpg");
             info.setShouyiRate(Double.parseDouble(df.format(ben.getTotleReturns())));
             info.setVictorRate(ben.getWinRatio() + "%");
@@ -659,7 +681,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setStockType(ben.getTitle());
             niuRenInfos.add(info);
         }
-        niuRenInfosSave = niuRenInfos;
+
         return niuRenInfos;
     }
 
@@ -680,9 +702,10 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             NiuRenInfo info = new NiuRenInfo();
             info.setNiurenName(ben.getTitle());
             info.setId(ben.getId());
+            Log.d("tag","return-----"+ben.getTotleReturns());
             info.setShouyiRate(ben.getTotleReturns());
             info.setStockType(ben.getDesc());
-            info.setTradeTime(ben.getFavorites() + "人关注");
+            info.setTradeTime(ben.getFavorites() + "");
             info.setZuheType(ben.getPorfolioChooseType());
             myInfoList.add(info);
         }
@@ -711,7 +734,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 if (celueinfo.getType() == 1){   //运行中
                     Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
-                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,"运行中"+celueinfo.getTitle());
+                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,celueinfo.getTitle()+"运行中");
                     startActivity(intent);
                 }else if (celueinfo.getType() == 2){   //招募中
                     Intent intent = new Intent(getActivity(), LianghuaCelueZhaoMuZhongActivity.class);
@@ -720,7 +743,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 }else if (celueinfo.getType() == 3){    //已结束
                     Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
-                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,"已结束"+celueinfo.getTitle());
+                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,celueinfo.getTitle()+"已结束");
                     startActivity(intent);
                 }else {
                     Toast.makeText(getActivity(),"策略状态出错",Toast.LENGTH_SHORT).show();
@@ -820,9 +843,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public void onScroll(AbsListView absListView, int i, int i1, int i2) {
         if (absListView.getId() == R.id.lianghuacelue_list) {
-
             mCurrentfirstVisibleItem = i;
-            tintManager.setStatusBarTintResource(R.color.content_con_bg);
+            tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
             View firstView = absListView.getChildAt(0);
             if (null != firstView) {
                 ItemRecod itemRecord = (ItemRecod) recordSp.get(i);
@@ -859,7 +881,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             }
         } else if (absListView.getId() == R.id.niuren_listview) {
             mCurrentfirstVisibleItem = i;
-            tintManager.setStatusBarTintResource(R.color.content_con_bg);
+            tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
             View firstView = absListView.getChildAt(0);
             if (null != firstView) {
                 ItemRecod itemRecord = (ItemRecod) recordSp2.get(i);
@@ -896,7 +918,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             }
         } else if (absListView.getId() == R.id.my_zuhe_listview) {
             mCurrentfirstVisibleItem = i;
-            tintManager.setStatusBarTintResource(R.color.content_con_bg);
+            tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
             View firstView = absListView.getChildAt(0);
             if (null != firstView) {
                 ItemRecod itemRecord = (ItemRecod) recordSp3.get(i);

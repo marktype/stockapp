@@ -51,6 +51,13 @@
         android:textColor="@android:color/background_dark"
         android:layout_toRightOf="@id/zuhe_circle"
         android:text="战必胜组合"/>
+        <ImageView
+            android:id="@+id/difference_zuhe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/margin_20dp"
+            android:src="@mipmap/dingyue"/>
     <!--<TextView-->
         <!--android:id="@+id/stock_name"-->
         <!--android:text="沪深"-->
@@ -65,7 +72,7 @@
 
     <TextView
         android:id="@+id/guanzhu_name"
-        android:text="关注"
+        android:text="组合简介"
         android:layout_marginLeft="@dimen/margin_8dp"
         android:layout_toRightOf="@id/zuhe_circle"
         android:layout_marginTop="@dimen/margin_10dp"

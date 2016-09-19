@@ -98,7 +98,7 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
                         Toast.makeText(getApplicationContext(),"同意用户协议才能注册哦",Toast.LENGTH_SHORT).show();
                     }
                 }else {
-                    Toast.makeText(getApplicationContext(),"输入有误",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"验证码写错了",Toast.LENGTH_SHORT).show();
 //                    TSnackbar.make(mRegist,"输入有误",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;
@@ -117,7 +117,7 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
                         getVerify.execute(phoneV);
                 }else {
                     mGetVerify.setEnabled(true);
-                    Toast.makeText(getApplicationContext(),"输入有误",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"手机号码写错了",Toast.LENGTH_SHORT).show();
 //                    TSnackbar.make(mGetVerify,"输入有误",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;
@@ -193,7 +193,7 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
             verify = mVerify.getText().toString();
-            mGetVerify.setText(values[0]+"");
+            mGetVerify.setText(values[0]+"秒后重新获取");
         }
 
         @Override

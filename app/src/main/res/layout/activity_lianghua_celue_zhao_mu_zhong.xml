@@ -24,6 +24,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:padding="@dimen/margin_10dp"
+            android:singleLine="true"
             android:text="组合招募中"
             android:textColor="@android:color/background_dark"
             android:textSize="@dimen/title_text_size" />
@@ -434,6 +435,7 @@
 
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/gentou_relat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/zuhe_detial_relat"
@@ -462,6 +464,17 @@
                     android:layout_below="@id/gentou_item"
                     android:id="@+id/gengtou_listview"/>
             </RelativeLayout>
+            <TextView
+                android:id="@+id/hint_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="风险提示：以上内容均为模拟交易，不构成投资建议，股市有风险，投资需谨慎！"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/margin_15dp"
+                android:layout_marginRight="@dimen/margin_15dp"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:textSize="@dimen/my_txt_size"
+                android:layout_below="@+id/gentou_relat"/>
         </RelativeLayout>
 
     </ScrollView>

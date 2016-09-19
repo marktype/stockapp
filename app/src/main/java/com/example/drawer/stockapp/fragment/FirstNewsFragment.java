@@ -88,7 +88,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private RelativeLayout mTitleRelat;
     private XListView mDongTaiList;
     private  String token;
-    private int page;
+    private int page,dongTaiPage;
     private ImageView mImgHead,mMessage,mSendImg,mBackgroud,loadingFailed;
     private Boolean isFlag = false;
     private String[] images = {""};
@@ -103,6 +103,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private SharedPreferences sharedPreferences;
     private ApplyHttpThread thread;
     private ArrayList<NewsInfo> listInfoSave;
+    private ArrayList<TrendsInfo> trendsInfosSave;
     private List<IndexMarkInfo.ResultBean.MarketDataBean> MarketDataSave;
 
     public FirstNewsFragment() {
@@ -201,6 +202,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         }
 
         token = sharedPreferences.getString(ShapePreferenceManager.TOKEN,null);
+        Log.d("tag","pager-------"+mPager.getCurrentItem());
         switch (mPager.getCurrentItem()){
             case 0:
                 SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
@@ -211,11 +213,15 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 ManagerUtil.setStataBarColor(getActivity(),tintManager);
                 if (!TextUtils.isEmpty(token)){
                     if (isFlash){    //判定是否发表动态返回
-                        dymnicesData(token);
+                        dymnicesData(token,dongTaiPage);
                         isFlash = false;
                     }
                     if (dynamicsInfo == null){
-                        dymnicesData(token);    //
+                        trendsInfosSave = new ArrayList<>();
+                        dymnicesData(token,dongTaiPage);    //
+                    }else {
+                        trendsAdapter.setData(trendsInfosSave);
+                        mDongTaiList.setAdapter(trendsAdapter);
                     }
                     mBackgroud.setVisibility(View.GONE);
                 }else {
@@ -319,13 +325,15 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mDongTaiList.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                dymnicesData(token);
+                dongTaiPage = 0;
+                dymnicesData(token,dongTaiPage);
 
             }
 
             @Override
             public void onLoadMore() {
-                onLoadDt();
+                dongTaiPage++;
+                dymnicesData(token,dongTaiPage);
             }
         });
 
@@ -442,14 +450,14 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     /**
      * 初始化动态数据
      */
-    public void dymnicesData(final String token){
+    public void dymnicesData(final String token, final int page){
 
         new AsyncTask(){
 
             @Override
             protected Object doInBackground(Object[] objects) {
                 HashMap<String,String> map = new HashMap<>();
-                 map.put("PageIndex", "0");
+                 map.put("PageIndex",page+"");
                  map.put("PageCount", "0");
                 map.put("PageSize", "0");
                 String message = HttpManager.newInstance().getHttpDataByTwoLayer(token,map,HttpManager.SHARE_LIST_URL);
@@ -469,8 +477,16 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                     dynamicsInfo = gson.fromJson(message, DynamicsInfo.class);
                     if (dynamicsInfo.getHead().getStatus()==0){
                         mBackgroud.setVisibility(View.GONE);
-                        trendsAdapter.setData(initdongtaiData());
-                        mDongTaiList.setAdapter(trendsAdapter);
+                        ArrayList<TrendsInfo> trendList = initdongtaiData();
+                        if (dongTaiPage == 0){
+                            trendsAdapter.setData(trendList);
+                            mDongTaiList.setAdapter(trendsAdapter);
+                        }else if (dongTaiPage >0 &&trendList.size()>0){
+                            trendsAdapter.addData(trendList);
+                        }else {
+                            Toast.makeText(getActivity(),"没有更多了哦",Toast.LENGTH_SHORT).show();
+                        }
+
                     }else {
                         mBackgroud.setVisibility(View.VISIBLE);
                     }
@@ -506,6 +522,12 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             info.setLikes(ben.isHasLike());
             trendsInfos.add(info);
         }
+        if (trendsInfosSave != null){
+            trendsInfosSave.addAll(trendsInfos);
+        }else {
+            trendsInfosSave=trendsInfos;
+        }
+
         return trendsInfos;
 
     }
@@ -632,7 +654,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         break;
                     case 1:
                         loadingFailed.setVisibility(View.GONE);
-                        dymnicesData(token);
+                        dymnicesData(token,dongTaiPage);
                         break;
                 }
 
@@ -761,19 +783,17 @@ class ItemRecod {
         public void onPageSelected(int position) {
             switch (position) {
                 case 0:
-                    Log.d("tag","page-------0");
                     mSendImg.setVisibility(View.GONE);
                     mlist.setOnScrollListener(FirstNewsFragment.this);
                     mDongTaiList.setOnScrollListener(null);
                     break;
                 case 1:
-                    Log.d("tag","page-------1");
                     mSendImg.setVisibility(View.VISIBLE);
                     mlist.setOnScrollListener(null);     //此处为了不让滚动监听事件冲突
                     mDongTaiList.setOnScrollListener(FirstNewsFragment.this);
                     mTitleRelat.getBackground().setAlpha(255);
 //                    tintManager.setTintAlpha(1);
-                    tintManager.setStatusBarTintResource(R.color.write_color);
+                    tintManager.setStatusBarTintColor(getContext().getResources().getColor(R.color.write_color));
                     ManagerUtil.FlymeSetStatusBarLightMode(getActivity().getWindow(), true);
                     ManagerUtil.MIUISetStatusBarLightMode(getActivity().getWindow(), true);
 
@@ -782,7 +802,9 @@ class ItemRecod {
                     tabs.setSelectedTextColor(getActivity().getResources().getColor(android.R.color.background_dark));
 
                     if (!TextUtils.isEmpty(token)){
-                        dymnicesData(token);    //
+                        if (dynamicsInfo == null) {
+                            dymnicesData(token, dongTaiPage);    //
+                        }
                         mBackgroud.setVisibility(View.GONE);
                     }else {
                         mBackgroud.setVisibility(View.VISIBLE);
@@ -927,7 +949,7 @@ class ItemRecod {
                 Gson gson = new Gson();
                 BannerInfo bannerInfo = gson.fromJson(s, BannerInfo.class);
                 if (bannerInfo.getHead().getStatus() == 0) {
-                    SharedPreferences.Editor edit = ShapePreferenceManager.getMySharedPreferences(getActivity()).edit();
+                    SharedPreferences.Editor edit = ShapePreferenceManager.getImageSharePreference(getActivity()).edit();
                     Set<String> set = new HashSet<>();
                     List<BannerInfo.ResultBean.BannerUrlBean> size = bannerInfo.getResult().getBannerUrl();
                     images = new String[3];
@@ -956,8 +978,8 @@ class ItemRecod {
         @Override
         protected String doInBackground(String... strings) {
             HashMap<String, String> map = new HashMap<>();
-            map.put("PageIndex", "0");
-            map.put("PageCount", strings[0]);
+            map.put("PageIndex", strings[0]);
+            map.put("PageCount","0");
             map.put("PageSize", "0");
             String message = HttpManager.newInstance().getHttpDataByTwoLayer("", map, HttpManager.NewsList_URL);
             return message;

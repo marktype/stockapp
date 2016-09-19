@@ -73,6 +73,7 @@ public class SerchActivity extends BascActivity implements View.OnClickListener,
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         TextView mSearchTxt = (TextView) findViewById(R.id.search_txt);
         mEditTxt = (EditText) findViewById(R.id.search_edit);
+        mEditTxt.setHint("搜索新闻");
         mList = (ListView) findViewById(R.id.search_listview);
 
         mFloelayout = (FlowLayout) findViewById(R.id.search_flow);

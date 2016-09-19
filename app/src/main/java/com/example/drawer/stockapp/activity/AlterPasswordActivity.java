@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidadvance.topsnackbar.TSnackbar;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -114,12 +113,12 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
                 Gson gson = new Gson();
                 UserInfo userInfo = gson.fromJson(message,UserInfo.class);
                 if (userInfo.getHead().getStatus()==0){
-                    TSnackbar.make(mLogin,"修改成功！",TSnackbar.LENGTH_SHORT).show();
-//                    Toast.makeText(AlterPasswordActivity.this,"修改成功",Toast.LENGTH_SHORT).show();
+//                    TSnackbar.make(mLogin,"修改成功！",TSnackbar.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"修改成功",Toast.LENGTH_SHORT).show();
                     finish();
                 }else {
-//                    Toast.makeText(AlterPasswordActivity.this,userInfo.getHead().getMsg(),Toast.LENGTH_SHORT).show();
-                    TSnackbar.make(mLogin,userInfo.getHead().getMsg(),TSnackbar.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),userInfo.getHead().getMsg(),Toast.LENGTH_SHORT).show();
+//                    TSnackbar.make(mLogin,userInfo.getHead().getMsg(),TSnackbar.LENGTH_SHORT).show();
                 }
             }
         }

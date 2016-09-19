@@ -29,7 +29,7 @@ public class AlterNameActivity extends BascActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alter_name);
-        tintManager.setStatusBarTintResource(R.color.content_con_bg);
+        tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         initWight();
     }
 

@@ -10,12 +10,12 @@ import android.content.SharedPreferences;
 public class ShapePreferenceManager {
 
     private static ShapePreferenceManager instance;
-    private static SharedPreferences mSharePrefence;
+    private static SharedPreferences mSharePrefence,mShareImage;
     public static final String COLLECT_USER_INFO = "com.stockapp.userinfo";    //保存用户信息
     public static final String TOKEN = "token";    //保存用户token信息
     public static final String USER_NMAE = "username";    //保存用户名信息
     public static final String USER_ID = "uid";    //保存用户id信息
-    public static final String IMAGE_CELUE = "image";    //保存量化策略图片
+//    public static final String IMAGE_CELUE = "image";    //保存量化策略图片
 
     private ShapePreferenceManager(){
 
@@ -35,4 +35,17 @@ public class ShapePreferenceManager {
         return mSharePrefence;
     }
 
+    /**
+     * 保存图片
+     */
+    public static final String IMAGE_CELUE = "images";
+    public static final String IMAGE_INFO = "imagesinfo";
+
+    public static SharedPreferences getImageSharePreference(Context context){
+        if (mShareImage == null){
+            mShareImage= context.getSharedPreferences(IMAGE_INFO,
+                    Activity.MODE_PRIVATE);
+        }
+        return mShareImage;
+    }
 }

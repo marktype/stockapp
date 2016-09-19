@@ -25,7 +25,10 @@ public class HeJiAdapter extends BaseAdapter {
     public void setData(ArrayList<HeadIndex> list){
         this.list = list;
         notifyDataSetChanged();
-
+    }
+    public void addData(ArrayList<HeadIndex> list){
+        this.list.addAll(list);
+        notifyDataSetChanged();
     }
     @Override
     public int getCount() {

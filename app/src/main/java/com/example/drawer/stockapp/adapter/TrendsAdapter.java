@@ -34,6 +34,10 @@ public class TrendsAdapter extends BaseAdapter {
         this.list = list;
         notifyDataSetChanged();
     }
+    public void addData(ArrayList<TrendsInfo> list){
+        this.list.addAll(list);
+        notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
         return list.size();

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -65,13 +66,16 @@ public class MyZuHeAdapter extends BaseAdapter {
             viewHolder.name = (TextView) view.findViewById(R.id.zuhe_name);
             viewHolder.canvasViewThree = (CanvasViewThree) view.findViewById(R.id.zuhe_canvas);
             viewHolder.contentBg = (RelativeLayout) view.findViewById(R.id.my_zuhe_relat_item);
+            viewHolder.image = (ImageView) view.findViewById(R.id.difference_zuhe);
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
         final NiuRenInfo info = (NiuRenInfo) getItem(i);
         viewHolder.contentBg.setBackgroundColor(context.getResources().getColor(R.color.write_color));
-        if (info.getShouyiRate()>0){
+        if (info.getShouyiRate() == 0){
+            viewHolder.rate.setText("0.00%");
+        }else if (info.getShouyiRate() > 0){
             viewHolder.rate.setText("+"+info.getShouyiRate()+"%");
         }else {
             viewHolder.rate.setText(info.getShouyiRate()+"%");
@@ -80,11 +84,15 @@ public class MyZuHeAdapter extends BaseAdapter {
         viewHolder.name.setText(info.getNiurenName());
 //        viewHolder.getNum.setText("赚钱"+(i+1)+"号机器");
         if (info.getZuheType() == 1){
-            viewHolder.guanzhuNum.setText("跟投");
+            viewHolder.guanzhuNum.setText(info.getStockType());
+            viewHolder.image.setImageResource(R.mipmap.gengtou);
         }else if (info.getZuheType() == 2){
             viewHolder.guanzhuNum.setText(info.getStockType());
+            viewHolder.image.setImageResource(R.mipmap.chuangjian);
         }else {
-            viewHolder.guanzhuNum.setText("订阅人数"+info.getTradeTime());
+//            viewHolder.guanzhuNum.setText("订阅人数:"+info.getTradeTime());
+            viewHolder.guanzhuNum.setText(info.getStockType());
+            viewHolder.image.setImageResource(R.mipmap.dingyue);
         }
         viewHolder.canvasViewThree.setRadius(DensityUtils.dp2px(context,40));
        if (info.getShouyiRate()<100){
@@ -124,6 +132,7 @@ public class MyZuHeAdapter extends BaseAdapter {
         TextView delete;
         CanvasViewThree canvasViewThree;
         RelativeLayout contentBg;
+        ImageView image;
     }
 
     private ArrayList<HashMap<String, Object>> data;

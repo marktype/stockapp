@@ -15,3 +15,5 @@ Gson gson = new Gson();
 对象 对象名 = gson.fromJson(string（byte或者stream） ,对象类名+.class);
 GsonForamt+android Parcelable code generator    两个插件快速生成Gson解析对象
 
+tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));    //适配问题，尽量用此种方式设置状态栏颜色
+

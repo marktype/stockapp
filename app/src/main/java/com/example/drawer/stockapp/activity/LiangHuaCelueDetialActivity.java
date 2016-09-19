@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.ChiCangAdapter;
@@ -52,7 +53,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
     private GenTouAdapter genTouAdapter;
     private TextView mTarget,mMostGetMoney,mMostLose,mTradeNum,mLastTime,
             mLimitMoney,mStartMoney,mType,mStartType,mMuJiTime,mRunTime,
-            mAdvice,mNiurenName,mNoDataImgTiaoCang,mNoDataImgChiCang;
+            mAdvice,mNiurenName,mNoDataImgTiaoCang,mNoDataImgChiCang,mTitleCelue,mTime;
     private String LiangHuaId;    //量化id
     private String LiangHuaName;   //量化name
     private CircleImageView headImg;
@@ -86,9 +87,29 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
 
+        //魅族底色白色xml中无法显示，代码设置可以
+        RelativeLayout layoutOne = (RelativeLayout) findViewById(R.id.zoushi_relat);
+        RelativeLayout layoutTwo = (RelativeLayout) findViewById(R.id.chicang_relat);
+        RelativeLayout layoutThree = (RelativeLayout) findViewById(R.id.chicang_relat);
+        RelativeLayout layoutFour = (RelativeLayout) findViewById(R.id.zuhe_detial_relat);
+        RelativeLayout layoutFive = (RelativeLayout) findViewById(R.id.tiaocang_relat);
+        RelativeLayout layoutSix = (RelativeLayout) findViewById(R.id.gengtou_relat);
+
+        layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutThree.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutFour.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutFive.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutSix.setBackgroundColor(getResources().getColor(R.color.write_color));
+
+
+
+
         TextView mTitle = (TextView) findViewById(R.id.back_txt);   //题目title
         mTitle.setText(LiangHuaName);
+        mTime = (TextView) findViewById(R.id.build_time);  //开始运行时间
 
+        mTitleCelue = (TextView) findViewById(R.id.title_one);   //量化策略名字
         mTarget = (TextView) findViewById(R.id.goal_shouyi);    //目标收益
         mMostGetMoney = (TextView) findViewById(R.id.max_long_time);   //最大收益
         mMostLose = (TextView) findViewById(R.id.zhishunxian_txt);   //最大亏损
@@ -171,6 +192,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 Gson gson = new Gson();
                 StargDetial stargDetial = gson.fromJson(s,StargDetial.class);
                 parseData(stargDetial);
+            }else {
+                Toast.makeText(getApplicationContext(),"获取信息失败",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -256,8 +279,9 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             }
 
             StargDetial.ResultBean.PorfolioInfoBean infoBean = stargDetial.getResult().getPorfolioInfo();
-            mMuJiTime.setText(infoBean.getRecuitmentStartTime().substring(0,10)+"-"+infoBean.getRecuitmentEndTime().substring(0,10));
-            mRunTime.setText(infoBean.getRunStartDay().substring(0,10)+"-"+infoBean.getRunTargetEndDay().substring(0,10));
+            mTitleCelue.setText(infoBean.getTitle()+" 收益率曲线");
+            mMuJiTime.setText(infoBean.getRecuitmentStartTime().substring(0,10)+"至"+infoBean.getRecuitmentEndTime().substring(0,10));
+            mRunTime.setText(infoBean.getRunStartDay().substring(0,10)+"至"+infoBean.getRunTargetEndDay().substring(0,10));
 
             StargDetial.ResultBean.StarInfoBean starInfoBean = stargDetial.getResult().getStarInfo();
             if (starInfoBean.getTitle() != null&&!TextUtils.isEmpty(starInfoBean.getTitle())){
@@ -268,6 +292,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             mNiurenName.setText(starInfoBean.getName());
             Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
 
+            mTime.setText(infoBean.getRunStartDay()+"开始运行");
 
             List<StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean> ImgData =  infoBean.getImgData();
             List<StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean> BenchmarkImgData = infoBean.getBenchmarkImgData();
@@ -368,8 +393,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
 
         //构建一个LineDataSet 代表一组Y轴数据
         LineDataSet dataSet = new LineDataSet(yValue, "沪深300");
-        dataSet.setColor(R.color.quxian_nan);
-        dataSet.setCircleColor(R.color.quxian_nan);
+        dataSet.setColor(getResources().getColor(R.color.quxian_nan));
+        dataSet.setCircleColor(getResources().getColor(R.color.quxian_nan));
         dataSet.setDrawCircles(false);
         dataSet.setLineWidth(2f);
 

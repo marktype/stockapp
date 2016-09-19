@@ -34,7 +34,6 @@
     <TextView
         android:id="@+id/shouyi_rate"
         android:text="456.23%"
-        android:layout_marginRight="@dimen/margin_10dp"
         android:textSize="@dimen/title_text_size"
         android:layout_below="@id/niuiren_head"
         android:layout_centerHorizontal="true"
@@ -42,9 +41,20 @@
         android:layout_marginTop="@dimen/margin_20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/shouyi_name"
+        android:text="总收益率"
+        android:textSize="@dimen/title_text_size"
+        android:layout_below="@id/shouyi_rate"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/background_dark"
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <include
         android:id="@+id/tablayout"
-        android:layout_below="@id/shouyi_rate"
+        android:layout_below="@id/shouyi_name"
         android:layout_marginTop="@dimen/margin_5dp"
         layout="@layout/tablayout_layout"
         android:layout_height="wrap_content"

@@ -45,7 +45,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements View.OnClickListener{
     private TextView mLimitMoney,mStartMoney,mType,mStartType,
             mMuJiTime,mRunTime,mAdvice,mNiurenName,mParsent
-            ,mZuHeName,mRunDay,mZhisunXian,mGentouMoney,mStartEndMoney,mTargetMoney,mfenchengMoney;
+            ,mZuHeName,mRunDay,mZhisunXian,mGentouMoney,mStartEndMoney,mTargetMoney,mfenchengMoney,mTitle;
     private CircleImageView headImg;
     private GenTouAdapter genTouAdapter;
     private MyListView mGenTouLiat;
@@ -80,6 +80,21 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
 
+        RelativeLayout layoutOne = (RelativeLayout) findViewById(R.id.zhaomu_zhong_relat);
+        RelativeLayout layoutTwo = (RelativeLayout) findViewById(R.id.gengtou_relat);
+        RelativeLayout layoutThree = (RelativeLayout) findViewById(R.id.gentou_money_relat);
+        RelativeLayout layoutFour = (RelativeLayout) findViewById(R.id.zuhe_detial_relat);
+        RelativeLayout layoutFive = (RelativeLayout) findViewById(R.id.tiaocang_relat);
+        RelativeLayout layoutSix = (RelativeLayout) findViewById(R.id.gentou_relat);
+
+        layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutThree.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutFour.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutFive.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutSix.setBackgroundColor(getResources().getColor(R.color.write_color));
+
+        mTitle = (TextView) findViewById(R.id.back_txt);   //招募中题目
         canvasViewThree = (CanvasViewThree) findViewById(R.id.chart1);
         mParsent = (TextView) findViewById(R.id.celue_persent);    //目标收益
         mZuHeName = (TextView) findViewById(R.id.zuhe_name);     //组合名字
@@ -195,6 +210,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         dialog.show();
 
         View view = dialog.getView();
+        view.setBackgroundColor(getResources().getColor(R.color.write_color));
         TextView ok = (TextView) view.findViewById(R.id.fencheng_sure);
 
         ok.setOnClickListener(new View.OnClickListener() {
@@ -238,22 +254,24 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             StargDetial.ResultBean.PorfolioDetailBean proinfo = stargDetial.getResult().getPorfolioDetail();
             mLimitMoney.setText(proinfo.getLimtAmount()+"元");
             mStartMoney.setText(proinfo.getStartAmount()+"元");
-            if (proinfo.getPorfolioType() == 0){
-                mType.setText("短线");
-            }else if (proinfo.getPorfolioType() == 1){
-                mType.setText("中线");
-            }else if (proinfo.getPorfolioType() == 2){
-                mType.setText("长线");
-            }
-            if (proinfo.getRecruitType() == 0){
-                mStartType.setText("稳健型");
-            }else if (proinfo.getRecruitType() == 1){
-                mStartType.setText("激进型");
-            }else if (proinfo.getRecruitType() == 2){
-                mStartType.setText("保本型");
-            }
 
             StargDetial.ResultBean.PorfolioInfoBean infoBean = stargDetial.getResult().getPorfolioInfo();
+
+            if (infoBean.getPorfolioType() == 0){
+                mType.setText("短线");
+            }else if (infoBean.getPorfolioType() == 1){
+                mType.setText("中线");
+            }else if (infoBean.getPorfolioType() == 2){
+                mType.setText("长线");
+            }
+            if (infoBean.getRecruitType() == 0){
+                mStartType.setText("稳健型");
+            }else if (infoBean.getRecruitType() == 1){
+                mStartType.setText("激进型");
+            }else if (infoBean.getRecruitType() == 2){
+                mStartType.setText("保本型");
+            }
+            mTitle.setText(infoBean.getTitle()+"招募中");
             mMuJiTime.setText(infoBean.getRecuitmentStartTime().substring(0,10)+"-"+infoBean.getRecuitmentEndTime().substring(0,10));
             mRunTime.setText(infoBean.getRunStartDay().substring(0,10)+"-"+infoBean.getRunTargetEndDay().substring(0,10));
 
@@ -274,7 +292,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             mZuHeName.setText(infoBean.getTitle());
             mRunDay.setText(infoBean.getMaxDay()+"天");
             mZhisunXian.setText(infoBean.getStopLoss()+"%");
-            mGentouMoney.setText(infoBean.getPorfolioAmount()+"元");
+            mGentouMoney.setText((infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount())+"元");
             totalMoney = infoBean.getPorfolioAmount();
         }
     }

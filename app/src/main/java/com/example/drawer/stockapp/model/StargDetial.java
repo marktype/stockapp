@@ -250,12 +250,12 @@ public class StargDetial {
             private int MostFollow;
             private String Desc;
             private int MaxDay;
-            private int StopLoss;
+            private double StopLoss;
             private int ShareRatio;
             private String RunStartDay;
             private String RunEndDay;
             private String RunTargetEndDay;
-            private int TargetReturns;
+            private double TargetReturns;
             private double Recruitment;
             private double WinRatio;
             private double MonthlyAverage;
@@ -384,11 +384,11 @@ public class StargDetial {
                 this.MaxDay = MaxDay;
             }
 
-            public int getStopLoss() {
+            public double getStopLoss() {
                 return StopLoss;
             }
 
-            public void setStopLoss(int StopLoss) {
+            public void setStopLoss(double StopLoss) {
                 this.StopLoss = StopLoss;
             }
 
@@ -424,11 +424,11 @@ public class StargDetial {
                 this.RunTargetEndDay = RunTargetEndDay;
             }
 
-            public int getTargetReturns() {
+            public double getTargetReturns() {
                 return TargetReturns;
             }
 
-            public void setTargetReturns(int TargetReturns) {
+            public void setTargetReturns(double TargetReturns) {
                 this.TargetReturns = TargetReturns;
             }
 
@@ -653,6 +653,15 @@ public class StargDetial {
             private boolean IsEndInvestment;
             private double MaxReturn;
             private double MinReturn;
+            private double CompleteAlongAmount;
+
+            public double getCompleteAlongAmount() {
+                return CompleteAlongAmount;
+            }
+
+            public void setCompleteAlongAmount(double completeAlongAmount) {
+                CompleteAlongAmount = completeAlongAmount;
+            }
 
             public int getRecruitType() {
                 return RecruitType;

@@ -30,6 +30,10 @@ public class CeLueAdapter extends BaseAdapter {
     public void setData(ArrayList<CeLueInfo> list){
         this.list = list;
         notifyDataSetChanged();
+}
+    public void addData(ArrayList<CeLueInfo> list){
+        this.list.addAll(list);
+        notifyDataSetChanged();
     }
     @Override
     public int getCount() {

@@ -94,7 +94,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                     getRegister.execute(phone,password,verify);
                 }else {
 //                    TSnackbar.make(mSureTxt,"输入有误！",TSnackbar.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(),"输入有误",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"验证码写错了",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.get_verify:
@@ -105,7 +105,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                     getVerify.execute(phoneV);
                 }else {
                     mGetVerify.setEnabled(true);
-                    Toast.makeText(getApplicationContext(),"输入有误",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"手机号码写错了",Toast.LENGTH_SHORT).show();
 //                    TSnackbar.make(mGetVerify,"输入有误！",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;

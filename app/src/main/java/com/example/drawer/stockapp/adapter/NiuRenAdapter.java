@@ -28,6 +28,10 @@ public class NiuRenAdapter extends BaseAdapter {
         this.list = list;
         notifyDataSetChanged();
     }
+    public void addData(ArrayList<NiuRenInfo> list){
+        this.list.addAll(list);
+        notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
         return list.size();
@@ -71,7 +75,11 @@ public class NiuRenAdapter extends BaseAdapter {
         viewHolder.layoutTitle.setBackgroundColor(context.getResources().getColor(R.color.write_color));
 //        Picasso.with(context).load(info.getNiurenRoundImage()).into(viewHolder.tradeImage);
 //        viewHolder.typeTxt.setText(info.getStockType());
-        viewHolder.shouyiAll.setText(info.getShouyiRate()+"%");
+        if (info.getShouyiRate() == 0){
+            viewHolder.shouyiAll.setText("0.00%");
+        }else {
+            viewHolder.shouyiAll.setText(info.getShouyiRate()+"%");
+        }
         viewHolder.victor.setText(info.getVictorRate());
         viewHolder.shouyiBymonth.setText(info.getShouyiByMonth());
         viewHolder.stockNum.setText(info.getStockNum()+"");

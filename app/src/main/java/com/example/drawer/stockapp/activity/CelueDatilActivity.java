@@ -92,7 +92,8 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_celue_datil);
-        tintManager.setStatusBarTintResource(android.R.color.transparent);
+        tintManager.setStatusBarTintResource(R.color.write_color);
+//        tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         zuheId = getIntent().getStringExtra(ZUHE_ID);
 
         initWight();
@@ -194,6 +195,18 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
 
+        RelativeLayout layoutOne = (RelativeLayout) findViewById(R.id.advice_txt);
+        RelativeLayout layoutTwo = (RelativeLayout) findViewById(R.id.yeji_rank_lin);
+        RelativeLayout layoutThree = (RelativeLayout) findViewById(R.id.dioacang_layout);
+        RelativeLayout layoutFour = (RelativeLayout) findViewById(R.id.set_stock);
+        RelativeLayout layoutFive = (RelativeLayout) findViewById(R.id.set_quxian);
+
+        layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutThree.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutFour.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutFive.setBackgroundColor(getResources().getColor(R.color.write_color));
+
         String  title = getIntent().getStringExtra(AutoWisdomFragment.CELUENAME);    //传参
         type = getIntent().getIntExtra(AutoWisdomFragment.ZUHETYPE,0);
 
@@ -244,11 +257,11 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
             @Override
             public void onScroll(int scrollY) {
                if (scrollY>50){
-                   mTitleRelat.setBackgroundResource(R.color.write_color);
-                   tintManager.setStatusBarTintResource(R.color.write_color);
+                   mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
+                   tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
                }else {
-                   mTitleRelat.setBackgroundResource(android.R.color.transparent);
-                   tintManager.setStatusBarTintResource(android.R.color.transparent);
+                   mTitleRelat.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                   tintManager.setStatusBarTintColor(getResources().getColor(android.R.color.transparent));
                }
             }
         });
@@ -310,9 +323,9 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                     starDetailInfo = gson.fromJson(message, StargDetial.class);
                     if (starDetailInfo.getHead().getStatus()==0){
                         setWidghtData();     //此时数据有问题，字段改变，待修改后设置
-
                     }
-
+                }else {
+                    Toast.makeText(getApplicationContext(),"获取信息失败",Toast.LENGTH_SHORT).show();
                 }
 
             }

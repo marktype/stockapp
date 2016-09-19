@@ -153,6 +153,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.dongtai_zhuanfa:
+                Toast.makeText(getApplicationContext(),"该功能还在完善",Toast.LENGTH_SHORT).show();
                 type  = 2;
                 initSoftWindow(type);
                 break;
@@ -311,8 +312,9 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                 String key = mCommentEdit.getText().toString();
                 LikeOrForwordAsyn likeOrForwordAsyn = new LikeOrForwordAsyn();
                 if (type == 2){
-                    mZhuanFa.setText((Integer.parseInt(mZhuanFa.getText().toString())+1)+"");
-                    likeOrForwordAsyn.execute(shareBean.getId(),"Forward",key,mToken,HttpManager.Comment_URL);
+                    Toast.makeText(getApplicationContext(),"该功能还在完善",Toast.LENGTH_SHORT).show();
+//                    mZhuanFa.setText((Integer.parseInt(mZhuanFa.getText().toString())+1)+"");
+//                    likeOrForwordAsyn.execute(shareBean.getId(),"Forward",key,mToken,HttpManager.Comment_URL);
                 }else {
                     mComment.setText((Integer.parseInt(mComment.getText().toString())+1)+"");
                     likeOrForwordAsyn.execute(shareBean.getId(),"Comment",key,mToken,HttpManager.Comment_URL);
