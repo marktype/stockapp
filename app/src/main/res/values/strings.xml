@@ -58,6 +58,7 @@
     <string name="target_txt">跟投金额*目标收益=1000*15.5%</string>
     <string name="fencheng_money_txt">跟投金额*目标收益*分成比例=0元</string>
     <string name="gentou_start_txt">起投金额为1000元（虚拟资金）元</string>
+    <string name="register_name_digits">._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ</string>
 
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">松开刷新数据</string>

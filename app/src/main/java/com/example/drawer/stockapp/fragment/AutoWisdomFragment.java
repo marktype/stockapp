@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -243,7 +242,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         viewList.add(niuRenZuHeView);
         viewList.add(myZuHeView);
         ArrayList<String> titles = new ArrayList<>();
-        titles.add("量化策略");
+        titles.add("智能组合");
         titles.add("牛人组合");
         titles.add("我的组合");
         mSliderVIew = mInflater.inflate(R.layout.imageslider_layout_two, null);    //第一个head imageSlider
@@ -457,7 +456,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 super.onPostExecute(o);
                 onLoad();
                 String message = (String) o;
-                if (!TextUtils.isEmpty(message)) {
+                if (!TextUtils.isEmpty(message)&&!message.equals(HttpManager.FAILED)) {
                     Gson gson = new Gson();
                     ceLueListInfo = gson.fromJson(message, CeLueListInfo.class);
                     if (ceLueListInfo.getHead().getStatus() == 0) {
@@ -471,6 +470,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                             Toast.makeText(getActivity(),"没有更多了",Toast.LENGTH_SHORT).show();
                         }
                     }
+                }else {
+                    Toast.makeText(getActivity(),"获取数据失败",Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -586,6 +587,10 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                         niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
                         if (niuRenListInfo.getHead().getStatus() == 0) {
                             setMyZuHeInfo(niurenList);
+                        }else {
+                            if (niurenList.size() == 0){
+                                mLogin.setVisibility(View.VISIBLE);
+                            }
                         }
                     }
 
@@ -600,15 +605,16 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      * @param niurenList
      */
     public void setMyZuHeInfo(ArrayList<NiuRenInfo> niurenList){
+        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
         List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfo.getResult().getStrategies();
         for (int i = 0; i < starPorfolioBeen.size(); i++) {
             NiuRenListInfo.ResultBean.StrategiesBean ben = starPorfolioBeen.get(i);
             NiuRenInfo info = new NiuRenInfo();
             info.setId(ben.getId());
             info.setNiurenName(ben.getTitle());
-            info.setShouyiRate(ben.getTotleReturns());
+            info.setShouyiRate(Double.parseDouble(df.format(ben.getTotleReturns())));
             info.setStockType(ben.getDesc());
-            info.setZuheType(ben.getPorfolioChooseType());
+            info.setZuheType(3);   //全是订阅
             info.setTradeTime(ben.getFavorites()+"");
             niurenList.add(info);
         }
@@ -621,6 +627,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      * 初始化量化策略数据
      */
     public ArrayList<CeLueInfo> setLianghuaCelueData() {
+        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
         ArrayList<CeLueInfo> ceLueInfos = new ArrayList<>();
         List<CeLueListInfo.ResultBean.StrategiesBean> strategiesBeen = ceLueListInfo.getResult().getStrategies();
         for (int i = 0; i < strategiesBeen.size(); i++) {
@@ -628,7 +635,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 
             CeLueInfo info = new CeLueInfo();
             info.setId(ben.getId());
-            info.setCeluePersent(ben.getRecruitment());
+            info.setCeluePersent(Double.parseDouble(df.format(ben.getTotalReturn()))+"");
             info.setTitle(ben.getName());
             info.setJingZhiNum(ben.getTargetReturns() + "%");
             info.setMaxNum(ben.getMaxDay() + "天");
@@ -695,18 +702,21 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     public ArrayList<NiuRenInfo> setMyZuHeData() {
 
         myInfoList = new ArrayList<>();   //我的组合信息
-
+        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
         List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfo.getResult().getStrategies();
         for (int i = 0; i < starPorfolioBeen.size(); i++) {
             NiuRenListInfo.ResultBean.StrategiesBean ben = starPorfolioBeen.get(i);
             NiuRenInfo info = new NiuRenInfo();
             info.setNiurenName(ben.getTitle());
             info.setId(ben.getId());
-            Log.d("tag","return-----"+ben.getTotleReturns());
-            info.setShouyiRate(ben.getTotleReturns());
+            info.setShouyiRate(Double.parseDouble(df.format(ben.getTotleReturns())));
             info.setStockType(ben.getDesc());
             info.setTradeTime(ben.getFavorites() + "");
-            info.setZuheType(ben.getPorfolioChooseType());
+            if (ben.getPorfolioChooseType() == 1){
+                info.setZuheType(ben.getPorfolioChooseType());
+            }else {
+                info.setZuheType(2);   //2和3全是创建
+            }
             myInfoList.add(info);
         }
         return myInfoList;
@@ -734,7 +744,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 if (celueinfo.getType() == 1){   //运行中
                     Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
-                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,celueinfo.getTitle()+"运行中");
+                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,celueinfo.getTitle()+"（运行中）");
                     startActivity(intent);
                 }else if (celueinfo.getType() == 2){   //招募中
                     Intent intent = new Intent(getActivity(), LianghuaCelueZhaoMuZhongActivity.class);
@@ -743,7 +753,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 }else if (celueinfo.getType() == 3){    //已结束
                     Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
-                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,celueinfo.getTitle()+"已结束");
+                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,celueinfo.getTitle()+"（已结束）");
                     startActivity(intent);
                 }else {
                     Toast.makeText(getActivity(),"策略状态出错",Toast.LENGTH_SHORT).show();
@@ -1007,13 +1017,13 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     myList.setOnScrollListener(null);
                     break;
                 case 2:
-                    Log.d("tag","yoken------"+mToken);
-                    if (TextUtils.isEmpty(mToken)){
-                        mLogin.setVisibility(View.VISIBLE);
-                    }else {
-                        mLogin.setVisibility(View.GONE);
-
-                    }
+//                    Log.d("tag","yoken------"+mToken);
+//                    if (TextUtils.isEmpty(mToken)){
+//                        mLogin.setVisibility(View.VISIBLE);
+//                    }else {
+//                        mLogin.setVisibility(View.GONE);
+//
+//                    }
                     listView.setOnScrollListener(null);
                     niurenList.setOnScrollListener(null);
                     myList.setOnScrollListener(AutoWisdomFragment.this);

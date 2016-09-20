@@ -173,7 +173,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
             verify = mVerify.getText().toString();
-            mGetVerify.setText(values[0]+"");
+            mGetVerify.setText(values[0]+"秒后重新获取");
         }
 
         @Override

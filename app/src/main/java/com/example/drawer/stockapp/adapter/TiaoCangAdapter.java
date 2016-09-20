@@ -68,7 +68,7 @@ public class TiaoCangAdapter extends BaseAdapter {
 
         viewHolder.name.setText(info.getStockName());
         viewHolder.num.setText("("+info.getStockNum()+")");
-        viewHolder.tradeNum.setText(info.getTradeNumStart()+"-->"+info.getTradeNumEnd());
+        viewHolder.tradeNum.setText(""+(info.getTradeNumEnd()-info.getTradeNumStart()));
         viewHolder.price.setText(info.getTradePrice());
         return view;
     }

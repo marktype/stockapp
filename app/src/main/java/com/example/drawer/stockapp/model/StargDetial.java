@@ -251,7 +251,7 @@ public class StargDetial {
             private String Desc;
             private int MaxDay;
             private double StopLoss;
-            private int ShareRatio;
+            private double ShareRatio;
             private String RunStartDay;
             private String RunEndDay;
             private String RunTargetEndDay;
@@ -262,7 +262,7 @@ public class StargDetial {
             private int Holding;
             private double Position;
             private int AveragePosition;
-            private int AverageTrading;
+            private double AverageTrading;
             private int Favorites;
             private String CreateTime;
             private boolean IsShare;
@@ -392,11 +392,11 @@ public class StargDetial {
                 this.StopLoss = StopLoss;
             }
 
-            public int getShareRatio() {
+            public double getShareRatio() {
                 return ShareRatio;
             }
 
-            public void setShareRatio(int ShareRatio) {
+            public void setShareRatio(double ShareRatio) {
                 this.ShareRatio = ShareRatio;
             }
 
@@ -480,11 +480,11 @@ public class StargDetial {
                 this.AveragePosition = AveragePosition;
             }
 
-            public int getAverageTrading() {
+            public double getAverageTrading() {
                 return AverageTrading;
             }
 
-            public void setAverageTrading(int AverageTrading) {
+            public void setAverageTrading(double AverageTrading) {
                 this.AverageTrading = AverageTrading;
             }
 

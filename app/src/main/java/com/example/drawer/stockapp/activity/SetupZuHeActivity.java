@@ -52,7 +52,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_zu_he);
-        tintManager.setStatusBarTintResource(R.color.write_color);
+        tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
         initWight();
 
@@ -78,6 +78,13 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
                 DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
+        mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
+
+        RelativeLayout layoutOne = (RelativeLayout) findViewById(R.id.zuhe_name);
+        RelativeLayout layoutTwo = (RelativeLayout) findViewById(R.id.my_stock_layout);
+
+        layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         TextView mAddTxt = (TextView) findViewById(R.id.add_stock_txt);

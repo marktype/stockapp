@@ -5,6 +5,16 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="注意"
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:textColor="@android:color/black"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/attention_txt"/>
+
+    <TextView
+        android:layout_below="@id/attention_txt"
         android:id="@+id/fencheng_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +39,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/my_txt_size"
-            android:textColor="@android:color/black"
             android:id="@+id/mianfei_txt"
             android:text="免费: "/>
         <TextView
@@ -95,14 +104,14 @@
             <!--android:layout_height="wrap_content" />-->
 
     <!--</RelativeLayout>-->
-    <TextView
-        android:layout_below="@+id/zuhe_zhong_line_two"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="@dimen/margin_3dp"
-        android:id="@+id/zuhe_zhong_line"
-        android:background="@color/circle_con_bg"
-        />
+    <!--<TextView-->
+        <!--android:layout_below="@+id/zuhe_zhong_line_two"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1px"-->
+        <!--android:layout_marginTop="@dimen/margin_3dp"-->
+        <!--android:id="@+id/zuhe_zhong_line"-->
+        <!--android:background="@color/circle_con_bg"-->
+        <!--/>-->
     <TextView
         android:id="@+id/fencheng_sure"
         android:layout_width="match_parent"
@@ -111,5 +120,6 @@
         android:background="@color/content_bg"
         android:gravity="center"
         android:padding="@dimen/margin_10dp"
-        android:layout_below="@id/zuhe_zhong_line"/>
+        android:layout_alignParentBottom="true"
+        />
 </RelativeLayout>

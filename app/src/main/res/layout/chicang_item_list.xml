@@ -15,9 +15,9 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/my_txt_size"
             android:textColor="@android:color/black"
-            android:text="中国平安"/>
+            android:text=""/>
         <TextView
-            android:text="(601318)"
+            android:text=""
             android:id="@+id/stock_num"
             android:textSize="@dimen/my_txt_size"
             android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
         android:id="@+id/today_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12"
+        android:text="0"
         android:gravity="center"
         android:layout_weight="1"
         android:textSize="@dimen/my_txt_size"/>
@@ -35,7 +35,7 @@
         android:id="@+id/now_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12"
+        android:text="0"
         android:gravity="center"
         android:layout_weight="1"
         android:textSize="@dimen/my_txt_size"/>
@@ -43,7 +43,7 @@
         android:id="@+id/base_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12"
+        android:text="0"
         android:gravity="center"
         android:layout_weight="1"
         android:textSize="@dimen/my_txt_size"/>
@@ -51,7 +51,7 @@
         android:id="@+id/cangwei_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12"
+        android:text="0"
         android:gravity="center"
         android:layout_weight="1"
         android:textSize="@dimen/my_txt_size"/>
@@ -59,7 +59,7 @@
         android:id="@+id/fu_ying"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12"
+        android:text="0"
         android:gravity="center"
         android:layout_weight="1"
         android:textSize="@dimen/my_txt_size"/>

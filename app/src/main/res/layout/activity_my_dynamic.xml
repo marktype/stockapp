@@ -58,7 +58,7 @@
             android:layout_marginRight="@dimen/margin_10dp"
             android:padding="@dimen/margin_10dp"
             android:textSize="@dimen/title_text_size"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:layout_toRightOf="@id/share_img"/>
 
     </RelativeLayout>

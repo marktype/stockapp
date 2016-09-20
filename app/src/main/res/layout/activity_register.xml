@@ -132,7 +132,7 @@
             android:textCursorDrawable="@null"
             android:textSize="@dimen/title_text_size"
             android:inputType="textPassword"
-            android:digits="1234567890abcdefghijklmnopqrstuvwxyz"
+            android:digits="@string/register_name_digits"
             android:textColorHint="@android:color/darker_gray" />
 
         <ImageView

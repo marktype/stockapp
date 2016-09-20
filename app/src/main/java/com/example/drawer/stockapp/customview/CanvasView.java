@@ -78,7 +78,7 @@ public class CanvasView extends View {
          */
         paint.setStrokeWidth(strokeWidth);
         paint.setColor(defaultColor);
-        paint.setTextSize(30);
+        paint.setTextSize(20f);
         canvas.drawArc(rectF,0,360,false,paint);
 
         /**
@@ -128,7 +128,7 @@ public class CanvasView extends View {
                  *  画内部小圆圈
                  */
                 paint.setColor(color);
-                paint.setStrokeWidth(14);
+                paint.setStrokeWidth(12);
                 //计算小圆点中心的y坐标
                 cy =  rectWidth/2 + height/2 - ((size -i)*sigleRectHeight) + sigleRectHeight/2 ;
                 canvas.drawCircle(txtX+30,cy,8,paint);
@@ -137,8 +137,9 @@ public class CanvasView extends View {
                  * 画文字
                  */
                 paint.setTextAlign(Paint.Align.CENTER);
-                paint.setColor(Color.BLACK);
+                paint.setColor(Color.LTGRAY);
                 paint.setStrokeWidth(1);
+                paint.setTextSize(20f);
                 //已知中线计算基线位置
                 Paint.FontMetrics metrics = paint.getFontMetrics();
                 float baseLine  = cy - (metrics.bottom + metrics.top)/2;

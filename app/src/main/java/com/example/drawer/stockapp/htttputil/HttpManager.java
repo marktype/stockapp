@@ -74,6 +74,7 @@ public class HttpManager {
     public static final String DeletePorfolio_URL = BASE_URL + "Intelligent/DeletePorfolio";      // 删除组合
     public static final String CodeHotKeys_URL = BASE_URL + "Intelligent/HotKeys";      // 热门搜索股票关键字
     public static final String FindCode_URL = BASE_URL + "Intelligent/FindCode";      // 搜索股票
+    public static final String Signals_URL = BASE_URL + "Intelligent/Signals";      // 获取调仓历史记录
     public static final String send_dynamic_URL = BASE_URL + "Dynamics/AddDynamic";      // 发布动态
     public static final String Comment_URL = BASE_URL + "Dynamics/Comment";      // 评论或转发
     public static final String Favorites_URL = BASE_URL + "Dynamics/Favorites";      // 收藏或点赞

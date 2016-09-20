@@ -45,7 +45,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements View.OnClickListener{
     private TextView mLimitMoney,mStartMoney,mType,mStartType,
             mMuJiTime,mRunTime,mAdvice,mNiurenName,mParsent
-            ,mZuHeName,mRunDay,mZhisunXian,mGentouMoney,mStartEndMoney,mTargetMoney,mfenchengMoney,mTitle;
+            ,mZuHeName,mRunDay,mZhisunXian,mGentouMoney,mStartEndMoney,
+            mTargetMoney,mfenchengMoney,mTitle,mFenCheng;
     private CircleImageView headImg;
     private GenTouAdapter genTouAdapter;
     private MyListView mGenTouLiat;
@@ -100,6 +101,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         mZuHeName = (TextView) findViewById(R.id.zuhe_name);     //组合名字
         mRunDay = (TextView) findViewById(R.id.run_time);    //运行天数
         mZhisunXian = (TextView) findViewById(R.id.zhi_zhun_xian);   //止损线
+        mFenCheng = (TextView) findViewById(R.id.fencheng_money);  //分成费
         mGentouMoney = (TextView) findViewById(R.id.gentou_money);   //跟投金额
         TextView mFencheng = (TextView) findViewById(R.id.fengcheng_detial);   //分成信息
         mStartEndMoney = (TextView) findViewById(R.id.gentou_qujian);   //跟投区间
@@ -154,8 +156,9 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                     money = 0;
                 }
                 if (money>totalMoney){
-                    mGentouMoney.setText(totalMoney+" 元");
+                    mGentouMoney.setText("0 元");
                     money = totalMoney;
+                    mWriteGentouMoney.setText(totalMoney+"");
                 }else {
                     mGentouMoney.setText((totalMoney-money)+" 元");
                 }
@@ -194,6 +197,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
 //                        TSnackbar.make(mGentou,"跟投余额必须大于0！",TSnackbar.LENGTH_SHORT).show();
                     }
                 }else {
+                    Toast.makeText(getApplicationContext(),"您还未登陆，请先登录",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this,LoginActivity.class);
                     startActivity(intent);
                 }
@@ -271,17 +275,26 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             }else if (infoBean.getRecruitType() == 2){
                 mStartType.setText("保本型");
             }
-            mTitle.setText(infoBean.getTitle()+"招募中");
-            mMuJiTime.setText(infoBean.getRecuitmentStartTime().substring(0,10)+"-"+infoBean.getRecuitmentEndTime().substring(0,10));
-            mRunTime.setText(infoBean.getRunStartDay().substring(0,10)+"-"+infoBean.getRunTargetEndDay().substring(0,10));
+            mTitle.setText(infoBean.getTitle()+"（招募中）");
+            mMuJiTime.setText(infoBean.getRecuitmentStartTime().substring(0,10)+"至"+infoBean.getRecuitmentEndTime().substring(0,10));
+            mRunTime.setText(infoBean.getRunStartDay().substring(0,10)+"至"+infoBean.getRunTargetEndDay().substring(0,10));
 
-            mStartEndMoney.setText("跟投区间"+infoBean.getStarInvestment()+"-"+infoBean.getMostFollow()+"(虚拟资金)");
+            if (proinfo.getStartAmount()>10000){
+                mStartEndMoney.setText("跟投区间"+proinfo.getStartAmount()/10000+"万-"+proinfo.getLimtAmount()/10000+"万(虚拟资金)");
+            }else {
+                mStartEndMoney.setText("跟投区间"+proinfo.getStartAmount()+"元-"+proinfo.getLimtAmount()+"元(虚拟资金)");
+            }
 
             StargDetial.ResultBean.StarInfoBean starInfoBean = stargDetial.getResult().getStarInfo();
             if (starInfoBean.getTitle() != null&&!TextUtils.isEmpty(starInfoBean.getTitle())){
                 mAdvice.setText(starInfoBean.getTitle());
             }else {
                 mAdvice.setText("牛逼的组合不需要解释！");
+            }
+            if (infoBean.getShareRatio() == 0){
+                mFenCheng.setText("免费");
+            }else {
+                mFenCheng.setText(infoBean.getShareRatio()+"%");
             }
             mNiurenName.setText(starInfoBean.getName());
             Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
@@ -293,7 +306,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             mRunDay.setText(infoBean.getMaxDay()+"天");
             mZhisunXian.setText(infoBean.getStopLoss()+"%");
             mGentouMoney.setText((infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount())+"元");
-            totalMoney = infoBean.getPorfolioAmount();
+            totalMoney = infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount();
         }
     }
 

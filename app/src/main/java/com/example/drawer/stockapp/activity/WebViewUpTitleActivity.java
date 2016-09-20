@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -57,7 +56,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        tintManager.setStatusBarTintResource(R.color.write_color);
+        tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
         urlId = getIntent().getStringExtra(URLID);
         initWight();
@@ -82,6 +81,11 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                 DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
+
+        RelativeLayout layoutOne = (RelativeLayout) findViewById(R.id.comment_relat);
+
+        layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
+        mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         webView = (WebView) findViewById(R.id.web_view);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -248,7 +252,6 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
             info.setFriendContent(dataBean.getContent());
             info.setFriendImage(dataBean.getImgUrl());
             list.add(info);
-            Log.d("tag","list--------"+dataBean.getNickName());
         }
         adapter.setData(list);
         mList.setAdapter(adapter);
@@ -278,7 +281,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                         likeOrForwordAsyn.execute(urlId,"Comment",key,mToken,HttpManager.CourseComment_URL);
                     }
                 }else {
-                    Toast.makeText(getApplicationContext(),"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"您还未登陆，请先登录",Toast.LENGTH_SHORT).show();
                 }
 
                 return true;

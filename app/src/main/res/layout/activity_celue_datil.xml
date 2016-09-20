@@ -154,12 +154,57 @@
                 android:layout_marginLeft="@dimen/margin_15dp"
                 android:layout_marginRight="@dimen/margin_15dp"
                 android:layout_marginTop="@dimen/margin_5dp" />
+            <RelativeLayout
+                android:id="@+id/chicang_relat"
+                style="@style/MyContentStyle"
+                android:background="@color/write_color"
+                android:layout_below="@id/dioacang_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前持仓"
+                    android:id="@+id/chicang_title"
+                    android:textSize="@dimen/title_text_size"
+                    android:textColor="@android:color/black"
+                    android:layout_margin="@dimen/margin_10dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/circle_con_bg"
+                    android:layout_below="@id/chicang_title"
+                    android:id="@+id/chicang_line"/>
+
+                <include
+                    android:id="@+id/chicang_layout_title"
+                    android:layout_width="match_parent"
+                    android:layout_margin="@dimen/margin_10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/chicang_line"
+                    layout="@layout/now_have_cang_layout"></include>
+                <com.example.drawer.stockapp.customview.MyListView
+                    android:layout_width="match_parent"
+                    android:id="@+id/chicang_listview"
+                    android:layout_below="@id/chicang_layout_title"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/no_data_img_chicang"
+                    android:layout_below="@id/chicang_layout_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="需要登录才能查看"
+                    android:visibility="gone"
+                    android:layout_centerHorizontal="true"
+                    android:drawableTop="@mipmap/img"/>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/set_stock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/dioacang_layout"
+                android:layout_below="@id/chicang_relat"
                 android:layout_marginLeft="@dimen/margin_15dp"
                 android:layout_marginRight="@dimen/margin_15dp"
                 android:layout_marginTop="@dimen/margin_5dp"

@@ -63,6 +63,6 @@
             android:textSize="@dimen/my_txt_size"
             android:layout_marginTop="@dimen/margin_10dp"
             android:layout_height="wrap_content"
-            android:text="分成费"/>
+            android:text="分成费?"/>
     </LinearLayout>
 </LinearLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/circle_con_bg"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/history_title"
+        android:layout_width="match_parent"
+        android:background="@color/write_color"
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/arrowlift"
+            android:padding="@dimen/margin_10dp"/>
+        <TextView
+            android:id="@+id/back_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="历史记录"
+            android:gravity="center"
+            android:textColor="@android:color/background_dark"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/margin_10dp"
+            android:textSize="@dimen/title_text_size"/>
+    </RelativeLayout>
+    <ListView
+        android:layout_below="@id/history_title"
+        android:id="@+id/history_list"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:background="@color/write_color"
+        android:dividerHeight="@dimen/margin_3dp"
+        android:scrollbars="none"
+        android:divider="@color/circle_con_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</RelativeLayout>

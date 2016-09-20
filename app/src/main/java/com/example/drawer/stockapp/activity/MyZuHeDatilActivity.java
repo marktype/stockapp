@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.adapter.ChiCangAdapter;
 import com.example.drawer.stockapp.adapter.MyZuHeItemAdapter;
 import com.example.drawer.stockapp.customview.CanvasView;
 import com.example.drawer.stockapp.customview.CustomDialog;
@@ -30,6 +31,7 @@ import com.example.drawer.stockapp.customview.chartview.MyMarkerView;
 import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.ChartInfo;
+import com.example.drawer.stockapp.model.ChiCangInfo;
 import com.example.drawer.stockapp.model.HeadIndex;
 import com.example.drawer.stockapp.model.StargDetial;
 import com.example.drawer.stockapp.model.StockBean;
@@ -79,7 +81,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
     private ArrayList<HashMap<String, Object>> data;
     private TextView mPersent,mTimes,mLikes,mBuildTime,mDataNum,mMonthNum,
             mJingZhi,mTotal,mAdavce,mLastTime,mflashTime,mName,
-            mNum,mPriceChange,mSuccess,mNiuRenName;
+            mNum,mPriceChange,mSuccess,mNiuRenName,mNoDataImgChiCang;
     private ImageView mStarImage,mNoData,mNoDataChart;
     private StargDetial starDetailInfo;
     private RatingBar mRating;
@@ -91,6 +93,8 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
     private String mToken;
     private LineChart mLineChart;
     private RelativeLayout mChartRelat;
+    private MyListView mChiCnagList;
+    private ChiCangAdapter chiCangAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,6 +207,32 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
             mNoData.setVisibility(View.VISIBLE);
             mLineChart.setVisibility(View.GONE);
         }
+
+
+        List<StargDetial.ResultBean.HoldingDetailBean> holdingDetailBeen = starDetailInfo.getResult().getHoldingDetail();
+        ArrayList<ChiCangInfo> chicangList = new ArrayList<>();
+        for (int j = 0;j<holdingDetailBeen.size();j++){
+            StargDetial.ResultBean.HoldingDetailBean holding = holdingDetailBeen.get(j);
+            ChiCangInfo info = new ChiCangInfo();
+            info.setStockName(holding.getName());
+            info.setStockNum(holding.getCode());
+            info.setTodayAdd(df.format(holding.getProfitRate())+"%");
+            info.setNowPrice(df.format(holding.getPrice())+"");
+            info.setBascPrice(df.format(holding.getAvgPrice())+"");
+            info.setCangwei(holding.getVolumn()+"");
+            info.setFuYing(df.format(holding.getCumulativeReturnRate())+"%");
+            chicangList.add(info);
+        }
+        chiCangAdapter.setData(chicangList);
+        if (!TextUtils.isEmpty(mToken)){
+            mChiCnagList.setAdapter(chiCangAdapter);
+            if (chicangList.size() == 0){
+                mNoDataImgChiCang.setVisibility(View.VISIBLE);
+                mNoDataImgChiCang.setText("");
+            }
+        }else {
+            mNoDataImgChiCang.setVisibility(View.VISIBLE);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -257,6 +287,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         mNoData = (ImageView) findViewById(R.id.nodata_img);    //无数据显示
         mNoDataChart = (ImageView) findViewById(R.id.nodata_img_two);  //雷达图无数据显示
         mChartRelat = (RelativeLayout) findViewById(R.id.yeji_rank_relat);   //业绩评级
+        mNoDataImgChiCang = (TextView) findViewById(R.id.no_data_img_chicang);   //持仓无数据
 
         ImageView mDelete = (ImageView) findViewById(R.id.changjianwenti_txt);
 
@@ -274,6 +305,10 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                }
             }
         });
+
+        //持仓
+        mChiCnagList = (MyListView) findViewById(R.id.chicang_listview);
+        chiCangAdapter = new ChiCangAdapter(this);
 
         mLineChart = (LineChart) findViewById(R.id.lineChart);
         mChart = (RadarChart) findViewById(R.id.chart1);
@@ -419,7 +454,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         list.add(new StockBean((int) achievemntBean.getReplication(), "可复制性"));
 
         //设置星星数量
-        mRating.setRating((float) (achievemntBean.getProfitability()+achievemntBean.getAntiRiskAbility()+achievemntBean.getStability()+achievemntBean.getDispersion()+achievemntBean.getReplication())/5);
+        mRating.setRating((float) (achievemntBean.getProfitability()+achievemntBean.getAntiRiskAbility()+achievemntBean.getStability()+achievemntBean.getDispersion()+achievemntBean.getReplication())/100);
 //        list.add(222);
 //        list.add(333);
         for (int i = 0; i < list.size(); i++) {

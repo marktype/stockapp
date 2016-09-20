@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'maozhua'
+            keyPassword '123456'
+            storeFile file('E:/aaaaaaa/StockApp/app/lovecat.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
     defaultConfig {
         applicationId "com.example.drawer.stockapp"
         minSdkVersion 16
@@ -17,7 +24,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -41,6 +47,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
-
     compile 'com.androidadvance:topsnackbar:1.1.1'
 }

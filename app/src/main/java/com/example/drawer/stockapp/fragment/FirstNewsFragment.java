@@ -163,6 +163,14 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     };
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (isFlashBroad != null){
+            getContext().unregisterReceiver(isFlashBroad);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment

@@ -22,7 +22,7 @@ public class AgreementWebActivity extends BascActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tintManager.setStatusBarTintResource(R.color.write_color);
+        tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         setContentView(R.layout.activity_agreement_web);
         type = getIntent().getIntExtra(URLTYPE,0);
         url = getIntent().getStringExtra(URL);
@@ -35,7 +35,7 @@ public class AgreementWebActivity extends BascActivity {
                 DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
-
+        mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         WebView webView = (WebView) findViewById(R.id.web_view);
         webView.getSettings().setJavaScriptEnabled(true);

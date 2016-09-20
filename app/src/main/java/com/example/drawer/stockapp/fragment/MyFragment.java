@@ -2,7 +2,10 @@ package com.example.drawer.stockapp.fragment;
 
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -188,7 +191,35 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         mBindPhone.setOnClickListener(this);
         mAlterPassword.setOnClickListener(this);
 //        mMyQuan.setOnClickListener(this);
+
+
+        /**
+         * type广播
+         */
+        IntentFilter filter = new IntentFilter();
+        // 向过滤器中添加action
+        filter.addAction("com.stock.altername");
+        // 注册广播
+        getContext().registerReceiver(isFlashBroad, filter);
+
+
     }
+
+    private Boolean isFlash = false;   //是否刷新页面
+
+
+
+    /**
+     * 广播接收者
+     */
+    private BroadcastReceiver isFlashBroad = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            isFlash = true;
+        }
+
+    };
 
     @Override
     public void onResume() {
@@ -201,6 +232,10 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             if (userInfo == null){
                 UserInfoAsyn userInfoAsyn = new UserInfoAsyn();
                 userInfoAsyn.execute(userId,token);
+            }else if (isFlash){
+                UserInfoAsyn userInfoAsyn = new UserInfoAsyn();
+                userInfoAsyn.execute(userId,token);
+                isFlash = false;
             }else {
                 parseUserInfo(userInfo);
             }
@@ -699,6 +734,9 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         super.onDestroy();
         if (userInfo != null){
             userInfo = null;
+        }
+        if (isFlashBroad != null){   //注销广播
+            getContext().unregisterReceiver(isFlashBroad);
         }
     }
 }

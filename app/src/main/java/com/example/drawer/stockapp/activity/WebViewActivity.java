@@ -71,7 +71,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        tintManager.setStatusBarTintResource(R.color.write_color);
+        tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         sp = ShapePreferenceManager.getMySharedPreferences(this);
         mToken = sp.getString(ShapePreferenceManager.TOKEN,null);
         urlId = getIntent().getStringExtra(URLID);
@@ -98,6 +98,14 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                 DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
+
+
+        RelativeLayout layoutOne = (RelativeLayout) findViewById(R.id.comment_relat);
+        RelativeLayout layoutTwo = (RelativeLayout) findViewById(R.id.pinglun_relat);
+
+        layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
+        mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         webView = (WebView) findViewById(R.id.web_view);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -129,6 +137,8 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
 
         mList = (MyListView) findViewById(R.id.dynamic_list);
         adapter = new DynamicInfoAdapter(this);
+
+        mList.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         mBackImg.setOnClickListener(this);
         mShare.setOnClickListener(this);
@@ -176,6 +186,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                     type = 1;
                     initSoftWindow(type);
                 }else {
+                    Toast.makeText(getApplicationContext(),"您还未登陆，请先登录",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this,LoginActivity.class);
                     startActivity(intent);
                 }
@@ -196,7 +207,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
 //                        mZanImg.setImageResource(R.mipmap.y_dianzan);
                     }
                 }else {
-                    Toast.makeText(getApplicationContext(),"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"您还未登陆，请先登录",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this,LoginActivity.class);
                     startActivity(intent);
                 }

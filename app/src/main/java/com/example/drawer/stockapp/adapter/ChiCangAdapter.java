@@ -60,6 +60,7 @@ public class ChiCangAdapter extends BaseAdapter {
         ChiCangInfo info = (ChiCangInfo) getItem(i);
         viewHolder.stockName.setText(info.getStockName());
         viewHolder.stockNum.setText(info.getStockNum());
+        viewHolder.nowPrice.setText(info.getNowPrice());
         viewHolder.nowAdd.setText(info.getTodayAdd());
         viewHolder.bascPrice.setText(info.getBascPrice());
         viewHolder.cangWei.setText(info.getCangwei());

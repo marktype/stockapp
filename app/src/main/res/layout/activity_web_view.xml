@@ -30,7 +30,7 @@
             android:textSize="@dimen/title_text_size"
             android:hint="写下你的评论"
             android:imeOptions="actionSend"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:padding="@dimen/margin_10dp"
             android:textColorHint="@android:color/darker_gray" />
         <TextView

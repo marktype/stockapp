@@ -10,7 +10,7 @@
         android:textColor="@android:color/black"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_marginTop="@dimen/margin_5dp"
-        android:text="@string/celue_title_txt"/>
+        android:text=""/>
     <TextView
         android:id="@+id/zuhe_total_price"
         android:layout_below="@+id/zuhe_detial_title"
@@ -62,7 +62,7 @@
         android:textColor="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="组合类型:"/>
+        android:text="组合类型"/>
     <TextView
         android:id="@+id/celue_zuhe_type"
         android:text="断线"
@@ -89,13 +89,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="投资类型:"
-        android:layout_toLeftOf="@id/start_price"
+        android:layout_toLeftOf="@id/start_type"
         android:textSize="@dimen/my_txt_size"
         android:layout_alignBaseline="@+id/zuhe_type"
         android:textColor="@android:color/black"/>
     <TextView
         android:id="@+id/muji_time"
-        android:text="募集期间;"
+        android:text="募集期间:"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_marginTop="@dimen/margin_10dp"
         android:textSize="@dimen/my_txt_size"
@@ -113,7 +113,7 @@
         android:text="2016-5-5 至 2016-6-6"/>
     <TextView
         android:id="@+id/run_time"
-        android:text="运行期间;"
+        android:text="运行期间:"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_marginTop="@dimen/margin_10dp"
         android:textSize="@dimen/my_txt_size"

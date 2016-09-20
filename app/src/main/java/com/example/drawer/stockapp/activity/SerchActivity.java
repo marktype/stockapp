@@ -54,7 +54,7 @@ public class SerchActivity extends BascActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serch);
 //        url = getIntent().getStringExtra(URL_SEARCH);    //获取URL
-        tintManager.setStatusBarTintResource(R.color.write_color);
+        tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         initWight();
 
         HotSearchAsyn hotSearchAsyn = new HotSearchAsyn();
@@ -70,6 +70,9 @@ public class SerchActivity extends BascActivity implements View.OnClickListener,
                 DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
+        mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
+
+
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         TextView mSearchTxt = (TextView) findViewById(R.id.search_txt);
         mEditTxt = (EditText) findViewById(R.id.search_edit);

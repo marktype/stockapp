@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.adapter.ChiCangAdapter;
 import com.example.drawer.stockapp.adapter.MyZuHeItemAdapter;
 import com.example.drawer.stockapp.customview.CanvasView;
 import com.example.drawer.stockapp.customview.CustomDialog;
@@ -30,6 +31,7 @@ import com.example.drawer.stockapp.customview.chartview.MyMarkerView;
 import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.ChartInfo;
+import com.example.drawer.stockapp.model.ChiCangInfo;
 import com.example.drawer.stockapp.model.StargDetial;
 import com.example.drawer.stockapp.model.StockBean;
 import com.example.drawer.stockapp.model.TiaoCangInfo;
@@ -77,7 +79,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     private ArrayList<HashMap<String, Object>> data;
     private TextView mPersent,mTimes,mLikes,mBuildTime,mDataNum,mMonthNum,
             mJingZhi,mTotal,mAdavce,mLastTime,mflashTime,mName,
-            mNum,mPriceChange,mSuccess,mNiuRenName;
+            mNum,mPriceChange,mSuccess,mNiuRenName,mNoDataImgChiCang;
     private ImageView mStarImage,mNoData,mNoDataChart;
     private StargDetial starDetailInfo;
     private RatingBar mRating;
@@ -88,6 +90,8 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     private RelativeLayout mChartRelat;
     private int type;
     private LineChart mLineChart;
+    private MyListView mChiCnagList;
+    private ChiCangAdapter chiCangAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,6 +187,32 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
             mNoData.setVisibility(View.VISIBLE);
             mLineChart.setVisibility(View.GONE);
         }
+
+        List<StargDetial.ResultBean.HoldingDetailBean> holdingDetailBeen = starDetailInfo.getResult().getHoldingDetail();
+        ArrayList<ChiCangInfo> chicangList = new ArrayList<>();
+        for (int j = 0;j<holdingDetailBeen.size();j++){
+            StargDetial.ResultBean.HoldingDetailBean holding = holdingDetailBeen.get(j);
+            ChiCangInfo info = new ChiCangInfo();
+            info.setStockName(holding.getName());
+            info.setStockNum(holding.getCode());
+            info.setTodayAdd(df.format(holding.getProfitRate())+"%");
+            info.setNowPrice(df.format(holding.getPrice())+"");
+            info.setBascPrice(df.format(holding.getAvgPrice())+"");
+            info.setCangwei(holding.getVolumn()+"");
+            info.setFuYing(df.format(holding.getCumulativeReturnRate())+"%");
+            chicangList.add(info);
+        }
+        chiCangAdapter.setData(chicangList);
+        if (!TextUtils.isEmpty(mToken)){
+            mChiCnagList.setAdapter(chiCangAdapter);
+            if (chicangList.size() == 0){
+                mNoDataImgChiCang.setVisibility(View.VISIBLE);
+                mNoDataImgChiCang.setText("");
+            }
+        }else {
+            mNoDataImgChiCang.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -200,12 +230,15 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         RelativeLayout layoutThree = (RelativeLayout) findViewById(R.id.dioacang_layout);
         RelativeLayout layoutFour = (RelativeLayout) findViewById(R.id.set_stock);
         RelativeLayout layoutFive = (RelativeLayout) findViewById(R.id.set_quxian);
+        RelativeLayout layoutSix = (RelativeLayout) findViewById(R.id.chicang_relat);
+
 
         layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutThree.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutFour.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutFive.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutSix.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         String  title = getIntent().getStringExtra(AutoWisdomFragment.CELUENAME);    //传参
         type = getIntent().getIntExtra(AutoWisdomFragment.ZUHETYPE,0);
@@ -249,7 +282,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mNoData = (ImageView) findViewById(R.id.nodata_img);    //无数据显示
         mNoDataChart = (ImageView) findViewById(R.id.nodata_img_two);  //雷达图无数据显示
         mChartRelat = (RelativeLayout) findViewById(R.id.yeji_rank_relat);   //业绩评级
-
+        mNoDataImgChiCang = (TextView) findViewById(R.id.no_data_img_chicang);   //持仓无数据
 
         MyScrollView mScrollview = (MyScrollView) findViewById(R.id.celue_scroll);   //滑动条
 
@@ -265,6 +298,12 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                }
             }
         });
+
+        //持仓
+        mChiCnagList = (MyListView) findViewById(R.id.chicang_listview);
+        chiCangAdapter = new ChiCangAdapter(this);
+
+
 
         mLineChart = (LineChart) findViewById(R.id.lineChart);
         mChart = (RadarChart) findViewById(R.id.chart1);
@@ -409,7 +448,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         list.add(new StockBean((int) achievemntBean.getReplication(), "可复制性"));
 
 
-        mRating.setRating((float) (achievemntBean.getProfitability()+achievemntBean.getAntiRiskAbility()+achievemntBean.getStability()+achievemntBean.getDispersion()+achievemntBean.getReplication())/5);
+        mRating.setRating((float) (achievemntBean.getProfitability()+achievemntBean.getAntiRiskAbility()+achievemntBean.getStability()+achievemntBean.getDispersion()+achievemntBean.getReplication())/100);
 //        list.add(222);
 //        list.add(333);
         for (int i = 0; i < list.size(); i++) {

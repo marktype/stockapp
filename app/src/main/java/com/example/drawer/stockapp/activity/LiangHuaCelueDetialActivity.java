@@ -53,7 +53,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
     private GenTouAdapter genTouAdapter;
     private TextView mTarget,mMostGetMoney,mMostLose,mTradeNum,mLastTime,
             mLimitMoney,mStartMoney,mType,mStartType,mMuJiTime,mRunTime,
-            mAdvice,mNiurenName,mNoDataImgTiaoCang,mNoDataImgChiCang,mTitleCelue,mTime;
+            mAdvice,mNiurenName,mNoDataImgTiaoCang,mNoDataImgChiCang,
+            mTitleCelue,mTime,mSeeHistory;
     private String LiangHuaId;    //量化id
     private String LiangHuaName;   //量化name
     private CircleImageView headImg;
@@ -127,7 +128,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         headImg = (CircleImageView) findViewById(R.id.advice_image_txt);   //牛人头像
         mNiurenName = (TextView) findViewById(R.id.niuren_name);    //牛人名字
 
-        ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
+        ImageView mBackimg = (ImageView) findViewById(R.id.back_img);   //返回
+        mSeeHistory = (TextView) findViewById(R.id.history_see);    //查看历史
 
         mLineChart = (LineChart) findViewById(R.id.lineChart);
         mNoData = (ImageView) findViewById(R.id.nodata_img);  //曲线图无数据
@@ -151,6 +153,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
 
 
         mBackimg.setOnClickListener(this);
+        mSeeHistory.setOnClickListener(this);
     }
 
     @Override
@@ -166,6 +169,11 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         switch (view.getId()) {
             case R.id.back_img:
                 finish();
+                break;
+            case R.id.history_see:
+                Intent intent = new Intent(this,HistoryRecordActivity.class);
+                intent.putExtra(LIANGHUA_ID,LiangHuaId);
+                startActivity(intent);
                 break;
         }
     }
@@ -203,8 +211,10 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             StargDetial.ResultBean.TransferPositionsBean Transfer = stargDetial.getResult().getTransferPositions();
             if (Transfer.getLastTime() != null&&!TextUtils.isEmpty(Transfer.getLastTime())){
                 mLastTime.setText("("+Transfer.getLastTime()+")");
+                mSeeHistory.setVisibility(View.VISIBLE);
             }else {
                 mLastTime.setText("(暂无调仓信息)");
+                mSeeHistory.setVisibility(View.GONE);
             }
             List<StargDetial.ResultBean.TransferPositionsBean.TransferPositionsInfoBean> infoBeanList = Transfer.getTransferPositionsInfo();
             ArrayList<TiaoCangInfo> tiaoCang = new ArrayList<>();
@@ -401,7 +411,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         //模拟第二组组y轴数据(存放y轴数据的是一个Entry的ArrayList) 他是构建LineDataSet的参数之一
 
         ArrayList<Entry> yValue1 = new ArrayList<>();
-        for (int i = 0; i < ImgData.size(); i++) {
+        for (int i = 0; i < BenchmarkImgData.size(); i++) {
             StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean benchmarkImgDataBean = BenchmarkImgData.get(i);
             yValue1.add(new Entry(Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())), i));
         }

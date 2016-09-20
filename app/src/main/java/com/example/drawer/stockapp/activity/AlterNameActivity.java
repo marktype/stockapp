@@ -1,5 +1,6 @@
 package com.example.drawer.stockapp.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -18,6 +19,9 @@ import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -99,8 +103,29 @@ public class AlterNameActivity extends BascActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            String message = s;
-            finish();
+            if (!TextUtils.isEmpty(s)&&!s.equals(HttpManager.FAILED)){
+                try {
+                    JSONObject object = new JSONObject(s);
+                    JSONObject head = object.getJSONObject("Head");
+                    if (head.getInt("Status") == 0){
+                        Toast.makeText(getApplicationContext(),"修改成功",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        intent.setAction("com.stock.altername");
+                        //发送广播,销毁此界面
+                        sendBroadcast(intent);
+                        finish();
+                    }else {
+                        Toast.makeText(getApplicationContext(),"修改失败",Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+
         }
     }
 

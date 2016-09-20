@@ -115,6 +115,15 @@ public class CeLueListInfo {
             private String RecuitmentEndTime;
             private String RunStartDay;
             private Object RunEndDay;
+            private double TotalReturn;
+
+            public double getTotalReturn() {
+                return TotalReturn;
+            }
+
+            public void setTotalReturn(double totalReturn) {
+                TotalReturn = totalReturn;
+            }
 
             public String getId() {
                 return Id;
