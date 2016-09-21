@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -700,7 +701,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      * @return
      */
     public ArrayList<NiuRenInfo> setMyZuHeData() {
-
+        long nowTime = System.currentTimeMillis();
+        Log.d("tag","nowTime----"+nowTime);
         myInfoList = new ArrayList<>();   //我的组合信息
         DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
         List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfo.getResult().getStrategies();
@@ -714,6 +716,14 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setTradeTime(ben.getFavorites() + "");
             if (ben.getPorfolioChooseType() == 1){
                 info.setZuheType(ben.getPorfolioChooseType());
+                if (nowTime>ManagerUtil.getTime(ben.getRecuitmentStartTime())&&nowTime<ManagerUtil.getTime(ben.getRunStartDay())){
+                    info.setType(0);    //招募中
+                }else if (nowTime>ManagerUtil.getTime(ben.getRecuitmentStartTime())&&nowTime>ManagerUtil.getTime(ben.getRunStartDay())&&nowTime<ManagerUtil.getTime(ben.getRunEndDay())){
+                    info.setType(1);   //运行中
+                }else if (nowTime>ManagerUtil.getTime(ben.getRecuitmentStartTime())&&nowTime>ManagerUtil.getTime(ben.getRunStartDay())&&nowTime>ManagerUtil.getTime(ben.getRunEndDay())){
+                    info.setType(2);   //已结束
+                }
+
             }else {
                 info.setZuheType(2);   //2和3全是创建
             }
@@ -754,6 +764,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,celueinfo.getTitle()+"（已结束）");
+                    intent.putExtra(LiangHuaCelueDetialActivity.TYPE,4);
                     startActivity(intent);
                 }else {
                     Toast.makeText(getActivity(),"策略状态出错",Toast.LENGTH_SHORT).show();
@@ -769,11 +780,29 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             case R.id.my_zuhe_listview:
                 info = (NiuRenInfo) adapterView.getAdapter().getItem(i);
                 if (info.getZuheType() == 1){    //跟投
-                    intent = new Intent(getActivity(), CelueDatilActivity.class);
-                    intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
-                    intent.putExtra(CELUENAME, info.getNiurenName());
-                    intent.putExtra(ZUHETYPE,1);
-                    startActivity(intent);
+                    if (info.getType() == 0){
+                        intent = new Intent(getActivity(), LianghuaCelueZhaoMuZhongActivity.class);
+                        intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,info.getId());
+                        intent.putExtra(LiangHuaCelueDetialActivity.TYPE,1);
+                        startActivity(intent);
+                    }else if (info.getType() == 1){
+                        intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
+                        intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,info.getId());
+                        intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,info.getNiurenName()+"（运行中）");
+                        intent.putExtra(LiangHuaCelueDetialActivity.TYPE,2);
+                        startActivity(intent);
+                    }else if (info.getType() == 2){
+                        intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
+                        intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,info.getId());
+                        intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,info.getNiurenName()+"（已结束）");
+                        intent.putExtra(LiangHuaCelueDetialActivity.TYPE,3);
+                        startActivity(intent);
+                    }
+//                    intent = new Intent(getActivity(), CelueDatilActivity.class);
+//                    intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());
+//                    intent.putExtra(CELUENAME, info.getNiurenName());
+//                    intent.putExtra(ZUHETYPE,1);
+//                    startActivity(intent);
                 }else if (info.getZuheType() == 2){   //创建
                     intent = new Intent(getActivity(), MyZuHeDatilActivity.class);
                     intent.putExtra(CelueDatilActivity.ZUHE_ID,info.getId());

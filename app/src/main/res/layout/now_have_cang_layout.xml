@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="今日涨数"
+        android:text="今日涨跌"
         android:gravity="center"
         android:layout_weight="1"
         android:textSize="@dimen/my_txt_size"/>
@@ -34,7 +34,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="仓位"
+        android:text="持仓量"
         android:gravity="center"
         android:layout_weight="1"
         android:textSize="@dimen/my_txt_size"/>

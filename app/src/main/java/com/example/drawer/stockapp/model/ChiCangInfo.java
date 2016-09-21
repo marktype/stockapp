@@ -12,6 +12,24 @@ public class ChiCangInfo {
     private String bascPrice;   //成本价      //跟投金额
     private String cangwei;    //仓位        //跟投时间
     private String fuYing;     //浮盈
+    private double todayAddDecNum;  //今日张跌数值
+    private double FuYingNum;   //浮盈数值
+
+    public double getFuYingNum() {
+        return FuYingNum;
+    }
+
+    public void setFuYingNum(double fuYingNum) {
+        FuYingNum = fuYingNum;
+    }
+
+    public double getTodayAddDecNum() {
+        return todayAddDecNum;
+    }
+
+    public void setTodayAddDecNum(double todayAddDecNum) {
+        this.todayAddDecNum = todayAddDecNum;
+    }
 
     public String getStockName() {
         return stockName;

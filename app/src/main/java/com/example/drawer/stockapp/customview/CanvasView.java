@@ -97,6 +97,12 @@ public class CanvasView extends View {
             for (int i = 0;i<size;i++){
                 Map<String,Object> map = data.get(i);
                 String title = (String) map.get(CanvasView.TITLE);
+                String name = null;
+                if (title.length()>10){   //考虑字段过长的问题
+                    name = title.substring(0,10);
+                }else {
+                    name = title;
+                }
                 int color = (int) map.get(CanvasView.COLOR);
                 float weight = (float) map.get(CanvasView.WEIGHT);
 
@@ -143,7 +149,7 @@ public class CanvasView extends View {
                 //已知中线计算基线位置
                 Paint.FontMetrics metrics = paint.getFontMetrics();
                 float baseLine  = cy - (metrics.bottom + metrics.top)/2;
-                canvas.drawText(title,txtX+130,baseLine,paint);
+                canvas.drawText(name,txtX+130,baseLine,paint);
             }
 
 

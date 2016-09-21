@@ -222,7 +222,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
             HashMap<String,String> map = new HashMap<>();
             map.put("PageIndex", "0");
             map.put("PageCount", "0");
-            map.put("PageSize", "0");
+            map.put("PageSize", "10000");
             hashMap.put("PageInfo",map);
             hashMap.put("Id",strings[0]);
             hashMap.put("Type","Comment");

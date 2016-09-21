@@ -72,7 +72,7 @@ public class FollowRecord {
 
         public static class AlongRecordsBean {
             private String AlongUserName;
-            private int AlongAmount;
+            private double AlongAmount;
             private String AlongTime;
 
             public String getAlongUserName() {
@@ -83,11 +83,11 @@ public class FollowRecord {
                 this.AlongUserName = AlongUserName;
             }
 
-            public int getAlongAmount() {
+            public double getAlongAmount() {
                 return AlongAmount;
             }
 
-            public void setAlongAmount(int AlongAmount) {
+            public void setAlongAmount(double AlongAmount) {
                 this.AlongAmount = AlongAmount;
             }
 

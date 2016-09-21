@@ -2,18 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/zuhe_detial_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/title_text_size"
-        android:textColor="@android:color/black"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_5dp"
-        android:text=""/>
+    <!--<TextView-->
+        <!--android:id="@+id/zuhe_detial_title"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="@dimen/title_text_size"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:layout_marginLeft="@dimen/margin_10dp"-->
+        <!--android:layout_marginTop="@dimen/margin_5dp"-->
+        <!--android:text=""/>-->
     <TextView
         android:id="@+id/zuhe_total_price"
-        android:layout_below="@+id/zuhe_detial_title"
         android:layout_marginTop="@dimen/margin_10dp"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_marginRight="@dimen/margin_10dp"
@@ -26,7 +25,6 @@
         android:id="@+id/limit_money"
         android:text="30000元"
         android:textSize="@dimen/my_txt_size"
-        android:layout_below="@id/zuhe_detial_title"
         android:layout_toRightOf="@id/zuhe_total_price"
         android:layout_alignBaseline="@id/zuhe_total_price"
         android:layout_width="wrap_content"
@@ -48,8 +46,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="起投金额:"
-        android:layout_toLeftOf="@id/start_price"
         android:textSize="@dimen/my_txt_size"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/margin_80dp"
         android:layout_alignBaseline="@+id/zuhe_total_price"
         android:textColor="@android:color/black"/>
     <TextView
@@ -62,12 +61,11 @@
         android:textColor="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="组合类型"/>
+        android:text="组合类型:"/>
     <TextView
         android:id="@+id/celue_zuhe_type"
         android:text="断线"
         android:textSize="@dimen/my_txt_size"
-        android:layout_below="@id/zuhe_detial_title"
         android:layout_toRightOf="@id/zuhe_total_price"
         android:layout_alignBaseline="@id/zuhe_type"
         android:layout_width="wrap_content"
@@ -89,7 +87,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="投资类型:"
-        android:layout_toLeftOf="@id/start_type"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/margin_80dp"
         android:textSize="@dimen/my_txt_size"
         android:layout_alignBaseline="@+id/zuhe_type"
         android:textColor="@android:color/black"/>

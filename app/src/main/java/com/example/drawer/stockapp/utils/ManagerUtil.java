@@ -1,21 +1,47 @@
 package com.example.drawer.stockapp.utils;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by 欢大哥 on 2016/7/25.
  */
 public class ManagerUtil {
+    private Context context;
+    public ManagerUtil(){
+
+    }
+    public ManagerUtil(Context context){
+        this.context = context;
+    }
+
     //通知栏高度写在dimen文件中(获取状态栏高度)
     public static int getStatusBarHeight(Context context){
         Class<?> c = null;
@@ -183,5 +209,189 @@ public class ManagerUtil {
         return dialog;
     }
 
+    /**
+     *   / 将字符串转为时间戳
+     */
+    public static long getTime(String user_time) {
+//        String re_time = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d;
+        long l = 0;
+        try {
+            d = sdf.parse(user_time);
+            l = d.getTime();
+//            String str = String.valueOf(l);
+//            re_time = str.substring(0, 10);
+        } catch (ParseException e) {
+// TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return l;
+    }
 
+
+
+
+    private String localVersion;
+    private final String TAG = this.getClass().getName();
+    private final int UPDATA_NONEED = 0;
+    private final int UPDATA_CLIENT = 1;
+    private final int GET_UNDATAINFO_ERROR = 2;
+    private final int SDCARD_NOMOUNTED = 3;
+    private final int DOWN_ERROR = 4;
+    private UpdataInfo info;
+    /**
+     * 检查更新
+     */
+    public void checkUserCode(Context context){
+        try {
+            localVersion = getVersionName(context);
+            CheckVersionTask cv = new CheckVersionTask(context);
+            new Thread(cv).start();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    private String getVersionName(Context context) throws Exception {
+        //getPackageName()是你当前类的包名，0代表是获取版本信息
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(),
+                0);
+        return packInfo.versionName;
+    }
+    public class CheckVersionTask implements Runnable {
+        private Context context;
+        public CheckVersionTask(Context context){
+            this.context = context;
+        }
+        InputStream is;
+        public void run() {
+            try {
+                String path = context.getResources().getString(R.string.url_server);
+                URL url = new URL(path);
+                HttpURLConnection conn = (HttpURLConnection) url
+                        .openConnection();
+                conn.setConnectTimeout(5000);
+                conn.setRequestMethod("GET");
+                int responseCode = conn.getResponseCode();
+                if (responseCode == 200) {
+                    // 从服务器获得一个输入流
+                    is = conn.getInputStream();
+                }
+                info = UpdataInfoParser.getUpdataInfo(is);
+                if (info.getVersion().equals(localVersion)) {
+                        Log.i(TAG, "版本号相同");
+                    Message msg = new Message();
+                    msg.what = UPDATA_NONEED;
+                    handler.sendMessage(msg);
+                    // LoginMain();
+                } else {
+                    Log.i(TAG, "版本号不相同 ");
+                    Message msg = new Message();
+                    msg.what = UPDATA_CLIENT;
+                    handler.sendMessage(msg);
+                }
+            } catch (Exception e) {
+                Message msg = new Message();
+                msg.what = GET_UNDATAINFO_ERROR;
+                handler.sendMessage(msg);
+                e.printStackTrace();
+            }
+        }
+    }
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case UPDATA_NONEED:
+//                    Toast.makeText(getApplicationContext(), "不需要更新",
+//                            Toast.LENGTH_SHORT).show();
+                    break;
+                case UPDATA_CLIENT:
+                    //对话框通知用户升级程序
+                    showUpdataDialog();
+                    break;
+                case GET_UNDATAINFO_ERROR:
+                    //服务器超时
+                    Toast.makeText(context, "获取服务器更新信息失败", Toast.LENGTH_SHORT).show();
+                    break;
+                case DOWN_ERROR:
+                    //下载apk失败
+                    Toast.makeText(context, "下载新版本失败", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
+    /*
+     *
+     * 弹出对话框通知用户更新程序
+     *
+     * 弹出对话框的步骤：
+     *  1.创建alertDialog的builder.
+     *  2.要给builder设置属性, 对话框的内容,样式,按钮
+     *  3.通过builder 创建一个对话框
+     *  4.对话框show()出来
+     */
+    protected void showUpdataDialog() {
+
+        final CustomDialog dialog = new CustomDialog(context);
+        dialog.setTitle("版本升级");
+        dialog.setMessageText(info.getDescription());
+        dialog.show();
+        dialog.setOnPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                downLoadApk();
+                dialog.dismiss();
+            }
+        });
+        dialog.setOnNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+    /*
+     * 从服务器中下载APK
+     */
+    protected void downLoadApk() {
+        final ProgressDialog pd;    //进度条对话框
+        pd = new  ProgressDialog(context);
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.setMessage("正在下载更新");
+//        pd.setCancelable(true);//设置进度条是否可以按退回键取消
+        // 设置点击进度对话框外的区域对话框不消失
+        pd.setCanceledOnTouchOutside(false);
+        pd.show();
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    File file = DownLoadManager.getFileFromServer(info.getUrl(), pd);
+                    sleep(3000);
+                    installApk(file);
+                    pd.dismiss(); //结束掉进度条对话框
+                } catch (Exception e) {
+                    Message msg = new Message();
+                    msg.what = DOWN_ERROR;
+                    handler.sendMessage(msg);
+                    e.printStackTrace();
+                }
+            }}.start();
+    }
+
+    //安装apk
+    protected void installApk(File file) {
+        Intent intent = new Intent();
+        //执行动作
+        intent.setAction(Intent.ACTION_VIEW);
+        //执行的数据类型
+        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        context.startActivity(intent);
+    }
 }

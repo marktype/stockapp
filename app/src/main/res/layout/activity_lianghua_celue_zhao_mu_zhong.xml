@@ -28,6 +28,15 @@
             android:text="组合招募中"
             android:textColor="@android:color/background_dark"
             android:textSize="@dimen/title_text_size" />
+        <ImageView
+            android:id="@+id/changjianwenti_txt"
+            android:src="@mipmap/point"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_20dp"
+            android:padding="@dimen/margin_10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
     <TextView
@@ -236,7 +245,7 @@
                     android:text="跟投金额"/>
                 <TextView
                     android:id="@+id/gentou_qujian"
-                    android:layout_toRightOf="@id/gentou_txt"
+                    android:layout_centerHorizontal="true"
                     android:layout_alignBaseline="@id/gentou_txt"
                     android:text="(跟投金额500-1000)（虚拟资金）"
                     android:textSize="@dimen/min_txt_size"
@@ -424,12 +433,20 @@
                         <!--android:src="@mipmap/time_success" />-->
 
                     <TextView
+                        android:id="@+id/success"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/refund_name"
                         android:textSize="@dimen/my_txt_size"
                         android:layout_margin="@dimen/margin_10dp"
                         android:text="@string/time_success_txt" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/success"
+                        android:textSize="@dimen/my_txt_size"
+                        android:layout_margin="@dimen/margin_10dp"
+                        android:text="@string/time_failed_txt" />
                 </RelativeLayout>
 
 
@@ -464,17 +481,30 @@
                     android:layout_below="@id/gentou_item"
                     android:id="@+id/gengtou_listview"/>
             </RelativeLayout>
-            <TextView
-                android:id="@+id/hint_info"
+            <LinearLayout
+                android:id="@+id/hint_info_lin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="风险提示：以上内容均为模拟交易，不构成投资建议，股市有风险，投资需谨慎！"
-                android:gravity="center"
+                android:layout_below="@+id/gentou_relat"
                 android:layout_marginLeft="@dimen/margin_15dp"
                 android:layout_marginRight="@dimen/margin_15dp"
                 android:layout_marginTop="@dimen/margin_10dp"
+                android:layout_marginBottom="@dimen/margin_10dp"
+                android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="风险提示：以上内容均为模拟交易，不构成投资建议"
+                android:gravity="center"
                 android:textSize="@dimen/my_txt_size"
-                android:layout_below="@+id/gentou_relat"/>
+                />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="股市有风险，投资需谨慎！"
+                    android:gravity="center"
+                    android:textSize="@dimen/my_txt_size"/>
+            </LinearLayout>
         </RelativeLayout>
 
     </ScrollView>

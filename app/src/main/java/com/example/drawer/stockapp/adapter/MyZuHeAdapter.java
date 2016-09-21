@@ -60,13 +60,12 @@ public class MyZuHeAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.my_zuhe_item_layout,null);
             viewHolder.rate = (TextView) view.findViewById(R.id.zuhe_persent);
-//            viewHolder.type = (TextView) view.findViewById(R.id.stock_name);
-//            viewHolder.delete = (TextView) view.findViewById(R.id.zuhe_delete);
             viewHolder.guanzhuNum = (TextView) view.findViewById(R.id.guanzhu_name);
             viewHolder.name = (TextView) view.findViewById(R.id.zuhe_name);
             viewHolder.canvasViewThree = (CanvasViewThree) view.findViewById(R.id.zuhe_canvas);
             viewHolder.contentBg = (RelativeLayout) view.findViewById(R.id.my_zuhe_relat_item);
             viewHolder.image = (ImageView) view.findViewById(R.id.difference_zuhe);
+            viewHolder.status = (TextView) view.findViewById(R.id.status_name);   //跟投状态
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();
@@ -80,19 +79,27 @@ public class MyZuHeAdapter extends BaseAdapter {
         }else {
             viewHolder.rate.setText(info.getShouyiRate()+"%");
         }
-//        viewHolder.type.setText(info.getStockType());
         viewHolder.name.setText(info.getNiurenName());
-//        viewHolder.getNum.setText("赚钱"+(i+1)+"号机器");
         if (info.getZuheType() == 1){
             viewHolder.guanzhuNum.setText(info.getStockType());
             viewHolder.image.setImageResource(R.mipmap.gengtou);
+            viewHolder.status.setVisibility(View.VISIBLE);
+            if (info.getType() == 0){   //招募中
+                viewHolder.status.setText("招募中");
+            }else if (info.getType() == 1){   //运行中
+                viewHolder.status.setText("运行中");
+            }else {   //已结束
+                viewHolder.status.setText("已结束");
+            }
         }else if (info.getZuheType() == 2){
             viewHolder.guanzhuNum.setText(info.getStockType());
             viewHolder.image.setImageResource(R.mipmap.chuangjian);
+            viewHolder.status.setVisibility(View.GONE);
         }else {
 //            viewHolder.guanzhuNum.setText("订阅人数:"+info.getTradeTime());
             viewHolder.guanzhuNum.setText(info.getStockType());
             viewHolder.image.setImageResource(R.mipmap.dingyue);
+            viewHolder.status.setVisibility(View.GONE);
         }
         viewHolder.canvasViewThree.setRadius(DensityUtils.dp2px(context,40));
        if (info.getShouyiRate()<100){
@@ -126,13 +133,12 @@ public class MyZuHeAdapter extends BaseAdapter {
 
     private class ViewHolder{
         TextView rate;
-        TextView type;
         TextView guanzhuNum;
         TextView name;
-        TextView delete;
         CanvasViewThree canvasViewThree;
         RelativeLayout contentBg;
         ImageView image;
+        TextView status;
     }
 
     private ArrayList<HashMap<String, Object>> data;

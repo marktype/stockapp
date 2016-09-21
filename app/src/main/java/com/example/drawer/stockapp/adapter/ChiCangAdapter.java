@@ -61,10 +61,20 @@ public class ChiCangAdapter extends BaseAdapter {
         viewHolder.stockName.setText(info.getStockName());
         viewHolder.stockNum.setText(info.getStockNum());
         viewHolder.nowPrice.setText(info.getNowPrice());
+        if (info.getTodayAddDecNum()>0){
+            viewHolder.nowAdd.setTextColor(context.getResources().getColor(R.color.red));
+        }else {
+            viewHolder.nowAdd.setTextColor(context.getResources().getColor(R.color.green_color));
+        }
         viewHolder.nowAdd.setText(info.getTodayAdd());
         viewHolder.bascPrice.setText(info.getBascPrice());
         viewHolder.cangWei.setText(info.getCangwei());
         viewHolder.fuYing.setText(info.getFuYing());
+        if (info.getFuYingNum()>0){
+            viewHolder.fuYing.setTextColor(context.getResources().getColor(R.color.red));
+        }else {
+            viewHolder.fuYing.setTextColor(context.getResources().getColor(R.color.green_color));
+        }
 
         return view;
     }

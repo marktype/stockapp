@@ -36,6 +36,15 @@
             android:textSize="@dimen/my_txt_size"
             android:layout_margin="@dimen/margin_3dp"
             />
+        <ImageView
+            android:id="@+id/changjianwenti_txt"
+            android:src="@mipmap/point"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_20dp"
+            android:padding="@dimen/margin_10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
     <ScrollView
@@ -275,12 +284,20 @@
                         <!--android:src="@mipmap/time_success" />-->
 
                     <TextView
+                        android:id="@+id/success"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/refund_name"
                         android:layout_margin="@dimen/margin_10dp"
                         android:textSize="@dimen/my_txt_size"
                         android:text="@string/time_success_txt" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/success"
+                        android:textSize="@dimen/my_txt_size"
+                        android:layout_margin="@dimen/margin_10dp"
+                        android:text="@string/time_failed_txt" />
                 </RelativeLayout>
 
 

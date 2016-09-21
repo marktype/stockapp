@@ -15,6 +15,8 @@ import com.example.drawer.stockapp.adapter.SplashViewpagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SplashActivity extends BascActivity {
     private ViewPager vp_plash;
@@ -68,10 +70,12 @@ public class SplashActivity extends BascActivity {
                 }
                 imageViews.get(position).setImageResource(R.mipmap.pager_dot_selected);
                 if (position + 1 == splashImageResourceIdList.size()) {
-                    Intent intent = new Intent(SplashActivity.this,MainActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(SplashActivity.this,MainActivity.class);
+//                    startActivity(intent);
                     initSp();
-                    finish();
+//                    finish();
+                    Timer timer = new Timer();
+                    timer.schedule(new MyTask(), 1000);
                 }
             }
             @Override
@@ -79,6 +83,16 @@ public class SplashActivity extends BascActivity {
 
             }
         });
+    }
+
+    class MyTask extends TimerTask {
+
+        @Override
+        public void run() {
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void initSp() {

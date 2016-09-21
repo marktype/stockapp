@@ -2,15 +2,20 @@ package com.example.drawer.stockapp.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +24,7 @@ import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.GenTouAdapter;
 import com.example.drawer.stockapp.customview.CanvasView;
 import com.example.drawer.stockapp.customview.CanvasViewThree;
+import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -57,12 +63,16 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
     private double targetshouyi,fengchengRate,totalMoney,money;
     private String mToken;
     private TextView mGentou;
+    private int type;
+    private DecimalFormat df =new DecimalFormat("#0.00");   //保留兩位位小数
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lianghua_celue_zhao_mu_zhong);
         tintManager.setStatusBarTintResource(R.color.write_color);
         LiangHuaId = getIntent().getStringExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID);
+        type = getIntent().getIntExtra(LiangHuaCelueDetialActivity.TYPE,0);
         initWight();
 
         LiangHuaAsyn liangHuaAsyn = new LiangHuaAsyn();
@@ -87,6 +97,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         RelativeLayout layoutFour = (RelativeLayout) findViewById(R.id.zuhe_detial_relat);
         RelativeLayout layoutFive = (RelativeLayout) findViewById(R.id.tiaocang_relat);
         RelativeLayout layoutSix = (RelativeLayout) findViewById(R.id.gentou_relat);
+        LinearLayout layoutSeven = (LinearLayout) findViewById(R.id.hint_info_lin);
 
         layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
@@ -94,6 +105,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         layoutFour.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutFive.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutSix.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutSeven.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         mTitle = (TextView) findViewById(R.id.back_txt);   //招募中题目
         canvasViewThree = (CanvasViewThree) findViewById(R.id.chart1);
@@ -122,6 +134,12 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
 
         canvasViewThree.setRadius(DensityUtils.dp2px(this,40));
 
+        ImageView mDeleteImg = (ImageView) findViewById(R.id.changjianwenti_txt);  //取消跟投
+        if (type == 1){
+            mDeleteImg.setVisibility(View.VISIBLE);
+        }else {
+            mDeleteImg.setVisibility(View.GONE);
+        }
 
         //跟投
         mGenTouLiat = (MyListView) findViewById(R.id.gengtou_listview);
@@ -133,6 +151,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         mBackimg.setOnClickListener(this);
         mFencheng.setOnClickListener(this);
         mGentou.setOnClickListener(this);
+        mDeleteImg.setOnClickListener(this);
 
 
         mWriteGentouMoney.addTextChangedListener(new TextWatcher() {
@@ -148,7 +167,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
 
             @Override
             public void afterTextChanged(Editable editable) {
-                DecimalFormat df =new DecimalFormat("#0.00");   //保留兩位位小数
+//                DecimalFormat df =new DecimalFormat("#0.00");   //保留兩位位小数
                 String gentouMoney = mWriteGentouMoney.getText().toString();
                 if (!TextUtils.isEmpty(gentouMoney)){
                     money = Double.parseDouble(gentouMoney);
@@ -160,7 +179,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                     money = totalMoney;
                     mWriteGentouMoney.setText(totalMoney+"");
                 }else {
-                    mGentouMoney.setText((totalMoney-money)+" 元");
+                    mGentouMoney.setText(df.format(totalMoney-money)+" 元");
                 }
                 mTargetMoney.setText("目标收益  "+money*targetshouyi/100);
                 mfenchengMoney.setText("  分成费 "+df.format((money*targetshouyi/100)*fengchengRate/100));
@@ -193,7 +212,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                         dialog = ManagerUtil.getDiaLog(this);
                         gentouAsyn.execute(LiangHuaId,money+"",mToken);
                     }else {
-                        Toast.makeText(getApplicationContext(),"跟投余额必须大于0",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"跟投金额必须大于0",Toast.LENGTH_SHORT).show();
 //                        TSnackbar.make(mGentou,"跟投余额必须大于0！",TSnackbar.LENGTH_SHORT).show();
                     }
                 }else {
@@ -202,6 +221,92 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                     startActivity(intent);
                 }
                 break;
+            case R.id.changjianwenti_txt:
+                initPopView(view);
+                break;
+        }
+    }
+
+    private PopupWindow mPopWindow;
+    /**
+     * 初始化popWindow
+     * @param view
+     */
+    public void initPopView(View view){
+        if (mPopWindow == null) {
+            View contentView = LayoutInflater.from(this).inflate(R.layout.pop_item_layout, null);
+            TextView cancal = (TextView) contentView.findViewById(R.id.delete_zuhe);
+            cancal.setText("取消跟投");
+            mPopWindow = new PopupWindow(contentView,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            mPopWindow.setBackgroundDrawable(new BitmapDrawable());
+            cancal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPopWindow.dismiss();
+                    final CustomDialog dialog = new CustomDialog(LianghuaCelueZhaoMuZhongActivity.this);
+                    dialog.setMessageText("确认要取消跟投吗？");
+                    dialog.show();
+                    dialog.setOnPositiveListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            DeleteMyZuheAsyn deleteMyZuheAsyn = new DeleteMyZuheAsyn();
+                            deleteMyZuheAsyn.execute(LiangHuaId,mToken);
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.setOnNegativeListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            });
+
+        }
+        mPopWindow.setOutsideTouchable(true);
+//                mPopWindow.showAsDropDown(view, 100, 10);
+        if (mPopWindow.isShowing()) {
+            mPopWindow.dismiss();
+        } else {
+            mPopWindow.showAsDropDown(view, 20, 0);
+
+        }
+
+    }
+
+    /**
+     * q取消跟投
+     */
+    private class DeleteMyZuheAsyn extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id", strings[0]);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[1], map, HttpManager.CancelAlong_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!TextUtils.isEmpty(s)){
+                try {
+                    JSONObject object = new JSONObject(s);
+                    JSONObject head = object.getJSONObject("Head");
+                    if (head.getInt("Status") == 0){
+                        finish();
+                    }else {
+                        Toast.makeText(getApplicationContext(),"取消失败",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 
@@ -256,10 +361,17 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
 
 
             StargDetial.ResultBean.PorfolioDetailBean proinfo = stargDetial.getResult().getPorfolioDetail();
-            mLimitMoney.setText(proinfo.getLimtAmount()+"元");
-            mStartMoney.setText(proinfo.getStartAmount()+"元");
-
             StargDetial.ResultBean.PorfolioInfoBean infoBean = stargDetial.getResult().getPorfolioInfo();
+            if (infoBean.getPorfolioAmount()>10000){
+                mLimitMoney.setText(df.format(infoBean.getPorfolioAmount()/10000)+"万元");
+            }else {
+                mLimitMoney.setText(df.format(infoBean.getPorfolioAmount())+"元");
+            }
+            if (infoBean.getMostFollow()>10000){
+                mStartMoney.setText(df.format(infoBean.getMostFollow()/10000)+"万元");
+            }else {
+                mStartMoney.setText(df.format(infoBean.getMostFollow())+"元");
+            }
 
             if (infoBean.getPorfolioType() == 0){
                 mType.setText("短线");
@@ -305,7 +417,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             mZuHeName.setText(infoBean.getTitle());
             mRunDay.setText(infoBean.getMaxDay()+"天");
             mZhisunXian.setText(infoBean.getStopLoss()+"%");
-            mGentouMoney.setText((infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount())+"元");
+            mGentouMoney.setText(df.format(infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount())+"元");
             totalMoney = infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount();
         }
     }
@@ -372,13 +484,14 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                 FollowRecord record = gson.fromJson(s,FollowRecord.class);
                 if (record.getHead().getStatus() == 0){
                     ArrayList<ChiCangInfo> chicangList = new ArrayList<>();
+                    DecimalFormat df =new DecimalFormat("#0.00");   //保留兩位位小数
                     List<FollowRecord.ResultBean.AlongRecordsBean> codeListBeen = record.getResult().getAlongRecords();
                     for (int i = 0;i<codeListBeen.size();i++){
                         FollowRecord.ResultBean.AlongRecordsBean bean = codeListBeen.get(i);
                         ChiCangInfo info = new ChiCangInfo();
-                        info.setTodayAdd(i+"");
+                        info.setTodayAdd((i+1)+"");
                         info.setNowPrice(bean.getAlongUserName().replaceAll("(?<=[\\d]{3})\\d(?=[\\d]{4})", "*"));    //中间4位用*代替
-                        info.setBascPrice(bean.getAlongAmount()+"");
+                        info.setBascPrice(df.format(bean.getAlongAmount())+"");
                         info.setCangwei(bean.getAlongTime().substring(0,10));
                         chicangList.add(info);
                     }

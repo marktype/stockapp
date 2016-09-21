@@ -110,7 +110,7 @@
                     android:layout_marginLeft="@dimen/margin_10dp"
                     android:layout_marginTop="@dimen/margin_15dp"
                     android:layout_toRightOf="@id/yeji_rank"
-                    android:text="(最后评估时间: 2016-06-20 10:30:23)"
+                    android:text=""
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/my_txt_size" />
 

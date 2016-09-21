@@ -247,7 +247,7 @@ public class StargDetial {
             private String RecuitmentStartTime;
             private String RecuitmentEndTime;
             private int StarInvestment;
-            private int MostFollow;
+            private double MostFollow;
             private String Desc;
             private int MaxDay;
             private double StopLoss;
@@ -273,7 +273,7 @@ public class StargDetial {
             private int PorfolioType;
             private int RecruitType;
             private int PorfolioChooseType;
-            private int PorfolioAmount;
+            private double PorfolioAmount;
             private Object RunEndState;
             /**
              * Date : 2016-08-25T00:00:00
@@ -360,11 +360,11 @@ public class StargDetial {
                 this.StarInvestment = StarInvestment;
             }
 
-            public int getMostFollow() {
+            public double getMostFollow() {
                 return MostFollow;
             }
 
-            public void setMostFollow(int MostFollow) {
+            public void setMostFollow(double MostFollow) {
                 this.MostFollow = MostFollow;
             }
 
@@ -568,11 +568,11 @@ public class StargDetial {
                 this.PorfolioChooseType = PorfolioChooseType;
             }
 
-            public int getPorfolioAmount() {
+            public double getPorfolioAmount() {
                 return PorfolioAmount;
             }
 
-            public void setPorfolioAmount(int PorfolioAmount) {
+            public void setPorfolioAmount(double PorfolioAmount) {
                 this.PorfolioAmount = PorfolioAmount;
             }
 

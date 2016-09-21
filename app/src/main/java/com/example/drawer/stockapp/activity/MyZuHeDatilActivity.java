@@ -95,6 +95,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
     private RelativeLayout mChartRelat;
     private MyListView mChiCnagList;
     private ChiCangAdapter chiCangAdapter;
+    private DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +120,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
      * 设置数据
      */
     public void setWidghtData(){
-        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+//        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
             List<StargDetial.ResultBean.StockRatioBean> stock = starDetailInfo.getResult().getStockRatio();   //饼图
         StargDetial.ResultBean.PorfolioInfoBean porfolioInfoBean = starDetailInfo.getResult().getPorfolioInfo();
         StargDetial.ResultBean.AchievemntBean achievemntBean = starDetailInfo.getResult().getAchievemnt();
@@ -129,8 +130,12 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         mTotal.setText(df.format(porfolioInfoBean.getTotleReturns())+"");
         mDataNum.setText(df.format(porfolioInfoBean.getReturn())+"%");
         mMonthNum.setText(df.format(porfolioInfoBean.getMonthlyAverage())+"%");
-        mJingZhi.setText(df.format(porfolioInfoBean.getNetValue())+"");
-        mAdavce.setText(porfolioInfoBean.getDesc());
+        mJingZhi.setText(df.format(porfolioInfoBean.getNetValue()/1000000)+"");
+        if (porfolioInfoBean.getDesc() != null&&!TextUtils.isEmpty(porfolioInfoBean.getDesc())){
+            mAdavce.setText(porfolioInfoBean.getDesc());
+        }else {
+            mAdavce.setText("主理人未留下组合投资建议");
+        }
         if (porfolioInfoBean.getUserImgUrl() != null&&!TextUtils.isEmpty(porfolioInfoBean.getUserImgUrl())){
             Picasso.with(this).load(porfolioInfoBean.getUserImgUrl()).into(mStarImage);
         }
@@ -140,11 +145,11 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         zuheDesc = porfolioInfoBean.getDesc();
 
         mNiuRenName.setText(porfolioInfoBean.getNickName());
-        if (achievemntBean.getLastTime() != null&&!TextUtils.isEmpty(achievemntBean.getLastTime())){
-            mLastTime.setText("（最后评估时间："+achievemntBean.getLastTime()+")");
-        }else {
-            mLastTime.setText("（最后评估时间：暂无)");
-        }
+//        if (achievemntBean.getLastTime() != null&&!TextUtils.isEmpty(achievemntBean.getLastTime())){
+//            mLastTime.setText("（最后评估时间："+achievemntBean.getLastTime()+")");
+//        }else {
+//            mLastTime.setText("（最后评估时间：暂无)");
+//        }
 
         mflashTime.setText("("+transferPositionsBean.getLastTime()+")");
         List<StargDetial.ResultBean.TransferPositionsBean.TransferPositionsInfoBean> list = transferPositionsBean.getTransferPositionsInfo();
@@ -161,7 +166,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                 info.setStockNum(list.get(i).getCode());
                 info.setTradeNumStart(list.get(i).getBefor());
                 info.setTradeNumEnd(list.get(i).getAfter());
-                info.setTradePrice(list.get(i).getPrice()+"");
+                info.setTradePrice(df.format(list.get(i).getPrice())+"");
                 listInfo.add(info);
             }
         MyZuHeItemAdapter zuHeItemAdapter = new MyZuHeItemAdapter(this);
@@ -217,10 +222,12 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
             info.setStockName(holding.getName());
             info.setStockNum(holding.getCode());
             info.setTodayAdd(df.format(holding.getProfitRate())+"%");
+            info.setTodayAddDecNum(holding.getProfitRate());
             info.setNowPrice(df.format(holding.getPrice())+"");
             info.setBascPrice(df.format(holding.getAvgPrice())+"");
             info.setCangwei(holding.getVolumn()+"");
             info.setFuYing(df.format(holding.getCumulativeReturnRate())+"%");
+            info.setFuYingNum(holding.getCumulativeReturnRate());
             chicangList.add(info);
         }
         chiCangAdapter.setData(chicangList);
@@ -275,7 +282,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         mTotal = (TextView) findViewById(R.id.persent_num);     //总收益
         mAdavce = (TextView) findViewById(R.id.advice_content);  //建议描述
         mStarImage = (ImageView) findViewById(R.id.advice_image_txt);    //牛人头像
-        mLastTime = (TextView) findViewById(R.id.yeji_rank_time);    //最后评估时间
+//        mLastTime = (TextView) findViewById(R.id.yeji_rank_time);    //最后评估时间
         mflashTime = (TextView) findViewById(R.id.diaocang_time_txt);   //调仓跟新时间
 //        mName = (TextView) findViewById(R.id.diaocang_name);       //股票名字
 //        mNum = (TextView) findViewById(R.id.diaocang_num);     //股票编号
@@ -646,12 +653,6 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
             StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean dataBean = ImgData.get(i);
             yValue.add(new Entry(Float.parseFloat(df.format(dataBean.getCumulativeReturn())), i));
         }
-        //构建一个LineDataSet 代表一组Y轴数据
-        LineDataSet dataSet = new LineDataSet(yValue, "沪深300");
-        dataSet.setColor(R.color.quxian_nan);
-        dataSet.setCircleColor(R.color.quxian_nan);
-        dataSet.setDrawCircles(false);
-        dataSet.setLineWidth(2f);
 
         //模拟第二组组y轴数据(存放y轴数据的是一个Entry的ArrayList) 他是构建LineDataSet的参数之一
 
@@ -661,13 +662,17 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
             yValue1.add(new Entry(Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())), i));
         }
 
-        Log.e("wing", yValue.size() + "");
 
-
+        //构建一个LineDataSet 代表一组Y轴数据
+        LineDataSet dataSet = new LineDataSet(yValue1, "沪深300");
+        dataSet.setColor(R.color.quxian_nan);
+        dataSet.setCircleColor(R.color.quxian_nan);
+        dataSet.setDrawCircles(false);
+        dataSet.setLineWidth(2f);
 
         //构建一个LineDataSet 代表一组Y轴数据 （比如不同的彩票： 七星彩  双色球）
 
-        LineDataSet dataSet1 = new LineDataSet(yValue1, "组合收益");
+        LineDataSet dataSet1 = new LineDataSet(yValue, "组合收益");
         dataSet1.setLineWidth(4f); // 线宽
         dataSet1.setDrawCircles(false);
         dataSet1.setColor(getResources().getColor(R.color.quxian_huang));// 显示颜色

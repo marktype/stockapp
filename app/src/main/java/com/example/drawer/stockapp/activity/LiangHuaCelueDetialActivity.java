@@ -1,12 +1,16 @@
 package com.example.drawer.stockapp.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +19,7 @@ import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.ChiCangAdapter;
 import com.example.drawer.stockapp.adapter.GenTouAdapter;
 import com.example.drawer.stockapp.adapter.TiaoCangAdapter;
+import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
@@ -36,6 +41,9 @@ import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +56,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
     private MyListView mTiaoCangList,mChiCnagList,mGenTouLiat;
     public static final String LIANGHUA_ID = "lianghuaid";
     public static final String LIANGHUA_NAME = "lianghuaname";
+    public static final String TYPE = "type";    //从哪儿跳转，0（策略） 1（组合招募） 2,（组合运行）3（组合结束） 4（策略结束）
     private TiaoCangAdapter tiaoCangAdapter;
     private ChiCangAdapter chiCangAdapter;
     private GenTouAdapter genTouAdapter;
@@ -62,6 +71,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
     private String mToken;
     private LineChart mLineChart;
     private ImageView mNoData;
+    private int type;
+    private DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +82,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         tintManager.setStatusBarTintResource(R.color.write_color);
         LiangHuaId = intent.getStringExtra(LIANGHUA_ID);
         LiangHuaName = intent.getStringExtra(LIANGHUA_NAME);
+        type = intent.getIntExtra(TYPE,0);
         initWight();
         LiangHuaAsyn liangHuaAsyn = new LiangHuaAsyn();
         liangHuaAsyn.execute(LiangHuaId);
@@ -135,6 +147,20 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         mNoData = (ImageView) findViewById(R.id.nodata_img);  //曲线图无数据
         mNoDataImgTiaoCang = (TextView) findViewById(R.id.no_data_img);    //无数据显示图片
         mNoDataImgChiCang = (TextView) findViewById(R.id.no_data_img_chicang);   //持仓无数据
+        ImageView mDeleteImg = (ImageView) findViewById(R.id.changjianwenti_txt);  //取消跟投
+        TextView mTarget = (TextView) findViewById(R.id.goal_shouyi_icon);  //当前收益
+
+        if (type == 0||type == 4){
+            mDeleteImg.setVisibility(View.GONE);
+            if (type == 4){
+                mTarget.setText("实现收益");
+            }
+        }else {
+            mDeleteImg.setVisibility(View.VISIBLE);
+            if (type == 3){
+                mTarget.setText("实现收益");
+            }
+        }
 
         //调仓
         mTiaoCangList = (MyListView) findViewById(R.id.tiaocang_listview);
@@ -154,6 +180,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
 
         mBackimg.setOnClickListener(this);
         mSeeHistory.setOnClickListener(this);
+        mDeleteImg.setOnClickListener(this);
     }
 
     @Override
@@ -175,6 +202,92 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 intent.putExtra(LIANGHUA_ID,LiangHuaId);
                 startActivity(intent);
                 break;
+            case R.id.changjianwenti_txt:
+                initPopView(view);
+                break;
+        }
+    }
+
+    private PopupWindow mPopWindow;
+    /**
+     * 初始化popWindow
+     * @param view
+     */
+    public void initPopView(View view){
+        if (mPopWindow == null) {
+            View contentView = LayoutInflater.from(this).inflate(R.layout.pop_item_layout, null);
+            TextView cancal = (TextView) contentView.findViewById(R.id.delete_zuhe);
+            cancal.setText("取消跟投");
+            mPopWindow = new PopupWindow(contentView,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            mPopWindow.setBackgroundDrawable(new BitmapDrawable());
+            cancal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPopWindow.dismiss();
+                    final CustomDialog dialog = new CustomDialog(LiangHuaCelueDetialActivity.this);
+                    dialog.setMessageText("确认要取消跟投吗？");
+                    dialog.show();
+                    dialog.setOnPositiveListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            DeleteMyZuheAsyn deleteMyZuheAsyn = new DeleteMyZuheAsyn();
+                            deleteMyZuheAsyn.execute(LiangHuaId,mToken);
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.setOnNegativeListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            });
+
+        }
+        mPopWindow.setOutsideTouchable(true);
+//                mPopWindow.showAsDropDown(view, 100, 10);
+        if (mPopWindow.isShowing()) {
+            mPopWindow.dismiss();
+        } else {
+            mPopWindow.showAsDropDown(view, 20, 0);
+
+        }
+
+    }
+
+    /**
+     * q取消跟投
+     */
+    private class DeleteMyZuheAsyn extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id", strings[0]);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[1], map, HttpManager.CancelAlong_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!TextUtils.isEmpty(s)){
+                try {
+                    JSONObject object = new JSONObject(s);
+                    JSONObject head = object.getJSONObject("Head");
+                    if (head.getInt("Status") == 0){
+                        finish();
+                    }else {
+                        Toast.makeText(getApplicationContext(),head.getString("Msg"),Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 
@@ -208,6 +321,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
 
     private void parseData(StargDetial stargDetial){
         if (stargDetial.getHead().getStatus() == 0){
+//            DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+
             StargDetial.ResultBean.TransferPositionsBean Transfer = stargDetial.getResult().getTransferPositions();
             if (Transfer.getLastTime() != null&&!TextUtils.isEmpty(Transfer.getLastTime())){
                 mLastTime.setText("("+Transfer.getLastTime()+")");
@@ -230,7 +345,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 info.setStockNum(bean.getCode());
                 info.setTradeNumStart(bean.getBefor());
                 info.setTradeNumEnd(bean.getAfter());
-                info.setTradePrice(bean.getPrice()+"");
+                info.setTradePrice(df.format(bean.getPrice())+"");
                 tiaoCang.add(info);
             }
             tiaoCangAdapter.setData(tiaoCang);
@@ -252,11 +367,13 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 ChiCangInfo info = new ChiCangInfo();
                 info.setStockName(holding.getName());
                 info.setStockNum(holding.getCode());
-                info.setTodayAdd(holding.getProfitRate()+"%");
-                info.setNowPrice(holding.getPrice()+"");
-                info.setBascPrice(holding.getAvgPrice()+"");
+                info.setTodayAdd(df.format(holding.getProfitRate())+"%");
+                info.setTodayAddDecNum(holding.getProfitRate());
+                info.setNowPrice(df.format(holding.getPrice())+"");
+                info.setBascPrice(df.format(holding.getAvgPrice())+"");
                 info.setCangwei(holding.getVolumn()+"");
-                info.setFuYing(holding.getCumulativeReturnRate()+"%");
+                info.setFuYing(df.format(holding.getCumulativeReturnRate())+"%");
+                info.setFuYingNum(holding.getCumulativeReturnRate());
                 chicangList.add(info);
             }
             chiCangAdapter.setData(chicangList);
@@ -271,8 +388,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             }
 
             StargDetial.ResultBean.PorfolioDetailBean proinfo = stargDetial.getResult().getPorfolioDetail();
-            mLimitMoney.setText(proinfo.getLimtAmount()+"元");
-            mStartMoney.setText(proinfo.getStartAmount()+"元");
+
+
             if (proinfo.getPorfolioType() == 0){
                 mType.setText("短线");
             }else if (proinfo.getPorfolioType() == 1){
@@ -287,9 +404,35 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             }else if (proinfo.getRecruitType() == 2){
                 mStartType.setText("保本型");
             }
+            if (proinfo.getMaxReturn() <0){
+                mMostGetMoney.setText("0.00%");
+            }else {
+                mMostGetMoney.setText(df.format(proinfo.getMaxReturn())+"%");
+            }
+            if (proinfo.getMinReturn()>0){
+                mMostLose.setText("0.00%");
+            }else {
+                mMostLose.setText(df.format(proinfo.getMinReturn())+"%");
+            }
 
             StargDetial.ResultBean.PorfolioInfoBean infoBean = stargDetial.getResult().getPorfolioInfo();
-            mTitleCelue.setText(infoBean.getTitle()+" 收益率曲线");
+
+            if (infoBean.getPorfolioAmount()>10000){
+                mLimitMoney.setText(df.format(infoBean.getPorfolioAmount()/10000)+"万元");
+            }else {
+                mLimitMoney.setText(df.format(infoBean.getPorfolioAmount())+"元");
+            }
+            if (infoBean.getMostFollow()>10000){
+                mStartMoney.setText(df.format(infoBean.getMostFollow()/10000)+"万元");
+            }else {
+                mStartMoney.setText(df.format(infoBean.getMostFollow())+"元");
+            }
+
+            mTarget.setText(df.format(infoBean.getTotleReturns())+"%");
+            mTradeNum.setText(infoBean.getAverageTrading()+"");
+
+
+            mTitleCelue.setText("收益率曲线");
             mMuJiTime.setText(infoBean.getRecuitmentStartTime().substring(0,10)+"至"+infoBean.getRecuitmentEndTime().substring(0,10));
             mRunTime.setText(infoBean.getRunStartDay().substring(0,10)+"至"+infoBean.getRunTargetEndDay().substring(0,10));
 
@@ -345,7 +488,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                     for (int i = 0;i<codeListBeen.size();i++){
                         FollowRecord.ResultBean.AlongRecordsBean bean = codeListBeen.get(i);
                         ChiCangInfo info = new ChiCangInfo();
-                        info.setTodayAdd(i+"");
+                        info.setTodayAdd((i+1)+"");
                         info.setNowPrice(bean.getAlongUserName().replaceAll("(?<=[\\d]{3})\\d(?=[\\d]{4})", "*"));    //中间4位用*代替
                         info.setBascPrice(bean.getAlongAmount()+"");
                         info.setCangwei(bean.getAlongTime().substring(0,10));
@@ -401,12 +544,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             yValue.add(new Entry(Float.parseFloat(df.format(dataBean.getCumulativeReturn())), i));
         }
 
-        //构建一个LineDataSet 代表一组Y轴数据
-        LineDataSet dataSet = new LineDataSet(yValue, "沪深300");
-        dataSet.setColor(getResources().getColor(R.color.quxian_nan));
-        dataSet.setCircleColor(getResources().getColor(R.color.quxian_nan));
-        dataSet.setDrawCircles(false);
-        dataSet.setLineWidth(2f);
+
 
         //模拟第二组组y轴数据(存放y轴数据的是一个Entry的ArrayList) 他是构建LineDataSet的参数之一
 
@@ -415,12 +553,16 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean benchmarkImgDataBean = BenchmarkImgData.get(i);
             yValue1.add(new Entry(Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())), i));
         }
-
-        Log.e("wing", yValue.size() + "");
+        //构建一个LineDataSet 代表一组Y轴数据
+        LineDataSet dataSet = new LineDataSet(yValue1, "沪深300");
+        dataSet.setColor(getResources().getColor(R.color.quxian_nan));
+        dataSet.setCircleColor(getResources().getColor(R.color.quxian_nan));
+        dataSet.setDrawCircles(false);
+        dataSet.setLineWidth(2f);
 
         //构建一个LineDataSet 代表一组Y轴数据 （比如不同的彩票： 七星彩  双色球）
 
-        LineDataSet dataSet1 = new LineDataSet(yValue1, "组合收益");
+        LineDataSet dataSet1 = new LineDataSet(yValue, "组合收益");
 
         dataSet1.setLineWidth(4f); // 线宽
         dataSet1.setDrawCircles(false);

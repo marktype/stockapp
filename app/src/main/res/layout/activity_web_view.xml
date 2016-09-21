@@ -175,7 +175,6 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/pinglun_relat"
                 android:background="@color/write_color"
-                android:divider="@null"
                 android:scrollbars="none" />
         </RelativeLayout>
     </ScrollView>

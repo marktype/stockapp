@@ -114,16 +114,16 @@ public class NiuRenListInfo {
             private String Title;
             private String UserImgUrl;
             private double TotleReturns;
-            private Object RecuitmentStartTime;
-            private Object RecuitmentEndTime;
+            private String RecuitmentStartTime;
+            private String RecuitmentEndTime;
             private double StarInvestment;
             private double MostFollow;
             private String Desc;
             private int MaxDay;
             private double StopLoss;
             private double ShareRatio;
-            private Object RunStartDay;
-            private Object RunEndDay;
+            private String RunStartDay;
+            private String RunEndDay;
             private double TargetReturns;
             private double Recruitment;
             private double WinRatio;
@@ -197,19 +197,19 @@ public class NiuRenListInfo {
                 this.TotleReturns = TotleReturns;
             }
 
-            public Object getRecuitmentStartTime() {
+            public String getRecuitmentStartTime() {
                 return RecuitmentStartTime;
             }
 
-            public void setRecuitmentStartTime(Object RecuitmentStartTime) {
+            public void setRecuitmentStartTime(String RecuitmentStartTime) {
                 this.RecuitmentStartTime = RecuitmentStartTime;
             }
 
-            public Object getRecuitmentEndTime() {
+            public String getRecuitmentEndTime() {
                 return RecuitmentEndTime;
             }
 
-            public void setRecuitmentEndTime(Object RecuitmentEndTime) {
+            public void setRecuitmentEndTime(String RecuitmentEndTime) {
                 this.RecuitmentEndTime = RecuitmentEndTime;
             }
 
@@ -261,19 +261,19 @@ public class NiuRenListInfo {
                 this.ShareRatio = ShareRatio;
             }
 
-            public Object getRunStartDay() {
+            public String getRunStartDay() {
                 return RunStartDay;
             }
 
-            public void setRunStartDay(Object RunStartDay) {
+            public void setRunStartDay(String RunStartDay) {
                 this.RunStartDay = RunStartDay;
             }
 
-            public Object getRunEndDay() {
+            public String getRunEndDay() {
                 return RunEndDay;
             }
 
-            public void setRunEndDay(Object RunEndDay) {
+            public void setRunEndDay(String RunEndDay) {
                 this.RunEndDay = RunEndDay;
             }
 

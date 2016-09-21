@@ -68,7 +68,6 @@
     <ListView
         android:id="@+id/dynamic_list"
         android:scrollbars="none"
-        android:divider="@null"
         android:layout_marginRight="@dimen/margin_15dp"
         android:layout_marginLeft="@dimen/margin_15dp"
         android:layout_below="@id/dynamic_title"

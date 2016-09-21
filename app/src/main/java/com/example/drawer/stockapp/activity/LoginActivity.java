@@ -24,6 +24,10 @@ import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class LoginActivity extends BascActivity implements View.OnClickListener{
     private EditText mUserName,mPassWord;
@@ -146,8 +150,13 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(ShapePreferenceManager.TOKEN,userInfo.getResult().getToken());
                         editor.putString(ShapePreferenceManager.USER_ID,userInfo.getResult().getId());
-                        editor.putString(ShapePreferenceManager.USER_NMAE,userInfo.getResult().getPhoneNum());
+                        editor.putString(ShapePreferenceManager.USER_NMAE,userInfo.getResult().getNickName());
+                        editor.putString(ShapePreferenceManager.PHONE,userInfo.getResult().getPhoneNum());
                         editor.commit();
+                        //推送标签
+                        Set<String> set = new HashSet<>();
+                        set.add(userInfo.getResult().getPhoneNum());
+                        JPushInterface.setTags(LoginActivity.this, set, null);
 
                         Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
                         finish();

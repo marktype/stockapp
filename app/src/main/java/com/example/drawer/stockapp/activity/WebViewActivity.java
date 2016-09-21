@@ -120,7 +120,6 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         webView.getSettings().setAllowFileAccess(true);//资源加载超时操作
 
 
-        RelativeLayout mLayout = (RelativeLayout) findViewById(R.id.pinglun_relat);    //评论选项
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
 //        mTxt = (TextView) findViewById(R.id.test_txt);   //文本展示
@@ -344,7 +343,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
             HashMap<String,String> map = new HashMap<>();
             map.put("PageIndex", "0");
             map.put("PageCount", "0");
-            map.put("PageSize", "0");
+            map.put("PageSize", "10000");
             hashMap.put("PageInfo",map);
             hashMap.put("Id",strings[0]);
             hashMap.put("Type","Comment");

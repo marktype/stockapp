@@ -74,7 +74,7 @@ public class UserInfo {
         private Object Avatar;
         private String Token;
         private String Id;
-        private Object NickName;
+        private String NickName;
         private String Level;
         private double Score;
         private Object BankCards;
@@ -118,11 +118,11 @@ public class UserInfo {
             this.Id = Id;
         }
 
-        public Object getNickName() {
+        public String getNickName() {
             return NickName;
         }
 
-        public void setNickName(Object NickName) {
+        public void setNickName(String NickName) {
             this.NickName = NickName;
         }
 
