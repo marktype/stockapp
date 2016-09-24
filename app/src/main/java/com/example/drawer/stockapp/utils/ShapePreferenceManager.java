@@ -16,6 +16,7 @@ public class ShapePreferenceManager {
     public static final String USER_NMAE = "username";    //保存用户名信息
     public static final String USER_ID = "uid";    //保存用户id信息
     public static final String PHONE = "phone";    //保存用户电话信息
+    public static final String ISOPEN = "isopen";    //是否开启消息提示   1,(关闭)  0（开启）
 //    public static final String IMAGE_CELUE = "image";    //保存量化策略图片
 
     private ShapePreferenceManager(){

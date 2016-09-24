@@ -314,7 +314,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
      * 分成说明
      */
     private void getDiaLogInfo(){
-        final MyDialog dialog = new MyDialog(this, 300, 200,R.layout.fencheng_detial_layout,R.style.MyDialogStyleDia);
+        final MyDialog dialog = new MyDialog(this, 250, 200,R.layout.fencheng_detial_layout,R.style.MyDialogStyleDia);
         dialog.setCancelable(true);
         dialog.show();
 

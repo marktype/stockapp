@@ -231,7 +231,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
             HashMap<String,String> hasp = new HashMap<>();
             HeadIndex headIndex = list.get(i);
             if (headIndex.getIndexPersent() != null&& !TextUtils.isEmpty(headIndex.getIndexPersent())){
-                volume = (int) (((mAllMoney*Integer.parseInt(headIndex.getIndexPersent())/100)/(headIndex.getPrice()*100))*100);
+                volume = (((int)((mAllMoney*Integer.parseInt(headIndex.getIndexPersent())/100)/(headIndex.getPrice()*100)))*100);
             }
             hasp.put("Code",headIndex.getIndexNum());
             hasp.put("Price",headIndex.getPrice()+"");
@@ -259,7 +259,6 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
             HeadIndex headIndex = list.get(i);
             if (headIndex.getType() == 1){     //老仓位
                 int persent = Integer.parseInt(headIndex.getIndexPersent());
-                Log.d("tag","persent-----"+persent+"-----num----"+persentNum[i]);
                 if (persent == 0){
                     hasp.put("Code",headIndex.getIndexNum());
                     hasp.put("Price",headIndex.getPrice()+"");
@@ -271,10 +270,10 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
                 }else if (persent != persentNum[i]){
 
                     if (persent>persentNum[i]){
-                            volume = (int) (((mAllMoney*(persent-persentNum[i])/100)/(headIndex.getPrice()*100))*100);
+                            volume = (((int)((mAllMoney*(persent-persentNum[i])/100)/(headIndex.getPrice()*100)))*100);
                         hasp.put("TradeType","Open");
                     }else {
-                        volume = (int) (((mAllMoney*(persentNum[i]-persent)/100)/(headIndex.getPrice()*100))*100);
+                        volume = (((int)((mAllMoney*(persentNum[i]-persent)/100)/(headIndex.getPrice()*100)))*100);
                         hasp.put("TradeType","Close");
                     }
                     Log.d("tag","volume-------"+volume);

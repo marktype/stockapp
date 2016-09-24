@@ -48,7 +48,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:src="@mipmap/arrowright" />
+        <TextView
+            android:id="@+id/status_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="开启"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_20dp"/>
     </RelativeLayout>
 
     <TextView

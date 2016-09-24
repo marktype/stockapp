@@ -137,13 +137,13 @@ public class CanvasView extends View {
                 paint.setStrokeWidth(12);
                 //计算小圆点中心的y坐标
                 cy =  rectWidth/2 + height/2 - ((size -i)*sigleRectHeight) + sigleRectHeight/2 ;
-                canvas.drawCircle(txtX+30,cy,8,paint);
+                canvas.drawCircle(txtX+10,cy,6,paint);
 
                 /**
                  * 画文字
                  */
                 paint.setTextAlign(Paint.Align.CENTER);
-                paint.setColor(Color.LTGRAY);
+                paint.setColor(Color.BLACK);
                 paint.setStrokeWidth(1);
                 paint.setTextSize(20f);
                 //已知中线计算基线位置

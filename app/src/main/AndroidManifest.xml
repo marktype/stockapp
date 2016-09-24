@@ -50,6 +50,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="myapp" android:host="demo.testjs" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".MainActivity"
@@ -236,11 +243,11 @@
             android:name=".activity.PayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
-        <activity
-            android:name=".activity.LaunchActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/MyAppTheme" />
+        <!--<activity-->
+            <!--android:name=".activity.LaunchActivity"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/MyAppTheme" />-->
         <activity
             android:name=".activity.LoginActivity"
             android:launchMode="singleTop"

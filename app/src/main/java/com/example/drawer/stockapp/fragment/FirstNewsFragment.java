@@ -444,10 +444,10 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             txt2.setGravity(Gravity.CENTER);
             txt2.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
             if (addOrDec>0){
-                txt2.setText( "+"+addOrDec+" +"+ Double.parseDouble(df.format(MarketData.get(i).getVariabilityRate()))+"%");
+                txt2.setText( ""+addOrDec+"   "+ Double.parseDouble(df.format(MarketData.get(i).getVariabilityRate()))+"%");
                 txt2.setTextColor(getActivity().getResources().getColor(R.color.red));
             }else {
-                txt2.setText( ""+addOrDec+" "+ Double.parseDouble(df.format(MarketData.get(i).getVariabilityRate()))+"%");
+                txt2.setText( ""+addOrDec+"   "+ Double.parseDouble(df.format(MarketData.get(i).getVariabilityRate()))+"%");
                 txt2.setTextColor(getActivity().getResources().getColor(R.color.green_color));
             }
             txt2.setTextSize(12);

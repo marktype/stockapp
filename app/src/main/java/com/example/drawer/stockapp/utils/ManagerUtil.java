@@ -20,7 +20,10 @@ import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -182,6 +185,49 @@ public class ManagerUtil {
         FlymeSetStatusBarLightMode(activity.getWindow(),false);
         MIUISetStatusBarLightMode(activity.getWindow(),false);
     }
+
+
+    /**
+     * 写文件
+     */
+    public static void save(Context context,String fileName, String fileContent) {
+        try {
+            //创建输出流，模式为私有模式，只能被本应用访问，
+            FileOutputStream outStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            //默认会保存到 /data/data/package name/files下，如果不存在则会创建，
+            outStream.write(fileContent.getBytes());
+            outStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 读文件
+     * @param context
+     * @param fileName
+     * @return
+     */
+    public static String read(Context context,String fileName)  {
+        FileInputStream inputStream;
+        try {
+            inputStream = context.openFileInput(fileName);
+            ByteArrayOutputStream outStream =new ByteArrayOutputStream();
+            byte[] buffer=new byte[1024];
+            int len=0;
+            while((len=inputStream.read(buffer))!=-1){
+                outStream.write(buffer, 0, len);
+            }
+            byte[] data=outStream.toByteArray();
+            inputStream.close();
+            outStream.close();
+            return new String(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     /**
      * 获取屏幕的宽高

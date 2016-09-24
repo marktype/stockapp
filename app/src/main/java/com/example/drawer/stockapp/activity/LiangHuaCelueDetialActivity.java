@@ -63,7 +63,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
     private TextView mTarget,mMostGetMoney,mMostLose,mTradeNum,mLastTime,
             mLimitMoney,mStartMoney,mType,mStartType,mMuJiTime,mRunTime,
             mAdvice,mNiurenName,mNoDataImgTiaoCang,mNoDataImgChiCang,
-            mTitleCelue,mTime,mSeeHistory;
+            mTitleCelue,mSeeHistory;
     private String LiangHuaId;    //量化id
     private String LiangHuaName;   //量化name
     private CircleImageView headImg;
@@ -120,7 +120,6 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
 
         TextView mTitle = (TextView) findViewById(R.id.back_txt);   //题目title
         mTitle.setText(LiangHuaName);
-        mTime = (TextView) findViewById(R.id.build_time);  //开始运行时间
 
         mTitleCelue = (TextView) findViewById(R.id.title_one);   //量化策略名字
         mTarget = (TextView) findViewById(R.id.goal_shouyi);    //目标收益
@@ -445,7 +444,6 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             mNiurenName.setText(starInfoBean.getName());
             Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
 
-            mTime.setText(infoBean.getRunStartDay()+"开始运行");
 
             List<StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean> ImgData =  infoBean.getImgData();
             List<StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean> BenchmarkImgData = infoBean.getBenchmarkImgData();

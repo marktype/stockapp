@@ -28,7 +28,7 @@
         android:id="@+id/my_zuhe_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="center"
+        android:scaleType="centerCrop"
         android:visibility="gone"
         android:src="@mipmap/dynamic_no_login"/>
 </RelativeLayout>

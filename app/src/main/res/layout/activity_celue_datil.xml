@@ -124,7 +124,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                      />
-
+                    <!--为了是雷达图不旋转-->
+                <TextView
+                    android:clickable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:background="@android:color/transparent"/>
                 <RatingBar
                     android:id="@+id/celue_seekbar"
                     style="@style/MyRatingBar"

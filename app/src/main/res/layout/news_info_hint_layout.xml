@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/circle_con_bg"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/hint_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:background="@color/content_bg"
+        android:padding="@dimen/margin_20dp"
+        android:text="接收消息设置" />
+    <TextView
+        android:id="@+id/man_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/layout_selector"
+        android:padding="@dimen/margin_20dp"
+        android:text="开启" />
+    <TextView
+        android:id="@+id/woman_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+
+        android:background="@drawable/layout_selector"
+        android:padding="@dimen/margin_20dp"
+        android:text="关闭"/>
+    <TextView
+        android:id="@+id/cancel_txt"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/layout_selector"
+        android:padding="@dimen/margin_20dp"
+        android:text="取消"/>
+</LinearLayout>

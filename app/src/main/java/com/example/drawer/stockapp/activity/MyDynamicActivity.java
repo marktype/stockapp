@@ -280,15 +280,15 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
     public void initSoftWindow(int type){
         switch (type){
             case 0:
-                mCommentEdit.setHint("写下你的评论");
+                mCommentEdit.setHint("写下您的评论");
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 break;
             case 1:
-                mCommentEdit.setHint("写下你的评论");
+                mCommentEdit.setHint("写下您的评论");
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN|WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 break;
             case 2:
-                mCommentEdit.setHint("写下你的转发内容");
+                mCommentEdit.setHint("写下您的转发内容");
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN|WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 break;
         }
@@ -307,15 +307,15 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                 if(inputMethodManager.isActive()){
                     inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
                 }
-                dialog = ManagerUtil.getDiaLog(MyDynamicActivity.this);
                 //点击进行逻辑处理
                 String key = mCommentEdit.getText().toString();
-                LikeOrForwordAsyn likeOrForwordAsyn = new LikeOrForwordAsyn();
                 if (type == 2){
                     Toast.makeText(getApplicationContext(),"该功能还在完善",Toast.LENGTH_SHORT).show();
 //                    mZhuanFa.setText((Integer.parseInt(mZhuanFa.getText().toString())+1)+"");
 //                    likeOrForwordAsyn.execute(shareBean.getId(),"Forward",key,mToken,HttpManager.Comment_URL);
                 }else {
+                    dialog = ManagerUtil.getDiaLog(MyDynamicActivity.this);
+                    LikeOrForwordAsyn likeOrForwordAsyn = new LikeOrForwordAsyn();
                     mComment.setText((Integer.parseInt(mComment.getText().toString())+1)+"");
                     likeOrForwordAsyn.execute(shareBean.getId(),"Comment",key,mToken,HttpManager.Comment_URL);
                 }
@@ -408,12 +408,12 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                         }else {
                             Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_SHORT).show();
                             mCommentEdit.setText("");
-//                            DynamicTask task = new DynamicTask();
-//                            task.execute();
-                            in.setAction("com.stock.sendtype");
-                            //发送广播,销毁此界面
-                            sendBroadcast(in);
-                            finish();
+                            DynamicTask task = new DynamicTask();
+                            task.execute();
+//                            in.setAction("com.stock.sendtype");
+//                            //发送广播,销毁此界面
+//                            sendBroadcast(in);
+//                            finish();
                         }
                     }
                 } catch (JSONException e) {

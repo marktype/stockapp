@@ -257,12 +257,14 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         RelativeLayout layoutThree = (RelativeLayout) findViewById(R.id.dioacang_layout);
         RelativeLayout layoutFour = (RelativeLayout) findViewById(R.id.set_stock);
         RelativeLayout layoutFive = (RelativeLayout) findViewById(R.id.set_quxian);
+        RelativeLayout layoutSix = (RelativeLayout) findViewById(R.id.chicang_relat);
 
         layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutThree.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutFour.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutFive.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutSix.setBackgroundColor(getResources().getColor(R.color.write_color));
 
 
         String  title = getIntent().getStringExtra(AutoWisdomFragment.CELUENAME);    //传参
@@ -391,7 +393,6 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
          * 用来描述该雷达图是什么用途
          */
         mChart.setDescription("");
-
         mChart.setWebLineWidth(1.5f);
         mChart.setWebLineWidthInner(0.75f);
         mChart.setWebAlpha(50);
@@ -415,13 +416,15 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                 Easing.EasingOption.EaseInOutQuad,
                 Easing.EasingOption.EaseInOutQuad);
 
+
         XAxis xAxis = mChart.getXAxis();
         xAxis.setTextSize(9f);
 
         YAxis yAxis = mChart.getYAxis();
-        yAxis.setLabelCount(0, true);
+        yAxis.setLabelCount(0, false);
         yAxis.setTextSize(9f);
         yAxis.setAxisMinValue(0f);
+        yAxis.setDrawLabels(false);
 
         Legend l = mChart.getLegend();
         l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
