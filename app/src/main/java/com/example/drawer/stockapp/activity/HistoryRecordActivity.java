@@ -45,6 +45,7 @@ public class HistoryRecordActivity extends BascActivity {
                 DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
+        mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
         mBackImg.setOnClickListener(new View.OnClickListener() {

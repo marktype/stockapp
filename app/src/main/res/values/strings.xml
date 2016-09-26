@@ -28,9 +28,9 @@
     <string name="forget_password_txt">忘记密码</string>
     <string name="alter_phone_txt">修改手机号码</string>
     <string name="alter_name_txt">修改昵称</string>
-    <string name="alter_hint_name_txt">4-20个字符，可由中英文、数字、“_”、“-”、组成</string>
+    <string name="alter_hint_name_txt">4-25个字符，可由中英文、数字、“_”、“-”、组成</string>
     <string name="time_success_txt"> 成功：运行期间，组合在清仓状况下达到目标收益，可提前结束运行，视为成功，不退还订阅费。</string>
-    <string name="time_failed_txt"> 失败：组合运行期内，结束运行（到期自动结束）但未达到目标收益，视为失败；全额退还分成费。</string>
+    <string name="time_failed_txt"> 失败：组合运行期内，结束运行（到期自动结束）但未达到目标收益，视为失败，全额退还分成费。</string>
     <string name="sure_txt">确认修改</string>
     <string name="click_login_txt">点我登录</string>
     <string name="set_up_txt">创建组合</string>

@@ -63,7 +63,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
     private TextView mTarget,mMostGetMoney,mMostLose,mTradeNum,mLastTime,
             mLimitMoney,mStartMoney,mType,mStartType,mMuJiTime,mRunTime,
             mAdvice,mNiurenName,mNoDataImgTiaoCang,mNoDataImgChiCang,
-            mTitleCelue,mSeeHistory;
+            mTitleCelue,mSeeHistory,mNoDataGentou;
     private String LiangHuaId;    //量化id
     private String LiangHuaName;   //量化name
     private CircleImageView headImg;
@@ -146,6 +146,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         mNoData = (ImageView) findViewById(R.id.nodata_img);  //曲线图无数据
         mNoDataImgTiaoCang = (TextView) findViewById(R.id.no_data_img);    //无数据显示图片
         mNoDataImgChiCang = (TextView) findViewById(R.id.no_data_img_chicang);   //持仓无数据
+        mNoDataGentou = (TextView) findViewById(R.id.no_data_img_gengtou);  //跟投无数据
+
         ImageView mDeleteImg = (ImageView) findViewById(R.id.changjianwenti_txt);  //取消跟投
         TextView mTarget = (TextView) findViewById(R.id.goal_shouyi_icon);  //当前收益
 
@@ -492,8 +494,13 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                         info.setCangwei(bean.getAlongTime().substring(0,10));
                         chicangList.add(info);
                     }
-                    genTouAdapter.setData(chicangList);
-                    mGenTouLiat.setAdapter(genTouAdapter);
+                    if (chicangList != null&&chicangList.size()>0){
+                        genTouAdapter.setData(chicangList);
+                        mGenTouLiat.setAdapter(genTouAdapter);
+                        mNoDataGentou.setVisibility(View.GONE);
+                    }else {
+                        mNoDataGentou.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         }

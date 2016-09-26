@@ -77,10 +77,10 @@ public class AlterNameActivity extends BascActivity implements View.OnClickListe
             case R.id.save_name:
                 String str = mName.getText().toString();
                 UpdataUserIfoAsyn updataUserIfoAsyn = new UpdataUserIfoAsyn();
-                if (!TextUtils.isEmpty(str)){
+                if (!TextUtils.isEmpty(str)&&str.length()>3){
                     updataUserIfoAsyn.execute(str, ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null));
                 }else {
-                    Toast.makeText(getApplicationContext(),"昵称不能为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"昵称的字符长度不能小于4个哦",Toast.LENGTH_SHORT).show();
 //                    TSnackbar.make(mSavaName,"昵称不能为空！",TSnackbar.LENGTH_SHORT).show();
                 }
                 break;
@@ -130,9 +130,9 @@ public class AlterNameActivity extends BascActivity implements View.OnClickListe
     }
 
     /**
-     * 限制中文8个字，英文16个字
+     * 限制中文maxLen/2个字，英文maxLen个字
      */
-    private final int maxLen = 16;
+    private final int maxLen = 25;
     private InputFilter filter = new InputFilter() {
 
         @Override

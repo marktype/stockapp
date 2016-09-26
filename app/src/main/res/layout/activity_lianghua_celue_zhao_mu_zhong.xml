@@ -438,14 +438,16 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/refund_name"
                         android:textSize="@dimen/my_txt_size"
-                        android:layout_margin="@dimen/margin_10dp"
+                        android:layout_marginLeft="@dimen/margin_10dp"
                         android:text="@string/time_success_txt" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/success"
                         android:textSize="@dimen/my_txt_size"
-                        android:layout_margin="@dimen/margin_10dp"
+                        android:layout_marginTop="@dimen/margin_5dp"
+                        android:layout_marginLeft="@dimen/margin_10dp"
+                        android:layout_marginBottom="@dimen/margin_10dp"
                         android:text="@string/time_failed_txt" />
                 </RelativeLayout>
 
@@ -480,6 +482,15 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/gentou_item"
                     android:id="@+id/gengtou_listview"/>
+                <TextView
+                    android:id="@+id/no_data_img_gengtou"
+                    android:layout_below="@id/gentou_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="尚未有跟投记录"
+                    android:visibility="gone"
+                    android:layout_centerHorizontal="true"
+                    android:drawableTop="@mipmap/img"/>
             </RelativeLayout>
             <LinearLayout
                 android:id="@+id/hint_info_lin"

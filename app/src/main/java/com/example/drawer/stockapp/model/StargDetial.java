@@ -246,7 +246,7 @@ public class StargDetial {
             private double TotleReturns;
             private String RecuitmentStartTime;
             private String RecuitmentEndTime;
-            private int StarInvestment;
+            private double StarInvestment;
             private double MostFollow;
             private String Desc;
             private int MaxDay;
@@ -352,11 +352,11 @@ public class StargDetial {
                 this.RecuitmentEndTime = RecuitmentEndTime;
             }
 
-            public int getStarInvestment() {
+            public double getStarInvestment() {
                 return StarInvestment;
             }
 
-            public void setStarInvestment(int StarInvestment) {
+            public void setStarInvestment(double StarInvestment) {
                 this.StarInvestment = StarInvestment;
             }
 
@@ -644,8 +644,8 @@ public class StargDetial {
         }
 
         public static class PorfolioDetailBean {
-            private int LimtAmount;
-            private int StartAmount;
+            private double LimtAmount;
+            private double StartAmount;
             private int PorfolioType;
             private int RecruitType;
             private int Investment;
@@ -671,19 +671,19 @@ public class StargDetial {
                 RecruitType = recruitType;
             }
 
-            public int getLimtAmount() {
+            public double getLimtAmount() {
                 return LimtAmount;
             }
 
-            public void setLimtAmount(int LimtAmount) {
+            public void setLimtAmount(double LimtAmount) {
                 this.LimtAmount = LimtAmount;
             }
 
-            public int getStartAmount() {
+            public double getStartAmount() {
                 return StartAmount;
             }
 
-            public void setStartAmount(int StartAmount) {
+            public void setStartAmount(double StartAmount) {
                 this.StartAmount = StartAmount;
             }
 

@@ -52,7 +52,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
     private TextView mLimitMoney,mStartMoney,mType,mStartType,
             mMuJiTime,mRunTime,mAdvice,mNiurenName,mParsent
             ,mZuHeName,mRunDay,mZhisunXian,mGentouMoney,mStartEndMoney,
-            mTargetMoney,mfenchengMoney,mTitle,mFenCheng;
+            mTargetMoney,mfenchengMoney,mTitle,mFenCheng,mNoDataGentou;
     private CircleImageView headImg;
     private GenTouAdapter genTouAdapter;
     private MyListView mGenTouLiat;
@@ -131,6 +131,8 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         mAdvice = (TextView) findViewById(R.id.advice_content);   //描述
         headImg = (CircleImageView) findViewById(R.id.advice_image_txt);   //牛人头像
         mNiurenName = (TextView) findViewById(R.id.niuren_name);    //牛人名字
+
+        mNoDataGentou = (TextView) findViewById(R.id.no_data_img_gengtou);  //跟投无数据
 
         canvasViewThree.setRadius(DensityUtils.dp2px(this,40));
 
@@ -495,8 +497,13 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                         info.setCangwei(bean.getAlongTime().substring(0,10));
                         chicangList.add(info);
                     }
-                    genTouAdapter.setData(chicangList);
-                    mGenTouLiat.setAdapter(genTouAdapter);
+                    if (chicangList != null&&chicangList.size()>0){
+                        genTouAdapter.setData(chicangList);
+                        mGenTouLiat.setAdapter(genTouAdapter);
+                        mNoDataGentou.setVisibility(View.GONE);
+                    }else {
+                        mNoDataGentou.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         }

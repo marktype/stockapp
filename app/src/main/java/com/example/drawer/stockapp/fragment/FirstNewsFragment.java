@@ -135,6 +135,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
         mHandler = new Handler();
         sharedPreferences = ShapePreferenceManager.getMySharedPreferences(getActivity());
 
@@ -226,10 +227,11 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 tintManager = ManagerUtil.newInstance(getActivity());
                 ManagerUtil.setStataBarColor(getActivity(),tintManager);
                 if (!TextUtils.isEmpty(token)){
-                    if (isFlash){    //判定是否发表动态返回
-                        dymnicesData(token,dongTaiPage);
-                        isFlash = false;
-                    }
+//                    if (isFlash){    //判定是否发表动态返回
+//                        shareList.clear();
+//                        dymnicesData(token,dongTaiPage);
+//                        isFlash = false;
+//                    }else
                     if (dynamicsInfo == null){
                         trendsInfosSave = new ArrayList<>();
                         dymnicesData(token,dongTaiPage);    //
@@ -330,8 +332,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), MyDynamicActivity.class);
-                intent.putExtra(MyDynamicActivity.DYNAMICINFO,dynamicsInfo.getResult().getShare().get(i-1));
-//                intent.putExtra(MyDynamicActivity.TYPE,mDongTaiType);
+                intent.putExtra(MyDynamicActivity.DYNAMICINFO,trendsInfosSave.get(i-1));
                 startActivity(intent);
             }
         });
@@ -494,9 +495,11 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                         mBackgroud.setVisibility(View.GONE);
                         ArrayList<TrendsInfo> trendList = initdongtaiData();
                         if (dongTaiPage == 0){
+                            trendsInfosSave=trendList;
                             trendsAdapter.setData(trendList);
                             mDongTaiList.setAdapter(trendsAdapter);
                         }else if (dongTaiPage >0 &&trendList.size()>0){
+                            trendsInfosSave.addAll(trendList);
                             trendsAdapter.addData(trendList);
                         }else {
                             Toast.makeText(getActivity(),"没有更多了哦",Toast.LENGTH_SHORT).show();
@@ -522,6 +525,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             TrendsInfo info = new TrendsInfo();
             ArrayList<String> list = new ArrayList<>();
             DynamicsInfo.ResultBean.ShareBean ben = share.get(i);
+            info.setId(ben.getId());
+            info.setShareUrl(ben.getImgUrl());
             info.setImage(ben.getImgUrl());
             info.setName(ben.getNickName());
             info.setContent(ben.getContent());
@@ -536,11 +541,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             info.setCollect(ben.isHasFavorites());
             info.setLikes(ben.isHasLike());
             trendsInfos.add(info);
-        }
-        if (trendsInfosSave != null){
-            trendsInfosSave.addAll(trendsInfos);
-        }else {
-            trendsInfosSave=trendsInfos;
+
         }
 
         return trendsInfos;

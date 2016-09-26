@@ -41,8 +41,10 @@ public class MyDialog extends Dialog {
 //set width,height by density and gravity
 
         float density = getDensity(context);
-        params.width = (int) (width * density);
-        params.height = (int) (height * density);
+//        params.width = (int) (width * density);
+//        params.height = (int) (height * density);
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.gravity = Gravity.CENTER;
         window.setAttributes(params);
     }

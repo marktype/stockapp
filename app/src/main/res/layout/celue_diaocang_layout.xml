@@ -13,6 +13,17 @@
         android:layout_margin="@dimen/margin_10dp"
         android:text="最新调仓"
         />
+
+    <TextView
+        android:id="@+id/history_see"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="查看历史"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/title_text_size"
+        android:visibility="gone"
+        android:textColor="@color/colorPrimaryDark"
+        android:padding="@dimen/margin_10dp"/>
     <TextView
         android:id="@+id/diaocang_time_txt"
         android:layout_alignBaseline="@id/diaocang_txt"

@@ -56,6 +56,7 @@ public class TiaoCangHistoryAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
+        view.setBackgroundColor(context.getResources().getColor(R.color.write_color));
         HistoryTiaoCangInfo historyTiaoCangInfo = (HistoryTiaoCangInfo) getItem(i);
         viewHolder.title.setText("调仓时间");
         viewHolder.time.setText("("+historyTiaoCangInfo.getTime()+")");

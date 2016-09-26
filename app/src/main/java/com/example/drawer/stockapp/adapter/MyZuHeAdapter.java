@@ -74,9 +74,18 @@ public class MyZuHeAdapter extends BaseAdapter {
         viewHolder.contentBg.setBackgroundColor(context.getResources().getColor(R.color.write_color));
         if (info.getShouyiRate() == 0){
             viewHolder.rate.setText("0.00%");
+            setCanvasDataGreen(viewHolder.canvasViewThree,info.getShouyiRate());
         }else if (info.getShouyiRate() > 0){
+            if (info.getShouyiRate()<100){
+                setCanvasDataRed(viewHolder.canvasViewThree,info.getShouyiRate());
+            }else {
+                setCanvasDataRed(viewHolder.canvasViewThree,100);
+            }
+            viewHolder.rate.setTextColor(context.getResources().getColor(R.color.red));
             viewHolder.rate.setText("+"+info.getShouyiRate()+"%");
-        }else {
+        }else if (info.getShouyiRate()<0){
+            setCanvasDataGreen(viewHolder.canvasViewThree,info.getShouyiRate());
+            viewHolder.rate.setTextColor(context.getResources().getColor(R.color.green_color));
             viewHolder.rate.setText(info.getShouyiRate()+"%");
         }
         viewHolder.name.setText(info.getNiurenName());
@@ -102,9 +111,7 @@ public class MyZuHeAdapter extends BaseAdapter {
             viewHolder.status.setVisibility(View.GONE);
         }
         viewHolder.canvasViewThree.setRadius(DensityUtils.dp2px(context,40));
-       if (info.getShouyiRate()<100){
-           setCanvasData(viewHolder.canvasViewThree,info.getShouyiRate());
-       }
+
 //        viewHolder.delete.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -144,9 +151,15 @@ public class MyZuHeAdapter extends BaseAdapter {
     private ArrayList<HashMap<String, Object>> data;
     private HashMap<String, Object> map;
     //设置历史业绩中的比例和颜色
-    public void setCanvasData(CanvasViewThree canvasView, double num) {
+    public void setCanvasDataRed(CanvasViewThree canvasView, double num) {
         data = new ArrayList<>();
-        setDataToView(num + "%", "#DBBD44", (float) (num / 100));
+        setDataToView(num + "%", "#E53739", (float) (num / 100));
+        canvasView.setData(data);
+    }
+
+    public void setCanvasDataGreen(CanvasViewThree canvasView, double num) {
+        data = new ArrayList<>();
+        setDataToView(num + "%", "#49A854", (float) (num / 100));
         canvasView.setData(data);
     }
 

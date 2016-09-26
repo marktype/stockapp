@@ -26,7 +26,6 @@ import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyGridView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.CommnetInfo;
-import com.example.drawer.stockapp.model.DynamicsInfo;
 import com.example.drawer.stockapp.model.TrendsInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
@@ -47,7 +46,8 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 public class MyDynamicActivity extends BascActivity implements View.OnClickListener{
     public static final String DYNAMICINFO = "dynamicinfo";//获取动态数据
     public static final String TYPE = "type";//获取类型数据
-    private DynamicsInfo.ResultBean.ShareBean shareBean;
+//    private DynamicsInfo.ResultBean.ShareBean shareBean;
+    private TrendsInfo trendsInfo;
     private DynamicInfoAdapter adapter;
     private CommnetInfo commnetInfo;
     private ListView mList;
@@ -65,7 +65,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
 
         mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
         tintManager.setStatusBarTintResource(R.color.write_color);
-        shareBean = getIntent().getParcelableExtra(DYNAMICINFO);
+        trendsInfo = getIntent().getParcelableExtra(DYNAMICINFO);
         type = getIntent().getIntExtra(TYPE,0);
         initWight();
         initSoftWindow(type);
@@ -100,28 +100,28 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
 
 //        ImageView mCollect = (ImageView) headRelat.findViewById(R.id.collect_info_img);
 
-        if (shareBean.isHasLike()){
+        if (trendsInfo.getLikes()){
             mZanImg.setImageResource(R.mipmap.y_dianzan);
         }else {
             mZanImg.setImageResource(R.mipmap.zan);
         }
 
-        if (shareBean != null){
-            if (!TextUtils.isEmpty(shareBean.getImgUrl())){
-                Picasso.with(this).load(shareBean.getImgUrl()).into(head);
+        if (trendsInfo != null){
+            if (!TextUtils.isEmpty(trendsInfo.getImage())){
+                Picasso.with(this).load(trendsInfo.getImage()).into(head);
             }
             content.setMaxLines(100);
             content.setTextSize(14);
 
             ImageAdapter adapter = new ImageAdapter(this);
-            adapter.setData(shareBean.getImgs());
+            adapter.setData(trendsInfo.getContentImage());
             contentImage.setAdapter(adapter);
-            name.setText(shareBean.getNickName());
-            content.setText(shareBean.getContent());
-            time.setText(shareBean.getUpdateTime());
-            mZhuanFa.setText(shareBean.getForward()+"");
-            mComment.setText(shareBean.getComments()+"");
-            mLikes.setText(shareBean.getLikes()+"");
+            name.setText(trendsInfo.getName());
+            content.setText(trendsInfo.getContent());
+            time.setText(trendsInfo.getTime());
+            mZhuanFa.setText(trendsInfo.getZhuanFaNum()+"");
+            mComment.setText(trendsInfo.getCommentNum()+"");
+            mLikes.setText(trendsInfo.getGoodNum()+"");
         }
         ImageView mShare = (ImageView) findViewById(R.id.share_img);   //分享
 
@@ -162,17 +162,17 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                 initSoftWindow(type);
                 break;
             case R.id.zan_relate:
-                if (shareBean.isHasLike()){
+                if (trendsInfo.getLikes()){
                     LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
-                    likeOrCollectAsyn.execute(shareBean.getId(),"3",mToken);
+                    likeOrCollectAsyn.execute(trendsInfo.getId(),"3",mToken);
                     mLikes.setText((Integer.parseInt(mLikes.getText().toString())-1)+"");
                     mZanImg.setImageResource(R.mipmap.zan);
-                    shareBean.setHasLike(false);
+                    trendsInfo.setLikes(false);
                 }else {
                     LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
-                    likeOrCollectAsyn.execute(shareBean.getId(),"2",mToken);
+                    likeOrCollectAsyn.execute(trendsInfo.getId(),"2",mToken);
                     mLikes.setText((Integer.parseInt(mLikes.getText().toString())+1)+"");
-                    shareBean.setHasLike(true);
+                    trendsInfo.setLikes(true);
                     mZanImg.setImageResource(R.mipmap.y_dianzan);
                 }
                 break;
@@ -185,7 +185,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
 //                }
 //                break;
             case R.id.share_img:
-                showShare(shareBean.getNickName(),shareBean.getImgUrl());
+                showShare(trendsInfo.getName(),trendsInfo.getImage());
                 break;
         }
     }
@@ -238,7 +238,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
             map.put("PageCount", "0");
             map.put("PageSize", "0");
             hashMap.put("PageInfo",map);
-            hashMap.put("Id",shareBean.getId());
+            hashMap.put("Id",trendsInfo.getId());
             hashMap.put("Type","Comment");
             String message = HttpManager.newInstance().getHttpDataByThreeLayer(mToken,hashMap,HttpManager.COMMENT_LIST_URL);
             return message;
@@ -317,7 +317,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                     dialog = ManagerUtil.getDiaLog(MyDynamicActivity.this);
                     LikeOrForwordAsyn likeOrForwordAsyn = new LikeOrForwordAsyn();
                     mComment.setText((Integer.parseInt(mComment.getText().toString())+1)+"");
-                    likeOrForwordAsyn.execute(shareBean.getId(),"Comment",key,mToken,HttpManager.Comment_URL);
+                    likeOrForwordAsyn.execute(trendsInfo.getId(),"Comment",key,mToken,HttpManager.Comment_URL);
                 }
 
                 return true;

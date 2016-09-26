@@ -83,6 +83,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private ArrayList<CeLueInfo> ceLueInfosSave;
     private NiuRenAdapter niuRenAdapter;
     private int page,niurenPage;
+    DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+    private String tokenOld;   //刚进入时的token；与在次进入时比较，看是否刷新
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -169,14 +171,25 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         ManagerUtil.setStataBarColorWhite(getActivity(), tintManager);
 
         mToken = sp.getString(ShapePreferenceManager.TOKEN,null);
+        if (tokenOld == null &&TextUtils.isEmpty(tokenOld)){
+            tokenOld = mToken;
+        }
+        Log.d("tag","mtoken---------"+mToken+"------old---"+tokenOld);
         if (!TextUtils.isEmpty(mToken)){
-            if (niuRenListInfoMySave == null){
+            if (tokenOld.equals(mToken)){
+                if (niuRenListInfoMySave == null){
+                    myListSave = new ArrayList<>();
+                    mLogin.setVisibility(View.GONE);
+                    getMyListData();
+                }else {
+                    mLogin.setVisibility(View.GONE);
+                    myZuHeAdapter.setData(myListSave);
+                    myList.setAdapter(myZuHeAdapter);
+                }
+            }else {
                 myListSave = new ArrayList<>();
                 mLogin.setVisibility(View.GONE);
                 getMyListData();
-            }else {
-                myZuHeAdapter.setData(myListSave);
-                myList.setAdapter(myZuHeAdapter);
             }
         }else {
             mLogin.setVisibility(View.VISIBLE);
@@ -606,7 +619,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      * @param niurenList
      */
     public void setMyZuHeInfo(ArrayList<NiuRenInfo> niurenList){
-        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
         List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfo.getResult().getStrategies();
         for (int i = 0; i < starPorfolioBeen.size(); i++) {
             NiuRenListInfo.ResultBean.StrategiesBean ben = starPorfolioBeen.get(i);
@@ -628,7 +640,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      * 初始化量化策略数据
      */
     public ArrayList<CeLueInfo> setLianghuaCelueData() {
-        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+
         ArrayList<CeLueInfo> ceLueInfos = new ArrayList<>();
         List<CeLueListInfo.ResultBean.StrategiesBean> strategiesBeen = ceLueListInfo.getResult().getStrategies();
         for (int i = 0; i < strategiesBeen.size(); i++) {
@@ -636,7 +648,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 
             CeLueInfo info = new CeLueInfo();
             info.setId(ben.getId());
-            info.setCeluePersent(Double.parseDouble(df.format(ben.getTotalReturn()))+"");
+            info.setCeluePersent(ben.getTotalReturn()+"");
             info.setTitle(ben.getName());
             info.setJingZhiNum(ben.getTargetReturns() + "%");
             info.setMaxNum(ben.getMaxDay() + "天");
@@ -671,7 +683,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     public ArrayList<NiuRenInfo> setNiuRenData(NiuRenListInfo niuRenListInfo) {
         ArrayList<NiuRenInfo> niuRenInfos = new ArrayList<>();
         List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfo.getResult().getStrategies();
-        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
         for (int i = 0; i < starPorfolioBeen.size(); i++) {
             NiuRenListInfo.ResultBean.StrategiesBean ben = starPorfolioBeen.get(i);
             NiuRenInfo info = new NiuRenInfo();

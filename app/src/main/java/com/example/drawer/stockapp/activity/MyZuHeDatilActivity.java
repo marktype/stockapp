@@ -81,7 +81,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
     private ArrayList<HashMap<String, Object>> data;
     private TextView mPersent,mTimes,mLikes,mBuildTime,mDataNum,mMonthNum,
             mJingZhi,mTotal,mAdavce,mLastTime,mflashTime,mName,
-            mNum,mPriceChange,mSuccess,mNiuRenName,mNoDataImgChiCang;
+            mNum,mPriceChange,mSuccess,mNiuRenName,mNoDataImgChiCang,mSeeHistory;
     private ImageView mStarImage,mNoData,mNoDataChart;
     private StargDetial starDetailInfo;
     private RatingBar mRating;
@@ -301,6 +301,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         ImageView mDelete = (ImageView) findViewById(R.id.changjianwenti_txt);
 
         MyScrollView mScrollview = (MyScrollView) findViewById(R.id.celue_scroll);   //滑动条
+        mSeeHistory = (TextView) findViewById(R.id.history_see);    //查看历史
 
         mScrollview.setOnScrollListener(new MyScrollView.OnScrollListener() {
             @Override
@@ -329,6 +330,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         mBackimg.setOnClickListener(this);
         mGoOrder.setOnClickListener(this);
         mDelete.setOnClickListener(this);
+        mSeeHistory.setOnClickListener(this);
     }
 
     public void setCanvasData(ArrayList<ChartInfo> list){
@@ -530,6 +532,11 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                 break;
             case R.id.changjianwenti_txt:
                 initPopView(view);
+                break;
+            case R.id.history_see:
+                intent = new Intent(this,HistoryRecordActivity.class);
+                intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,zuheId);
+                startActivity(intent);
                 break;
         }
     }

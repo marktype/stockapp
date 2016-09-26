@@ -553,14 +553,20 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                         /*
                          * 超时后,首先判断页面加载进度,超时并且进度小于100,就执行超时后的动作
                          */
-                    if (WebViewActivity.this.webView.getProgress() < 100) {
-                        Log.d("testTimeout", "timeout...........");
-                        Message msg = new Message();
-                        msg.what = 1;
-                        mHandler.sendMessage(msg);
-                        timer.cancel();
-                        timer.purge();
-                    }
+                    webView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (WebViewActivity.this.webView.getProgress() < 100) {
+                                Log.d("testTimeout", "timeout...........");
+                                Message msg = new Message();
+                                msg.what = 1;
+                                mHandler.sendMessage(msg);
+                                timer.cancel();
+                                timer.purge();
+                            }
+                        }
+                    });
+
                 }
             };
             timer.schedule(tt, timeout, 1);

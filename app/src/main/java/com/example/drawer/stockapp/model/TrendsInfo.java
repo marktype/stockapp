@@ -1,12 +1,16 @@
 package com.example.drawer.stockapp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
  * Created by 欢大哥 on 2016/6/15.
  * 关注列表、动态列表
  */
-public class TrendsInfo {
+public class TrendsInfo implements Parcelable {
+    private String id;   //动态id
     private String image ;    //头像
     private String name;     //名字
     private String content;    //内容
@@ -20,6 +24,23 @@ public class TrendsInfo {
     private String friendContent;    //好友评论内容
     private Boolean isCollect;   //是否收藏
     private Boolean isLikes;     //是否点赞
+    private String shareUrl;   //分享链接
+
+    public String getShareUrl() {
+        return shareUrl;
+    }
+
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Boolean getLikes() {
         return isLikes;
@@ -124,4 +145,61 @@ public class TrendsInfo {
     public void setTime(String time) {
         this.time = time;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.image);
+        dest.writeString(this.name);
+        dest.writeString(this.content);
+        dest.writeStringList(this.contentImage);
+        dest.writeString(this.time);
+        dest.writeInt(this.zhuanFaNum);
+        dest.writeInt(this.commentNum);
+        dest.writeInt(this.goodNum);
+        dest.writeString(this.friendImage);
+        dest.writeString(this.friendName);
+        dest.writeString(this.friendContent);
+        dest.writeValue(this.isCollect);
+        dest.writeValue(this.isLikes);
+        dest.writeString(this.id);
+        dest.writeString(this.shareUrl);
+    }
+
+    public TrendsInfo() {
+    }
+
+    protected TrendsInfo(Parcel in) {
+        this.image = in.readString();
+        this.name = in.readString();
+        this.content = in.readString();
+        this.contentImage = in.createStringArrayList();
+        this.time = in.readString();
+        this.zhuanFaNum = in.readInt();
+        this.commentNum = in.readInt();
+        this.goodNum = in.readInt();
+        this.friendImage = in.readString();
+        this.friendName = in.readString();
+        this.friendContent = in.readString();
+        this.isCollect = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.isLikes = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.id = in.readString();
+        this.shareUrl = in.readString();
+    }
+
+    public static final Parcelable.Creator<TrendsInfo> CREATOR = new Parcelable.Creator<TrendsInfo>() {
+        @Override
+        public TrendsInfo createFromParcel(Parcel source) {
+            return new TrendsInfo(source);
+        }
+
+        @Override
+        public TrendsInfo[] newArray(int size) {
+            return new TrendsInfo[size];
+        }
+    };
 }
