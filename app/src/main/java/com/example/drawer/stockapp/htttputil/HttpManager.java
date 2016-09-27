@@ -38,7 +38,7 @@ public class HttpManager {
         return instance;
     }
 
-//    public static final String BASE_URL = "http://183.60.47.101:8012/";      //基地址
+//    public static final String BASE_URL = "http://api.imaozhua.com:8914/";      //基地址
     public static final String BASE_URL = "http://matrixswaggerwebapi.lab.supwin.com:8899/";      //基地址
     public static final String UID = "5451221";
     public static final String LANG = "zh-cn";
@@ -47,6 +47,7 @@ public class HttpManager {
     public static final String SHARE_LIST_URL = BASE_URL + "Dynamics/StartShareList";      //牛人分享列表
     public static final String COMMENT_LIST_URL = BASE_URL + "Dynamics/ShareCommentsList";      //评论列表
     public static final String DeleteDynamic_URL = BASE_URL + "Dynamics/DeleteDynamic";      //删除自己的动态
+    public static final String DynamicDetail_URL = BASE_URL + "Dynamics/DynamicDetail";      //获取动态详情
     public static final String StatementDetail_URL = BASE_URL + "Financial/StatementDetail";      //
     public static final String Information_URL = BASE_URL + "HeadLine/Information";      //  一级界面资讯
     public static final String NewsDetail_URL = BASE_URL + "HeadLine/NewsDetail";      //  新闻详情
@@ -74,6 +75,7 @@ public class HttpManager {
     public static final String DeletePorfolio_URL = BASE_URL + "Intelligent/DeletePorfolio";      // 删除组合
     public static final String CodeHotKeys_URL = BASE_URL + "Intelligent/HotKeys";      // 热门搜索股票关键字
     public static final String FindCode_URL = BASE_URL + "Intelligent/FindCode";      // 搜索股票
+    public static final String LastTrades_URL = BASE_URL + "Intelligent/LastTrades";      // 最后一次调仓
     public static final String Signals_URL = BASE_URL + "Intelligent/Signals";      // 获取调仓历史记录
     public static final String send_dynamic_URL = BASE_URL + "Dynamics/AddDynamic";      // 发布动态
     public static final String Comment_URL = BASE_URL + "Dynamics/Comment";      // 评论或转发
@@ -111,7 +113,7 @@ public class HttpManager {
     public static final String CourseCommentsInfo_URL = BASE_URL + "School/CourseCommentsInfo";      //评论转发列表
     public static final String CourseDetail_URL = BASE_URL + "School/CourseDetail";      //课堂详情
     public static final String CourseComment_URL = BASE_URL + "School/CourseComment";      //评论/转发
-    public static final String CourseFavorites_URL = BASE_URL + "School/CourseFavorites";      //课堂收藏
+    public static final String CourseFavorites_URL = BASE_URL + "School/CourseFavorites";      //课堂收藏、点赞
     public static final String ExceCollList_URL = BASE_URL + "School/ExceCollList";      //课堂合集列表
     public static final String ExceCollDetail_URL = BASE_URL + "School/ExceCollDetail";      //课堂合集列表详情
     public static final String ExceCollCommInfo_URL = BASE_URL + "School/ExceCollCommInfo";      //评论转发列表

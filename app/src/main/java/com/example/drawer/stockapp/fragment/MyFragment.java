@@ -239,7 +239,6 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             }else {
                 parseUserInfo(userInfo);
             }
-//            mNologin.setVisibility(View.GONE);
             mScrollview.setVisibility(View.VISIBLE);
             mTitleRelat.getBackground().setAlpha(1);
             tintManager.setTintAlpha(0);

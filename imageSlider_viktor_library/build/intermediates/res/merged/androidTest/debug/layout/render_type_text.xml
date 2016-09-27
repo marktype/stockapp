@@ -5,6 +5,7 @@
     <ImageView
         android:id="@+id/daimajia_slider_image"
         android:layout_width="match_parent"
+        android:scaleType="centerCrop"
         android:layout_height="match_parent" />
     <ProgressBar
         android:id="@+id/loading_bar"

@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -89,7 +88,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private XListView mDongTaiList;
     private  String token;
     private int page,dongTaiPage;
-    private ImageView mImgHead,mMessage,mSendImg,mBackgroud,loadingFailed;
+    private ImageView mImgHead,mMessage,mSendImg,mBackgroud,loadingFailed,loadingFailedDongtai;
     private Boolean isFlag = false;
     private String[] images = {""};
     private String[] strings = {""};
@@ -147,7 +146,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 
 
     /**
-    * type广播
+    * type广播（动态）
     */
         IntentFilter filter = new IntentFilter();
         // 向过滤器中添加action
@@ -217,7 +216,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         }
 
         token = sharedPreferences.getString(ShapePreferenceManager.TOKEN,null);
-        Log.d("tag","pager-------"+mPager.getCurrentItem());
         switch (mPager.getCurrentItem()){
             case 0:
                 SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
@@ -303,7 +301,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         dongtaiView = mInflater.inflate(R.layout.dongtai_layout,null);   //动态框架在这儿
 
         loadingFailed = (ImageView) zixunView.findViewById(R.id.loading_failed);   //加载失败显示图
+        loadingFailedDongtai = (ImageView) dongtaiView.findViewById(R.id.loading_failed_two);  //动态加载失败
         loadingFailed.setOnClickListener(this);
+        loadingFailedDongtai.setOnClickListener(this);
 
         viewList.add(zixunView);
         viewList.add(dongtaiView);
@@ -332,7 +332,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), MyDynamicActivity.class);
-                intent.putExtra(MyDynamicActivity.DYNAMICINFO,trendsInfosSave.get(i-1));
+                intent.putExtra(MyDynamicActivity.DYNAMICINFO,trendsInfosSave.get(i-1).getId());
                 startActivity(intent);
             }
         });
@@ -510,7 +510,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                     }
 
                 }else {
-                    loadingFailed.setVisibility(View.VISIBLE);
+                    loadingFailedDongtai.setVisibility(View.VISIBLE);
                 }
             }
         }.execute();
@@ -662,18 +662,13 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 startActivity(intent);
                 break;
             case R.id.loading_failed:   //加载失败图片
-                switch (mPager.getCurrentItem()){
-                    case 0:
-                        loadingFailed.setVisibility(View.GONE);
-                        GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
-                        getNewsListAsyn.execute(page+"");
-                        break;
-                    case 1:
-                        loadingFailed.setVisibility(View.GONE);
-                        dymnicesData(token,dongTaiPage);
-                        break;
-                }
-
+                loadingFailed.setVisibility(View.GONE);
+                GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
+                getNewsListAsyn.execute(page+"");
+                break;
+            case R.id.loading_failed_two:
+                loadingFailedDongtai.setVisibility(View.GONE);
+                dymnicesData(token,dongTaiPage);
                 break;
         }
     }

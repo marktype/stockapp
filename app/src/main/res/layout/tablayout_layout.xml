@@ -105,7 +105,7 @@
                     android:padding="5dp"
                     android:layout_gravity="center_horizontal"
                     android:textSize="@dimen/margin_13dp"
-                    android:text="月均收益" />
+                    android:text="月收益" />
                 <TextView
                     android:id="@+id/shouyi_every_month"
                     android:layout_width="wrap_content"

@@ -22,4 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@mipmap/dynamic_no_login"/>
+    <ImageView
+        android:id="@+id/loading_failed_two"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:src="@mipmap/loading_failed"/>
 </RelativeLayout>

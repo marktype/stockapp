@@ -1,6 +1,7 @@
 package com.example.drawer.stockapp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -52,6 +53,8 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
     private CommnetInfo commnetInfo;
     private MyDialog dialog;
     private TextView mTitle;
+    private ImageView mZanImg;
+    private Boolean flag;    //是否点赞
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +100,8 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         webView.setWebChromeClient(new WebChromeClientInfo());
 
         RelativeLayout mLayout = (RelativeLayout) findViewById(R.id.pinglun_relat);    //评论选项
-        mLayout.setVisibility(View.GONE);
+        mLayout.setBackgroundColor(getResources().getColor(R.color.write_color));
+//        mLayout.setVisibility(View.GONE);
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
         mCommentEdit = (EditText) findViewById(R.id.dongtai_comment_edit);
@@ -105,6 +109,8 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         mZhuanFa = (TextView) findViewById(R.id.dongtai_zhuanfa);
         mComment = (TextView) findViewById(R.id.dongtai_pinglun);
         mLikes = (TextView) findViewById(R.id.dongtai_zan);
+        mZanImg = (ImageView) findViewById(R.id.dianzan_img);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.zan_relate);
 
         mList = (MyListView) findViewById(R.id.dynamic_list);
         adapter = new DynamicInfoAdapter(this);
@@ -112,7 +118,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         mBackImg.setOnClickListener(this);
         mZhuanFa.setOnClickListener(this);
         mComment.setOnClickListener(this);
-        mLikes.setOnClickListener(this);
+        layout.setOnClickListener(this);
         mCommentEdit.setOnKeyListener(onKeyListener);
 
         mTitle = (TextView) findViewById(R.id.back_txt);
@@ -132,20 +138,45 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                 finish();
                 break;
             case R.id.dongtai_zhuanfa:
-                type  = 2;
-                initSoftWindow(type);
+                Toast.makeText(getApplicationContext(),"该功能还在完善",Toast.LENGTH_SHORT).show();
+                if (!TextUtils.isEmpty(mToken)){
+                    type  = 2;
+                    initSoftWindow(type);
+                }else {
+                    Intent intent = new Intent(this,LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.dongtai_pinglun:
-                type = 1;
-                initSoftWindow(type);
+                if (!TextUtils.isEmpty(mToken)){
+                    type = 1;
+                    initSoftWindow(type);
+                }else {
+                    Toast.makeText(getApplicationContext(),"您还未登陆，请先登录",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this,LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
-            case R.id.dongtai_zan:
-//                if (!TextUtils.isEmpty(mToken)){
-//                    LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
-//                    likeOrCollectAsyn.execute(urlId,"Like",mToken);
-//                }else {
-//                    Toast.makeText(this,"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
-//                }
+            case R.id.zan_relate:
+                if (!TextUtils.isEmpty(mToken)){
+                    dialog = ManagerUtil.getDiaLog(this);
+                    if (flag){
+                        LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
+                        likeOrCollectAsyn.execute(urlId,"3",mToken);
+//                        mLikes.setText((Integer.parseInt(mLikes.getText().toString())-1)+"");
+//                        mZanImg.setImageResource(R.mipmap.zan);
+                        flag = false;
+                    }else {
+                        LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
+                        likeOrCollectAsyn.execute(urlId,"2",mToken);
+                        flag = true;
+//                        mZanImg.setImageResource(R.mipmap.y_dianzan);
+                    }
+                }else {
+                    Toast.makeText(getApplicationContext(),"您还未登陆，请先登录",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this,LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }
@@ -201,10 +232,16 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                     }
 
                     mTitle.setText(infoBean.getName());
-//                    mZhuanFa.setText(bean.getForward()+"");
-//                    mComment.setText(bean.getComments()+"");
-//                    mLikes.setText(bean.getLikes()+"");
-
+                    mZhuanFa.setText(infoBean.getForward()+"");
+                    mComment.setText(infoBean.getComments()+"");
+                    mLikes.setText(infoBean.getFavorites()+"");
+                    if (infoBean.getHasLike()){
+                        flag= true;
+                        mZanImg.setImageResource(R.mipmap.y_dianzan);
+                    }else {
+                        flag = false;
+                        mZanImg.setImageResource(R.mipmap.zan);
+                    }
                 }
             }
         }
@@ -277,8 +314,10 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                     if (type == 2){
                         Toast.makeText(getApplicationContext(),"该功能还在完善",Toast.LENGTH_SHORT).show();
 //                        likeOrForwordAsyn.execute(urlId,"Forward",key,mToken,HttpManager.CourseComment_URL);
-                    }else {
+                    }else if (!TextUtils.isEmpty(key)){
                         likeOrForwordAsyn.execute(urlId,"Comment",key,mToken,HttpManager.CourseComment_URL);
+                    }else {
+                        Toast.makeText(getApplicationContext(),"请输入要发表的内容",Toast.LENGTH_SHORT).show();
                     }
                 }else {
                     Toast.makeText(getApplicationContext(),"您还未登陆，请先登录",Toast.LENGTH_SHORT).show();
@@ -341,43 +380,43 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         }
     }
 
-//    /**
-//     * 搜索收藏、点赞
-//     */
-//    private class LikeOrCollectAsyn extends AsyncTask<String,Void,String> {
-//
-//        @Override
-//        protected String doInBackground(String... strings) {
-//            HashMap<String, String> map = new HashMap<>();
-//            map.put("Id", strings[0]);
-//            map.put("Type", strings[1]);
-//            String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[2], map, HttpManager.Favorites_URL);
-//            return message;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String s) {
-//            super.onPostExecute(s);
-//            if (!TextUtils.isEmpty(s)){
-//                try {
-//                    JSONObject object = new JSONObject(s);
-//                    if (object.has("Head")){
-//                        JSONObject head = object.getJSONObject("Head");
-//                        if (head.getString("Status").equals("1")){
-//                            Toast.makeText(WebViewUpTitleActivity.this,head.getString("Msg"),Toast.LENGTH_SHORT).show();
-//                        }else {
-////                            Toast.makeText(context,"发布成功",Toast.LENGTH_SHORT).show();
-//                            NewsInfoAsyn newsInfoAsyn = new NewsInfoAsyn();
-//                            newsInfoAsyn.execute(urlId);
-//                        }
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        }
-//    }
+    /**
+     * 搜索收藏、点赞
+     */
+    private class LikeOrCollectAsyn extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("Id", strings[0]);
+            map.put("Type", strings[1]);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[2], map, HttpManager.CourseFavorites_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!TextUtils.isEmpty(s)){
+                try {
+                    JSONObject object = new JSONObject(s);
+                    if (object.has("Head")){
+                        JSONObject head = object.getJSONObject("Head");
+                        if (head.getString("Status").equals("1")){
+                            Toast.makeText(WebViewUpTitleActivity.this,head.getString("Msg"),Toast.LENGTH_SHORT).show();
+                        }else {
+//                            Toast.makeText(context,"发布成功",Toast.LENGTH_SHORT).show();
+                            NewsInfoAsyn newsInfoAsyn = new NewsInfoAsyn();
+                            newsInfoAsyn.execute(urlId);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
 
     /**
      * web加载进度

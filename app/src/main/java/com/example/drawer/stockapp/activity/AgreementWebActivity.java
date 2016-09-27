@@ -60,7 +60,7 @@ public class AgreementWebActivity extends BascActivity {
             mTxt.setText("关于爱猫爪");
             webView.loadUrl("http://www.imaozhua.com/about.html");
         }else if (type == 2){    //用户协议
-            mTxt.setText("用户协议");
+            mTxt.setText("爱猫爪用户注册协议");
             webView.loadUrl("http://www.imaozhua.com/service.html");
         }else if (type == 3){
             mTxt.setText("新闻");

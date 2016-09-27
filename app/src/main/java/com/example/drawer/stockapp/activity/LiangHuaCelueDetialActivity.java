@@ -22,6 +22,7 @@ import com.example.drawer.stockapp.adapter.TiaoCangAdapter;
 import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyListView;
+import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.ChiCangInfo;
 import com.example.drawer.stockapp.model.FollowRecord;
@@ -147,6 +148,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         mNoDataImgTiaoCang = (TextView) findViewById(R.id.no_data_img);    //无数据显示图片
         mNoDataImgChiCang = (TextView) findViewById(R.id.no_data_img_chicang);   //持仓无数据
         mNoDataGentou = (TextView) findViewById(R.id.no_data_img_gengtou);  //跟投无数据
+
 
         ImageView mDeleteImg = (ImageView) findViewById(R.id.changjianwenti_txt);  //取消跟投
         TextView mTarget = (TextView) findViewById(R.id.goal_shouyi_icon);  //当前收益
@@ -280,6 +282,10 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                     JSONObject object = new JSONObject(s);
                     JSONObject head = object.getJSONObject("Head");
                     if (head.getInt("Status") == 0){
+                        Intent in = new Intent();
+                        in.setAction(AutoWisdomFragment.BROAD_TYPE);
+                        //发送广播,销毁此界面
+                        sendBroadcast(in);
                         finish();
                     }else {
                         Toast.makeText(getApplicationContext(),head.getString("Msg"),Toast.LENGTH_SHORT).show();
@@ -430,7 +436,13 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             }
 
             mTarget.setText(df.format(infoBean.getTotleReturns())+"%");
-            mTradeNum.setText(infoBean.getAverageTrading()+"");
+
+            Object tradeTime = infoBean.getAverageTrading();   //判断是int 还是double
+            if (tradeTime instanceof Integer){
+                mTradeNum.setText(infoBean.getAverageTrading()+"");
+            }else if (tradeTime instanceof Double){
+                mTradeNum.setText(df.format(infoBean.getAverageTrading())+"");
+            }
 
 
             mTitleCelue.setText("收益率曲线");

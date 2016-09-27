@@ -242,6 +242,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/stock_config" />
+
+                <ImageView
+                    android:id="@+id/nodata_img_three"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/stock_name"
+                    android:src="@mipmap/nodata"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/set_quxian"
@@ -257,7 +265,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_10dp"
-                    android:text="收益率曲线图"
+                    android:text="收益走势"
                     android:textColor="@android:color/background_dark"
                     android:textSize="@dimen/title_text_size" />
                 <com.github.mikephil.charting.charts.LineChart

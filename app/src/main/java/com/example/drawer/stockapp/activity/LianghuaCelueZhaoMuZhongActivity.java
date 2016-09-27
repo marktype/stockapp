@@ -27,6 +27,7 @@ import com.example.drawer.stockapp.customview.CanvasViewThree;
 import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyListView;
+import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.ChiCangInfo;
 import com.example.drawer.stockapp.model.FollowRecord;
@@ -300,6 +301,10 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                     JSONObject object = new JSONObject(s);
                     JSONObject head = object.getJSONObject("Head");
                     if (head.getInt("Status") == 0){
+                        Intent in = new Intent();
+                        in.setAction(AutoWisdomFragment.BROAD_TYPE);
+                        //发送广播,销毁此界面
+                        sendBroadcast(in);
                         finish();
                     }else {
                         Toast.makeText(getApplicationContext(),"取消失败",Toast.LENGTH_SHORT).show();
@@ -451,6 +456,10 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getInt("Status") == 0){
                             Toast.makeText(getApplicationContext(),"跟投成功",Toast.LENGTH_SHORT).show();
+                            Intent in = new Intent();
+                            in.setAction(AutoWisdomFragment.BROAD_TYPE);
+                            //发送广播,销毁此界面
+                            sendBroadcast(in);
                             finish();
                         }else {
                             Toast.makeText(getApplicationContext(),head.getString("Msg"),Toast.LENGTH_SHORT).show();

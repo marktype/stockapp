@@ -1,9 +1,5 @@
 package com.scxh.slider.library;
 
-import java.lang.reflect.Field;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Message;
@@ -22,6 +18,10 @@ import com.scxh.slider.library.Tricks.FixedSpeedScroller;
 import com.scxh.slider.library.Tricks.InfinitePagerAdapter;
 import com.scxh.slider.library.Tricks.InfiniteViewPager;
 import com.scxh.slider.library.Tricks.ViewPagerEx;
+
+import java.lang.reflect.Field;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * SliderLayout is compound layout. This is combined with {@link com.scxh.slider.library.Indicators.PagerIndicator}

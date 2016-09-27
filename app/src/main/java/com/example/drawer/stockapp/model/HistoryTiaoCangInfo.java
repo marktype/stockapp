@@ -6,9 +6,18 @@ import java.util.ArrayList;
  * Created by 欢大哥 on 2016/9/19.
  */
 public class HistoryTiaoCangInfo {
+    private String id;
     private String title;
     private String time;
     private ArrayList<TiaoCangInfo> list;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;

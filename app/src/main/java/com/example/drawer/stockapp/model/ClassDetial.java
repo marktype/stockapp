@@ -99,6 +99,15 @@ public class ClassDetial {
             private int Comments;
             private int Favorites;
             private Object TargetUrl;
+            private Boolean HasLike;
+
+            public Boolean getHasLike() {
+                return HasLike;
+            }
+
+            public void setHasLike(Boolean hasLike) {
+                HasLike = hasLike;
+            }
 
             public String getId() {
                 return Id;

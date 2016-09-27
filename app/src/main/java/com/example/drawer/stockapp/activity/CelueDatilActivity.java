@@ -80,7 +80,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     private TextView mPersent,mTimes,mLikes,mBuildTime,mDataNum,mMonthNum,
             mJingZhi,mTotal,mAdavce,mLastTime,mflashTime,mName,
             mNum,mPriceChange,mSuccess,mNiuRenName,mNoDataImgChiCang,mSeeHistory;
-    private ImageView mStarImage,mNoData,mNoDataChart;
+    private ImageView mStarImage,mNoData,mNoDataChart,mNoDataPeiZhi;
     private StargDetial starDetailInfo;
     private RatingBar mRating;
     private RelativeLayout mTitleRelat;
@@ -285,6 +285,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mNoDataChart = (ImageView) findViewById(R.id.nodata_img_two);  //雷达图无数据显示
         mChartRelat = (RelativeLayout) findViewById(R.id.yeji_rank_relat);   //业绩评级
         mNoDataImgChiCang = (TextView) findViewById(R.id.no_data_img_chicang);   //持仓无数据
+        mNoDataPeiZhi = (ImageView) findViewById(R.id.nodata_img_three);  //配置无数据
 
         MyScrollView mScrollview = (MyScrollView) findViewById(R.id.celue_scroll);   //滑动条
         mSeeHistory = (TextView) findViewById(R.id.history_see);    //查看历史
@@ -323,15 +324,18 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
 
     public void setCanvasData(ArrayList<ChartInfo> list){
         data = new ArrayList<>();
-        for (int i= 0;i<list.size();i++){
-            ChartInfo info = list.get(i);
-            setDataToView(info.getName(), colors[i], Float.parseFloat(info.getParsent()));
+        if (list.size()>0){
+            for (int i= 0;i<list.size();i++){
+                ChartInfo info = list.get(i);
+                setDataToView(info.getName(), colors[i], Float.parseFloat(info.getParsent()));
+            }
+            canvasView.setData(data);
+            canvasView.setVisibility(View.VISIBLE);
+            mNoDataPeiZhi.setVisibility(View.GONE);
+        }else {
+            canvasView.setVisibility(View.GONE);
+            mNoDataPeiZhi.setVisibility(View.VISIBLE);
         }
-//        setDataToView("农林牧渔", "#74E7D3", 0.15f);
-//        setDataToView("电器设备", "#74D3E7", 0.15f);
-//        setDataToView("公用事业", "#51B4F3", 0.4f);
-//        setDataToView("食品饮料", "#5173F3", 0.1f);
-        canvasView.setData(data);
     }
 
     private void setDataToView(String title, String color, float weight) {
@@ -606,6 +610,10 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                     JSONObject object = new JSONObject(s);
                     JSONObject head = object.getJSONObject("Head");
                     if (head.getInt("Status") == 0){
+                        Intent in = new Intent();
+                        in.setAction(AutoWisdomFragment.BROAD_TYPE);
+                        //发送广播,销毁此界面
+                        sendBroadcast(in);
                         finish();
                     }else {
                         Toast.makeText(getApplicationContext(),"取消失败",Toast.LENGTH_SHORT).show();
@@ -678,6 +686,10 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getInt("Status") == 0){
                             Toast.makeText(getApplicationContext(),"订阅成功",Toast.LENGTH_SHORT).show();
+                            Intent in = new Intent();
+                            in.setAction(AutoWisdomFragment.BROAD_TYPE);
+                            //发送广播,销毁此界面
+                            sendBroadcast(in);
                             finish();
                         }else {
                             Toast.makeText(getApplicationContext(),head.getString("Msg"),Toast.LENGTH_SHORT).show();

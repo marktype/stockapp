@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.TiaoCangHistoryAdapter;
+import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.HistoryInfoList;
 import com.example.drawer.stockapp.model.HistoryTiaoCangInfo;
@@ -27,6 +28,7 @@ public class HistoryRecordActivity extends BascActivity {
     private ListView mList;
     private String id;
     private TiaoCangHistoryAdapter adapter;
+    private MyDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,7 @@ public class HistoryRecordActivity extends BascActivity {
         setContentView(R.layout.activity_history_record);
         id = getIntent().getStringExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID);
         initWight();
+        dialog = ManagerUtil.getDiaLog(this);
         HistoryAsyn historyAsyn = new HistoryAsyn();
         historyAsyn.execute(id);
     }
@@ -90,6 +93,7 @@ public class HistoryRecordActivity extends BascActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            dialog.dismiss();
             if (!TextUtils.isEmpty(s)&&!s.equals(HttpManager.FAILED)){
                 Gson gson = new Gson();
                 HistoryInfoList historyInfoList = gson.fromJson(s,HistoryInfoList.class);

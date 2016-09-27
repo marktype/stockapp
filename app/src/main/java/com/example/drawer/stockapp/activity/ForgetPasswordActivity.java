@@ -2,6 +2,7 @@ package com.example.drawer.stockapp.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,7 +25,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 public class ForgetPasswordActivity extends BascActivity implements View.OnClickListener{
-    private EditText mUserName,mPassword,mVerify;
+    private EditText mUserName,mPassword,mVerify,mOtherPassWord;
     private TextView mGetVerify;
     private String verify;
     private MyDialog dialog;
@@ -57,6 +58,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
         mUserName = (EditText) findViewById(R.id.user_name_txt);
         mPassword = (EditText) findViewById(R.id.password_txt);
         mVerify = (EditText) findViewById(R.id.verify_txt);
+        mOtherPassWord = (EditText) findViewById(R.id.password_txt_two);
 
         mEyeImg.setOnClickListener(this);
         mGetVerify.setOnClickListener(this);
@@ -87,14 +89,22 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
             case R.id.alter_sure_txt:
                 String phone = mUserName.getText().toString();
                 String password = mPassword.getText().toString();
+                String other = mOtherPassWord.getText().toString();
                 verify = mVerify.getText().toString();
-                if (phone.length() == 11&& !TextUtils.isEmpty(verify)){
+                if (other.equals(password)){
+
+                }
+                if (phone.length() != 11){
+                    Toast.makeText(getApplicationContext(),"手机号码写错了",Toast.LENGTH_SHORT).show();
+                }else if (!TextUtils.isEmpty(verify)){
+                    Toast.makeText(getApplicationContext(),"验证码写错了",Toast.LENGTH_SHORT).show();
+                }else if (!other.equals(password)){
+//                    TSnackbar.make(mSureTxt,"输入有误！",TSnackbar.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"两次输入密码不一样，请先确认一下",Toast.LENGTH_SHORT).show();
+                }else {
                     dialog = ManagerUtil.getDiaLog(this);
                     AlterAsyn getRegister = new AlterAsyn();
                     getRegister.execute(phone,password,verify);
-                }else {
-//                    TSnackbar.make(mSureTxt,"输入有误！",TSnackbar.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(),"验证码写错了",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.get_verify:
@@ -142,8 +152,8 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                 mGetVerify.setEnabled(true);
                 Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
             }else {
-                DaojiShiAsyn daojiShiAsyn = new DaojiShiAsyn();
-                daojiShiAsyn.execute(60);
+                TimeCount time = new TimeCount(60000, 1000);
+                time.start();// 开始计时
             }
 
         }
@@ -152,35 +162,21 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
     /**
      * 倒计时
      */
-    private class DaojiShiAsyn extends AsyncTask<Integer,Integer,String>{
-        @Override
-        protected String doInBackground(Integer... integers) {
-            int i= integers[0];
-            while(i>0){
-                if (!TextUtils.isEmpty(verify)){
-                    i= 1;
-                }
-                i--;
-                publishProgress(i);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                }
-            }
-            return null;
-        }
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            verify = mVerify.getText().toString();
-            mGetVerify.setText(values[0]+"秒后重新获取");
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        public void onFinish() {// 计时完毕
             mGetVerify.setText("发送验证码");
             mGetVerify.setEnabled(true);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {// 计时过程
+            mGetVerify.setEnabled(false);
+            mGetVerify.setText(millisUntilFinished / 1000+"秒后重新获取");
         }
     }
 

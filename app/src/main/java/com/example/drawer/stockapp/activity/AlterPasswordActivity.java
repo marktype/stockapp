@@ -24,7 +24,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import java.util.HashMap;
 
 public class AlterPasswordActivity extends BascActivity implements View.OnClickListener{
-    private EditText mUserName,mPassWord;
+    private EditText mUserName,mPassWord,mOtherPassWord;
     private String mToken;
     private TextView mLogin;
     @Override
@@ -48,6 +48,7 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
         mUserName = (EditText) findViewById(R.id.user_name_txt);
         mPassWord = (EditText) findViewById(R.id.password_txt);
+        mOtherPassWord = (EditText) findViewById(R.id.password_txt_two);
         mLogin = (TextView) findViewById(R.id.alter_sure_txt);
         TextView forgetPassword = (TextView) findViewById(R.id.forget_password_txt);
 
@@ -72,13 +73,18 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
             case R.id.alter_sure_txt:
                 String name = mUserName.getText().toString();
                 String password = mPassWord.getText().toString();
-                if (!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(password)){
-                    dialog = ManagerUtil.getDiaLog(this);
-                    LoginAsyn asyn = new LoginAsyn();
-                    asyn.execute(password,name,mToken);
-                }else {
-                    Toast.makeText(getApplicationContext(),"输入有误，请重新输入",Toast.LENGTH_SHORT).show();
+                String other = mOtherPassWord.getText().toString();
+                if (other.equals(password)){
+                    if (!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(password)){
+                        dialog = ManagerUtil.getDiaLog(this);
+                        LoginAsyn asyn = new LoginAsyn();
+                        asyn.execute(password,name,mToken);
+                    }else {
+                        Toast.makeText(getApplicationContext(),"输入有误，请重新输入",Toast.LENGTH_SHORT).show();
 //                    TSnackbar.make(mLogin,"输入有误，请重新输入！",TSnackbar.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(getApplicationContext(),"两次输入的密码不一样，请确认后再输入",Toast.LENGTH_SHORT);
                 }
                 break;
             case R.id.forget_password_txt:

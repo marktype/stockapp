@@ -11,6 +11,24 @@ public class TiaoCangInfo {
     private int tradeNumStart;    //交易量前
     private int tradeNumEnd;    //交易量后
     private String tradePrice;   //成交价
+    private String zuheName;    //组合名字
+    private String time;    //时间
+
+    public String getZuheName() {
+        return zuheName;
+    }
+
+    public void setZuheName(String zuheName) {
+        this.zuheName = zuheName;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public Boolean getBuyCome() {
         return isBuyCome;

@@ -262,7 +262,7 @@ public class StargDetial {
             private int Holding;
             private double Position;
             private int AveragePosition;
-            private double AverageTrading;
+            private Object AverageTrading;
             private int Favorites;
             private String CreateTime;
             private boolean IsShare;
@@ -480,11 +480,11 @@ public class StargDetial {
                 this.AveragePosition = AveragePosition;
             }
 
-            public double getAverageTrading() {
+            public Object getAverageTrading() {
                 return AverageTrading;
             }
 
-            public void setAverageTrading(double AverageTrading) {
+            public void setAverageTrading(Object AverageTrading) {
                 this.AverageTrading = AverageTrading;
             }
 

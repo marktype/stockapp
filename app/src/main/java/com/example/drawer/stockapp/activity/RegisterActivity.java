@@ -3,6 +3,7 @@ package com.example.drawer.stockapp.activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -88,7 +89,9 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
                 String phone = mUserName.getText().toString();
                 String password = mPassword.getText().toString();
                 verify = mVerify.getText().toString();
-                if (phone.length() == 11&& !TextUtils.isEmpty(verify)){
+                if (phone.length() != 11){
+                    Toast.makeText(getApplicationContext(),"手机号码写错了",Toast.LENGTH_SHORT).show();
+                }else if (!TextUtils.isEmpty(verify)){
                     if (mCheck.isChecked()){
                     dialog = ManagerUtil.getDiaLog(this);
                     RegisterAsyn getRegister = new RegisterAsyn();
@@ -162,45 +165,32 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
                 mGetVerify.setEnabled(true);
                 Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
             }else {
-                DaojiShiAsyn daojiShiAsyn = new DaojiShiAsyn();
-                daojiShiAsyn.execute(60);
+                TimeCount time = new TimeCount(60000, 1000);
+                time.start();// 开始计时
             }
 
         }
     }
 
+
     /**
      * 倒计时
      */
-    private class DaojiShiAsyn extends AsyncTask<Integer,Integer,String>{
-        @Override
-        protected String doInBackground(Integer... integers) {
-            int i= integers[0];
-            while(i>0){
-                if (!TextUtils.isEmpty(verify)){
-                    i= 1;
-                }
-                i--;
-                publishProgress(i);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                }
-            }
-            return null;
-        }
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            verify = mVerify.getText().toString();
-            mGetVerify.setText(values[0]+"秒后重新获取");
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        public void onFinish() {// 计时完毕
             mGetVerify.setText("发送验证码");
             mGetVerify.setEnabled(true);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {// 计时过程
+            mGetVerify.setEnabled(false);
+            mGetVerify.setText(millisUntilFinished / 1000+"秒后重新获取");
         }
     }
 

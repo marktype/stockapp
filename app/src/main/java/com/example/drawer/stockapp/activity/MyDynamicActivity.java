@@ -26,6 +26,7 @@ import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyGridView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.CommnetInfo;
+import com.example.drawer.stockapp.model.DynamicDetialInfo;
 import com.example.drawer.stockapp.model.TrendsInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
@@ -44,19 +45,23 @@ import java.util.List;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class MyDynamicActivity extends BascActivity implements View.OnClickListener{
-    public static final String DYNAMICINFO = "dynamicinfo";//获取动态数据
+    public static final String DYNAMICINFO = "dynamicinfoid";//获取动态数据id
     public static final String TYPE = "type";//获取类型数据
 //    private DynamicsInfo.ResultBean.ShareBean shareBean;
-    private TrendsInfo trendsInfo;
+//    private TrendsInfo trendsInfo;
     private DynamicInfoAdapter adapter;
     private CommnetInfo commnetInfo;
     private ListView mList;
     private int type;     //跳转类型
+    private String id;
     private EditText mCommentEdit;
-    private String mToken;
+    private String mToken,mImage;
     private ImageView mZanImg;
     private MyDialog dialog;
-    private TextView mComment,mZhuanFa,mLikes;
+    private TextView mComment,mZhuanFa,mLikes,name,content,time;
+    private MyGridView contentImage;
+    private ImageView head;
+    private Boolean flag;
     private Intent in = new Intent();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +70,15 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
 
         mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
         tintManager.setStatusBarTintResource(R.color.write_color);
-        trendsInfo = getIntent().getParcelableExtra(DYNAMICINFO);
+        id = getIntent().getStringExtra(DYNAMICINFO);
         type = getIntent().getIntExtra(TYPE,0);
         initWight();
         initSoftWindow(type);
         DynamicTask task = new DynamicTask();
         task.execute();
         dialog = ManagerUtil.getDiaLog(this);
+        DsyInfoAsyn dsyInfoAsyn = new DsyInfoAsyn();
+        dsyInfoAsyn.execute(id);
     }
 
     public void initWight(){
@@ -88,41 +95,42 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         mCommentEdit = (EditText) findViewById(R.id.dongtai_comment_edit);
 
         RelativeLayout layout = (RelativeLayout) headRelat.findViewById(R.id.zan_relate);
-        ImageView head = (ImageView) headRelat.findViewById(R.id.dongtai_image);
-        TextView name = (TextView) headRelat.findViewById(R.id.dongtai_name);
-        TextView content = (TextView) headRelat.findViewById(R.id.dongtai_content);
-        MyGridView contentImage = (MyGridView) headRelat.findViewById(R.id.dongtai_cntent_image);
-        TextView time = (TextView) headRelat.findViewById(R.id.dongtai_time);
+        head = (ImageView) headRelat.findViewById(R.id.dongtai_image);
+        name = (TextView) headRelat.findViewById(R.id.dongtai_name);
+        content = (TextView) headRelat.findViewById(R.id.dongtai_content);
+        contentImage = (MyGridView) headRelat.findViewById(R.id.dongtai_cntent_image);
+        time = (TextView) headRelat.findViewById(R.id.dongtai_time);
         mZhuanFa = (TextView) headRelat.findViewById(R.id.dongtai_zhuanfa);
         mComment = (TextView) headRelat.findViewById(R.id.dongtai_pinglun);
         mLikes = (TextView) headRelat.findViewById(R.id.dongtai_zan);
         mZanImg = (ImageView) headRelat.findViewById(R.id.dianzan_img);
 
+        content.setMaxLines(100);
+        content.setTextSize(14);
 //        ImageView mCollect = (ImageView) headRelat.findViewById(R.id.collect_info_img);
 
-        if (trendsInfo.getLikes()){
-            mZanImg.setImageResource(R.mipmap.y_dianzan);
-        }else {
-            mZanImg.setImageResource(R.mipmap.zan);
-        }
 
-        if (trendsInfo != null){
-            if (!TextUtils.isEmpty(trendsInfo.getImage())){
-                Picasso.with(this).load(trendsInfo.getImage()).into(head);
-            }
-            content.setMaxLines(100);
-            content.setTextSize(14);
-
-            ImageAdapter adapter = new ImageAdapter(this);
-            adapter.setData(trendsInfo.getContentImage());
-            contentImage.setAdapter(adapter);
-            name.setText(trendsInfo.getName());
-            content.setText(trendsInfo.getContent());
-            time.setText(trendsInfo.getTime());
-            mZhuanFa.setText(trendsInfo.getZhuanFaNum()+"");
-            mComment.setText(trendsInfo.getCommentNum()+"");
-            mLikes.setText(trendsInfo.getGoodNum()+"");
-        }
+//        if (trendsInfo != null){
+//            if (trendsInfo.getLikes()){
+//                mZanImg.setImageResource(R.mipmap.y_dianzan);
+//            }else {
+//                mZanImg.setImageResource(R.mipmap.zan);
+//            }
+//            if (!TextUtils.isEmpty(trendsInfo.getImage())){
+//                Picasso.with(this).load(trendsInfo.getImage()).into(head);
+//            }
+//
+//
+//            ImageAdapter adapter = new ImageAdapter(this);
+//            adapter.setData(trendsInfo.getContentImage());
+//            contentImage.setAdapter(adapter);
+//            name.setText(trendsInfo.getName());
+//            content.setText(trendsInfo.getContent());
+//            time.setText(trendsInfo.getTime());
+//            mZhuanFa.setText(trendsInfo.getZhuanFaNum()+"");
+//            mComment.setText(trendsInfo.getCommentNum()+"");
+//            mLikes.setText(trendsInfo.getGoodNum()+"");
+//        }
         ImageView mShare = (ImageView) findViewById(R.id.share_img);   //分享
 
         mList = (ListView) findViewById(R.id.dynamic_list);
@@ -162,18 +170,19 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                 initSoftWindow(type);
                 break;
             case R.id.zan_relate:
-                if (trendsInfo.getLikes()){
+                dialog = ManagerUtil.getDiaLog(this);
+                if (flag){
                     LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
-                    likeOrCollectAsyn.execute(trendsInfo.getId(),"3",mToken);
-                    mLikes.setText((Integer.parseInt(mLikes.getText().toString())-1)+"");
-                    mZanImg.setImageResource(R.mipmap.zan);
-                    trendsInfo.setLikes(false);
+                    likeOrCollectAsyn.execute(id,"3",mToken);
+//                    mLikes.setText((Integer.parseInt(mLikes.getText().toString())-1)+"");
+//                    mZanImg.setImageResource(R.mipmap.zan);
+//                    trendsInfo.setLikes(false);
                 }else {
                     LikeOrCollectAsyn likeOrCollectAsyn = new LikeOrCollectAsyn();
-                    likeOrCollectAsyn.execute(trendsInfo.getId(),"2",mToken);
-                    mLikes.setText((Integer.parseInt(mLikes.getText().toString())+1)+"");
-                    trendsInfo.setLikes(true);
-                    mZanImg.setImageResource(R.mipmap.y_dianzan);
+                    likeOrCollectAsyn.execute(id,"2",mToken);
+//                    mLikes.setText((Integer.parseInt(mLikes.getText().toString())+1)+"");
+//                    trendsInfo.setLikes(true);
+//                    mZanImg.setImageResource(R.mipmap.y_dianzan);
                 }
                 break;
 //            case R.id.collect_info_img:   //收藏
@@ -185,8 +194,67 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
 //                }
 //                break;
             case R.id.share_img:
-                showShare(trendsInfo.getName(),trendsInfo.getImage());
+                showShare(name.getText().toString(),mImage);
                 break;
+        }
+    }
+
+
+    /**
+     * 获取动态详情
+     */
+    private class DsyInfoAsyn extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HashMap<String,String> map = new HashMap<>();
+            map.put("Id", strings[0]);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer(mToken,map,HttpManager.DynamicDetail_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!TextUtils.isEmpty(s)){
+                Gson gson = new Gson();
+                DynamicDetialInfo newsDetial = gson.fromJson(s,DynamicDetialInfo.class);
+                if (newsDetial.getHead().getStatus() == 0){
+                   DynamicDetialInfo.ResultBean resultBean =  newsDetial.getResult();
+
+                    if (resultBean.isHasLike()){
+                        mZanImg.setImageResource(R.mipmap.y_dianzan);
+                    }else {
+                        mZanImg.setImageResource(R.mipmap.zan);
+                    }
+                    mImage = resultBean.getImgUrl();
+                    if (!TextUtils.isEmpty(mImage)){
+                        Picasso.with(MyDynamicActivity.this).load(mImage).into(head);
+                    }
+                    name.setText(resultBean.getNickName());
+                    content.setText(resultBean.getContent());
+                    time.setText(resultBean.getUpdateTime());
+                    mZhuanFa.setText(resultBean.getForward()+"");
+                    mComment.setText(resultBean.getComments()+"");
+                    mLikes.setText(resultBean.getLikes()+"");
+                    if (resultBean.isHasLike()){
+                        flag= true;
+                        mZanImg.setImageResource(R.mipmap.y_dianzan);
+                    }else {
+                        flag = false;
+                        mZanImg.setImageResource(R.mipmap.zan);
+                    }
+                    ArrayList<String> list = new ArrayList<>();
+                    for (int j = 0;j<resultBean.getImgs().size();j++){
+                        list.add(resultBean.getImgs().get(j));
+                    }
+                    ImageAdapter adapter = new ImageAdapter(MyDynamicActivity.this);
+                    adapter.setData(list);
+                    contentImage.setAdapter(adapter);
+
+
+                }
+            }
         }
     }
 
@@ -236,9 +304,9 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
             HashMap<String,String> map = new HashMap<>();
             map.put("PageIndex", "0");
             map.put("PageCount", "0");
-            map.put("PageSize", "0");
+            map.put("PageSize", "10000");
             hashMap.put("PageInfo",map);
-            hashMap.put("Id",trendsInfo.getId());
+            hashMap.put("Id",id);
             hashMap.put("Type","Comment");
             String message = HttpManager.newInstance().getHttpDataByThreeLayer(mToken,hashMap,HttpManager.COMMENT_LIST_URL);
             return message;
@@ -263,7 +331,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         for (int i = 0;i<data.size();i++){
             CommnetInfo.ResultBean.DataBean dataBean = data.get(i);
             TrendsInfo info = new TrendsInfo();
-            info.setFriendName(dataBean.getUsername());
+            info.setFriendName(dataBean.getNickName());
             info.setFriendContent(dataBean.getContent());
             info.setFriendImage(dataBean.getImgUrl());
             list.add(info);
@@ -308,16 +376,18 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                     inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
                 }
                 //点击进行逻辑处理
-                String key = mCommentEdit.getText().toString();
+                String key = mCommentEdit.getText().toString().trim();
                 if (type == 2){
                     Toast.makeText(getApplicationContext(),"该功能还在完善",Toast.LENGTH_SHORT).show();
 //                    mZhuanFa.setText((Integer.parseInt(mZhuanFa.getText().toString())+1)+"");
 //                    likeOrForwordAsyn.execute(shareBean.getId(),"Forward",key,mToken,HttpManager.Comment_URL);
-                }else {
+                }else if (!TextUtils.isEmpty(key)){
                     dialog = ManagerUtil.getDiaLog(MyDynamicActivity.this);
                     LikeOrForwordAsyn likeOrForwordAsyn = new LikeOrForwordAsyn();
                     mComment.setText((Integer.parseInt(mComment.getText().toString())+1)+"");
-                    likeOrForwordAsyn.execute(trendsInfo.getId(),"Comment",key,mToken,HttpManager.Comment_URL);
+                    likeOrForwordAsyn.execute(id,"Comment",key,mToken,HttpManager.Comment_URL);
+                }else {
+                    Toast.makeText(getApplicationContext(),"请输入要发表的内容",Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
@@ -441,6 +511,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            dialog.dismiss();
             if (!TextUtils.isEmpty(s)){
                 try {
                     JSONObject object = new JSONObject(s);
@@ -451,8 +522,8 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
 //                            TSnackbar.make(mCommentEdit,head.getString("Msg"),TSnackbar.LENGTH_SHORT).show();
                         }else {
 //                            Toast.makeText(context,"发布成功",Toast.LENGTH_SHORT).show();
-                            DynamicTask task = new DynamicTask();
-                            task.execute();
+                            DsyInfoAsyn task = new DsyInfoAsyn();
+                            task.execute(id);
                         }
                     }
                 } catch (JSONException e) {

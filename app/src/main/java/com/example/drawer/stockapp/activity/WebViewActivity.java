@@ -392,17 +392,19 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                 }
 
                 //点击进行逻辑处理
-                String key = mCommentEdit.getText().toString();
+                String key = mCommentEdit.getText().toString().trim();
                 LikeOrForwordAsyn likeOrForwordAsyn = new LikeOrForwordAsyn();
                 if (!TextUtils.isEmpty(mToken)){
                     if (type == 2){
                         Toast.makeText(getApplicationContext(),"该功能还在完善",Toast.LENGTH_SHORT).show();
 //                        likeOrForwordAsyn.execute(urlId,"Forward",key,mToken,HttpManager.News_Comment_URL);    //完善之后放开
-                    }else {
+                    }else if (!TextUtils.isEmpty(key)){
                         likeOrForwordAsyn.execute(urlId,"Comment",key,mToken,HttpManager.News_Comment_URL);
+                    }else {
+                        Toast.makeText(getApplicationContext(),"请输入要发表的内容",Toast.LENGTH_SHORT).show();
                     }
                 }else {
-                    Toast.makeText(getApplicationContext(),"你还未登陆，请先登录",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"您还未登陆，请先登录",Toast.LENGTH_SHORT).show();
                 }
 
                 return true;

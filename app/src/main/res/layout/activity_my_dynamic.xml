@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:hint="写下你的评论"
             android:gravity="center"
-            android:imeOptions="actionSend"
+            android:imeOptions="actionDone"
             android:layout_centerVertical="true"
             android:textColorHint="@android:color/darker_gray"
             android:background="@drawable/rect_circle_gray_shape"

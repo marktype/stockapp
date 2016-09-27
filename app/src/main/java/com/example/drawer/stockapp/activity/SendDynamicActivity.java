@@ -369,7 +369,7 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.send_dynamic_txt:
-                String edit = mEditTxt.getText().toString();
+                String edit = mEditTxt.getText().toString().trim();
                 if (edit.length()<1){
                     Toast.makeText(getApplicationContext(),"你还未输入内容哦",Toast.LENGTH_SHORT).show();
 //                    Snackbar.make(mSendTxt,"你还未输入内容哦",Snackbar.LENGTH_SHORT).show();

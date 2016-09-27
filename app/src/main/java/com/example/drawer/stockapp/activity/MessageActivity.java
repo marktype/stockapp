@@ -6,34 +6,44 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.adapter.MessageTiaoCangAdapter;
 import com.example.drawer.stockapp.htttputil.HttpManager;
+import com.example.drawer.stockapp.model.HistoryTiaoCangInfo;
+import com.example.drawer.stockapp.model.LastTiaoCangInfo;
 import com.example.drawer.stockapp.model.MessageInfo;
+import com.example.drawer.stockapp.model.NiuRenInfo;
+import com.example.drawer.stockapp.model.NiuRenListInfo;
+import com.example.drawer.stockapp.model.TiaoCangInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
+import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MessageActivity extends BascActivity implements AdapterView.OnItemClickListener{
+public class MessageActivity extends BascActivity{
     private MessageInfo messageInfo;
-    private ListView mList;
+    private ListView mList,tiaocangList;
+    private String mToken;
+    private MessageTiaoCangAdapter adapter;
+    private ArrayList<HistoryTiaoCangInfo> historyList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
+        mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
         setContentView(R.layout.activity_message);
-        tintManager.setStatusBarTintResource(R.color.write_color);
         initWight();
-        getMessageData();
+        getMyListData();
     }
 
     public void initWight(){
@@ -54,8 +64,22 @@ public class MessageActivity extends BascActivity implements AdapterView.OnItemC
             }
         });
 
-        mList = (ListView) findViewById(R.id.message_listview);
-        mList.setOnItemClickListener(this);
+        mList = (ListView) findViewById(R.id.system_list);
+        tiaocangList = (ListView) findViewById(R.id.message_list);
+
+        adapter = new MessageTiaoCangAdapter(this);
+
+//        mList.setOnItemClickListener(this);
+
+        tiaocangList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                HistoryTiaoCangInfo tiaoCangInfo = (HistoryTiaoCangInfo) adapterView.getAdapter().getItem(i);
+                Intent intent = new Intent(MessageActivity.this,HistoryRecordActivity.class);
+                intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,tiaoCangInfo.getId());
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -67,50 +91,139 @@ public class MessageActivity extends BascActivity implements AdapterView.OnItemC
         ManagerUtil.setStataBarColor(this,tintManager);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        String message = (String) adapterView.getAdapter().getItem(i);
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this,WebViewActivity.class);
-        startActivity(intent);
-    }
+//    @Override
+//    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//        String message = (String) adapterView.getAdapter().getItem(i);
+//        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+//        Intent intent = new Intent(this,WebViewActivity.class);
+//        startActivity(intent);
+//    }
 
     /**
-     * 获取消息一级页面
+     * 我的组合列表
      */
-    public void getMessageData(){
-        new AsyncTask(){
+    public void getMyListData() {
+        new AsyncTask() {
 
             @Override
             protected Object doInBackground(Object[] objects) {
-                HashMap<String,String> map = new HashMap<>();
-                map.put("Id", "0");
-                String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.Information_other_URL);
+                HashMap<String, String> map = new HashMap<>();
+                map.put("PageIndex", "0");
+                map.put("PageCount", "0");
+                map.put("PageSize", "0");
+                String message = HttpManager.newInstance().getHttpDataByTwoLayer(mToken, map, HttpManager.MyPorfolio_URL);
                 return message;
             }
-
 
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 String message = (String) o;
-                if (!TextUtils.isEmpty(message)){
+                if (!TextUtils.isEmpty(message)) {
                     Gson gson = new Gson();
-                    messageInfo = gson.fromJson(message, MessageInfo.class);
-                    if (messageInfo.getHead().getStatus()==0){
-                        ArrayList<String> list = new ArrayList<String>();
-                        List<MessageInfo.ResultBean.InfoBean> ben = messageInfo.getResult().getInfo();
-                        for (int i = 0;i<ben.size();i++){
-                            list.add(ben.get(i).getTitle());
-                        }
-                        if (list.size()>0){
-                            ArrayAdapter adapter = new ArrayAdapter(MessageActivity.this,R.layout.txt_item_layout,list);
-                            mList.setAdapter(adapter);
-                        }
-                    }
+                    NiuRenListInfo niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
+                    if (niuRenListInfo.getHead().getStatus() == 0) {
+                       setMyZuHeData(niuRenListInfo);
+                    }else {
 
+                    }
                 }
+
             }
         }.execute();
     }
+
+    private ArrayList<NiuRenInfo> myInfoList;
+    /**
+     * 初始化我的组合数据
+     *
+     * @return
+     */
+    public ArrayList<NiuRenInfo> setMyZuHeData(NiuRenListInfo niuRenListInfo) {
+        long nowTime = System.currentTimeMillis();
+        myInfoList = new ArrayList<>();   //我的组合信息
+        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+        List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfo.getResult().getStrategies();
+        for (int i = 0; i < starPorfolioBeen.size(); i++) {
+            NiuRenListInfo.ResultBean.StrategiesBean ben = starPorfolioBeen.get(i);
+            NiuRenInfo info = new NiuRenInfo();
+            info.setNiurenName(ben.getTitle());
+            info.setId(ben.getId());
+            info.setShouyiRate(Double.parseDouble(df.format(ben.getTotleReturns())));
+            info.setStockType(ben.getDesc());
+            info.setTradeTime(ben.getFavorites() + "");
+            if (ben.getPorfolioChooseType() == 1){
+                info.setZuheType(ben.getPorfolioChooseType());
+                if (nowTime>ManagerUtil.getTime(ben.getRecuitmentStartTime())&&nowTime<ManagerUtil.getTime(ben.getRunStartDay())){
+                    info.setType(0);    //招募中
+                }else if (nowTime>ManagerUtil.getTime(ben.getRecuitmentStartTime())&&nowTime>ManagerUtil.getTime(ben.getRunStartDay())&&nowTime<ManagerUtil.getTime(ben.getRunEndDay())){
+                    info.setType(1);   //运行中
+                }else if (nowTime>ManagerUtil.getTime(ben.getRecuitmentStartTime())&&nowTime>ManagerUtil.getTime(ben.getRunStartDay())&&nowTime>ManagerUtil.getTime(ben.getRunEndDay())){
+                    info.setType(2);   //已结束
+                }
+                myInfoList.add(info);
+                LastTradeAsyn lastTradeAsyn = new LastTradeAsyn();
+                lastTradeAsyn.execute(ben.getId(),ben.getTitle());
+            }
+        }
+        return myInfoList;
+    }
+
+
+    private String title,id;
+    /**
+     * 最后一次调仓
+     */
+    private class LastTradeAsyn extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HashMap<String, String> map = new HashMap<>();
+            id = strings[0];
+            map.put("id", id);
+            title = strings[1];
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer("", map, HttpManager.LastTrades_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!TextUtils.isEmpty(s)){
+                Gson gson = new Gson();
+                LastTiaoCangInfo lastTiaoCangInfo = gson.fromJson(s,LastTiaoCangInfo.class);
+                if (lastTiaoCangInfo.getHead().getStatus() == 0){
+                    List<LastTiaoCangInfo.ResultBean> Result = lastTiaoCangInfo.getResult();
+                    HistoryTiaoCangInfo historyTiaoCangInfo = new HistoryTiaoCangInfo();
+                    ArrayList<TiaoCangInfo> tiaoCnagList = new ArrayList<>();
+                    for (int i = 0;i<Result.size();i++){
+                        TiaoCangInfo info = new TiaoCangInfo();
+                        if (Result.get(i).getTradeType() == 0){
+                            info.setBuyCome(true);
+                        }else {
+                            info.setBuyCome(false);
+                        }
+                        info.setStockName(Result.get(i).getName());
+                        info.setStockNum(Result.get(i).getCode());
+                        info.setTradeNumStart(0);
+                        info.setTradeNumEnd(Result.get(i).getVolume());
+                        info.setTradePrice(Result.get(i).getPrice()+"");
+                        historyTiaoCangInfo.setTime(Result.get(i).getTradeTime());
+                        tiaoCnagList.add(info);
+                    }
+                    if (Result.size()>0){
+                        historyTiaoCangInfo.setId(id);
+                        historyTiaoCangInfo.setTitle(title);
+                        historyTiaoCangInfo.setList(tiaoCnagList);
+                        historyList.add(historyTiaoCangInfo);
+                    }
+                    adapter.setData(historyList);
+                    tiaocangList.setAdapter(adapter);
+                    }
+                }
+            }
+
+        }
+
+
 }

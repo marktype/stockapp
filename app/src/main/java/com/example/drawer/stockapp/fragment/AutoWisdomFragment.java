@@ -1,6 +1,9 @@
 package com.example.drawer.stockapp.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -69,6 +72,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private static final String ARG_PARAM2 = "param2";
     public static final String CELUENAME = "celuename";
     public static final String ZUHETYPE = "type";
+    public static final String BROAD_TYPE = "com.stock.flash";   //发送广播
     private View mView, liangHuaZuHeView, niuRenZuHeView, myZuHeView, mSliderVIew, mSliderVIewTwo, mSliderVIewThree;
     private ViewPager mPager;
     private CeLueAdapter ceLueAdapter;
@@ -78,7 +82,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private RelativeLayout mTitle;
     private ImageView mMessage, mSearch;
     private String mToken;
-    private ImageView mLogin;
+    private ImageView mLogin,mImageNoDataOne,mImageNoDataTwo,mImageNoDataThree;
     private SharedPreferences sp,imageSp;
     private ArrayList<CeLueInfo> ceLueInfosSave;
     private NiuRenAdapter niuRenAdapter;
@@ -118,7 +122,30 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        /**
+         * 跟投，订阅，创建等是否刷新
+         */
+        IntentFilter filter = new IntentFilter();
+        // 向过滤器中添加action
+        filter.addAction(BROAD_TYPE);
+        // 注册广播
+        getContext().registerReceiver(isFlashBroad, filter);
     }
+
+    private Boolean isFlash = false;
+    /**
+     * 广播接收者
+     */
+    private BroadcastReceiver isFlashBroad = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            isFlash = true;
+        }
+
+    };
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -162,22 +189,28 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             niuRenInfosSave.clear();
             niuRenListInfo = null;
         }
+        if (isFlashBroad != null){
+            getContext().unregisterReceiver(isFlashBroad);
+        }
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
         SystemBarTintManager tintManager = ManagerUtil.newInstance(getActivity());
         ManagerUtil.setStataBarColorWhite(getActivity(), tintManager);
-
         mToken = sp.getString(ShapePreferenceManager.TOKEN,null);
         if (tokenOld == null &&TextUtils.isEmpty(tokenOld)){
             tokenOld = mToken;
         }
-        Log.d("tag","mtoken---------"+mToken+"------old---"+tokenOld);
         if (!TextUtils.isEmpty(mToken)){
             if (tokenOld.equals(mToken)){
-                if (niuRenListInfoMySave == null){
+                if (isFlash){
+                    myListSave = new ArrayList<>();
+                    mLogin.setVisibility(View.GONE);
+                    getMyListData();
+                }else if (niuRenListInfoMySave == null){
                     myListSave = new ArrayList<>();
                     mLogin.setVisibility(View.GONE);
                     getMyListData();
@@ -252,6 +285,15 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         liangHuaZuHeView = mInflater.inflate(R.layout.lianghuacelue_layout, null);      //量化策略
         niuRenZuHeView = mInflater.inflate(R.layout.niurenzuhe_layout, null);          //牛人组合
         myZuHeView = mInflater.inflate(R.layout.my_zuhe_layout, null);                //我的组合
+
+        mImageNoDataOne = (ImageView) liangHuaZuHeView.findViewById(R.id.loading_failed);
+        mImageNoDataTwo = (ImageView) niuRenZuHeView.findViewById(R.id.loading_failed_two);
+        mImageNoDataThree = (ImageView) myZuHeView.findViewById(R.id.loading_failed_three);
+
+        mImageNoDataOne.setOnClickListener(this);
+        mImageNoDataTwo.setOnClickListener(this);
+        mImageNoDataThree.setOnClickListener(this);
+
         viewList.add(liangHuaZuHeView);
         viewList.add(niuRenZuHeView);
         viewList.add(myZuHeView);
@@ -486,6 +528,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     }
                 }else {
                     Toast.makeText(getActivity(),"获取数据失败",Toast.LENGTH_SHORT).show();
+                    mImageNoDataOne.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -531,6 +574,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                             Toast.makeText(getActivity(),"没有更多了",Toast.LENGTH_SHORT).show();
                         }
                     }
+                }else {
+                    mImageNoDataTwo.setVisibility(View.VISIBLE);
                 }
             }
         }.execute();
@@ -594,7 +639,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 protected void onPostExecute(Object o) {
                     super.onPostExecute(o);
                     onLoadMy();
-
                     String message = (String) o;
                     if (!TextUtils.isEmpty(message)) {
                         Gson gson = new Gson();
@@ -631,9 +675,11 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setTradeTime(ben.getFavorites()+"");
             niurenList.add(info);
         }
-        myListSave = niurenList;
-        myZuHeAdapter.setData(niurenList);
-        myList.setAdapter(myZuHeAdapter);
+        if (niurenList.size()>0){
+            myListSave = niurenList;
+            myZuHeAdapter.setData(niurenList);
+            myList.setAdapter(myZuHeAdapter);
+        }
     }
 
     /**
@@ -648,7 +694,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 
             CeLueInfo info = new CeLueInfo();
             info.setId(ben.getId());
-            info.setCeluePersent(ben.getTotalReturn()+"");
             info.setTitle(ben.getName());
             info.setJingZhiNum(ben.getTargetReturns() + "%");
             info.setMaxNum(ben.getMaxDay() + "天");
@@ -661,12 +706,15 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setEndRecruit(ben.isIsEndRecruit());      //招募是否结束
             info.setStartInvestment(ben.isIsStartInvestment());   //运行是否结束
             if (ben.isIsStartRecruit()){   //招募中
+                info.setCeluePersent(ben.getRecruitment()+"");
                 info.setType(2);
                 ceLueInfos.add(info);
             }else if (ben.isIsStartInvestment()&&ben.isIsStartRun()&&ben.getRunEndDay() == null){//运行中
+                info.setCeluePersent(ben.getTotalReturn()+"");
                 info.setType(1);
                 ceLueInfos.add(info);
             }else if (ben.isIsEndInvestment()||ben.getRunEndDay() != null){   //已结束
+                info.setCeluePersent(ben.getTotalReturn()+"");
                 info.setType(3);
                 ceLueInfos.add(info);
             }
@@ -850,6 +898,14 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             case R.id.my_zuhe_img:
                 intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.loading_failed:
+                mImageNoDataOne.setVisibility(View.GONE);
+                getCelueInfo(page);
+                break;
+            case R.id.loading_failed_two:
+                mImageNoDataTwo.setVisibility(View.GONE);
+                getNiuRenListData(niurenPage);
                 break;
         }
     }

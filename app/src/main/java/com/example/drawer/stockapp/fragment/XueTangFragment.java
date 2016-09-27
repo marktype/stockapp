@@ -43,6 +43,7 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
     private XueTangInfo findInfo;
     private  ArrayList<HeadIndex> listSave;
     private int page;
+    private ImageView mNoDataImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,6 +91,10 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
         mSearch.setOnClickListener(this);
 
         mList = (XListView) mView.findViewById(R.id.xuetang_list);   //学堂列表
+        mNoDataImage = (ImageView) mView.findViewById(R.id.loading_failed);
+
+        mNoDataImage.setOnClickListener(this);
+
         adapter = new HeJiAdapter(getActivity());
 
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -140,6 +145,11 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
                 intent = new Intent(getActivity(), SerchActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.loading_failed:
+                mNoDataImage.setVisibility(View.GONE);
+                SchoolFindAsyn schoolFindAsyn = new SchoolFindAsyn();
+                schoolFindAsyn.execute(page+"");
+                break;
         }
     }
 
@@ -166,6 +176,8 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
                 Gson gson = new Gson();
                 findInfo = gson.fromJson(s,XueTangInfo.class);
                 parseData(findInfo);
+            }else {
+                mNoDataImage.setVisibility(View.VISIBLE);
             }
         }
     }

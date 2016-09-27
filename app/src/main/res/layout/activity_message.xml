@@ -25,10 +25,98 @@
             android:padding="@dimen/margin_10dp"
             android:textSize="@dimen/content_text_size"/>
 
+
+    </RelativeLayout>
+    <!--<ListView-->
+        <!--android:layout_below="@id/all_message_title"-->
+        <!--android:id="@+id/message_listview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
+    <RelativeLayout
+        android:id="@+id/system_message"
+        android:layout_below="@+id/all_message_title"
+        android:layout_width="match_parent"
+        style="@style/MyContentStyle"
+        android:background="@color/write_color"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/icon_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/system_message"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="系统消息"
+            android:id="@+id/system_txt"
+            android:layout_marginLeft="@dimen/margin_20dp"
+            android:textColor="@android:color/black"
+            android:layout_toRightOf="@id/icon_image"
+            />
+        <TextView
+            android:text="2016.09.26"
+            android:gravity="right"
+            android:layout_marginRight="@dimen/margin_30dp"
+            android:textSize="@dimen/my_txt_size"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:src="@mipmap/arrowright"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_20dp"
+            android:text="最新系统消息"
+            android:maxLength="18"
+            android:ellipsize="end"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:textSize="@dimen/my_txt_size"
+            android:layout_below="@id/system_txt"
+            android:layout_toRightOf="@id/icon_image"
+            />
+        <ListView
+            android:id="@+id/system_list"
+            android:visibility="gone"
+            android:layout_below="@+id/icon_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/now_info"
+        android:layout_below="@id/system_message"
+        style="@style/MyContentStyle"
+        android:background="@color/write_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/now_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/tiaochang_zuixin"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_20dp"
+            android:textColor="@android:color/black"
+            android:text="组合最新调仓"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/now_image"
+            />
+
     </RelativeLayout>
     <ListView
-        android:layout_below="@id/all_message_title"
-        android:id="@+id/message_listview"
+        android:layout_below="@id/now_info"
+        android:id="@+id/message_list"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:layout_marginLeft="@dimen/margin_15dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"></ListView>
 </RelativeLayout>
