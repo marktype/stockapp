@@ -128,22 +128,49 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         StargDetial.ResultBean.TransferPositionsBean transferPositionsBean = starDetailInfo.getResult().getTransferPositions();
         mLikes.setText(porfolioInfoBean.getFavorites()+"");
         mBuildTime.setText("创建于："+porfolioInfoBean.getCreateTime());
+        if (porfolioInfoBean.getTotleReturns()>0){
+            mTotal.setTextColor(getResources().getColor(R.color.red));
+        }else if (porfolioInfoBean.getTotleReturns()<0){
+            mTotal.setTextColor(getResources().getColor(R.color.green_color));
+        }
+        if (porfolioInfoBean.getReturn()>0){
+            mDataNum.setTextColor(getResources().getColor(R.color.red));
+        }else if (porfolioInfoBean.getReturn()<0){
+            mDataNum.setTextColor(getResources().getColor(R.color.green_color));
+        }
+        if (porfolioInfoBean.getMonthlyAverage()>0){
+            mMonthNum.setTextColor(getResources().getColor(R.color.red));
+        }else if (porfolioInfoBean.getMonthlyAverage()<0){
+            mMonthNum.setTextColor(getResources().getColor(R.color.green_color));
+        }
         mTotal.setText(df.format(porfolioInfoBean.getTotleReturns())+"");
         mDataNum.setText(df.format(porfolioInfoBean.getReturn())+"%");
         mMonthNum.setText(df.format(porfolioInfoBean.getMonthlyAverage())+"%");
         mJingZhi.setText(df.format(porfolioInfoBean.getNetValue()/1000000)+"");
         mAdavce.setText(porfolioInfoBean.getDesc());
-        if (porfolioInfoBean.getUserImgUrl() != null&&!TextUtils.isEmpty(porfolioInfoBean.getUserImgUrl())){
-            Picasso.with(this).load(porfolioInfoBean.getUserImgUrl()).into(mStarImage);
+//        if (porfolioInfoBean.getUserImgUrl() != null&&!TextUtils.isEmpty(porfolioInfoBean.getUserImgUrl())){
+            Picasso.with(this).load(porfolioInfoBean.getUserImgUrl()).placeholder(R.mipmap.img_place).into(mStarImage);
+//        }
+
+        if (porfolioInfoBean.getNickName() != null&&!TextUtils.isEmpty(porfolioInfoBean.getNickName())){
+            mNiuRenName.setText(porfolioInfoBean.getNickName());
+        }else {
+            mNiuRenName.setText("实盈量化策略");
         }
 
-        mNiuRenName.setText(porfolioInfoBean.getNickName());
 //        if (achievemntBean.getLastTime() != null&&!TextUtils.isEmpty(achievemntBean.getLastTime())){
 //            mLastTime.setText("（最后评估时间："+achievemntBean.getLastTime()+")");
 //        }else {
 //            mLastTime.setText("（最后评估时间：暂无)");
 //        }
-        mflashTime.setText("("+transferPositionsBean.getLastTime()+")");
+        if (transferPositionsBean.getLastTime() != null&&!TextUtils.isEmpty(transferPositionsBean.getLastTime())){
+            mflashTime.setText("("+transferPositionsBean.getLastTime()+")");
+            mSeeHistory.setVisibility(View.VISIBLE);
+        }else {
+            mflashTime.setText("(暂无调仓信息)");
+            mSeeHistory.setVisibility(View.GONE);
+        }
+
         List<StargDetial.ResultBean.TransferPositionsBean.TransferPositionsInfoBean> list = transferPositionsBean.getTransferPositionsInfo();
 
         ArrayList<TiaoCangInfo> listInfo = new ArrayList<>();
@@ -751,7 +778,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         //模拟第二组组y轴数据(存放y轴数据的是一个Entry的ArrayList) 他是构建LineDataSet的参数之一
 
         ArrayList<Entry> yValue1 = new ArrayList<>();
-        for (int i = 0; i < ImgData.size(); i++) {
+        for (int i = 0; i < BenchmarkImgData.size(); i++) {
             StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean benchmarkImgDataBean = BenchmarkImgData.get(i);
             yValue1.add(new Entry(Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())), i));
         }

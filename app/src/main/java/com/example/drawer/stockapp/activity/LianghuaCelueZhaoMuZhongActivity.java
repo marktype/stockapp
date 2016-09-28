@@ -61,7 +61,8 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
     private String LiangHuaId;    //量化id
     private MyDialog dialog;
     private EditText mWriteGentouMoney;
-    private double targetshouyi,fengchengRate,totalMoney,money;
+    private double targetshouyi,fengchengRate,money;
+    private int totalMoney;
     private String mToken;
     private TextView mGentou;
     private int type;
@@ -117,7 +118,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         mFenCheng = (TextView) findViewById(R.id.fencheng_money);  //分成费
         mGentouMoney = (TextView) findViewById(R.id.gentou_money);   //跟投金额
         TextView mFencheng = (TextView) findViewById(R.id.fengcheng_detial);   //分成信息
-        mStartEndMoney = (TextView) findViewById(R.id.gentou_qujian);   //跟投区间
+//        mStartEndMoney = (TextView) findViewById(R.id.gentou_qujian);   //跟投区间
         mWriteGentouMoney = (EditText) findViewById(R.id.write_start_money);   //输入跟投金额
         mTargetMoney = (TextView) findViewById(R.id.target_money);   //目标收益
         mfenchengMoney = (TextView) findViewById(R.id.fengcheng_money);   //分成的收益
@@ -138,10 +139,13 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         canvasViewThree.setRadius(DensityUtils.dp2px(this,40));
 
         ImageView mDeleteImg = (ImageView) findViewById(R.id.changjianwenti_txt);  //取消跟投
+        mGentou = (TextView) findViewById(R.id.now_gentou);   //跟投
         if (type == 1){
             mDeleteImg.setVisibility(View.VISIBLE);
+            mGentou.setVisibility(View.GONE);
         }else {
             mDeleteImg.setVisibility(View.GONE);
+            mGentou.setVisibility(View.VISIBLE);
         }
 
         //跟投
@@ -149,7 +153,6 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         genTouAdapter = new GenTouAdapter(this);
 
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
-        mGentou = (TextView) findViewById(R.id.now_gentou);   //跟投
 
         mBackimg.setOnClickListener(this);
         mFencheng.setOnClickListener(this);
@@ -178,12 +181,13 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                     money = 0;
                 }
                 if (money>totalMoney){
-                    mGentouMoney.setText("0 元");
+//                    mGentouMoney.setText("0 元");
                     money = totalMoney;
                     mWriteGentouMoney.setText(totalMoney+"");
-                }else {
-                    mGentouMoney.setText(df.format(totalMoney-money)+" 元");
                 }
+//                else {
+//                    mGentouMoney.setText(df.format(totalMoney-money)+" 元");
+//                }
                 mTargetMoney.setText("目标收益  "+money*targetshouyi/100);
                 mfenchengMoney.setText("  分成费 "+df.format((money*targetshouyi/100)*fengchengRate/100));
             }
@@ -209,7 +213,13 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                 getDiaLogInfo();
                 break;
             case R.id.now_gentou:
-                if (!TextUtils.isEmpty(mToken)){
+                if (TextUtils.isEmpty(mToken)){
+                    Toast.makeText(getApplicationContext(),"您还未登陆，请先登录",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this,LoginActivity.class);
+                    startActivity(intent);
+                }else if (totalMoney == 0){
+                    Toast.makeText(getApplicationContext(),"该组合已募集满",Toast.LENGTH_SHORT).show();
+                }else {
                     GentouAsyn gentouAsyn = new GentouAsyn();
                     if (money>0){
                         dialog = ManagerUtil.getDiaLog(this);
@@ -218,10 +228,6 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                         Toast.makeText(getApplicationContext(),"跟投金额必须大于0",Toast.LENGTH_SHORT).show();
 //                        TSnackbar.make(mGentou,"跟投余额必须大于0！",TSnackbar.LENGTH_SHORT).show();
                     }
-                }else {
-                    Toast.makeText(getApplicationContext(),"您还未登陆，请先登录",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this,LoginActivity.class);
-                    startActivity(intent);
                 }
                 break;
             case R.id.changjianwenti_txt:
@@ -369,22 +375,22 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
 
             StargDetial.ResultBean.PorfolioDetailBean proinfo = stargDetial.getResult().getPorfolioDetail();
             StargDetial.ResultBean.PorfolioInfoBean infoBean = stargDetial.getResult().getPorfolioInfo();
-            if (infoBean.getPorfolioAmount()>10000){
+            if (infoBean.getPorfolioAmount()>=10000){
                 mLimitMoney.setText(df.format(infoBean.getPorfolioAmount()/10000)+"万元");
             }else {
                 mLimitMoney.setText(df.format(infoBean.getPorfolioAmount())+"元");
             }
-            if (infoBean.getMostFollow()>10000){
+            if (infoBean.getMostFollow()>=10000){
                 mStartMoney.setText(df.format(infoBean.getMostFollow()/10000)+"万元");
             }else {
                 mStartMoney.setText(df.format(infoBean.getMostFollow())+"元");
             }
 
-            if (infoBean.getPorfolioType() == 0){
+            if (proinfo.getPorfolioType() == 0){
                 mType.setText("短线");
-            }else if (infoBean.getPorfolioType() == 1){
+            }else if (proinfo.getPorfolioType() == 1){
                 mType.setText("中线");
-            }else if (infoBean.getPorfolioType() == 2){
+            }else if (proinfo.getPorfolioType() == 2){
                 mType.setText("长线");
             }
             if (infoBean.getRecruitType() == 0){
@@ -398,10 +404,12 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             mMuJiTime.setText(infoBean.getRecuitmentStartTime().substring(0,10)+"至"+infoBean.getRecuitmentEndTime().substring(0,10));
             mRunTime.setText(infoBean.getRunStartDay().substring(0,10)+"至"+infoBean.getRunTargetEndDay().substring(0,10));
 
-            if (proinfo.getStartAmount()>10000){
-                mStartEndMoney.setText("跟投区间"+proinfo.getStartAmount()/10000+"万-"+proinfo.getLimtAmount()/10000+"万(虚拟资金)");
+            if (proinfo.getStartAmount()>=10000){
+                mWriteGentouMoney.setHint("跟投范围"+proinfo.getStartAmount()/10000+"万-"+proinfo.getLimtAmount()/10000+"万(虚拟资金)");
+//                mStartEndMoney.setText("跟投区间"+proinfo.getStartAmount()/10000+"万-"+proinfo.getLimtAmount()/10000+"万(虚拟资金)");
             }else {
-                mStartEndMoney.setText("跟投区间"+proinfo.getStartAmount()+"元-"+proinfo.getLimtAmount()+"元(虚拟资金)");
+                mWriteGentouMoney.setHint("跟投范围"+proinfo.getStartAmount()+"元-"+proinfo.getLimtAmount()+"元(虚拟资金)");
+//                mStartEndMoney.setText("跟投区间"+proinfo.getStartAmount()+"元-"+proinfo.getLimtAmount()+"元(虚拟资金)");
             }
 
             StargDetial.ResultBean.StarInfoBean starInfoBean = stargDetial.getResult().getStarInfo();
@@ -415,7 +423,12 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             }else {
                 mFenCheng.setText(infoBean.getShareRatio()+"%");
             }
-            mNiurenName.setText(starInfoBean.getName());
+            if (starInfoBean.getName() != null&&!TextUtils.isEmpty(starInfoBean.getName())){
+                mNiurenName.setText(starInfoBean.getName());
+            }else {
+                mNiurenName.setText("实盈量化策略");
+            }
+
             Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
             mParsent.setText(infoBean.getTargetReturns()+"%");
             targetshouyi = infoBean.getTargetReturns();
@@ -424,8 +437,8 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             mZuHeName.setText(infoBean.getTitle());
             mRunDay.setText(infoBean.getMaxDay()+"天");
             mZhisunXian.setText(infoBean.getStopLoss()+"%");
-            mGentouMoney.setText(df.format(infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount())+"元");
-            totalMoney = infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount();
+            mGentouMoney.setText((int)(infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount())+"元");
+            totalMoney = (int)(infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount());
         }
     }
 

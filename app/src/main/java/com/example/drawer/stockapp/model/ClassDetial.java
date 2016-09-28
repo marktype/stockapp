@@ -98,8 +98,17 @@ public class ClassDetial {
             private int Forward;
             private int Comments;
             private int Favorites;
-            private Object TargetUrl;
+            private int Likes;
+            private String TargetUrl;
             private Boolean HasLike;
+
+            public int getLikes() {
+                return Likes;
+            }
+
+            public void setLikes(int likes) {
+                Likes = likes;
+            }
 
             public Boolean getHasLike() {
                 return HasLike;
@@ -157,11 +166,11 @@ public class ClassDetial {
                 this.Favorites = Favorites;
             }
 
-            public Object getTargetUrl() {
+            public String getTargetUrl() {
                 return TargetUrl;
             }
 
-            public void setTargetUrl(Object TargetUrl) {
+            public void setTargetUrl(String TargetUrl) {
                 this.TargetUrl = TargetUrl;
             }
         }

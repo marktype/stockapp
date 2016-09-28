@@ -129,6 +129,7 @@
             android:layout_centerVertical="true"
             android:background="@color/write_color"
             android:hint="密码"
+            android:maxLength="18"
             android:textCursorDrawable="@null"
             android:textSize="@dimen/title_text_size"
             android:inputType="textPassword"

@@ -205,21 +205,27 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             tokenOld = mToken;
         }
         if (!TextUtils.isEmpty(mToken)){
+            Log.d("tag","11111111111111");
             if (tokenOld.equals(mToken)){
+                Log.d("tag","2222222222");
                 if (isFlash){
+                    Log.d("tag","3333333333333");
                     myListSave = new ArrayList<>();
                     mLogin.setVisibility(View.GONE);
                     getMyListData();
                 }else if (niuRenListInfoMySave == null){
+                    Log.d("tag","4444444444444444");
                     myListSave = new ArrayList<>();
                     mLogin.setVisibility(View.GONE);
                     getMyListData();
                 }else {
+                    Log.d("tag","555555555555");
                     mLogin.setVisibility(View.GONE);
                     myZuHeAdapter.setData(myListSave);
                     myList.setAdapter(myZuHeAdapter);
                 }
             }else {
+                Log.d("tag","6666666666666666666");
                 myListSave = new ArrayList<>();
                 mLogin.setVisibility(View.GONE);
                 getMyListData();
@@ -715,6 +721,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 ceLueInfos.add(info);
             }else if (ben.isIsEndInvestment()||ben.getRunEndDay() != null){   //已结束
                 info.setCeluePersent(ben.getTotalReturn()+"");
+                info.setEndStatus(ben.getRunEndState());
                 info.setType(3);
                 ceLueInfos.add(info);
             }
@@ -823,6 +830,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     Intent intent = new Intent(getActivity(), LiangHuaCelueDetialActivity.class);
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,celueinfo.getTitle()+"（已结束）");
+                    intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_STATUS,celueinfo.getEndStatus());
                     intent.putExtra(LiangHuaCelueDetialActivity.TYPE,4);
                     startActivity(intent);
                 }else {

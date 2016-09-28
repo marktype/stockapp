@@ -9,14 +9,29 @@
 package com.example.drawer.stockapp.wxapi;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
 import cn.sharesdk.wechat.utils.WXAppExtendObject;
 import cn.sharesdk.wechat.utils.WXMediaMessage;
 import cn.sharesdk.wechat.utils.WechatHandlerActivity;
 
 /** 微信客户端回调activity示例 */
 public class WXEntryActivity extends WechatHandlerActivity {
+	private IWXAPI api;
+	@Override public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
+		Log.d("tag","wacht----------");
+		// 通过WXAPIFactory工厂，获取IWXAPI的实例
+		api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, false);
+//		api.handleIntent(getIntent(), (IWXAPIEventHandler) this);
+		api.registerApp(Constants.APP_ID);
+	}
 	/**
 	 * 处理微信发出的向第三方应用请求app message
 	 * <p>

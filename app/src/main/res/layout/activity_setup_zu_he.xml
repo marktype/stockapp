@@ -90,7 +90,7 @@
                     android:id="@+id/edit_jianjie_text"
                     android:layout_toRightOf="@id/jianjie_name"
                     android:hint="你的组合简介"
-                    android:layout_alignBaseline="@id/jianjie_name"
+                    android:layout_below="@+id/edit_name"
                     android:textSize="@dimen/my_txt_size"
                     android:padding="@dimen/margin_10dp"
                     android:maxLines="10"

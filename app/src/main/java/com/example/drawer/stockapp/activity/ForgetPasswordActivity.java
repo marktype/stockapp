@@ -96,7 +96,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                 }
                 if (phone.length() != 11){
                     Toast.makeText(getApplicationContext(),"手机号码写错了",Toast.LENGTH_SHORT).show();
-                }else if (!TextUtils.isEmpty(verify)){
+                }else if (TextUtils.isEmpty(verify)){
                     Toast.makeText(getApplicationContext(),"验证码写错了",Toast.LENGTH_SHORT).show();
                 }else if (!other.equals(password)){
 //                    TSnackbar.make(mSureTxt,"输入有误！",TSnackbar.LENGTH_SHORT).show();

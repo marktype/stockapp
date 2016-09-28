@@ -243,14 +243,14 @@
                     android:textColor="@android:color/black"
                     android:id="@+id/gentou_txt"
                     android:text="跟投金额"/>
-                <TextView
-                    android:id="@+id/gentou_qujian"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignBaseline="@id/gentou_txt"
-                    android:text="(跟投金额500-1000)（虚拟资金）"
-                    android:textSize="@dimen/min_txt_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <!--<TextView-->
+                    <!--android:id="@+id/gentou_qujian"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_alignBaseline="@id/gentou_txt"-->
+                    <!--android:text="(跟投金额500-1000)（虚拟资金）"-->
+                    <!--android:textSize="@dimen/min_txt_size"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content" />-->
                 <TextView
                     android:id="@+id/yuan_txt"
                     android:layout_width="wrap_content"
@@ -265,11 +265,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/write_start_money"
-                    android:gravity="end"
+                    android:gravity="center"
                     android:inputType="number"
+                    android:hint="(跟投金额500-1000)（虚拟资金）"
+                    android:layout_alignBaseline="@id/gentou_txt"
                     android:paddingRight="@dimen/margin_10dp"
-                    android:textSize="@dimen/title_text_size"
-                    android:layout_toRightOf="@id/gentou_qujian"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="@dimen/min_txt_size"
+                    android:layout_toRightOf="@id/gentou_txt"
                     android:layout_toLeftOf="@id/yuan_txt"/>
                 <TextView
                     android:layout_width="match_parent"
@@ -445,7 +448,6 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/success"
                         android:textSize="@dimen/my_txt_size"
-                        android:layout_marginTop="@dimen/margin_5dp"
                         android:layout_marginLeft="@dimen/margin_10dp"
                         android:layout_marginBottom="@dimen/margin_10dp"
                         android:text="@string/time_failed_txt" />

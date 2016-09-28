@@ -76,7 +76,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
     protected SystemBarTintManager tintManager;
     private String token,userId;
     private SharedPreferences sharedPreferences;
-    private TextView mSexTxt,scoreTxt,mFansTxt,mAttionTxt,mCollectTxt,mUserName;
+    private TextView mSexTxt,scoreTxt,mFansTxt,mAttionTxt,mCollectTxt,mUserName,mUserNameNext;
     private CircleImageView circleImageView;
     private ImageView mNologin;
     private MyReboundScrollView mScrollview;
@@ -155,7 +155,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
 
 
         TextView mExit = (TextView) mView.findViewById(R.id.exit_txt);    //退出
-
+        mUserNameNext = (TextView) mView.findViewById(R.id.user_name_txt);  //昵称
         //不设置渐变
 //        mTitleRelat.getBackground().setAlpha(1);
 //        tintManager.setTintAlpha(0);
@@ -228,21 +228,27 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         ManagerUtil.setStataBarColor(getActivity(),tintManager);
         token = sharedPreferences.getString(ShapePreferenceManager.TOKEN,"");
         userId = sharedPreferences.getString(ShapePreferenceManager.USER_ID,"");
+        Log.d("tag","aaaaaaaaaaa");
         if (!TextUtils.isEmpty(token)){
-            if (userInfo == null){
-                UserInfoAsyn userInfoAsyn = new UserInfoAsyn();
-                userInfoAsyn.execute(userId,token);
-            }else if (isFlash){
+            Log.d("tag","bbbbbbbbbbbbbb");
+           if (isFlash){
+                Log.d("tag","ddddddddddddd");
                 UserInfoAsyn userInfoAsyn = new UserInfoAsyn();
                 userInfoAsyn.execute(userId,token);
                 isFlash = false;
+            }else if (userInfo == null){
+                Log.d("tag","ccccccccccccc");
+                UserInfoAsyn userInfoAsyn = new UserInfoAsyn();
+                userInfoAsyn.execute(userId,token);
             }else {
-                parseUserInfo(userInfo);
+                Log.d("tag","eeeeeeeeeeeeeeeeee");
+                parseUserInfo();
             }
             mScrollview.setVisibility(View.VISIBLE);
             mTitleRelat.getBackground().setAlpha(1);
             tintManager.setTintAlpha(0);
         } else {
+            Log.d("tag","ffffffffffffffffff");
             mNologin.setVisibility(View.VISIBLE);
             mScrollview.setVisibility(View.GONE);
             mTitleRelat.getBackground().setAlpha(255);
@@ -443,7 +449,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             if (!TextUtils.isEmpty(message)&&message.length()>10){
                 Gson gson = new Gson();
                 userInfo = gson.fromJson(message,UserInfo.class);   //获取用户信息
-                parseUserInfo(userInfo);
+                parseUserInfo();
             }else {
                 Toast.makeText(getContext(),"获取信息失败,请重新登录",Toast.LENGTH_SHORT).show();
                 mNologin.setVisibility(View.VISIBLE);
@@ -474,13 +480,14 @@ public class MyFragment extends Fragment implements View.OnClickListener{
     /**
      * 解析用户数据
      */
-    public void parseUserInfo(UserInfo userInfo){
+    public void parseUserInfo(){
         if (userInfo.getHead().getStatus() == 0){
 //            scoreTxt.setText(userInfo.getResult().getScore()+"");
 //            mAttionTxt.setText(userInfo.getResult().getFollower()+"");
 //            mFansTxt.setText(userInfo.getResult().getFans()+"");
             if (userInfo.getResult().getNickName() != null&&!TextUtils.isEmpty(userInfo.getResult().getNickName()+"")){
                 mUserName.setText(userInfo.getResult().getNickName()+"");
+                mUserNameNext.setText(userInfo.getResult().getNickName()+"");
             }
             if (userInfo.getResult().getAvatar() != null&&!TextUtils.isEmpty(userInfo.getResult().getAvatar()+"")){
                 Picasso.with(getActivity()).load(userInfo.getResult().getAvatar()+"").into(circleImageView);
@@ -489,6 +496,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             }
             mNologin.setVisibility(View.GONE);
         }else {
+            userInfo = null;
 //            Toast.makeText(getContext(),"获取信息失败,请重新登录",Toast.LENGTH_SHORT).show();
             mNologin.setVisibility(View.VISIBLE);
         }

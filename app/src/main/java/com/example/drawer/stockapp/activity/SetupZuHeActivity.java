@@ -16,6 +16,7 @@ import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.SetUpZuHeAdapter;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.customview.MyListView;
+import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.listener.StockCallBack;
 import com.example.drawer.stockapp.model.HeadIndex;
@@ -372,6 +373,10 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getInt("Status") == 0){
                             Toast.makeText(getApplicationContext(),"创建成功",Toast.LENGTH_SHORT).show();
+                            Intent in = new Intent();
+                            in.setAction(AutoWisdomFragment.BROAD_TYPE);
+                            //发送广播,销毁此界面
+                            sendBroadcast(in);
                             finish();
                         }else {
                             Toast.makeText(getApplicationContext(),"创建失败",Toast.LENGTH_SHORT).show();

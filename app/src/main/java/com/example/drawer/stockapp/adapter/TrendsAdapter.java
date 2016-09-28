@@ -1,7 +1,6 @@
 package com.example.drawer.stockapp.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,9 +76,7 @@ public class TrendsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         final TrendsInfo info = (TrendsInfo) getItem(i);
-        if (!TextUtils.isEmpty(info.getImage())){
-            Picasso.with(context).load(info.getImage()).placeholder(R.mipmap.img_replace).into(viewHolder.head);
-        }
+            Picasso.with(context).load(info.getImage()).placeholder(R.mipmap.img_place).into(viewHolder.head);
 
             adapter = new ImageAdapter(context);
         adapter.setData(info.getContentImage());

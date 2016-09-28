@@ -72,6 +72,17 @@
                     android:text="@string/celue_title_one_txt"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/title_text_size" />
+                <TextView
+                    android:id="@+id/isSuccess"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/my_txt_size"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/margin_5dp"
+                    android:background="@drawable/rect_edit_bg_shape"
+                    android:layout_margin="@dimen/margin_5dp"
+                    android:text="到期成功"/>
 
                 <include
                     android:id="@+id/layout_item"
@@ -142,10 +153,9 @@
                     android:layout_below="@id/chicang_layout_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="需要登录才能查看"
                     android:visibility="gone"
                     android:layout_centerHorizontal="true"
-                    android:drawableTop="@mipmap/img"/>
+                    android:drawableTop="@mipmap/nodata"/>
             </RelativeLayout>
 
             <RelativeLayout

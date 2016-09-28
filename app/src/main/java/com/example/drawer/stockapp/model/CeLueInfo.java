@@ -17,9 +17,18 @@ public class CeLueInfo {
     private int type;   //类型    1，运行中   2，招募中   3，已结束
     private String levelImage;    //等级图片
     private String id;
+    private String endStatus;     //运行结束时的状态
     private Boolean IsEndInvestment;   //true  已结束
     private Boolean IsEndRecruit;   //fales   正在招募
     private Boolean IsStartInvestment;    //true   运行中
+
+    public String getEndStatus() {
+        return endStatus;
+    }
+
+    public void setEndStatus(String endStatus) {
+        this.endStatus = endStatus;
+    }
 
     public Boolean getEndInvestment() {
         return IsEndInvestment;

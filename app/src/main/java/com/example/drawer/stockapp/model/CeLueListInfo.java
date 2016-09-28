@@ -116,6 +116,15 @@ public class CeLueListInfo {
             private String RunStartDay;
             private Object RunEndDay;
             private double TotalReturn;
+            private String RunEndState;
+
+            public String getRunEndState() {
+                return RunEndState;
+            }
+
+            public void setRunEndState(String runEndState) {
+                RunEndState = runEndState;
+            }
 
             public double getTotalReturn() {
                 return TotalReturn;

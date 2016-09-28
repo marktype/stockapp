@@ -37,13 +37,13 @@
         android:layout_width="match_parent"
         android:background="@color/write_color"
         android:layout_height="@dimen/title_height">
-        <ImageView
-            android:id="@+id/share_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_10dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/share_img"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/share_img"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="@dimen/margin_10dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:src="@mipmap/share_img"/>-->
         <EditText
             android:id="@+id/dongtai_comment_edit"
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
             android:padding="@dimen/margin_10dp"
             android:textSize="@dimen/title_text_size"
             android:inputType="textMultiLine"
-            android:layout_toRightOf="@id/share_img"/>
+            />
 
     </RelativeLayout>
 

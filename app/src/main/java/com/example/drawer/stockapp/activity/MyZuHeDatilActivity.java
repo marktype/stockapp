@@ -105,7 +105,6 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         zuheId = getIntent().getStringExtra(ZUHE_ID);
         initWight();
         getStargeDetialData(zuheId,mToken);
-
         dialog = ManagerUtil.getDiaLog(this);
     }
 
@@ -115,6 +114,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         super.onResume();
         SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
         ManagerUtil.setStataBarColorBlack(this,tintManager);
+
     }
     /**
      * 设置数据
@@ -127,6 +127,22 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         StargDetial.ResultBean.TransferPositionsBean transferPositionsBean = starDetailInfo.getResult().getTransferPositions();
         mLikes.setText(porfolioInfoBean.getFavorites()+"");
         mBuildTime.setText("创建于："+porfolioInfoBean.getCreateTime());
+
+        if (porfolioInfoBean.getTotleReturns()>0){
+            mTotal.setTextColor(getResources().getColor(R.color.red));
+        }else if (porfolioInfoBean.getTotleReturns()<0){
+            mTotal.setTextColor(getResources().getColor(R.color.green_color));
+        }
+        if (porfolioInfoBean.getReturn()>0){
+            mDataNum.setTextColor(getResources().getColor(R.color.red));
+        }else if (porfolioInfoBean.getReturn()<0){
+            mDataNum.setTextColor(getResources().getColor(R.color.green_color));
+        }
+        if (porfolioInfoBean.getMonthlyAverage()>0){
+            mMonthNum.setTextColor(getResources().getColor(R.color.red));
+        }else if (porfolioInfoBean.getMonthlyAverage()<0){
+            mMonthNum.setTextColor(getResources().getColor(R.color.green_color));
+        }
         mTotal.setText(df.format(porfolioInfoBean.getTotleReturns())+"");
         mDataNum.setText(df.format(porfolioInfoBean.getReturn())+"%");
         mMonthNum.setText(df.format(porfolioInfoBean.getMonthlyAverage())+"%");
@@ -144,14 +160,26 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         zuheName = porfolioInfoBean.getTitle();
         zuheDesc = porfolioInfoBean.getDesc();
 
-        mNiuRenName.setText(porfolioInfoBean.getNickName());
+        if (porfolioInfoBean.getNickName() != null&&!TextUtils.isEmpty(porfolioInfoBean.getNickName())){
+            mNiuRenName.setText(porfolioInfoBean.getNickName());
+        }else {
+            mNiuRenName.setText("实盈量化策略");
+        }
+
 //        if (achievemntBean.getLastTime() != null&&!TextUtils.isEmpty(achievemntBean.getLastTime())){
 //            mLastTime.setText("（最后评估时间："+achievemntBean.getLastTime()+")");
 //        }else {
 //            mLastTime.setText("（最后评估时间：暂无)");
 //        }
 
-        mflashTime.setText("("+transferPositionsBean.getLastTime()+")");
+//        mflashTime.setText("("+transferPositionsBean.getLastTime()+")");
+        if (transferPositionsBean.getLastTime() != null&&!TextUtils.isEmpty(transferPositionsBean.getLastTime())){
+            mflashTime.setText("("+transferPositionsBean.getLastTime()+")");
+            mSeeHistory.setVisibility(View.VISIBLE);
+        }else {
+            mflashTime.setText("(暂无调仓信息)");
+            mSeeHistory.setVisibility(View.GONE);
+        }
         List<StargDetial.ResultBean.TransferPositionsBean.TransferPositionsInfoBean> list = transferPositionsBean.getTransferPositionsInfo();
 
             ArrayList<TiaoCangInfo> listInfo = new ArrayList<>();
@@ -532,6 +560,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                 intent.putExtra(SetupZuHeActivity.TYPE,1);     //调仓
                 intent.putExtra(SetupZuHeActivity.CHICANG_STOCK,tiaoCangClass);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.changjianwenti_txt:
                 initPopView(view);
@@ -654,7 +683,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         //设置描述文字
-        mLineChart.setDescription("收益率曲线图");
+        mLineChart.setDescription("");
 
         //模拟一个x轴的数据  12/1 12/2 ... 12/7
         ArrayList<String> xValues = new ArrayList<>();
@@ -674,7 +703,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         //模拟第二组组y轴数据(存放y轴数据的是一个Entry的ArrayList) 他是构建LineDataSet的参数之一
 
         ArrayList<Entry> yValue1 = new ArrayList<>();
-        for (int i = 0; i < ImgData.size(); i++) {
+        for (int i = 0; i < BenchmarkImgData.size(); i++) {
             StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean benchmarkImgDataBean = BenchmarkImgData.get(i);
             yValue1.add(new Entry(Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())), i));
         }

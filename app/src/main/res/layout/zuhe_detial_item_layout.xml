@@ -20,7 +20,7 @@
         android:textColor="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="跟投总金额:"/>
+        android:text="投资总额:"/>
     <TextView
         android:id="@+id/limit_money"
         android:text="30000元"
@@ -36,19 +36,19 @@
         android:layout_height="wrap_content"
         android:text="1000元"
         android:id="@+id/start_price"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/total_price"
         android:layout_marginRight="@dimen/margin_10dp"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:textSize="@dimen/my_txt_size"
         android:layout_alignBaseline="@+id/zuhe_total_price"
         />
     <TextView
+        android:id="@+id/total_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="起投金额:"
+        android:text="跟投总额:"
         android:textSize="@dimen/my_txt_size"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin_80dp"
+        android:layout_marginLeft="180dp"
         android:layout_alignBaseline="@+id/zuhe_total_price"
         android:textColor="@android:color/black"/>
     <TextView
@@ -77,19 +77,19 @@
         android:layout_height="wrap_content"
         android:text="稳健型"
         android:id="@+id/start_type"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/touzi_type_txt"
         android:layout_marginRight="@dimen/margin_10dp"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:textSize="@dimen/my_txt_size"
         android:layout_alignBaseline="@+id/zuhe_type"
         />
     <TextView
+        android:id="@+id/touzi_type_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="投资类型:"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin_80dp"
         android:textSize="@dimen/my_txt_size"
+        android:layout_marginLeft="180dp"
         android:layout_alignBaseline="@+id/zuhe_type"
         android:textColor="@android:color/black"/>
     <TextView

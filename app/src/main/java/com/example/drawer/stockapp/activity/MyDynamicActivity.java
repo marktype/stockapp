@@ -131,7 +131,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
 //            mComment.setText(trendsInfo.getCommentNum()+"");
 //            mLikes.setText(trendsInfo.getGoodNum()+"");
 //        }
-        ImageView mShare = (ImageView) findViewById(R.id.share_img);   //分享
+//        ImageView mShare = (ImageView) findViewById(R.id.share_img);   //分享
 
         mList = (ListView) findViewById(R.id.dynamic_list);
         adapter = new DynamicInfoAdapter(this);
@@ -143,7 +143,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         mZhuanFa.setOnClickListener(this);
         mComment.setOnClickListener(this);
         layout.setOnClickListener(this);
-        mShare.setOnClickListener(this);
+//        mShare.setOnClickListener(this);
 //        mCollect.setOnClickListener(this);
     }
 
@@ -193,9 +193,9 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
 //                    likeOrCollectAsyn.execute(shareBean.getId(),"Favorites",mToken);
 //                }
 //                break;
-            case R.id.share_img:
-                showShare(name.getText().toString(),mImage);
-                break;
+//            case R.id.share_img:
+//                showShare(name.getText().toString(),mImage);
+//                break;
         }
     }
 

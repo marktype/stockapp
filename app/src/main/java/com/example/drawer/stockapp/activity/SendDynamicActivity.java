@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyDialog;
+import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
@@ -106,7 +107,7 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
             int size = bitmapList.size();
             for (int i = 0; i < size; i++) {
                 int childCount = mLinImg.getChildCount();
-                if (childCount == 5) {
+                if (childCount == 3) {
                     mAddImg.setImageBitmap(bitmapList.get(i));
                     mAddImg.setClickable(false);
                     return;
@@ -115,6 +116,7 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
 
             }
             mLinImg.addView(img, size - 1);
+
         }
     }
 
@@ -424,7 +426,10 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
                                 Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_SHORT).show();
                             }else {
                                 Toast.makeText(getApplicationContext(),"发表成功",Toast.LENGTH_SHORT).show();
-//                                Snackbar.make(mSendTxt,"发表成功",Snackbar.LENGTH_SHORT).show();
+                               Intent in = new Intent();
+                                in.setAction(AutoWisdomFragment.BROAD_TYPE);
+                                //发送广播,销毁此界面
+                                sendBroadcast(in);
                                 finish();
                             }
                         }

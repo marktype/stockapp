@@ -57,6 +57,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
     private MyListView mTiaoCangList,mChiCnagList,mGenTouLiat;
     public static final String LIANGHUA_ID = "lianghuaid";
     public static final String LIANGHUA_NAME = "lianghuaname";
+    public static final String LIANGHUA_STATUS = "endstatus";
     public static final String TYPE = "type";    //从哪儿跳转，0（策略） 1（组合招募） 2,（组合运行）3（组合结束） 4（策略结束）
     private TiaoCangAdapter tiaoCangAdapter;
     private ChiCangAdapter chiCangAdapter;
@@ -67,6 +68,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             mTitleCelue,mSeeHistory,mNoDataGentou;
     private String LiangHuaId;    //量化id
     private String LiangHuaName;   //量化name
+    private String LianghuaStatus;  //结束状态
     private CircleImageView headImg;
     private MyDialog dialog;
     private String mToken;
@@ -83,6 +85,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         tintManager.setStatusBarTintResource(R.color.write_color);
         LiangHuaId = intent.getStringExtra(LIANGHUA_ID);
         LiangHuaName = intent.getStringExtra(LIANGHUA_NAME);
+        LianghuaStatus = intent.getStringExtra(LIANGHUA_STATUS);
         type = intent.getIntExtra(TYPE,0);
         initWight();
         LiangHuaAsyn liangHuaAsyn = new LiangHuaAsyn();
@@ -152,6 +155,23 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
 
         ImageView mDeleteImg = (ImageView) findViewById(R.id.changjianwenti_txt);  //取消跟投
         TextView mTarget = (TextView) findViewById(R.id.goal_shouyi_icon);  //当前收益
+        TextView mEndStatus = (TextView) findViewById(R.id.isSuccess);   //结束状态
+
+        if (LianghuaStatus != null&&!TextUtils.isEmpty(LiangHuaName)){
+            mEndStatus.setVisibility(View.VISIBLE);
+            if (LianghuaStatus.equals("1")){
+                mEndStatus.setText("到期成功");
+            }else if (LianghuaStatus.equals("2")){
+                mEndStatus.setText("触底止损");
+            }else if (LianghuaStatus.equals("3")){
+                mEndStatus.setText("提前失败");
+            }else if (LianghuaStatus.equals("4")){
+                mEndStatus.setText("到期失败");
+            }
+        }else {
+            mEndStatus.setVisibility(View.GONE);
+        }
+
 
         if (type == 0||type == 4){
             mDeleteImg.setVisibility(View.GONE);
@@ -413,13 +433,17 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             }
             if (proinfo.getMaxReturn() <0){
                 mMostGetMoney.setText("0.00%");
-            }else {
+                mMostGetMoney.setTextColor(getResources().getColor(R.color.green_color));
+            }else if (proinfo.getMaxReturn()>0){
                 mMostGetMoney.setText(df.format(proinfo.getMaxReturn())+"%");
+                mMostGetMoney.setTextColor(getResources().getColor(R.color.red));
             }
             if (proinfo.getMinReturn()>0){
                 mMostLose.setText("0.00%");
-            }else {
+                mMostLose.setTextColor(getResources().getColor(R.color.red));
+            }else if (proinfo.getMinReturn()<0){
                 mMostLose.setText(df.format(proinfo.getMinReturn())+"%");
+                mMostLose.setTextColor(getResources().getColor(R.color.green_color));
             }
 
             StargDetial.ResultBean.PorfolioInfoBean infoBean = stargDetial.getResult().getPorfolioInfo();
@@ -435,17 +459,22 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 mStartMoney.setText(df.format(infoBean.getMostFollow())+"元");
             }
 
+            if (infoBean.getTotleReturns()>0){
+                mTarget.setTextColor(getResources().getColor(R.color.red));
+            }else if (infoBean.getTotleReturns()<0){
+                mTarget.setTextColor(getResources().getColor(R.color.green_color));
+            }
             mTarget.setText(df.format(infoBean.getTotleReturns())+"%");
 
             Object tradeTime = infoBean.getAverageTrading();   //判断是int 还是double
             if (tradeTime instanceof Integer){
                 mTradeNum.setText(infoBean.getAverageTrading()+"");
             }else if (tradeTime instanceof Double){
-                mTradeNum.setText(df.format(infoBean.getAverageTrading())+"");
+                mTradeNum.setText((int)(infoBean.getAverageTrading())+"");
             }
 
 
-            mTitleCelue.setText("收益率曲线");
+            mTitleCelue.setText("收益走势");
             mMuJiTime.setText(infoBean.getRecuitmentStartTime().substring(0,10)+"至"+infoBean.getRecuitmentEndTime().substring(0,10));
             mRunTime.setText(infoBean.getRunStartDay().substring(0,10)+"至"+infoBean.getRunTargetEndDay().substring(0,10));
 
@@ -455,7 +484,11 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             }else {
                 mAdvice.setText("牛逼的组合不需要解释！");
             }
-            mNiurenName.setText(starInfoBean.getName());
+            if (starInfoBean.getName() != null&&!TextUtils.isEmpty(starInfoBean.getName())){
+                mNiurenName.setText(starInfoBean.getName());
+            }else {
+                mNiurenName.setText("实盈量化策略");
+            }
             Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
 
 
@@ -542,7 +575,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         //设置描述文字
-        mLineChart.setDescription("收益率曲线图");
+        mLineChart.setDescription("");
 
 
         //模拟一个x轴的数据  12/1 12/2 ... 12/7

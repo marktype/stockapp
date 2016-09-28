@@ -60,7 +60,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
     private int type;     //跳转类型
     private EditText mCommentEdit;
     private DynamicInfoAdapter adapter;
-    private String mToken,urlGet;
+    private String mToken;
     private MyListView mList;
     private CommnetInfo commnetInfo;
     private MyDialog dialog;
@@ -73,7 +73,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         setContentView(R.layout.activity_web_view);
         tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         sp = ShapePreferenceManager.getMySharedPreferences(this);
-        mToken = sp.getString(ShapePreferenceManager.TOKEN,null);
+        mToken = sp.getString(ShapePreferenceManager.TOKEN,"");
         urlId = getIntent().getStringExtra(URLID);
         initWight();
         NewsInfoAsyn newsInfoAsyn = new NewsInfoAsyn();
@@ -212,12 +212,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                 }
                 break;
             case R.id.share_img:
-
-                if (!TextUtils.isEmpty(urlGet)){
-                    showShare(mTitle.getText().toString(),urlGet);
-                }else {
-                    showShare(mTitle.getText().toString(),"");
-                }
+                showShare(mTitle.getText().toString(),"");
                 break;
             case R.id.login_btn:
                 Intent intent = new Intent(this,LoginActivity.class);
@@ -245,7 +240,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
         oks.setTitle(shareTxt);
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl("");
+        oks.setTitleUrl(shareUrl);
 
         // text是分享文本，所有平台都需要这个字段
         oks.setText(shareTxt);
@@ -253,13 +248,13 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
         oks.setImageUrl(image);
         // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("");
+        oks.setUrl(shareUrl);
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
         oks.setComment("我是测试评论文本");
         // site是分享此内容的网站名称，仅在QQ空间使用
         oks.setSite(getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("");
+        oks.setSiteUrl(shareUrl);
 
 // 启动分享GUI
         oks.show(this);
@@ -271,20 +266,21 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
     public void initSoftWindow(int type){
         switch (type){
             case 0:
-                mCommentEdit.setHint("写下你的评论");
+                mCommentEdit.setHint("请输入您的评论");
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 break;
             case 1:
-                mCommentEdit.setHint("写下你的评论");
+                mCommentEdit.setHint("请输入您的评论");
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN|WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 break;
             case 2:
-                mCommentEdit.setHint("写下你的转发内容");
+                mCommentEdit.setHint("写下您的转发内容");
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN|WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 break;
         }
     }
 
+    private String shareUrl;
     /**
      * 获取新闻详情
      */
@@ -295,7 +291,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
 
             HashMap<String,String> map = new HashMap<>();
             map.put("Id", strings[0]);
-            String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.NewsDetail_URL);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer(mToken,map,HttpManager.NewsDetail_URL);
             return message;
         }
 
@@ -307,13 +303,13 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                 NewsDetial newsDetial = gson.fromJson(s,NewsDetial.class);
                 if (newsDetial.getHead().getStatus() == 0){
                     NewsDetial.ResultBean bean = newsDetial.getResult();
-                    if (bean.getContent() != null&&!TextUtils.isEmpty(bean.getContent())){
-                        //Html.fromHtml(bean.getContent()).toString()    此种转换有点奇葩，通常是不加Html.fromHtml转换的
+                    if (bean.getTargetUrl() != null&&!TextUtils.isEmpty(bean.getTargetUrl())){
+                        shareUrl = bean.getTargetUrl();
+                        webView.loadUrl(bean.getTargetUrl()+"&isApp=true");     //?isApp=true去掉头和底部
+                    }else if (bean.getContent() != null&&!TextUtils.isEmpty(bean.getContent())){
+                        shareUrl = "";
                         webView.loadDataWithBaseURL("about:blank", Html.fromHtml(bean.getContent()).toString(), "text/html", "utf-8",null);
-                    }else if (bean.getTargetUrl() != null&&!TextUtils.isEmpty(bean.getTargetUrl())){
-                        webView.loadUrl(bean.getTargetUrl());
                     }
-                    urlGet  = bean.getTargetUrl();
                     mTitle.setText(bean.getTitle());
                     mZhuanFa.setText(bean.getForward()+"");
                     mComment.setText(bean.getComments()+"");
@@ -453,6 +449,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                             Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_SHORT).show();
+                            mCommentEdit.setText("");
                             DynamicTask dynamicTask = new DynamicTask();
                             dynamicTask.execute(urlId);
                         }

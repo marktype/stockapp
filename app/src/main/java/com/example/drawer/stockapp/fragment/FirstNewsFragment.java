@@ -79,6 +79,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static final String isFlashType = "com.stock.sendtype";   //是否是动态发送
     private View mView,mSliderVIew,dongtaiView,zixunView;
     private ViewPager mPager;
     private HeadMassageInfo headMassageInfo;
@@ -150,7 +151,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     */
         IntentFilter filter = new IntentFilter();
         // 向过滤器中添加action
-        filter.addAction("com.stock.sendtype");
+        filter.addAction(isFlashType);
         // 注册广播
         getContext().registerReceiver(isFlashBroad, filter);
 
@@ -225,11 +226,10 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 tintManager = ManagerUtil.newInstance(getActivity());
                 ManagerUtil.setStataBarColor(getActivity(),tintManager);
                 if (!TextUtils.isEmpty(token)){
-//                    if (isFlash){    //判定是否发表动态返回
-//                        shareList.clear();
-//                        dymnicesData(token,dongTaiPage);
-//                        isFlash = false;
-//                    }else
+                    if (isFlash){    //判定是否发表动态返回
+                        dymnicesData(token,dongTaiPage);
+                        isFlash = false;
+                    }else
                     if (dynamicsInfo == null){
                         trendsInfosSave = new ArrayList<>();
                         dymnicesData(token,dongTaiPage);    //

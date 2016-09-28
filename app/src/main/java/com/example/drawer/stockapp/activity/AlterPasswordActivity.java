@@ -74,17 +74,16 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
                 String name = mUserName.getText().toString();
                 String password = mPassWord.getText().toString();
                 String other = mOtherPassWord.getText().toString();
-                if (other.equals(password)){
+                if (!other.equals(password)){
+                    Toast.makeText(getApplicationContext(),"两次输入的密码不一样，请确认后再输入",Toast.LENGTH_SHORT).show();
+                }else {
                     if (!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(password)){
                         dialog = ManagerUtil.getDiaLog(this);
                         LoginAsyn asyn = new LoginAsyn();
                         asyn.execute(password,name,mToken);
                     }else {
-                        Toast.makeText(getApplicationContext(),"输入有误，请重新输入",Toast.LENGTH_SHORT).show();
-//                    TSnackbar.make(mLogin,"输入有误，请重新输入！",TSnackbar.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"请填写密码，请重新输入",Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    Toast.makeText(getApplicationContext(),"两次输入的密码不一样，请确认后再输入",Toast.LENGTH_SHORT);
                 }
                 break;
             case R.id.forget_password_txt:
