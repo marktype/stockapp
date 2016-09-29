@@ -146,7 +146,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         mTotal.setText(df.format(porfolioInfoBean.getTotleReturns())+"");
         mDataNum.setText(df.format(porfolioInfoBean.getReturn())+"%");
         mMonthNum.setText(df.format(porfolioInfoBean.getMonthlyAverage())+"%");
-        mJingZhi.setText(df.format(porfolioInfoBean.getNetValue()/1000000)+"");
+        mJingZhi.setText(df.format(porfolioInfoBean.getNetValue()/100000)+"");
         if (porfolioInfoBean.getDesc() != null&&!TextUtils.isEmpty(porfolioInfoBean.getDesc())){
             mAdavce.setText(porfolioInfoBean.getDesc());
         }else {
@@ -161,7 +161,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         if (porfolioInfoBean.getNickName() != null&&!TextUtils.isEmpty(porfolioInfoBean.getNickName())){
             mNiuRenName.setText(porfolioInfoBean.getNickName());
         }else {
-            mNiuRenName.setText("");
+            mNiuRenName.setText(R.string.user_name);
         }
 
 //        if (achievemntBean.getLastTime() != null&&!TextUtils.isEmpty(achievemntBean.getLastTime())){

@@ -78,7 +78,7 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
                     Toast.makeText(getApplicationContext(),"两次输入的密码不一样，请确认后再输入",Toast.LENGTH_SHORT).show();
                 }else {
                     if (!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(password)){
-                        if (password.length()>6){
+                        if (password.length()>=6){
                             dialog = ManagerUtil.getDiaLog(this);
                             LoginAsyn asyn = new LoginAsyn();
                             asyn.execute(password,name,mToken);

@@ -63,9 +63,7 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -970,8 +968,6 @@ class ItemRecod {
                 Gson gson = new Gson();
                 BannerInfo bannerInfo = gson.fromJson(s, BannerInfo.class);
                 if (bannerInfo.getHead().getStatus() == 0) {
-                    SharedPreferences.Editor edit = ShapePreferenceManager.getImageSharePreference(getActivity()).edit();
-                    Set<String> set = new HashSet<>();
                     List<BannerInfo.ResultBean.BannerUrlBean> size = bannerInfo.getResult().getBannerUrl();
                     images = new String[3];
                     strings = new String[3];
@@ -979,12 +975,8 @@ class ItemRecod {
                         if (i<3){
                             images[i] = size.get(i).getBannerUrl();
                             strings[i] = size.get(i).getTargetUrl();     //bar图
-                        }else {
-                            set.add(size.get(i).getBannerUrl());
                         }
                     }
-                    edit.putStringSet(ShapePreferenceManager.IMAGE_CELUE,set);
-                    edit.commit();
                     getSliderLayoutView(images, strings);
                 }
             }

@@ -30,7 +30,6 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
-
     <!-- &lt;!&ndash; 蓝牙分享所需的权限 &ndash;&gt; -->
     <!-- <uses-permission android:name="android.permission.BLUETOOTH" /> -->
     <!-- <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> -->
@@ -53,11 +52,14 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="lovecat" android:host="cat.openjs" />
-            </intent-filter>
 
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="cat.openjs"
+                    android:scheme="lovecat" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
@@ -97,7 +99,7 @@
 
         <receiver
             android:name=".AppRegister"
-            android:permission="com.tencent.mm.plugin.permission.SEND" >
+            android:permission="com.tencent.mm.plugin.permission.SEND">
             <intent-filter>
                 <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
             </intent-filter>
@@ -251,11 +253,11 @@
             android:name=".activity.PayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
-        <!--<activity-->
-            <!--android:name=".activity.LaunchActivity"-->
-            <!--android:launchMode="singleTask"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/MyAppTheme" />-->
+        <!-- <activity -->
+        <!-- android:name=".activity.LaunchActivity" -->
+        <!-- android:launchMode="singleTask" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@style/MyAppTheme" /> -->
         <activity
             android:name=".activity.LoginActivity"
             android:launchMode="singleTop"
@@ -353,7 +355,8 @@
             android:theme="@style/MyAppTheme" />
         <activity android:name=".activity.AgreementWebActivity" />
         <activity android:name=".activity.AlterPasswordActivity" />
-        <activity android:name=".activity.HistoryRecordActivity"></activity>
+        <activity android:name=".activity.HistoryRecordActivity" />
+        <activity android:name=".activity.AdviceActivity"></activity>
     </application>
 
 </manifest>

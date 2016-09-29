@@ -495,6 +495,8 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             if (userInfo.getResult().getNickName() != null&&!TextUtils.isEmpty(userInfo.getResult().getNickName()+"")){
                 mUserName.setText(userInfo.getResult().getNickName()+"");
                 mUserNameNext.setText(userInfo.getResult().getNickName()+"");
+            }else {
+                mUserName.setText(R.string.user_name);
             }
             if (userInfo.getResult().getAvatar() != null&&!TextUtils.isEmpty(userInfo.getResult().getAvatar()+"")){
                 Picasso.with(getActivity()).load(userInfo.getResult().getAvatar()+"").into(circleImageView);

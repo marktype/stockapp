@@ -1,6 +1,7 @@
 package com.example.drawer.stockapp.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +82,11 @@ public class TrendsAdapter extends BaseAdapter {
             adapter = new ImageAdapter(context);
         adapter.setData(info.getContentImage());
         viewHolder.contentImage.setAdapter(adapter);
-        viewHolder.name.setText(info.getName());
+        if (info.getName()!= null&& !TextUtils.isEmpty(info.getName())){
+            viewHolder.name.setText(info.getName());
+        }else {
+            viewHolder.name.setText(R.string.user_name)                                                                 ;
+        }
         viewHolder.content.setText(info.getContent());
         viewHolder.time.setText(info.getTime());
         viewHolder.zhuanFaNum.setText(info.getZhuanFaNum()+"");

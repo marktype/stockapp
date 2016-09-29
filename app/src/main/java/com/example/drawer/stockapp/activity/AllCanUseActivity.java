@@ -51,6 +51,7 @@ public class AllCanUseActivity extends BascActivity implements View.OnClickListe
        mClean = (RelativeLayout) findViewById(R.id.clean_lin);
        RelativeLayout mAbove = (RelativeLayout) findViewById(R.id.above_lin);
        mStatus = (TextView) findViewById(R.id.status_start);
+       RelativeLayout mAdvice = (RelativeLayout) findViewById(R.id.advice_lin);
 
        if (ShapePreferenceManager.getMySharedPreferences(this).getInt(ShapePreferenceManager.ISOPEN,0) == 0){
            JPushInterface.resumePush(getApplicationContext());
@@ -65,11 +66,13 @@ public class AllCanUseActivity extends BascActivity implements View.OnClickListe
        mNewInfo.setBackgroundColor(getResources().getColor(R.color.write_color));
        mClean.setBackgroundColor(getResources().getColor(R.color.write_color));
        mAbove.setBackgroundColor(getResources().getColor(R.color.write_color));
+       mAdvice.setBackgroundColor(getResources().getColor(R.color.write_color));
 
        mClean.setOnClickListener(this);
        mNewInfo.setOnClickListener(this);
        mBackImg.setOnClickListener(this);
        mAbove.setOnClickListener(this);
+       mAdvice.setOnClickListener(this);
    }
     @Override
     protected void onResume() {
@@ -115,6 +118,10 @@ public class AllCanUseActivity extends BascActivity implements View.OnClickListe
                 break;
             case R.id.cancel_txt:
                 mClassifyPop.dismiss();
+                break;
+            case R.id.advice_lin:
+                intent = new Intent(this,AdviceActivity.class);
+                startActivity(intent);
                 break;
         }
     }

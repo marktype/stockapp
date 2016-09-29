@@ -90,7 +90,7 @@ public class MyZuHeAdapter extends BaseAdapter {
         }
         viewHolder.name.setText(info.getNiurenName());
         if (info.getZuheType() == 1){
-            viewHolder.guanzhuNum.setText(info.getStockType());
+            viewHolder.guanzhuNum.setText("");
             viewHolder.image.setImageResource(R.mipmap.gengtou);
             viewHolder.status.setVisibility(View.VISIBLE);
             if (info.getType() == 0){   //招募中
@@ -101,7 +101,7 @@ public class MyZuHeAdapter extends BaseAdapter {
                 viewHolder.status.setText("已结束");
             }
         }else if (info.getZuheType() == 2){
-            viewHolder.guanzhuNum.setText(info.getStockType());
+            viewHolder.guanzhuNum.setText("");
             viewHolder.image.setImageResource(R.mipmap.chuangjian);
             viewHolder.status.setVisibility(View.GONE);
         }else {

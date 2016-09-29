@@ -86,8 +86,8 @@ public class CeLueAdapter extends BaseAdapter {
             viewHolder.nowGen.setVisibility(View.GONE);
             viewHolder.zhaomuName.setText("当前收益");
             viewHolder.runTime.setVisibility(View.VISIBLE);
-            viewHolder.runTime.setText(info.getRunTime()+"开始运行");
-        }else if (info.getType() == 2){
+            viewHolder.runTime.setText(info.getRunTime().substring(0,10)+" 开始运行");
+        }else if (info.getType() == 2||info.getType() == 5){
             viewHolder.status.setText("招募中");
             viewHolder.runTime.setVisibility(View.GONE);
             viewHolder.nowGen.setVisibility(View.VISIBLE);

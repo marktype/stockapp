@@ -430,10 +430,10 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             }
 
             Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
-            mParsent.setText(infoBean.getRecruitment()+"%");
+            mParsent.setText(infoBean.getTargetReturns()+"%");
             targetshouyi = infoBean.getTargetReturns();
             fengchengRate = infoBean.getShareRatio();   //分成率
-            setCanvasData(canvasViewThree, Double.parseDouble(infoBean.getRecruitment()+""));
+            setCanvasData(canvasViewThree, Double.parseDouble(infoBean.getTargetReturns()+""));
             mZuHeName.setText(infoBean.getTitle());
             mRunDay.setText(infoBean.getMaxDay()+"天");
             mZhisunXian.setText(infoBean.getStopLoss()+"%");

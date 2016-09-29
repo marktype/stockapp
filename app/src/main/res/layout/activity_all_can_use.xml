@@ -125,4 +125,36 @@
             android:layout_alignParentRight="true"
             android:src="@mipmap/arrowright" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line_six"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/above_lin"
+        android:layout_marginLeft="@dimen/margin_15dp"
+        android:layout_marginRight="@dimen/margin_15dp"
+        android:background="@color/circle_con_bg" />
+    <RelativeLayout
+        android:id="@+id/advice_lin"
+        style="@style/MyInfoStyle"
+        android:layout_width="match_parent"
+        android:background="@color/write_color"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line_six">
+
+        <TextView
+            android:id="@+id/my_advice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/advice_txt"
+            android:textSize="@dimen/title_text_size"
+            android:textColor="@android:color/background_dark" />
+
+        <ImageView
+            android:id="@+id/img_four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/arrowright" />
+    </RelativeLayout>
 </RelativeLayout>

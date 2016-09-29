@@ -12,6 +12,7 @@
     <string name="zixun_txt">资讯</string>
     <string name="dongtai_txt">动态</string>
     <string name="trade_now">实盘交易</string>
+    <string name="user_name">未命名用户</string>
 
     <string name="money_txt">钱包</string>
     <string name="trade_quan">交易券</string>
@@ -44,6 +45,7 @@
     <string name="cancal_low_txt">消除缓存</string>
     <string name="news_info_txt">新消息提醒</string>
     <string name="above_txt">关于爱猫爪</string>
+    <string name="advice_txt">用户反馈</string>
     <string name="my_point_txt">我的积分</string>
     <string name="my_wallet_txt">我的钱包</string>
     <string name="my_quan_txt">抵用券</string>

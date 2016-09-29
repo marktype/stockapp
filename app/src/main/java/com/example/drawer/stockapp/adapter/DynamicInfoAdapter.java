@@ -1,6 +1,7 @@
 package com.example.drawer.stockapp.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,11 @@ public class DynamicInfoAdapter extends BaseAdapter {
         }
         TrendsInfo info = (TrendsInfo) getItem(i);
         Picasso.with(context).load(info.getFriendImage()).placeholder(R.mipmap.img_place).into(viewHolder.image);
-        viewHolder.titleTxt.setText(info.getFriendName());
+        if (info.getFriendName() != null&& !TextUtils.isEmpty(info.getFriendName())){
+            viewHolder.titleTxt.setText(info.getFriendName());
+        }else {
+            viewHolder.titleTxt.setText(R.string.user_name);
+        }
         viewHolder.contentTxt.setText(info.getFriendContent());
         return view;
     }

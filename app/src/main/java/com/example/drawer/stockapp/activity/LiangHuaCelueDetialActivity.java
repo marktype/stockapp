@@ -424,13 +424,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             }else if (proinfo.getPorfolioType() == 2){
                 mType.setText("长线");
             }
-            if (proinfo.getRecruitType() == 0){
-                mStartType.setText("稳健型");
-            }else if (proinfo.getRecruitType() == 1){
-                mStartType.setText("激进型");
-            }else if (proinfo.getRecruitType() == 2){
-                mStartType.setText("保本型");
-            }
+
             if (proinfo.getMaxReturn() <0){
                 mMostGetMoney.setText("0.00%");
             }else if (proinfo.getMaxReturn()>0){
@@ -445,6 +439,14 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             }
 
             StargDetial.ResultBean.PorfolioInfoBean infoBean = stargDetial.getResult().getPorfolioInfo();
+
+            if (infoBean.getRecruitType() == 0){
+                mStartType.setText("稳健型");
+            }else if (infoBean.getRecruitType() == 1){
+                mStartType.setText("激进型");
+            }else if (infoBean.getRecruitType() == 2){
+                mStartType.setText("保本型");
+            }
 
             if (infoBean.getPorfolioAmount()>=10000){
                 mLimitMoney.setText(df.format(infoBean.getPorfolioAmount()/10000)+"万元");

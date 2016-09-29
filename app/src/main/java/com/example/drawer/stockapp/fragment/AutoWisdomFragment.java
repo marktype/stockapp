@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
+import com.example.drawer.stockapp.activity.AgreementWebActivity;
 import com.example.drawer.stockapp.activity.CelueDatilActivity;
 import com.example.drawer.stockapp.activity.LiangHuaCelueDetialActivity;
 import com.example.drawer.stockapp.activity.LianghuaCelueZhaoMuZhongActivity;
@@ -38,6 +39,7 @@ import com.example.drawer.stockapp.adapter.NiuRenAdapter;
 import com.example.drawer.stockapp.customview.PagerSlidingTabStrip;
 import com.example.drawer.stockapp.customview.view.XListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
+import com.example.drawer.stockapp.model.BannerInfo;
 import com.example.drawer.stockapp.model.CeLueInfo;
 import com.example.drawer.stockapp.model.CeLueListInfo;
 import com.example.drawer.stockapp.model.NiuRenInfo;
@@ -56,7 +58,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -171,6 +172,13 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             niurenList.setAdapter(niuRenAdapter);
         }
 
+        if (images == null){
+            //banner加载
+            GetBannerInfo getBannerInfo = new GetBannerInfo();
+            getBannerInfo.execute();
+        }else {
+            getSliderLayoutView(images, strings);
+        }
 
         return mView;
     }
@@ -315,17 +323,13 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         mPager.setAdapter(adapter);
         tabs.setViewPager(mPager);
 
-        Set<String> imagesSet = imageSp.getStringSet(ShapePreferenceManager.IMAGE_CELUE,null);
-        images = new ArrayList<>();
-        if (imagesSet != null&&imagesSet.size()>0){
-            for (String str : imagesSet) {
-                images.add(str);
-            }
-        }
-        //添加轮播图数据
-        getSliderLayoutView(images, null);
-        getSliderLayoutViewTwo(images, null);
-        getSliderLayoutViewThree(images, null);
+//        Set<String> imagesSet = imageSp.getStringSet(ShapePreferenceManager.IMAGE_CELUE,null);
+//        images = new ArrayList<>();
+//        if (imagesSet != null&&imagesSet.size()>0){
+//            for (String str : imagesSet) {
+//                images.add(str);
+//            }
+//        }
 
         //量化策略
         listView = (XListView) liangHuaZuHeView.findViewById(R.id.lianghuacelue_list);
@@ -414,7 +418,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     /**
      * imageSlider控件加入
      */
-    public void getSliderLayoutView(ArrayList<String> mImage, final String[] mString) {
+    public void getSliderLayoutView(ArrayList<String> mImage, final ArrayList<String> mString) {
         SliderLayout mSliderLayout = (SliderLayout) mSliderVIew.findViewById(R.id.image_slider_layout);
 //        mSliderLayout.setMinimumHeight(180);
 
@@ -430,6 +434,10 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             sliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                 @Override
                 public void onSliderClick(BaseSliderView slider) {
+                    Intent intent = new Intent(getContext(), AgreementWebActivity.class);
+                    intent.putExtra(AgreementWebActivity.URLTYPE,3);
+                    intent.putExtra(AgreementWebActivity.URL,mString.get(finalI));
+                    startActivity(intent);
                 }
             });
             mSliderLayout.addSlider(sliderView);
@@ -442,7 +450,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     /**
      * imageSlider控件加入
      */
-    public void getSliderLayoutViewTwo(ArrayList<String> mImage, final String[] mString) {
+    public void getSliderLayoutViewTwo(ArrayList<String> mImage, final ArrayList<String> mString) {
         SliderLayout mSliderLayout = (SliderLayout) mSliderVIewTwo.findViewById(R.id.image_slider_layout);
 //        mSliderLayout.setMinimumHeight(180);
 
@@ -458,7 +466,10 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             sliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                 @Override
                 public void onSliderClick(BaseSliderView slider) {
-
+                    Intent intent = new Intent(getContext(), AgreementWebActivity.class);
+                    intent.putExtra(AgreementWebActivity.URLTYPE,3);
+                    intent.putExtra(AgreementWebActivity.URL,mString.get(finalI));
+                    startActivity(intent);
                 }
             });
             mSliderLayout.addSlider(sliderView);
@@ -471,7 +482,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     /**
      * imageSlider控件加入
      */
-    public void getSliderLayoutViewThree(ArrayList<String> mImage, final String[] mString) {
+    public void getSliderLayoutViewThree(ArrayList<String> mImage, final ArrayList<String> mString) {
         SliderLayout mSliderLayout = (SliderLayout) mSliderVIewThree.findViewById(R.id.image_slider_layout);
 //        mSliderLayout.setMinimumHeight(180);
 
@@ -487,6 +498,10 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             sliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                 @Override
                 public void onSliderClick(BaseSliderView slider) {
+                    Intent intent = new Intent(getContext(), AgreementWebActivity.class);
+                    intent.putExtra(AgreementWebActivity.URLTYPE,3);
+                    intent.putExtra(AgreementWebActivity.URL,mString.get(finalI));
+                    startActivity(intent);
                 }
             });
             mSliderLayout.addSlider(sliderView);
@@ -496,6 +511,48 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
 
     }
 
+    private ArrayList<String> strings;
+    /**
+     * 获取banner图
+     */
+    private class GetBannerInfo extends AsyncTask<Void,Void,String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("PageIndex", "0");
+            map.put("PageCount", "0");
+            map.put("PageSize", "0");
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer("", map, HttpManager.BannerList_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!TextUtils.isEmpty(s)) {
+                Gson gson = new Gson();
+                BannerInfo bannerInfo = gson.fromJson(s, BannerInfo.class);
+                if (bannerInfo.getHead().getStatus() == 0) {
+                    List<BannerInfo.ResultBean.BannerUrlBean> size = bannerInfo.getResult().getBannerUrl();
+                    images = new ArrayList<>();
+                    strings = new ArrayList<>();
+                    for (int i = 0; i < size.size(); i++) {
+                        if (i>3){
+                            images.add(size.get(i).getBannerUrl());
+                            strings.add(size.get(i).getTargetUrl());     //bar图
+                        }
+                    }
+                    //添加轮播图数据
+                    getSliderLayoutView(images, strings);
+                    getSliderLayoutViewTwo(images, strings);
+                    getSliderLayoutViewThree(images, strings);
+
+                }
+            }
+        }
+
+    }
 
     /**
      * 获取量化策略列表
@@ -720,9 +777,15 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setEndInvestment(ben.isIsEndInvestment());      //运行是否结束
             info.setEndRecruit(ben.isIsEndRecruit());      //招募是否结束
             info.setStartInvestment(ben.isIsStartInvestment());   //运行是否结束
-            if (ben.isIsStartRecruit()){   //招募中
+            if (ben.isIsNotStartRecruit()){
+                info.setType(4);
+            }else if (ben.isIsStartRecruit()){   //招募中
                 info.setCeluePersent(ben.getRecruitment()+"");
                 info.setType(2);
+                ceLueInfos.add(info);
+            }else if (ben.isIsStartInvestment()&&!ben.isIsStartRun()){   //待运行
+                info.setCeluePersent(ben.getRecruitment()+"");
+                info.setType(5);
                 ceLueInfos.add(info);
             }else if (ben.isIsStartInvestment()&&ben.isIsStartRun()&&ben.getRunEndDay() == null){//运行中
                 info.setCeluePersent(ben.getTotalReturn()+"");

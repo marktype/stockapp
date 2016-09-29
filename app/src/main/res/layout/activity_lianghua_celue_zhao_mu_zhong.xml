@@ -82,7 +82,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="招募进度"
+                        android:text="目标收益"
                         android:textSize="@dimen/my_txt_size"
                         android:layout_below="@id/celue_persent"
                         android:textColor="@android:color/darker_gray"

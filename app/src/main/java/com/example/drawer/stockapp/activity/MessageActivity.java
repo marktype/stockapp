@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -54,6 +55,12 @@ public class MessageActivity extends BascActivity{
                 DensityUtils.dp2px(this,50));
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
+
+        RelativeLayout layoutOne = (RelativeLayout) findViewById(R.id.system_message);
+        RelativeLayout layoutTwo = (RelativeLayout) findViewById(R.id.now_info);
+
+        layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
+        layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
 
@@ -170,25 +177,25 @@ public class MessageActivity extends BascActivity{
     }
 
 
-    private String title,id;
     /**
      * 最后一次调仓
      */
-    private class LastTradeAsyn extends AsyncTask<String,Void,String>{
+    private class LastTradeAsyn extends AsyncTask<String,Void,HashMap<String,String>>{
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected HashMap<String,String> doInBackground(String... strings) {
             HashMap<String, String> map = new HashMap<>();
-            id = strings[0];
-            map.put("id", id);
-            title = strings[1];
+            map.put("id", strings[0]);
             String message = HttpManager.newInstance().getHttpDataByTwoLayer("", map, HttpManager.LastTrades_URL);
-            return message;
+            map.put("title",strings[1]);
+            map.put("info",message);
+            return map;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(HashMap<String,String> map) {
+            super.onPostExecute(map);
+            String s = map.get("info");
             if (!TextUtils.isEmpty(s)){
                 Gson gson = new Gson();
                 LastTiaoCangInfo lastTiaoCangInfo = gson.fromJson(s,LastTiaoCangInfo.class);
@@ -212,8 +219,8 @@ public class MessageActivity extends BascActivity{
                         tiaoCnagList.add(info);
                     }
                     if (Result.size()>0){
-                        historyTiaoCangInfo.setId(id);
-                        historyTiaoCangInfo.setTitle(title);
+                        historyTiaoCangInfo.setId(map.get("id"));
+                        historyTiaoCangInfo.setTitle(map.get("title"));
                         historyTiaoCangInfo.setList(tiaoCnagList);
                         historyList.add(historyTiaoCangInfo);
                     }

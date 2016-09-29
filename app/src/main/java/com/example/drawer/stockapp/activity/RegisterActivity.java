@@ -1,6 +1,7 @@
 package com.example.drawer.stockapp.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,14 +18,19 @@ import android.widget.Toast;
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.example.drawer.stockapp.htttputil.HttpManager;
+import com.example.drawer.stockapp.model.UserInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
+import com.example.drawer.stockapp.utils.ShapePreferenceManager;
+import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class RegisterActivity extends BascActivity implements View.OnClickListener{
     private EditText mUserName,mPassword,mVerify;
@@ -33,6 +39,7 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
     private MyDialog dialog;
     private CheckBox mCheck;
     private TextView mRegist;
+    private String phone,password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,14 +93,14 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.login_txt:
-                String phone = mUserName.getText().toString();
-                String password = mPassword.getText().toString();
+                phone = mUserName.getText().toString();
+                password = mPassword.getText().toString();
                 verify = mVerify.getText().toString();
                 if (phone.length() != 11){
                     Toast.makeText(getApplicationContext(),"手机号码写错了",Toast.LENGTH_SHORT).show();
                 }else if (TextUtils.isEmpty(verify)){
                     Toast.makeText(getApplicationContext(),"验证码写错了",Toast.LENGTH_SHORT).show();
-                }else if (TextUtils.isEmpty(password)||password.length()>6){
+                }else if (TextUtils.isEmpty(password)||password.length()<6){
                     Toast.makeText(getApplicationContext(),"请输入6-18位的密码",Toast.LENGTH_SHORT).show();
                 }else {
                     if (mCheck.isChecked()){
@@ -216,21 +223,82 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
             String message = s;
             String stutas = null;
             String msg = null;
+//            JSONObject reault = null;
             try {
                 JSONObject object = new JSONObject(message);
                 JSONObject head = object.getJSONObject("Head");
+//                reault = object.getJSONObject("Result");
                 stutas = head.getString("Status");
                 msg = head.getString("Msg");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             if (stutas.equals("0")){
+//                String token = null;
+//                try {
+//                    token = reault.getString("Token");
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
                 Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_SHORT).show();
-//                TSnackbar.make(mRegist,"注册成功",TSnackbar.LENGTH_SHORT).show();
-                finish();
+//                SharedPreferences sharedPreferences = ShapePreferenceManager.getMySharedPreferences(RegisterActivity.this);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString(ShapePreferenceManager.TOKEN,token);
+//                editor.commit();
+                dialog = ManagerUtil.getDiaLog(RegisterActivity.this);
+                LoginAsyn loginAsyn = new LoginAsyn();
+                loginAsyn.execute(phone,password);
+
+                Intent in = new Intent();
+                in.setAction(LoginActivity.isFlishType);
+                //发送广播,销毁此界面
+                sendBroadcast(in);
+//                finish();
             }else if (stutas.equals("1")){
                 Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
-//                TSnackbar.make(mRegist,msg,TSnackbar.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /**
+     * 异步登录接口
+     */
+    private class LoginAsyn extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            HashMap<String,String> map = new HashMap<>();
+            map.put("UserName", strings[0]);
+            map.put("Password", strings[1]);
+            String message = HttpManager.newInstance().getHttpDataByTwoLayer("",map,HttpManager.Login_URL);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+            String message = s;
+            if (!TextUtils.isEmpty(message)&&message.length()>10){
+                Gson gson = new Gson();
+                UserInfo userInfo = gson.fromJson(message,UserInfo.class);
+                if (userInfo.getHead().getStatus()==0){
+                    SharedPreferences sharedPreferences = ShapePreferenceManager.getMySharedPreferences(RegisterActivity.this);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(ShapePreferenceManager.TOKEN,userInfo.getResult().getToken());
+                    editor.putString(ShapePreferenceManager.USER_ID,userInfo.getResult().getId());
+                    editor.putString(ShapePreferenceManager.USER_NMAE,userInfo.getResult().getNickName());
+                    editor.putString(ShapePreferenceManager.PHONE,userInfo.getResult().getPhoneNum());
+                    editor.commit();
+                    //推送标签(别名)
+//                        Set<String> set = new HashSet<>();
+//                        set.add(userInfo.getResult().getPhoneNum());
+                    JPushInterface.setAlias(RegisterActivity.this, userInfo.getResult().getPhoneNum(), null);
+                    finish();
+                }else {
+                    Toast.makeText(getApplicationContext(),userInfo.getHead().getMsg(),Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

@@ -1,6 +1,9 @@
 package com.example.drawer.stockapp.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,6 +33,8 @@ import cn.jpush.android.api.JPushInterface;
 public class LoginActivity extends BascActivity implements View.OnClickListener{
     private EditText mUserName,mPassWord;
     private TextView mLogin;
+    public static final String isFlishType = "com.stock.flishtype";   //是否是动态发送
+    private Boolean isFinish = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +67,47 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
         mRegister.setOnClickListener(this);
         mBackimg.setOnClickListener(this);
         mEyeImg.setOnClickListener(this);
+
+        /**
+         * type广播（动态）
+         */
+        IntentFilter filter = new IntentFilter();
+        // 向过滤器中添加action
+        filter.addAction(isFlishType);
+        // 注册广播
+        registerReceiver(isFlashBroad, filter);
+
     }
+
+
+
+
+    /**
+     * 广播接收者
+     */
+    private BroadcastReceiver isFlashBroad = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            isFinish = true;
+        }
+
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (isFlashBroad != null){
+            unregisterReceiver(isFlashBroad);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        if (isFinish){
+            finish();
+        }
         SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
         ManagerUtil.setStataBarColorBlack(this,tintManager);
     }

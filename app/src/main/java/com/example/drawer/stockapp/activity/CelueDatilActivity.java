@@ -146,7 +146,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mTotal.setText(df.format(porfolioInfoBean.getTotleReturns())+"");
         mDataNum.setText(df.format(porfolioInfoBean.getReturn())+"%");
         mMonthNum.setText(df.format(porfolioInfoBean.getMonthlyAverage())+"%");
-        mJingZhi.setText(df.format(porfolioInfoBean.getNetValue()/1000000)+"");
+        mJingZhi.setText(df.format(porfolioInfoBean.getNetValue()/100000)+"");
         mAdavce.setText(porfolioInfoBean.getDesc());
 //        if (porfolioInfoBean.getUserImgUrl() != null&&!TextUtils.isEmpty(porfolioInfoBean.getUserImgUrl())){
             Picasso.with(this).load(porfolioInfoBean.getUserImgUrl()).placeholder(R.mipmap.img_place).into(mStarImage);
@@ -155,7 +155,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         if (porfolioInfoBean.getNickName() != null&&!TextUtils.isEmpty(porfolioInfoBean.getNickName())){
             mNiuRenName.setText(porfolioInfoBean.getNickName());
         }else {
-            mNiuRenName.setText("");
+            mNiuRenName.setText(R.string.user_name);
         }
 
 //        if (achievemntBean.getLastTime() != null&&!TextUtils.isEmpty(achievemntBean.getLastTime())){
@@ -721,7 +721,6 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                             in.setAction(AutoWisdomFragment.BROAD_TYPE);
                             //发送广播,销毁此界面
                             sendBroadcast(in);
-                            finish();
                         }else {
                             Toast.makeText(getApplicationContext(),head.getString("Msg"),Toast.LENGTH_SHORT).show();
                         }

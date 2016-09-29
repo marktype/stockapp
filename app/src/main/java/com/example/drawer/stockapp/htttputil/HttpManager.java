@@ -83,6 +83,7 @@ public class HttpManager {
     public static final String Favorites_URL = BASE_URL + "Dynamics/Favorites";      // 收藏或点赞
     public static final String Login_URL = BASE_URL + "Membership/Login";      // 登录
     public static final String USERINFO_URL = BASE_URL + "Membership/UserDetail";      // 获取用户信息
+    public static final String AddFeedBack_URL = BASE_URL + "FeedBack/AddFeedBack";      // 用户反馈
     public static final String Version_URL = BASE_URL + "Membership/Version";      // 版本
     public static final String UpdateCustomerPassword_URL = BASE_URL + "Membership/UpdateCustomerPassword";      // 修改密码
     public static final String RegisterCode_URL = BASE_URL + "Membership/RegisterCode";      // 注册验证码

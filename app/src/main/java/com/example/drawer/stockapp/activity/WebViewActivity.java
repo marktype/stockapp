@@ -247,7 +247,8 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         oks.setText(shareTxt);
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
-        oks.setImageUrl(image);
+//        oks.setImageUrl(image);
+        oks.setImageUrl("http://p8.qhimg.com/dmfd/180_100_/t0131afbee1694751a9.jpg?size=400x222");
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl(shareUrl);
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
