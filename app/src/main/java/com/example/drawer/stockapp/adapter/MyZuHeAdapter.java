@@ -105,8 +105,8 @@ public class MyZuHeAdapter extends BaseAdapter {
             viewHolder.image.setImageResource(R.mipmap.chuangjian);
             viewHolder.status.setVisibility(View.GONE);
         }else {
-//            viewHolder.guanzhuNum.setText("订阅人数:"+info.getTradeTime());
-            viewHolder.guanzhuNum.setText(info.getStockType());
+            viewHolder.guanzhuNum.setText("订阅人数:"+info.getTradeTime());
+//            viewHolder.guanzhuNum.setText(info.getStockType());
             viewHolder.image.setImageResource(R.mipmap.dingyue);
             viewHolder.status.setVisibility(View.GONE);
         }

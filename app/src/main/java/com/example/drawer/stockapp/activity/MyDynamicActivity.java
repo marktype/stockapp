@@ -348,14 +348,17 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
     public void initSoftWindow(int type){
         switch (type){
             case 0:
+                mCommentEdit.setText("");
                 mCommentEdit.setHint("写下您的评论");
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 break;
             case 1:
+                mCommentEdit.setText("");
                 mCommentEdit.setHint("写下您的评论");
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN|WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 break;
             case 2:
+                mCommentEdit.setText("");
                 mCommentEdit.setHint("写下您的转发内容");
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN|WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 break;

@@ -188,7 +188,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
 //                else {
 //                    mGentouMoney.setText(df.format(totalMoney-money)+" 元");
 //                }
-                mTargetMoney.setText("目标收益  "+money*targetshouyi/100);
+                mTargetMoney.setText("目标收益  "+df.format(money*targetshouyi/100));
                 mfenchengMoney.setText("  分成费 "+df.format((money*targetshouyi/100)*fengchengRate/100));
             }
         });
@@ -405,11 +405,11 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             mRunTime.setText(infoBean.getRunStartDay().substring(0,10)+"至"+infoBean.getRunTargetEndDay().substring(0,10));
 
             if (proinfo.getStartAmount()>=10000){
-                mWriteGentouMoney.setHint("跟投范围"+proinfo.getStartAmount()/10000+"万-"+proinfo.getLimtAmount()/10000+"万(虚拟资金)");
-//                mStartEndMoney.setText("跟投区间"+proinfo.getStartAmount()/10000+"万-"+proinfo.getLimtAmount()/10000+"万(虚拟资金)");
+                mWriteGentouMoney.setHint("跟投范围"+(int)(proinfo.getStartAmount()/10000)+"万-"+(int)(proinfo.getLimtAmount()/10000)+"万(虚拟资金)");
+            }else if (proinfo.getLimtAmount()>=10000){
+                mWriteGentouMoney.setHint("跟投范围"+(int)proinfo.getStartAmount()+"元-"+(int)(proinfo.getLimtAmount()/10000)+"万元(虚拟资金)");
             }else {
-                mWriteGentouMoney.setHint("跟投范围"+proinfo.getStartAmount()+"元-"+proinfo.getLimtAmount()+"元(虚拟资金)");
-//                mStartEndMoney.setText("跟投区间"+proinfo.getStartAmount()+"元-"+proinfo.getLimtAmount()+"元(虚拟资金)");
+                mWriteGentouMoney.setHint("跟投范围"+(int)proinfo.getStartAmount()+"元-"+(int)proinfo.getLimtAmount()+"元(虚拟资金)");
             }
 
             StargDetial.ResultBean.StarInfoBean starInfoBean = stargDetial.getResult().getStarInfo();
@@ -430,14 +430,20 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
             }
 
             Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
-            mParsent.setText(infoBean.getTargetReturns()+"%");
+            mParsent.setText(infoBean.getRecruitment()+"%");
             targetshouyi = infoBean.getTargetReturns();
             fengchengRate = infoBean.getShareRatio();   //分成率
-            setCanvasData(canvasViewThree, Double.parseDouble(infoBean.getTargetReturns()+""));
+            setCanvasData(canvasViewThree, Double.parseDouble(infoBean.getRecruitment()+""));
             mZuHeName.setText(infoBean.getTitle());
             mRunDay.setText(infoBean.getMaxDay()+"天");
             mZhisunXian.setText(infoBean.getStopLoss()+"%");
-            mGentouMoney.setText((int)(infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount())+"元");
+
+            double gentouTotal = infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount();   //跟投余额
+            if (gentouTotal>=10000){
+                mGentouMoney.setText(df.format(gentouTotal/10000)+"万元");
+            }else {
+                mGentouMoney.setText(df.format(gentouTotal)+"元");
+            }
             totalMoney = (int)(infoBean.getPorfolioAmount()-proinfo.getCompleteAlongAmount());
         }
     }
@@ -536,7 +542,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
     //设置历史业绩中的比例和颜色
     public void setCanvasData(CanvasViewThree canvasView, double num) {
         data = new ArrayList<>();
-        setDataToView(num + "%", "#DBBD44", (float) (num / 100));
+        setDataToView(num + "%", "#E53739", (float) (num / 100));
         canvasView.setData(data);
     }
 

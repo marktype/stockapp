@@ -88,7 +88,7 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
 
         Bundle bundle = new Bundle();
         bundle.putString("status","1");
-        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(setTabMenu("头条", R.drawable.tab_item1_selector)), FirstNewsFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(setTabMenu("资讯", R.drawable.tab_item1_selector)), FirstNewsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(setTabMenu("智能投顾", R.drawable.tab_item2_selector)), AutoWisdomFragment.class, null);
 //        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(setTabMenu("自选股", R.drawable.tab_item3_selector)), AutoStockFragment.class, null);   //暂时隐藏
 //        tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(setTabMenu("学堂", R.drawable.tab_item4_selector)), SchoolFragment.class, null);

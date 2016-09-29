@@ -126,17 +126,16 @@
                     android:id="@+id/dongtai_zhuanfa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:drawableLeft="@mipmap/zhuanfa"
                     android:drawablePadding="@dimen/margin_5dp"
                     android:padding="@dimen/margin_10dp"
+                    android:visibility="gone"
                     android:text="2" />
 
                 <TextView
                     android:id="@+id/dongtai_pinglun"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:drawableLeft="@mipmap/pinglun"
                     android:drawablePadding="@dimen/margin_5dp"
                     android:padding="@dimen/margin_10dp"

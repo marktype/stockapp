@@ -23,6 +23,7 @@ public class SplashActivity extends BascActivity {
     private LinearLayout ll_point_container;
     private SplashViewpagerAdapter splashViewpagerAdapter;
     private List<Integer> splashImageResourceIdList;
+//    private GestureDetector mGestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +76,11 @@ public class SplashActivity extends BascActivity {
                     initSp();
 //                    finish();
                     Timer timer = new Timer();
-                    timer.schedule(new MyTask(), 1000);
+                    timer.schedule(new MyTask(), 3000);
                 }
             }
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
     }

@@ -78,7 +78,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
     private SharedPreferences sharedPreferences;
     private TextView mSexTxt,scoreTxt,mFansTxt,mAttionTxt,mCollectTxt,mUserName,mUserNameNext;
     private CircleImageView circleImageView;
-    private ImageView mNologin;
+    private ImageView mNologin,mNoDataImage;
     private MyReboundScrollView mScrollview;
     private MyDialog dialog;
 
@@ -152,7 +152,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         mAllCan.setBackgroundColor(getResources().getColor(R.color.write_color));
         mBindPhone.setBackgroundColor(getResources().getColor(R.color.write_color));
         mAlterPassword.setBackgroundColor(getResources().getColor(R.color.write_color));
-
+        mNoDataImage = (ImageView) mView.findViewById(R.id.loading_failed);
 
         TextView mExit = (TextView) mView.findViewById(R.id.exit_txt);    //退出
         mUserNameNext = (TextView) mView.findViewById(R.id.user_name_txt);  //昵称
@@ -190,6 +190,8 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         mNologin.setOnClickListener(this);
         mBindPhone.setOnClickListener(this);
         mAlterPassword.setOnClickListener(this);
+        mNoDataImage.setOnClickListener(this);
+
 //        mMyQuan.setOnClickListener(this);
 
 
@@ -327,6 +329,11 @@ public class MyFragment extends Fragment implements View.OnClickListener{
 //                intent = new Intent(getContext(), DiYongQuanActivity.class);
 //                startActivity(intent);
 //                break;
+            case R.id.loading_failed:
+                UserInfoAsyn userInfoAsyn = new UserInfoAsyn();
+                userInfoAsyn.execute(userId,token);
+                mNoDataImage.setVisibility(View.GONE);
+                break;
         }
     }
     /**
@@ -451,8 +458,8 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 userInfo = gson.fromJson(message,UserInfo.class);   //获取用户信息
                 parseUserInfo();
             }else {
-                Toast.makeText(getContext(),"获取信息失败,请重新登录",Toast.LENGTH_SHORT).show();
-                mNologin.setVisibility(View.VISIBLE);
+                Toast.makeText(getContext(),"获取信息失败",Toast.LENGTH_SHORT).show();
+                mNoDataImage.setVisibility(View.VISIBLE);
             }
         }
     }

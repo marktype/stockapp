@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.customview.MyDialog;
-import com.example.drawer.stockapp.fragment.AutoWisdomFragment;
+import com.example.drawer.stockapp.fragment.FirstNewsFragment;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
@@ -427,7 +427,7 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
                             }else {
                                 Toast.makeText(getApplicationContext(),"发表成功",Toast.LENGTH_SHORT).show();
                                Intent in = new Intent();
-                                in.setAction(AutoWisdomFragment.BROAD_TYPE);
+                                in.setAction(FirstNewsFragment.isFlashType);
                                 //发送广播,销毁此界面
                                 sendBroadcast(in);
                                 finish();

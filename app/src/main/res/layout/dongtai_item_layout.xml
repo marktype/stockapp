@@ -101,6 +101,7 @@
             android:padding="@dimen/margin_10dp"
             android:drawableLeft="@mipmap/zhuanfa"
             android:drawablePadding="@dimen/margin_5dp"
+            android:visibility="gone"
             android:text="2" />
 
         <TextView
@@ -108,7 +109,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/dongtai_line"
-            android:layout_centerHorizontal="true"
             android:padding="@dimen/margin_10dp"
             android:drawableLeft="@mipmap/pinglun"
             android:drawablePadding="@dimen/margin_5dp"

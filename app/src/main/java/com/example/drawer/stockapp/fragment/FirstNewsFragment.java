@@ -91,7 +91,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private int page,dongTaiPage;
     private ImageView mImgHead,mMessage,mSendImg,mBackgroud,loadingFailed,loadingFailedDongtai;
     private Boolean isFlag = false;
-    private String[] images = {""};
+    private String[] images;
     private String[] strings = {""};
     private Boolean isFlash = false;   //是否刷新动态列表
     // TODO: Rename and change types of parameters
@@ -186,22 +186,30 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             initWight();
             initData();
         if (headMassageInfo == null) {
-            //指数加载
-            IndexAsyn indexAsyn = new IndexAsyn();
-            indexAsyn.execute();
-            //banner加载
-            GetBannerInfo getBannerInfo = new GetBannerInfo();
-            getBannerInfo.execute();
             listInfoSave = new ArrayList<>();   //保存数据，下次进入时不必加载
             //新闻列表加载
             GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
             getNewsListAsyn.execute(page + "");
             } else {
-            getSliderLayoutView(images, strings);
-            initListData(MarketDataSave);
+
             indexAdapter.setData(listInfoSave);
             mlist.setAdapter(indexAdapter);
             }
+        if (MarketDataSave == null){
+            //指数加载
+            IndexAsyn indexAsyn = new IndexAsyn();
+            indexAsyn.execute();
+        }else {
+            initListData(MarketDataSave);
+        }
+
+        if (images == null){
+            //banner加载
+            GetBannerInfo getBannerInfo = new GetBannerInfo();
+            getBannerInfo.execute();
+        }else {
+            getSliderLayoutView(images, strings);
+        }
 
         return mView;
     }
@@ -229,8 +237,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                     if (isFlash){    //判定是否发表动态返回
                         dymnicesData(token,dongTaiPage);
                         isFlash = false;
-                    }else
-                    if (dynamicsInfo == null){
+                    }else if (dynamicsInfo == null){
                         trendsInfosSave = new ArrayList<>();
                         dymnicesData(token,dongTaiPage);    //
                     }else {
@@ -665,6 +672,9 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 loadingFailed.setVisibility(View.GONE);
                 GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
                 getNewsListAsyn.execute(page+"");
+
+                GetBannerInfo getBannerInfo = new GetBannerInfo();
+                getBannerInfo.execute();
                 break;
             case R.id.loading_failed_two:
                 loadingFailedDongtai.setVisibility(View.GONE);

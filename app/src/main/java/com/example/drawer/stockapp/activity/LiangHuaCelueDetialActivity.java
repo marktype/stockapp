@@ -433,14 +433,12 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             }
             if (proinfo.getMaxReturn() <0){
                 mMostGetMoney.setText("0.00%");
-                mMostGetMoney.setTextColor(getResources().getColor(R.color.green_color));
             }else if (proinfo.getMaxReturn()>0){
                 mMostGetMoney.setText(df.format(proinfo.getMaxReturn())+"%");
                 mMostGetMoney.setTextColor(getResources().getColor(R.color.red));
             }
             if (proinfo.getMinReturn()>0){
                 mMostLose.setText("0.00%");
-                mMostLose.setTextColor(getResources().getColor(R.color.red));
             }else if (proinfo.getMinReturn()<0){
                 mMostLose.setText(df.format(proinfo.getMinReturn())+"%");
                 mMostLose.setTextColor(getResources().getColor(R.color.green_color));
@@ -448,12 +446,12 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
 
             StargDetial.ResultBean.PorfolioInfoBean infoBean = stargDetial.getResult().getPorfolioInfo();
 
-            if (infoBean.getPorfolioAmount()>10000){
+            if (infoBean.getPorfolioAmount()>=10000){
                 mLimitMoney.setText(df.format(infoBean.getPorfolioAmount()/10000)+"万元");
             }else {
                 mLimitMoney.setText(df.format(infoBean.getPorfolioAmount())+"元");
             }
-            if (infoBean.getMostFollow()>10000){
+            if (infoBean.getMostFollow()>=10000){
                 mStartMoney.setText(df.format(infoBean.getMostFollow()/10000)+"万元");
             }else {
                 mStartMoney.setText(df.format(infoBean.getMostFollow())+"元");
@@ -466,12 +464,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             }
             mTarget.setText(df.format(infoBean.getTotleReturns())+"%");
 
-            Object tradeTime = infoBean.getAverageTrading();   //判断是int 还是double
-            if (tradeTime instanceof Integer){
-                mTradeNum.setText(infoBean.getAverageTrading()+"");
-            }else if (tradeTime instanceof Double){
-                mTradeNum.setText((int)(infoBean.getAverageTrading())+"");
-            }
+//            double tradeTime = infoBean.getAverageTrading();   //判断是int 还是double
+            mTradeNum.setText((int)infoBean.getAverageTrading()+"");   //取整
 
 
             mTitleCelue.setText("收益走势");
@@ -479,8 +473,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             mRunTime.setText(infoBean.getRunStartDay().substring(0,10)+"至"+infoBean.getRunTargetEndDay().substring(0,10));
 
             StargDetial.ResultBean.StarInfoBean starInfoBean = stargDetial.getResult().getStarInfo();
-            if (starInfoBean.getTitle() != null&&!TextUtils.isEmpty(starInfoBean.getTitle())){
-                mAdvice.setText(starInfoBean.getTitle());
+            if (infoBean.getDesc() != null&&!TextUtils.isEmpty(infoBean.getDesc())){
+                mAdvice.setText(infoBean.getDesc());
             }else {
                 mAdvice.setText("牛逼的组合不需要解释！");
             }
@@ -556,7 +550,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
      * @param mLineChart
      */
     private void StockQuxainMap(LineChart mLineChart, List<StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean> ImgData, List<StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean> BenchmarkImgData){
-        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+        DecimalFormat df =new DecimalFormat("#0.0");   //保留1位小数
 
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
@@ -589,7 +583,6 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
 
         ArrayList<Entry> yValue = new ArrayList<>();
         for (int i = 0; i < ImgData.size(); i++) {
-
             StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean dataBean = ImgData.get(i);
             yValue.add(new Entry(Float.parseFloat(df.format(dataBean.getCumulativeReturn())), i));
         }
@@ -604,18 +597,27 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             yValue1.add(new Entry(Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())), i));
         }
         //构建一个LineDataSet 代表一组Y轴数据
-        LineDataSet dataSet = new LineDataSet(yValue1, "沪深300");
+        LineDataSet dataSet = new LineDataSet(yValue1, "沪深300(%)");
         dataSet.setColor(getResources().getColor(R.color.quxian_nan));
         dataSet.setCircleColor(getResources().getColor(R.color.quxian_nan));
-        dataSet.setDrawCircles(false);
+        if (BenchmarkImgData.size() == 1){
+            dataSet.setDrawCircles(true);
+            dataSet.setCircleSize(2f);
+        }else {
+            dataSet.setDrawCircles(false);
+        }
         dataSet.setLineWidth(2f);
 
         //构建一个LineDataSet 代表一组Y轴数据 （比如不同的彩票： 七星彩  双色球）
 
-        LineDataSet dataSet1 = new LineDataSet(yValue, "组合收益");
-
+        LineDataSet dataSet1 = new LineDataSet(yValue, "组合收益(%)");
+        if (ImgData.size() == 1){
+            dataSet1.setDrawCircles(true);
+            dataSet1.setCircleSize(2f);
+        }else {
+            dataSet1.setDrawCircles(false);
+        }
         dataSet1.setLineWidth(4f); // 线宽
-        dataSet1.setDrawCircles(false);
         dataSet1.setColor(getResources().getColor(R.color.quxian_huang));// 显示颜色
         dataSet1.setCircleColor(getResources().getColor(R.color.quxian_huang));// 圆形的颜色
 

@@ -39,19 +39,19 @@ public class XListViewFooter extends LinearLayout {
 
 	
 	public void setState(int state) {
-		mHintView.setVisibility(View.INVISIBLE);
-		mProgressBar.setVisibility(View.INVISIBLE);
-		mHintView.setVisibility(View.INVISIBLE);
+//		mHintView.setVisibility(View.INVISIBLE);
+		mProgressBar.setVisibility(View.GONE);
+//		mHintView.setVisibility(View.INVISIBLE);
 		if (state == STATE_READY) {
-			mHintView.setVisibility(View.VISIBLE);
+//			mHintView.setVisibility(View.VISIBLE);
 //			mHintView.setText(R.string.xlistview_footer_hint_ready);
-			mHintView.setText("");
+//			mHintView.setText("");
 		} else if (state == STATE_LOADING) {
 			mProgressBar.setVisibility(View.VISIBLE);
 		} else {
-			mHintView.setVisibility(View.VISIBLE);
+//			mHintView.setVisibility(View.VISIBLE);
 //			mHintView.setText(R.string.xlistview_footer_hint_normal);
-			mHintView.setText("");
+//			mHintView.setText("");
 		}
 	}
 	
@@ -72,7 +72,7 @@ public class XListViewFooter extends LinearLayout {
 	 * normal status
 	 */
 	public void normal() {
-		mHintView.setVisibility(View.VISIBLE);
+//		mHintView.setVisibility(View.VISIBLE);
 		mProgressBar.setVisibility(View.GONE);
 	}
 	
@@ -111,7 +111,7 @@ public class XListViewFooter extends LinearLayout {
 		
 		mContentView = moreView.findViewById(R.id.xlistview_footer_content);
 		mProgressBar = moreView.findViewById(R.id.xlistview_footer_progressbar);
-		mHintView = (TextView)moreView.findViewById(R.id.xlistview_footer_hint_textview);
+//		mHintView = (TextView)moreView.findViewById(R.id.xlistview_footer_hint_textview);
 	}
 	
 	

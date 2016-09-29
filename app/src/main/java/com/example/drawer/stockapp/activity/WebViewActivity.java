@@ -66,6 +66,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
     private MyDialog dialog;
     private SharedPreferences sp;
     private ImageView mZanImg;
+    private String title;
     private Boolean flag;    //是否点赞
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,7 +213,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                 }
                 break;
             case R.id.share_img:
-                showShare(mTitle.getText().toString(),"");
+                showShare(title,"");
                 break;
             case R.id.login_btn:
                 Intent intent = new Intent(this,LoginActivity.class);
@@ -310,7 +311,8 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                         shareUrl = "";
                         webView.loadDataWithBaseURL("about:blank", Html.fromHtml(bean.getContent()).toString(), "text/html", "utf-8",null);
                     }
-                    mTitle.setText(bean.getTitle());
+                    title = bean.getTitle();
+//                    mTitle.setText(bean.getTitle());
                     mZhuanFa.setText(bean.getForward()+"");
                     mComment.setText(bean.getComments()+"");
                     mLikes.setText(bean.getLikes()+"");
@@ -449,6 +451,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                             Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_SHORT).show();
+                            mComment.setText((Integer.parseInt(mComment.getText().toString())+1)+"");
                             mCommentEdit.setText("");
                             DynamicTask dynamicTask = new DynamicTask();
                             dynamicTask.execute(urlId);

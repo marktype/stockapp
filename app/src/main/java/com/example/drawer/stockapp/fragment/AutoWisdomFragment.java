@@ -73,6 +73,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     public static final String CELUENAME = "celuename";
     public static final String ZUHETYPE = "type";
     public static final String BROAD_TYPE = "com.stock.flash";   //发送广播
+    private Boolean isShowNoNet = false;   //是否显示无网络图（我的组合）
     private View mView, liangHuaZuHeView, niuRenZuHeView, myZuHeView, mSliderVIew, mSliderVIewTwo, mSliderVIewThree;
     private ViewPager mPager;
     private CeLueAdapter ceLueAdapter;
@@ -619,6 +620,9 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                         }
                         getMyCollect(myInfoList);
                     }
+                }else {
+                    isShowNoNet = true;
+                    mImageNoDataThree.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -656,6 +660,11 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                                 mLogin.setVisibility(View.VISIBLE);
                             }
                         }
+                    }else {
+                        if (isShowNoNet){  //显示图片
+                            mImageNoDataThree.setVisibility(View.VISIBLE);
+                            isShowNoNet = false;
+                        }
                     }
 
 
@@ -683,9 +692,9 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         }
         if (niurenList.size()>0){
             myListSave = niurenList;
-            myZuHeAdapter.setData(niurenList);
-            myList.setAdapter(myZuHeAdapter);
         }
+        myZuHeAdapter.setData(niurenList);
+        myList.setAdapter(myZuHeAdapter);
     }
 
     /**
@@ -717,6 +726,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 ceLueInfos.add(info);
             }else if (ben.isIsStartInvestment()&&ben.isIsStartRun()&&ben.getRunEndDay() == null){//运行中
                 info.setCeluePersent(ben.getTotalReturn()+"");
+                info.setRunTime(ben.getRunStartDay());
                 info.setType(1);
                 ceLueInfos.add(info);
             }else if (ben.isIsEndInvestment()||ben.getRunEndDay() != null){   //已结束
@@ -914,6 +924,10 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             case R.id.loading_failed_two:
                 mImageNoDataTwo.setVisibility(View.GONE);
                 getNiuRenListData(niurenPage);
+                break;
+            case R.id.loading_failed_three:
+                mImageNoDataThree.setVisibility(View.GONE);
+                getMyListData();
                 break;
         }
     }

@@ -98,8 +98,9 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                     Toast.makeText(getApplicationContext(),"手机号码写错了",Toast.LENGTH_SHORT).show();
                 }else if (TextUtils.isEmpty(verify)){
                     Toast.makeText(getApplicationContext(),"验证码写错了",Toast.LENGTH_SHORT).show();
-                }else if (!other.equals(password)){
-//                    TSnackbar.make(mSureTxt,"输入有误！",TSnackbar.LENGTH_SHORT).show();
+                }else if (password.length()<6){
+                    Toast.makeText(getApplicationContext(),"请输入6-18位的密码",Toast.LENGTH_SHORT).show();
+                } else if (!other.equals(password)){
                     Toast.makeText(getApplicationContext(),"两次输入密码不一样，请先确认一下",Toast.LENGTH_SHORT).show();
                 }else {
                     dialog = ManagerUtil.getDiaLog(this);

@@ -345,4 +345,11 @@
             android:textColor="@android:color/background_dark"/>
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/loading_failed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:src="@mipmap/loading_failed"/>
 </RelativeLayout>

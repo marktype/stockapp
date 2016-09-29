@@ -418,6 +418,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                             Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_SHORT).show();
+                            mComment.setText((Integer.parseInt(mComment.getText().toString())+1)+"");
                             mCommentEdit.setText("");
                             DynamicTask dynamicTask = new DynamicTask();
                             dynamicTask.execute(urlId);

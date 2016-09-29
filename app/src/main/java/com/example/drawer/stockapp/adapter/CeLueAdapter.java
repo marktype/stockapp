@@ -72,6 +72,7 @@ public class CeLueAdapter extends BaseAdapter {
             viewHolder.status = (TextView) view.findViewById(R.id.status_celue);
             viewHolder.zhaomuName = (TextView) view.findViewById(R.id.zhaomu_name);
             viewHolder.titleLayout = (RelativeLayout) view.findViewById(R.id.celue_relat_item);
+            viewHolder.runTime = (TextView) view.findViewById(R.id.run_time_txt);
 //            viewHolder.layout = (RelativeLayout) view.findViewById(R.id.lianghuacelue_item_relat);
 //            viewHolder.zuheName = (TextView) view.findViewById(R.id.lianghuacelue_title);
 //            viewHolder.levelImage = (ImageView) view.findViewById(R.id.line_celue_three);
@@ -84,16 +85,21 @@ public class CeLueAdapter extends BaseAdapter {
             viewHolder.status.setText("运行中");
             viewHolder.nowGen.setVisibility(View.GONE);
             viewHolder.zhaomuName.setText("当前收益");
+            viewHolder.runTime.setVisibility(View.VISIBLE);
+            viewHolder.runTime.setText(info.getRunTime()+"开始运行");
         }else if (info.getType() == 2){
             viewHolder.status.setText("招募中");
+            viewHolder.runTime.setVisibility(View.GONE);
             viewHolder.nowGen.setVisibility(View.VISIBLE);
             viewHolder.zhaomuName.setText("招募进度");
         }else if (info.getType() == 3){
             viewHolder.status.setText("已结束");
+            viewHolder.runTime.setVisibility(View.GONE);
             viewHolder.nowGen.setVisibility(View.GONE);
             viewHolder.zhaomuName.setText("实现收益");
         }else {
             viewHolder.status.setText("");
+            viewHolder.runTime.setVisibility(View.GONE);
             viewHolder.nowGen.setVisibility(View.GONE);
         }
         viewHolder.titleLayout.setBackgroundColor(context.getResources().getColor(R.color.write_color));
@@ -141,6 +147,7 @@ public class CeLueAdapter extends BaseAdapter {
         TextView status;
 //        RelativeLayout layout;
         RelativeLayout titleLayout;
+        TextView runTime;
     }
 
     private ArrayList<HashMap<String, Object>> data;

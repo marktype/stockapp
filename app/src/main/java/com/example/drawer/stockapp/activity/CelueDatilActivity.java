@@ -155,7 +155,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         if (porfolioInfoBean.getNickName() != null&&!TextUtils.isEmpty(porfolioInfoBean.getNickName())){
             mNiuRenName.setText(porfolioInfoBean.getNickName());
         }else {
-            mNiuRenName.setText("实盈量化策略");
+            mNiuRenName.setText("");
         }
 
 //        if (achievemntBean.getLastTime() != null&&!TextUtils.isEmpty(achievemntBean.getLastTime())){
@@ -282,8 +282,8 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         if (type==1){
             mGoOrder.setVisibility(View.GONE);
         }else if (type==3){
-            mGoOrder.setImageResource(R.mipmap.un_order);
-            mMore.setVisibility(View.GONE);
+            mGoOrder.setVisibility(View.GONE);
+            mMore.setVisibility(View.VISIBLE);
         }else {
             mGoOrder.setImageResource(R.mipmap.order);
             mMore.setVisibility(View.GONE);
@@ -575,7 +575,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         if (mPopWindow == null) {
             View contentView = LayoutInflater.from(this).inflate(R.layout.pop_item_layout, null);
             TextView cancal = (TextView) contentView.findViewById(R.id.delete_zuhe);
-            cancal.setText("取消跟投");
+            cancal.setText("取消订阅");
             mPopWindow = new PopupWindow(contentView,
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -585,13 +585,13 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                 public void onClick(View v) {
                     mPopWindow.dismiss();
                     final CustomDialog dialog = new CustomDialog(CelueDatilActivity.this);
-                    dialog.setMessageText("确认要取消跟投吗？");
+                    dialog.setMessageText("确认要取消订阅吗？");
                     dialog.show();
                     dialog.setOnPositiveListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            DeleteMyZuheAsyn deleteMyZuheAsyn = new DeleteMyZuheAsyn();
-                            deleteMyZuheAsyn.execute(zuheId,mToken);
+                            CancalOrderAsyn asyn = new CancalOrderAsyn();
+                            asyn.execute(zuheId,mToken);
                             dialog.dismiss();
                         }
                     });
@@ -675,6 +675,10 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                     JSONObject object = new JSONObject(s);
                     JSONObject head = object.getJSONObject("Head");
                     if (head.getInt("Status") == 0){
+                        Intent in = new Intent();
+                        in.setAction(AutoWisdomFragment.BROAD_TYPE);
+                        //发送广播,销毁此界面
+                        sendBroadcast(in);
                         finish();
                     }else {
                         Toast.makeText(getApplicationContext(),head.getString("Msg"),Toast.LENGTH_SHORT).show();
@@ -726,6 +730,8 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                     }
 
                 }
+            }else {
+                Toast.makeText(getApplicationContext(),"请求失败，请重新请求一次哦",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -735,7 +741,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
      * @param mLineChart
      */
     private void StockQuxainMap(LineChart mLineChart, List<StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean> ImgData, List<StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean> BenchmarkImgData){
-        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+        DecimalFormat df =new DecimalFormat("#0.0");   //保留两位小数
 
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
@@ -784,16 +790,26 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         }
 
         //构建一个LineDataSet 代表一组Y轴数据
-        LineDataSet dataSet = new LineDataSet(yValue1, "沪深300");
+        LineDataSet dataSet = new LineDataSet(yValue1, "沪深300(%)");
         dataSet.setColor(getResources().getColor(R.color.quxian_nan));
         dataSet.setCircleColor(getResources().getColor(R.color.quxian_nan));
-        dataSet.setDrawCircles(false);
         dataSet.setLineWidth(2f);
+        if (BenchmarkImgData.size() == 1){
+            dataSet.setDrawCircles(true);
+            dataSet.setCircleSize(2f);
+        }else {
+            dataSet.setDrawCircles(false);
+        }
         //构建一个LineDataSet 代表一组Y轴数据 （比如不同的彩票： 七星彩  双色球）
 
-        LineDataSet dataSet1 = new LineDataSet(yValue, "组合收益");
+        LineDataSet dataSet1 = new LineDataSet(yValue, "组合收益(%)");
+        if (ImgData.size() == 1){
+            dataSet1.setDrawCircles(true);
+            dataSet1.setCircleSize(2f);
+        }else {
+            dataSet1.setDrawCircles(false);
+        }
         dataSet1.setLineWidth(4f); // 线宽
-        dataSet1.setDrawCircles(false);
         dataSet1.setColor(getResources().getColor(R.color.quxian_huang));// 显示颜色
         dataSet1.setCircleColor(getResources().getColor(R.color.quxian_huang));// 圆形的颜色
 

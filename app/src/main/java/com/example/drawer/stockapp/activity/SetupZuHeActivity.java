@@ -39,7 +39,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
     public static final String TYPE = "type";     //调仓还是创建
     public static final String CHICANG_STOCK = "chicang";    //持仓所有股票,及id等信息
     private int type;
-    private double mAllMoney = 1000000;     //总资产
+    private double mAllMoney = 100000;     //总资产
     private SetUpZuHeAdapter adapter;
     private MyListView mList;
     private TextView mSrueBuild;
@@ -289,7 +289,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
 
             }else if (headIndex.getType() == 2){      //新仓位
                 if (headIndex.getIndexPersent() != null&& !TextUtils.isEmpty(headIndex.getIndexPersent())){
-                    volume = (int) (((mAllMoney*Integer.parseInt(headIndex.getIndexPersent())/100)/(headIndex.getPrice()*100))*100);
+                    volume = (((int)((mAllMoney*Integer.parseInt(headIndex.getIndexPersent())/100)/(headIndex.getPrice()*100)))*100);
                 }
                 hasp.put("Code",headIndex.getIndexNum());
                 hasp.put("Price",headIndex.getPrice()+"");
@@ -352,7 +352,7 @@ public class SetupZuHeActivity extends BascActivity implements View.OnClickListe
             protected Object doInBackground(Object[] objects) {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("Name", name);
-                map.put("Amount", "1000000");
+                map.put("Amount", "100000");
                 map.put("TargetReturn", "0");
                 map.put("Desc", desc);
                 map.put("CodeList",listCode);

@@ -104,8 +104,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
         zuheId = getIntent().getStringExtra(ZUHE_ID);
         initWight();
-        getStargeDetialData(zuheId,mToken);
-        dialog = ManagerUtil.getDiaLog(this);
+
     }
 
 
@@ -114,7 +113,8 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         super.onResume();
         SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
         ManagerUtil.setStataBarColorBlack(this,tintManager);
-
+        getStargeDetialData(zuheId,mToken);
+        dialog = ManagerUtil.getDiaLog(this);
     }
     /**
      * 设置数据
@@ -152,9 +152,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         }else {
             mAdavce.setText("主理人未留下组合投资建议");
         }
-        if (porfolioInfoBean.getUserImgUrl() != null&&!TextUtils.isEmpty(porfolioInfoBean.getUserImgUrl())){
-            Picasso.with(this).load(porfolioInfoBean.getUserImgUrl()).into(mStarImage);
-        }
+        Picasso.with(this).load(porfolioInfoBean.getUserImgUrl()).placeholder(R.mipmap.img_place).into(mStarImage);
 
         remainMoney = porfolioInfoBean.getCash();   //可用余额
         zuheName = porfolioInfoBean.getTitle();
@@ -163,7 +161,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         if (porfolioInfoBean.getNickName() != null&&!TextUtils.isEmpty(porfolioInfoBean.getNickName())){
             mNiuRenName.setText(porfolioInfoBean.getNickName());
         }else {
-            mNiuRenName.setText("实盈量化策略");
+            mNiuRenName.setText("");
         }
 
 //        if (achievemntBean.getLastTime() != null&&!TextUtils.isEmpty(achievemntBean.getLastTime())){
@@ -560,7 +558,6 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                 intent.putExtra(SetupZuHeActivity.TYPE,1);     //调仓
                 intent.putExtra(SetupZuHeActivity.CHICANG_STOCK,tiaoCangClass);
                 startActivity(intent);
-                finish();
                 break;
             case R.id.changjianwenti_txt:
                 initPopView(view);
@@ -665,7 +662,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
      * @param mLineChart
      */
     private void StockQuxainMap(LineChart mLineChart,List<StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean> ImgData,List<StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean> BenchmarkImgData){
-        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+        DecimalFormat df =new DecimalFormat("#0.0");   //保留1位小数
 
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
@@ -710,17 +707,28 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
 
 
         //构建一个LineDataSet 代表一组Y轴数据
-        LineDataSet dataSet = new LineDataSet(yValue1, "沪深300");
+        LineDataSet dataSet = new LineDataSet(yValue1, "沪深300(%)");
         dataSet.setColor(R.color.quxian_nan);
         dataSet.setCircleColor(R.color.quxian_nan);
-        dataSet.setDrawCircles(false);
         dataSet.setLineWidth(2f);
+        if (BenchmarkImgData.size() == 1){
+            dataSet.setDrawCircles(true);
+            dataSet.setCircleSize(2f);
+        }else {
+            dataSet.setDrawCircles(false);
+        }
 
         //构建一个LineDataSet 代表一组Y轴数据 （比如不同的彩票： 七星彩  双色球）
 
-        LineDataSet dataSet1 = new LineDataSet(yValue, "组合收益");
+        LineDataSet dataSet1 = new LineDataSet(yValue, "组合收益(%)");
+
+        if (ImgData.size() == 1){
+            dataSet1.setDrawCircles(true);
+            dataSet1.setCircleSize(2f);
+        }else {
+            dataSet1.setDrawCircles(false);
+        }
         dataSet1.setLineWidth(4f); // 线宽
-        dataSet1.setDrawCircles(false);
         dataSet1.setColor(getResources().getColor(R.color.quxian_huang));// 显示颜色
         dataSet1.setCircleColor(getResources().getColor(R.color.quxian_huang));// 圆形的颜色
         //构建一个类型为LineDataSet的ArrayList 用来存放所有 y的LineDataSet   他是构建最终加入LineChart数据集所需要的参数

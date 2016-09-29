@@ -11,6 +11,9 @@ public class MyLauncherActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences mySharedPreferences = getSharedPreferences("launch", Activity.MODE_PRIVATE);
+
+//        Review.MD5Review(this,"com.example.drawer.stockapp","f879ca72840f62316f29b25d0be0e596");   //检测md5签名是否正确
+
         /**
          * sp不为空,则取数据,
          */
