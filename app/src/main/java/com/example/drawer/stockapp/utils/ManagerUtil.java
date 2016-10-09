@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -20,10 +22,10 @@ import com.example.drawer.stockapp.customview.CustomDialog;
 import com.example.drawer.stockapp.customview.MyDialog;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -186,47 +188,67 @@ public class ManagerUtil {
         MIUISetStatusBarLightMode(activity.getWindow(),false);
     }
 
+    //写数据到SD中的文件
+    public static void writeFileSdcardFile(String fileName,String write_str){
+        try{
 
-    /**
-     * 写文件
-     */
-    public static void save(Context context,String fileName, String fileContent) {
-        try {
-            //创建输出流，模式为私有模式，只能被本应用访问，
-            FileOutputStream outStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
-            //默认会保存到 /data/data/package name/files下，如果不存在则会创建，
-            outStream.write(fileContent.getBytes());
-            outStream.close();
-        } catch (Exception e) {
+            FileOutputStream fout = new FileOutputStream(fileName,true);  //追加文件
+            byte [] bytes = write_str.getBytes();
+
+            fout.write(bytes);
+            fout.close();
+        }
+
+        catch(IOException e){
             e.printStackTrace();
         }
     }
 
+    //读SD中的文件
+    public static String readFileSdcardFile(String fileName){
+        String res="";
+        try{
+            FileInputStream fin = new FileInputStream(fileName);
+
+            int length = fin.available();
+
+            byte [] buffer = new byte[length];
+            fin.read(buffer);
+
+            res = new String(buffer, "UTF-8");
+
+            fin.close();
+        }
+
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        return res;
+    }
+
     /**
-     * 读文件
+     * 保存本地图片
      * @param context
      * @param fileName
-     * @return
      */
-    public static String read(Context context,String fileName)  {
-        FileInputStream inputStream;
-        try {
-            inputStream = context.openFileInput(fileName);
-            ByteArrayOutputStream outStream =new ByteArrayOutputStream();
-            byte[] buffer=new byte[1024];
-            int len=0;
-            while((len=inputStream.read(buffer))!=-1){
-                outStream.write(buffer, 0, len);
+    public static void saveImg(Context context,String fileName) {
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon) ;
+        File file = new File(fileName) ;
+        if(!file.exists()){
+            try {
+                file.createNewFile() ;
+                FileOutputStream fos = new FileOutputStream(file) ;
+                bitmap.compress(Bitmap.CompressFormat.PNG, 50, fos) ;
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            byte[] data=outStream.toByteArray();
-            inputStream.close();
-            outStream.close();
-            return new String(data);
-        } catch (Exception e) {
-            e.printStackTrace();
+
         }
-        return null;
+
     }
+
+
 
 
     /**

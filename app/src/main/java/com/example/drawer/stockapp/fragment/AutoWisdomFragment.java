@@ -178,6 +178,8 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             getBannerInfo.execute();
         }else {
             getSliderLayoutView(images, strings);
+            getSliderLayoutViewTwo(images, strings);
+            getSliderLayoutViewThree(images, strings);
         }
 
         return mView;
@@ -656,7 +658,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 HashMap<String, String> map = new HashMap<>();
                 map.put("PageIndex", "0");
                 map.put("PageCount", "0");
-                map.put("PageSize", "0");
+                map.put("PageSize", "100");
                 String message = HttpManager.newInstance().getHttpDataByTwoLayer(mToken, map, HttpManager.MyPorfolio_URL);
                 return message;
             }
@@ -697,7 +699,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     HashMap<String, String> map = new HashMap<>();
                     map.put("PageIndex", "0");
                     map.put("PageCount", "0");
-                    map.put("PageSize", "0");
+                    map.put("PageSize", "100");
                     String message = HttpManager.newInstance().getHttpDataByTwoLayer(mToken, map, HttpManager.MyCollectPorfolio_URL);
                     return message;
                 }
@@ -895,7 +897,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_NAME,celueinfo.getTitle()+"（运行中）");
                     startActivity(intent);
-                }else if (celueinfo.getType() == 2){   //招募中
+                }else if (celueinfo.getType() == 2||celueinfo.getType() == 5){   //招募中
                     Intent intent = new Intent(getActivity(), LianghuaCelueZhaoMuZhongActivity.class);
                     intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,celueinfo.getId());
                     startActivity(intent);

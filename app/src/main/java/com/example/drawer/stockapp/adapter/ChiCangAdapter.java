@@ -63,8 +63,10 @@ public class ChiCangAdapter extends BaseAdapter {
         viewHolder.nowPrice.setText(info.getNowPrice());
         if (info.getTodayAddDecNum()>0){
             viewHolder.nowAdd.setTextColor(context.getResources().getColor(R.color.red));
-        }else {
+        }else if (info.getTodayAddDecNum()<0){
             viewHolder.nowAdd.setTextColor(context.getResources().getColor(R.color.green_color));
+        }else {
+            viewHolder.nowAdd.setTextColor(context.getResources().getColor(android.R.color.black));
         }
         viewHolder.nowAdd.setText(info.getTodayAdd());
         viewHolder.bascPrice.setText(info.getBascPrice());
@@ -72,8 +74,10 @@ public class ChiCangAdapter extends BaseAdapter {
         viewHolder.fuYing.setText(info.getFuYing());
         if (info.getFuYingNum()>0){
             viewHolder.fuYing.setTextColor(context.getResources().getColor(R.color.red));
-        }else {
+        }else if (info.getFuYingNum()<0){
             viewHolder.fuYing.setTextColor(context.getResources().getColor(R.color.green_color));
+        }else {
+            viewHolder.fuYing.setTextColor(context.getResources().getColor(android.R.color.black));
         }
 
         return view;

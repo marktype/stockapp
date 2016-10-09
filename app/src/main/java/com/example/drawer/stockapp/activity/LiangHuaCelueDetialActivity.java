@@ -75,12 +75,11 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
     private LineChart mLineChart;
     private ImageView mNoData;
     private int type;
-    private DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+//    private DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.celue_detial_first_layout);
-        mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
         Intent intent = getIntent();
         tintManager.setStatusBarTintResource(R.color.write_color);
         LiangHuaId = intent.getStringExtra(LIANGHUA_ID);
@@ -211,6 +210,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         super.onResume();
         SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
         ManagerUtil.setStataBarColor(this,tintManager);
+        mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
+
     }
 
 
@@ -348,7 +349,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
 
     private void parseData(StargDetial stargDetial){
         if (stargDetial.getHead().getStatus() == 0){
-//            DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+            DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
 
             StargDetial.ResultBean.TransferPositionsBean Transfer = stargDetial.getResult().getTransferPositions();
             if (Transfer.getLastTime() != null&&!TextUtils.isEmpty(Transfer.getLastTime())){
@@ -383,8 +384,10 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                     mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
                     mNoDataImgTiaoCang.setText("");
                 }
+                mSeeHistory.setVisibility(View.VISIBLE);
             }else {
                 mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
+                mSeeHistory.setVisibility(View.GONE);
             }
 
             List<StargDetial.ResultBean.HoldingDetailBean> holdingDetailBeen = stargDetial.getResult().getHoldingDetail();
@@ -552,7 +555,10 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
      * @param mLineChart
      */
     private void StockQuxainMap(LineChart mLineChart, List<StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean> ImgData, List<StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean> BenchmarkImgData){
-        DecimalFormat df =new DecimalFormat("#0.0");   //保留1位小数
+        DecimalFormat df =new DecimalFormat("#0.00");   //保留2位小数
+        //取消缩放
+        mLineChart.setScaleEnabled(false);
+        mLineChart.setDoubleTapToZoomEnabled(false);
 
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));

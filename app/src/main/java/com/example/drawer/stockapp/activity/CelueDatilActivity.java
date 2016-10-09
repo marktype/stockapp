@@ -79,7 +79,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     private ArrayList<HashMap<String, Object>> data;
     private TextView mPersent,mTimes,mLikes,mBuildTime,mDataNum,mMonthNum,
             mJingZhi,mTotal,mAdavce,mLastTime,mflashTime,mName,
-            mNum,mPriceChange,mSuccess,mNiuRenName,mNoDataImgChiCang,mSeeHistory;
+            mNum,mPriceChange,mSuccess,mNiuRenName,mNoDataImgChiCang,mSeeHistory,mNoDataImgTiaoCang;
     private ImageView mStarImage,mNoData,mNoDataChart,mNoDataPeiZhi;
     private StargDetial starDetailInfo;
     private RatingBar mRating;
@@ -191,8 +191,19 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         }
         MyZuHeItemAdapter zuHeItemAdapter = new MyZuHeItemAdapter(this);
         zuHeItemAdapter.setData(listInfo);
-        mListView.setAdapter(zuHeItemAdapter);
         setChartData(achievemntBean);
+
+        if (!TextUtils.isEmpty(mToken)){
+            mListView.setAdapter(zuHeItemAdapter);
+            if (listInfo.size() == 0){
+                mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
+                mNoDataImgTiaoCang.setText("");
+            }
+            mSeeHistory.setVisibility(View.VISIBLE);
+        }else {
+            mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
+            mSeeHistory.setVisibility(View.GONE);
+        }
 
         ArrayList<ChartInfo> chartList = new ArrayList<>();
         for (int i = 0;i<stock.size();i++){
@@ -214,6 +225,8 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
             mNoData.setVisibility(View.VISIBLE);
             mLineChart.setVisibility(View.GONE);
         }
+
+
 
         List<StargDetial.ResultBean.HoldingDetailBean> holdingDetailBeen = starDetailInfo.getResult().getHoldingDetail();
         ArrayList<ChiCangInfo> chicangList = new ArrayList<>();
@@ -313,6 +326,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mChartRelat = (RelativeLayout) findViewById(R.id.yeji_rank_relat);   //业绩评级
         mNoDataImgChiCang = (TextView) findViewById(R.id.no_data_img_chicang);   //持仓无数据
         mNoDataPeiZhi = (ImageView) findViewById(R.id.nodata_img_three);  //配置无数据
+        mNoDataImgTiaoCang = (TextView) findViewById(R.id.no_data_img);    //无数据显示图片
 
         MyScrollView mScrollview = (MyScrollView) findViewById(R.id.celue_scroll);   //滑动条
         mSeeHistory = (TextView) findViewById(R.id.history_see);    //查看历史
@@ -446,7 +460,10 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         yAxis.setAxisMinValue(0f);
 
         Legend l = mChart.getLegend();
-        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(Color.TRANSPARENT);
+        l.setComputedColors(colors);
+        l.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);    //标签位置
         l.setXEntrySpace(7f);    //7f
         l.setYEntrySpace(5f);    //5f
     }
@@ -617,43 +634,6 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
     }
 
     /**
-     * q取消跟投
-     */
-    private class DeleteMyZuheAsyn extends AsyncTask<String,Void,String>{
-
-        @Override
-        protected String doInBackground(String... strings) {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("id", strings[0]);
-            String message = HttpManager.newInstance().getHttpDataByTwoLayer(strings[1], map, HttpManager.CancelAlong_URL);
-            return message;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if (!TextUtils.isEmpty(s)){
-                try {
-                    JSONObject object = new JSONObject(s);
-                    JSONObject head = object.getJSONObject("Head");
-                    if (head.getInt("Status") == 0){
-                        Intent in = new Intent();
-                        in.setAction(AutoWisdomFragment.BROAD_TYPE);
-                        //发送广播,销毁此界面
-                        sendBroadcast(in);
-                        finish();
-                    }else {
-                        Toast.makeText(getApplicationContext(),"取消失败",Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-    }
-
-    /**
      * q取消订阅
      */
     private class CancalOrderAsyn extends AsyncTask<String,Void,String>{
@@ -740,7 +720,11 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
      * @param mLineChart
      */
     private void StockQuxainMap(LineChart mLineChart, List<StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean> ImgData, List<StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean> BenchmarkImgData){
-        DecimalFormat df =new DecimalFormat("#0.0");   //保留两位小数
+        DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+
+        //取消缩放
+        mLineChart.setScaleEnabled(false);
+        mLineChart.setDoubleTapToZoomEnabled(false);
 
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
@@ -776,6 +760,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
 
             StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean dataBean = ImgData.get(i);
             yValue.add(new Entry(Float.parseFloat(df.format(dataBean.getCumulativeReturn())), i));
+            Log.d("tag","Float.parseFloat(df.format(dataBean.getCumulativeReturn())----"+Float.parseFloat(df.format(dataBean.getCumulativeReturn())));
         }
 
 
@@ -786,6 +771,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         for (int i = 0; i < BenchmarkImgData.size(); i++) {
             StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean benchmarkImgDataBean = BenchmarkImgData.get(i);
             yValue1.add(new Entry(Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())), i));
+            Log.d("tag","Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn()))----"+Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())));
         }
 
         //构建一个LineDataSet 代表一组Y轴数据

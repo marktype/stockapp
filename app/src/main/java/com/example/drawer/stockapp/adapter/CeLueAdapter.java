@@ -90,7 +90,7 @@ public class CeLueAdapter extends BaseAdapter {
         }else if (info.getType() == 2||info.getType() == 5){
             viewHolder.status.setText("招募中");
             viewHolder.runTime.setVisibility(View.GONE);
-            viewHolder.nowGen.setVisibility(View.VISIBLE);
+            viewHolder.nowGen.setVisibility(View.GONE);
             viewHolder.zhaomuName.setText("招募进度");
         }else if (info.getType() == 3){
             viewHolder.status.setText("已结束");
@@ -108,6 +108,8 @@ public class CeLueAdapter extends BaseAdapter {
             viewHolder.persent.setTextColor(context.getResources().getColor(R.color.red));
         }else if (persent<0){
             viewHolder.persent.setTextColor(context.getResources().getColor(R.color.green_color));
+        }else {
+            viewHolder.persent.setTextColor(context.getResources().getColor(android.R.color.black));
         }
         viewHolder.persent.setText(df.format(persent)+"%");
         viewHolder.title.setText(info.getTitle());
@@ -117,11 +119,10 @@ public class CeLueAdapter extends BaseAdapter {
         viewHolder.rateNum.setText(info.getRateNum());
         viewHolder.gengtouTxt.setText(info.getMinGengTou());
 
-//        viewHolder.name.setText(info.getName());
-//        Picasso.with(context).load(info.getHeadImage()).into(viewHolder.headImage);
-//        Picasso.with(context).load(info.getLevelImage()).into(viewHolder.levelImage);
         viewHolder.canvasViewThree.setRadius(DensityUtils.dp2px(context,40));
-        if (persent>100){
+        if (info.getType() == 2||info.getType() == 5){
+            setCanvasDataYellow(viewHolder.canvasViewThree, persent);
+        }else if (persent>100){
             setCanvasDataRed(viewHolder.canvasViewThree, 100);
         }else if (persent>0){
             setCanvasDataRed(viewHolder.canvasViewThree, persent);
@@ -162,6 +163,12 @@ public class CeLueAdapter extends BaseAdapter {
     public void setCanvasDataGreen(CanvasViewThree canvasView, double num) {
         data = new ArrayList<>();
         setDataToView(num + "%", "#49A854", (float) (num / 100));
+        canvasView.setData(data);
+    }
+
+    public void setCanvasDataYellow(CanvasViewThree canvasView, double num) {
+        data = new ArrayList<>();
+        setDataToView(num + "%", "#FFE400", (float) (num / 100));
         canvasView.setData(data);
     }
 

@@ -132,7 +132,7 @@ public class AlterNameActivity extends BascActivity implements View.OnClickListe
     /**
      * 限制中文maxLen/2个字，英文maxLen个字
      */
-    private final int maxLen = 25;
+    private final int maxLen = 16;
     private InputFilter filter = new InputFilter() {
 
         @Override

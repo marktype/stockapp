@@ -52,6 +52,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
         params.setMargins(0, ManagerUtil.getStatusBarHeight(this),0,0);
         mTitleRelat.setLayoutParams(params);
         ImageView mEyeImg = (ImageView) findViewById(R.id.eye_img);     //密码是否可见
+        ImageView mEyeImgTwo = (ImageView) findViewById(R.id.eye_img_two);     //密码是否可见
         mSureTxt = (TextView) findViewById(R.id.alter_sure_txt);  //修改密码
 
         mGetVerify = (TextView) findViewById(R.id.get_verify);
@@ -61,6 +62,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
         mOtherPassWord = (EditText) findViewById(R.id.password_txt_two);
 
         mEyeImg.setOnClickListener(this);
+        mEyeImgTwo.setOnClickListener(this);
         mGetVerify.setOnClickListener(this);
         mBackImg.setOnClickListener(this);
         mSureTxt.setOnClickListener(this);
@@ -86,6 +88,13 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                     mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);    //显示密码
                 }
                 break;
+            case R.id.eye_img_two:
+                if (mOtherPassWord.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD){
+                    mOtherPassWord.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);   //显示小圆点
+                }else {
+                    mOtherPassWord.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);    //显示密码
+                }
+                break;
             case R.id.alter_sure_txt:
                 String phone = mUserName.getText().toString();
                 String password = mPassword.getText().toString();
@@ -101,7 +110,7 @@ public class ForgetPasswordActivity extends BascActivity implements View.OnClick
                 }else if (password.length()<6){
                     Toast.makeText(getApplicationContext(),"请输入6-18位的密码",Toast.LENGTH_SHORT).show();
                 } else if (!other.equals(password)){
-                    Toast.makeText(getApplicationContext(),"两次输入密码不一样，请先确认一下",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"您输入的新密码不一致",Toast.LENGTH_SHORT).show();
                 }else {
                     dialog = ManagerUtil.getDiaLog(this);
                     AlterAsyn getRegister = new AlterAsyn();

@@ -452,13 +452,15 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         xAxis.setTextSize(9f);
 
         YAxis yAxis = mChart.getYAxis();
-        yAxis.setLabelCount(0, false);
+        yAxis.setLabelCount(0, true);
         yAxis.setTextSize(9f);
         yAxis.setAxisMinValue(0f);
-        yAxis.setDrawLabels(false);
 
         Legend l = mChart.getLegend();
-        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(Color.TRANSPARENT);
+        l.setComputedColors(colors);
+        l.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);    //标签位置
         l.setXEntrySpace(7f);    //7f
         l.setYEntrySpace(5f);    //5f
     }
@@ -662,13 +664,18 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
      * @param mLineChart
      */
     private void StockQuxainMap(LineChart mLineChart,List<StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean> ImgData,List<StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean> BenchmarkImgData){
-        DecimalFormat df =new DecimalFormat("#0.0");   //保留1位小数
+//        DecimalFormat df =new DecimalFormat("#0.00");   //保留2位小数
+        //取消缩放
+        mLineChart.setScaleEnabled(false);
+        mLineChart.setDoubleTapToZoomEnabled(false);
+
 
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
         xAxis.setGridColor(getResources().getColor(android.R.color.transparent));
 
         YAxis yAxis = mLineChart.getAxisLeft();
+
         yAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
         yAxis.setGridColor(getResources().getColor(android.R.color.transparent));
 

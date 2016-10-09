@@ -119,6 +119,8 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         mList = (MyListView) findViewById(R.id.dynamic_list);
         adapter = new DynamicInfoAdapter(this);
 
+        mList.setBackgroundColor(getResources().getColor(R.color.write_color));
+
         mBackImg.setOnClickListener(this);
         mZhuanFa.setOnClickListener(this);
         mComment.setOnClickListener(this);
@@ -270,10 +272,9 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                 Gson gson = new Gson();
                 ClassDetial newsDetial = gson.fromJson(s,ClassDetial.class);
                 if (newsDetial.getHead().getStatus() == 0){
-//                    NewsDetial.ResultBean bean = newsDetial.getResult();
                     ClassDetial.ResultBean.CourseDetailBean bean = newsDetial.getResult().getCourseDetail();
                     ClassDetial.ResultBean.CourseInfoBean infoBean = newsDetial.getResult().getCourseInfo();
-                    if (infoBean.getTargetUrl() != null&&TextUtils.isEmpty(infoBean.getTargetUrl()+"")){
+                    if (infoBean.getTargetUrl() != null&&!TextUtils.isEmpty(infoBean.getTargetUrl())){
                         shareUrl = infoBean.getTargetUrl();
                         webView.loadUrl(infoBean.getTargetUrl()+"&isApp=true");
                     }else if (bean.getContent() != null&&!TextUtils.isEmpty(bean.getContent())){

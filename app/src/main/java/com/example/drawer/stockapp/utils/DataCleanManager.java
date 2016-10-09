@@ -82,5 +82,6 @@ public class DataCleanManager {
         cleanExternalCache(context);
         cleanDatabases(context);
         cleanFiles(context);
+        deleteFilesByDirectory(new File(Environment.getExternalStorageDirectory() +"/catInfo.txt"));   //清除消息
     }
 }

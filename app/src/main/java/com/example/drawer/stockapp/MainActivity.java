@@ -2,6 +2,7 @@ package com.example.drawer.stockapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
@@ -21,6 +22,7 @@ import com.example.drawer.stockapp.fragment.FirstNewsFragment;
 import com.example.drawer.stockapp.fragment.MyFragment;
 import com.example.drawer.stockapp.fragment.XueTangFragment;
 import com.example.drawer.stockapp.listener.OnFragmentInteractionListener;
+import com.example.drawer.stockapp.utils.ManagerUtil;
 
 public class MainActivity extends BascActivity implements OnFragmentInteractionListener,View.OnClickListener {
     private DrawerLayout mDrawerLayout;
@@ -28,7 +30,6 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
     public static Boolean isFirst = false;   //判断是否跳转回首页的标记
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         setContentView(R.layout.activity_main);
@@ -36,6 +37,8 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
 //        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED); //关闭手势滑动
         initTab();
 //        initWight();
+        String  fileName = Environment.getExternalStorageDirectory() +"/icon.png"  ;
+        ManagerUtil.saveImg(this,fileName);
 
     }
 

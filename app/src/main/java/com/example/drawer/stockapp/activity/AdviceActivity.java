@@ -47,6 +47,10 @@ public class AdviceActivity extends BascActivity implements View.OnClickListener
         mPhone = (EditText) findViewById(R.id.phone_text);  //电话
         mContent = (EditText) findViewById(R.id.edit_txt);   //内容
 
+        mName.setBackgroundColor(getResources().getColor(R.color.write_color));
+        mPhone.setBackgroundColor(getResources().getColor(R.color.write_color));
+        mContent.setBackgroundColor(getResources().getColor(R.color.write_color));
+
         TextView mApply = (TextView) findViewById(R.id.send_txt);   //提交
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
 

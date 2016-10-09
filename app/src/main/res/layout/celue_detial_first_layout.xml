@@ -330,12 +330,18 @@
                     android:textSize="@dimen/title_text_size"
                     android:textColor="@android:color/black"
                     />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/circle_con_bg"
+                    android:layout_below="@id/follow_record"
+                    android:id="@+id/gentou_line"/>
                 <include
                     android:id="@+id/gentou_item"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_10dp"
-                    android:layout_below="@id/follow_record"
+                    android:layout_below="@id/gentou_line"
                     layout="@layout/gentou_record_item_layout"/>
                 <com.example.drawer.stockapp.customview.MyListView
                     android:layout_width="match_parent"

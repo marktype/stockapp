@@ -3,6 +3,7 @@ package com.example.drawer.stockapp.activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -46,6 +47,9 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
         mTitleRelat.setLayoutParams(params);
 
         ImageView mBackimg = (ImageView) findViewById(R.id.back_img);
+        ImageView mEyeImg = (ImageView) findViewById(R.id.eye_img);     //密码是否可见
+        ImageView mEyeImgTwo = (ImageView) findViewById(R.id.eye_img_two);     //密码是否可见
+
         mUserName = (EditText) findViewById(R.id.user_name_txt);
         mPassWord = (EditText) findViewById(R.id.password_txt);
         mOtherPassWord = (EditText) findViewById(R.id.password_txt_two);
@@ -55,6 +59,8 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
         mLogin.setOnClickListener(this);
         mBackimg.setOnClickListener(this);
         forgetPassword.setOnClickListener(this);
+        mEyeImg.setOnClickListener(this);
+        mEyeImgTwo.setOnClickListener(this);
     }
 
     @Override
@@ -75,7 +81,7 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
                 String password = mPassWord.getText().toString();
                 String other = mOtherPassWord.getText().toString();
                 if (!other.equals(password)){
-                    Toast.makeText(getApplicationContext(),"两次输入的密码不一样，请确认后再输入",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"您输入的新密码不一致",Toast.LENGTH_SHORT).show();
                 }else {
                     if (!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(password)){
                         if (password.length()>=6){
@@ -93,6 +99,20 @@ public class AlterPasswordActivity extends BascActivity implements View.OnClickL
             case R.id.forget_password_txt:
                 Intent intent = new Intent(this,ForgetPasswordActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.eye_img:
+                if (mPassWord.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD){
+                    mPassWord.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);   //显示小圆点
+                }else {
+                    mPassWord.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);    //显示密码
+                }
+                break;
+            case R.id.eye_img_two:
+                if (mOtherPassWord.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD){
+                    mOtherPassWord.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);   //显示小圆点
+                }else {
+                    mOtherPassWord.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);    //显示密码
+                }
                 break;
         }
     }

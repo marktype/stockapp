@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -45,6 +44,17 @@ public class MessageActivity extends BascActivity{
         setContentView(R.layout.activity_message);
         initWight();
         getMyListData();
+
+        //写入文件和读取消息缓存
+//        String  fileName = Environment.getExternalStorageDirectory() +"/catInfo.txt";
+//        String info = "test ";
+//        ManagerUtil.writeFileSdcardFile(fileName,info);
+//        String str = ManagerUtil.readFileSdcardFile(fileName);
+//        String[] strs = str.trim().split(" ");
+//        Log.d("tag","strs------"+strs.length);
+//        for (int i = 0;i<strs.length;i++){
+//            Log.d("tag","test-----"+strs[i]);
+//        }
     }
 
     public void initWight(){
