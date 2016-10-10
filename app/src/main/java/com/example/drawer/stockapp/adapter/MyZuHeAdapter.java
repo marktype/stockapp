@@ -74,6 +74,7 @@ public class MyZuHeAdapter extends BaseAdapter {
         viewHolder.contentBg.setBackgroundColor(context.getResources().getColor(R.color.write_color));
         if (info.getShouyiRate() == 0){
             viewHolder.rate.setText("0.00%");
+            viewHolder.rate.setTextColor(context.getResources().getColor(android.R.color.black));
             setCanvasDataGreen(viewHolder.canvasViewThree,info.getShouyiRate());
         }else if (info.getShouyiRate() > 0){
             if (info.getShouyiRate()<100){

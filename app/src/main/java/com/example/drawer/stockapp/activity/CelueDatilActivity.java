@@ -197,10 +197,11 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
             mListView.setAdapter(zuHeItemAdapter);
             if (listInfo.size() == 0){
                 mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
-                mNoDataImgTiaoCang.setText("");
+                mNoDataImgTiaoCang.setText("暂无数据");
             }
             mSeeHistory.setVisibility(View.VISIBLE);
         }else {
+            mNoDataImgTiaoCang.setText("需要登录才可以查看，立即登录");
             mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
             mSeeHistory.setVisibility(View.GONE);
         }
@@ -249,9 +250,10 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
             mChiCnagList.setAdapter(chiCangAdapter);
             if (chicangList.size() == 0){
                 mNoDataImgChiCang.setVisibility(View.VISIBLE);
-                mNoDataImgChiCang.setText("");
+                mNoDataImgChiCang.setText("暂无数据");
             }
         }else {
+            mNoDataImgChiCang.setText("需要登录才可以查看，立即登录");
             mNoDataImgChiCang.setVisibility(View.VISIBLE);
         }
 
@@ -781,7 +783,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         dataSet.setLineWidth(2f);
         if (BenchmarkImgData.size() == 1){
             dataSet.setDrawCircles(true);
-            dataSet.setCircleSize(2f);
+            dataSet.setCircleSize(1f);
         }else {
             dataSet.setDrawCircles(false);
         }
@@ -790,7 +792,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         LineDataSet dataSet1 = new LineDataSet(yValue, "组合收益(%)");
         if (ImgData.size() == 1){
             dataSet1.setDrawCircles(true);
-            dataSet1.setCircleSize(2f);
+            dataSet1.setCircleSize(1f);
         }else {
             dataSet1.setDrawCircles(false);
         }

@@ -3,9 +3,12 @@ package com.example.drawer.stockapp.activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -34,6 +37,8 @@ public class MessageActivity extends BascActivity{
     private MessageInfo messageInfo;
     private ListView mList,tiaocangList;
     private String mToken;
+    private String[] strs;
+    private Boolean isOpen = false;
     private MessageTiaoCangAdapter adapter;
     private ArrayList<HistoryTiaoCangInfo> historyList = new ArrayList<>();
     @Override
@@ -42,19 +47,13 @@ public class MessageActivity extends BascActivity{
         tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
         setContentView(R.layout.activity_message);
+
+        //读取消息缓存
+        String  fileName = Environment.getExternalStorageDirectory() +"/catInfo.txt";
+        String str = ManagerUtil.readFileSdcardFile(fileName);
+        strs = str.trim().split(" ");
         initWight();
         getMyListData();
-
-        //写入文件和读取消息缓存
-//        String  fileName = Environment.getExternalStorageDirectory() +"/catInfo.txt";
-//        String info = "test ";
-//        ManagerUtil.writeFileSdcardFile(fileName,info);
-//        String str = ManagerUtil.readFileSdcardFile(fileName);
-//        String[] strs = str.trim().split(" ");
-//        Log.d("tag","strs------"+strs.length);
-//        for (int i = 0;i<strs.length;i++){
-//            Log.d("tag","test-----"+strs[i]);
-//        }
     }
 
     public void initWight(){
@@ -85,7 +84,10 @@ public class MessageActivity extends BascActivity{
         tiaocangList = (ListView) findViewById(R.id.message_list);
 
         adapter = new MessageTiaoCangAdapter(this);
-
+        if (strs != null&&strs.length>0){
+            ArrayAdapter systemInfo = new ArrayAdapter(this,R.layout.txt_item_layout,strs);
+            mList.setAdapter(systemInfo);
+        }
 //        mList.setOnItemClickListener(this);
 
         tiaocangList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,6 +97,20 @@ public class MessageActivity extends BascActivity{
                 Intent intent = new Intent(MessageActivity.this,HistoryRecordActivity.class);
                 intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,tiaoCangInfo.getId());
                 startActivity(intent);
+            }
+        });
+
+        layoutOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isOpen){
+                    mList.setVisibility(View.VISIBLE);
+                    isOpen = true;
+                }else {
+                    mList.setVisibility(View.GONE);
+                    isOpen = false;
+                }
+
             }
         });
 
@@ -127,7 +143,7 @@ public class MessageActivity extends BascActivity{
                 HashMap<String, String> map = new HashMap<>();
                 map.put("PageIndex", "0");
                 map.put("PageCount", "0");
-                map.put("PageSize", "0");
+                map.put("PageSize", "100");
                 String message = HttpManager.newInstance().getHttpDataByTwoLayer(mToken, map, HttpManager.MyPorfolio_URL);
                 return message;
             }
@@ -178,6 +194,7 @@ public class MessageActivity extends BascActivity{
                 }else if (nowTime>ManagerUtil.getTime(ben.getRecuitmentStartTime())&&nowTime>ManagerUtil.getTime(ben.getRunStartDay())&&nowTime>ManagerUtil.getTime(ben.getRunEndDay())){
                     info.setType(2);   //已结束
                 }
+                Log.d("tag","ben.getId()------"+ben.getId());
                 myInfoList.add(info);
                 LastTradeAsyn lastTradeAsyn = new LastTradeAsyn();
                 lastTradeAsyn.execute(ben.getId(),ben.getTitle());

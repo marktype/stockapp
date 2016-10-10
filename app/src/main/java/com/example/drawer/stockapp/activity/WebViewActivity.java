@@ -124,7 +124,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
 //        mTxt = (TextView) findViewById(R.id.test_txt);   //文本展示
-
+        TextView mSend = (TextView) findViewById(R.id.send_comment);  //发送
         mCommentEdit = (EditText) findViewById(R.id.dongtai_comment_edit);
         mZhuanFa = (TextView) findViewById(R.id.dongtai_zhuanfa);
         mComment = (TextView) findViewById(R.id.dongtai_pinglun);
@@ -146,6 +146,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         mComment.setOnClickListener(this);
         layout.setOnClickListener(this);
         mLogin.setOnClickListener(this);
+        mSend.setOnClickListener(this);
         mCommentEdit.setOnKeyListener(onKeyListener);
 
     }
@@ -218,6 +219,19 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
             case R.id.login_btn:
                 Intent intent = new Intent(this,LoginActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.send_comment:
+                //点击进行逻辑处理
+                String key = mCommentEdit.getText().toString().trim();
+                LikeOrForwordAsyn likeOrForwordAsyn = new LikeOrForwordAsyn();
+                if (type == 2){
+                    Toast.makeText(getApplicationContext(),"该功能还在完善",Toast.LENGTH_SHORT).show();
+//                        likeOrForwordAsyn.execute(urlId,"Forward",key,mToken,HttpManager.News_Comment_URL);    //完善之后放开
+                }else if (!TextUtils.isEmpty(key)){
+                    likeOrForwordAsyn.execute(urlId,"Comment",key,mToken,HttpManager.News_Comment_URL);
+                }else {
+                    Toast.makeText(getApplicationContext(),"请输入要发表的内容",Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

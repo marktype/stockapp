@@ -191,14 +191,11 @@ public class ManagerUtil {
     //写数据到SD中的文件
     public static void writeFileSdcardFile(String fileName,String write_str){
         try{
-
             FileOutputStream fout = new FileOutputStream(fileName,true);  //追加文件
             byte [] bytes = write_str.getBytes();
-
             fout.write(bytes);
             fout.close();
         }
-
         catch(IOException e){
             e.printStackTrace();
         }

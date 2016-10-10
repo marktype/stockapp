@@ -81,8 +81,11 @@
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/advice_image_txt"
                     android:textSize="@dimen/my_txt_size"
+                    android:maxEms="3"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:layout_marginRight="@dimen/margin_20dp"
-                    android:text="牛人" />
+                    android:text="" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -204,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     android:layout_centerHorizontal="true"
-                    android:drawableTop="@mipmap/nodata"/>
+                    android:drawableTop="@mipmap/img"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -283,10 +286,10 @@
                     android:layout_below="@id/stock_quxian"
                     android:src="@mipmap/nodata"/>
             </RelativeLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_below="@id/set_quxian" />
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:layout_below="@id/set_quxian" />-->
         </RelativeLayout>
 
     </com.example.drawer.stockapp.customview.MyScrollView>

@@ -5,14 +5,14 @@
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="220dp"
         android:id="@+id/news_imageslider_layout"
        >
 
         <com.scxh.slider.library.SliderLayout
             android:id="@+id/image_slider_layout"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="220dp"
             custom:indicator_visibility="visible" />
 
         <com.scxh.slider.library.Indicators.PagerIndicator
@@ -43,7 +43,7 @@
 
         <LinearLayout
             android:id="@+id/first_lin"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="170dp"
             android:background="@color/write_color"
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginRight="@dimen/margin_15dp"

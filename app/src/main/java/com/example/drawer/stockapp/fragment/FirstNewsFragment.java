@@ -238,10 +238,11 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                     }else if (dynamicsInfo == null){
                         trendsInfosSave = new ArrayList<>();
                         dymnicesData(token,dongTaiPage);    //
-                    }else {
-                        trendsAdapter.setData(trendsInfosSave);
-                        mDongTaiList.setAdapter(trendsAdapter);
                     }
+//                    else {
+//                        trendsAdapter.setData(trendsInfosSave);
+//                        mDongTaiList.setAdapter(trendsAdapter);
+//                    }
                     mBackgroud.setVisibility(View.GONE);
                 }else {
                     mBackgroud.setVisibility(View.VISIBLE);
@@ -436,8 +437,10 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             txt1.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/DIN Medium.ttf"));   //设置字体风格
             if (addOrDec>0){
                 txt1.setTextColor(getActivity().getResources().getColor(R.color.red));
-            }else {
+            }else if (addOrDec<0){
                 txt1.setTextColor(getActivity().getResources().getColor(R.color.green_color));
+            }else {
+                txt1.setTextColor(getActivity().getResources().getColor(android.R.color.black));
             }
             txt1.setTextSize(18);
 
@@ -452,9 +455,12 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             if (addOrDec>0){
                 txt2.setText( ""+addOrDec+"   "+ Double.parseDouble(df.format(MarketData.get(i).getVariabilityRate()))+"%");
                 txt2.setTextColor(getActivity().getResources().getColor(R.color.red));
-            }else {
+            }else if (addOrDec<0){
                 txt2.setText( ""+addOrDec+"   "+ Double.parseDouble(df.format(MarketData.get(i).getVariabilityRate()))+"%");
                 txt2.setTextColor(getActivity().getResources().getColor(R.color.green_color));
+            }else {
+                txt2.setText( "0.00"+"   "+"0.00%");
+                txt2.setTextColor(getActivity().getResources().getColor(android.R.color.black));
             }
             txt2.setTextSize(12);
             layout1.addView(txt2);

@@ -13,6 +13,7 @@ import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.model.NiuRenInfo;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 public class NiuRenAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<NiuRenInfo> list;
+    private DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
     public NiuRenAdapter(Context context){
         this.context = context;
     }
@@ -77,11 +79,26 @@ public class NiuRenAdapter extends BaseAdapter {
 //        viewHolder.typeTxt.setText(info.getStockType());
         if (info.getShouyiRate() == 0){
             viewHolder.shouyiAll.setText("0.00%");
+            viewHolder.shouyiAll.setTextColor(context.getResources().getColor(android.R.color.black));
+        }else if (info.getShouyiRate() >0){
+            viewHolder.shouyiAll.setText(info.getShouyiRate()+"%");
+            viewHolder.shouyiAll.setTextColor(context.getResources().getColor(R.color.red));
         }else {
+            viewHolder.shouyiAll.setTextColor(context.getResources().getColor(R.color.green_color));
             viewHolder.shouyiAll.setText(info.getShouyiRate()+"%");
         }
         viewHolder.victor.setText(info.getVictorRate());
-        viewHolder.shouyiBymonth.setText(info.getShouyiByMonth());
+        double month = Double.parseDouble(df.format(info.getShouyiByMonth()));
+        if (month>0){
+            viewHolder.shouyiBymonth.setText(month+"%");
+            viewHolder.shouyiBymonth.setTextColor(context.getResources().getColor(R.color.red));
+        }else if (month<0){
+            viewHolder.shouyiBymonth.setText(month+"%");
+            viewHolder.shouyiBymonth.setTextColor(context.getResources().getColor(R.color.green_color));
+        }else {
+            viewHolder.shouyiBymonth.setText("0.00%");
+            viewHolder.shouyiBymonth.setTextColor(context.getResources().getColor(android.R.color.black));
+        }
         viewHolder.stockNum.setText(info.getStockNum()+"");
         viewHolder.cangwei.setText(info.getCangweiRate());
 //        viewHolder.roundTime.setText(info.getDayNum()+"");

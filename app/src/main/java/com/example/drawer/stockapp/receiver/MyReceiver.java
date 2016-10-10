@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 
 import com.example.drawer.stockapp.activity.MessageActivity;
+import com.example.drawer.stockapp.utils.ManagerUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -94,6 +96,12 @@ public class MyReceiver extends BroadcastReceiver {
 
 			} else {
 				sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
+				if (key.equals(JPushInterface.EXTRA_ALERT)){
+					//写入文件
+					String  fileName = Environment.getExternalStorageDirectory() +"/catInfo.txt";
+					String info = bundle.getString(key)+" ";
+					ManagerUtil.writeFileSdcardFile(fileName,info);
+				}
 			}
 		}
 		return sb.toString();

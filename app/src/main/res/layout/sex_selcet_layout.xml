@@ -10,9 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-
         android:background="@drawable/layout_selector"
-        android:padding="@dimen/margin_20dp"
+        android:padding="@dimen/margin_15dp"
         android:text="男" />
     <TextView
         android:id="@+id/woman_txt"
@@ -21,7 +20,7 @@
         android:gravity="center"
 
         android:background="@drawable/layout_selector"
-        android:padding="@dimen/margin_20dp"
+        android:padding="@dimen/margin_15dp"
         android:text="女"/>
     <TextView
         android:id="@+id/cancel_txt"
@@ -30,6 +29,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:background="@drawable/layout_selector"
-        android:padding="@dimen/margin_20dp"
+        android:padding="@dimen/margin_15dp"
         android:text="取消"/>
 </LinearLayout>

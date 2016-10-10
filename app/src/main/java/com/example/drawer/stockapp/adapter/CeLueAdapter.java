@@ -106,12 +106,15 @@ public class CeLueAdapter extends BaseAdapter {
         double persent = Double.parseDouble(info.getCeluePersent());
         if (persent>0){
             viewHolder.persent.setTextColor(context.getResources().getColor(R.color.red));
+            viewHolder.persent.setText(df.format(persent)+"%");
         }else if (persent<0){
+            viewHolder.persent.setText(df.format(persent)+"%");
             viewHolder.persent.setTextColor(context.getResources().getColor(R.color.green_color));
         }else {
+            viewHolder.persent.setText("0.00%");
             viewHolder.persent.setTextColor(context.getResources().getColor(android.R.color.black));
         }
-        viewHolder.persent.setText(df.format(persent)+"%");
+
         viewHolder.title.setText(info.getTitle());
         viewHolder.content.setText(info.getOtherInfo());
         viewHolder.jingzhi.setText(info.getJingZhiNum()+"");

@@ -10,7 +10,7 @@ public class NiuRenInfo {
     private String stockType;    //股票类型  (我的，例如  组合简介)
     private double shouyiRate;    //总收益率  （我的 ，百分比）
     private String victorRate;    //胜率
-    private String shouyiByMonth;   //月均收益
+    private double shouyiByMonth;   //月均收益
     private int stockNum;     //持股数
     private String cangweiRate;   //仓位
     private int dayNum;        //持股周期
@@ -91,11 +91,11 @@ public class NiuRenInfo {
         this.victorRate = victorRate;
     }
 
-    public String getShouyiByMonth() {
+    public double getShouyiByMonth() {
         return shouyiByMonth;
     }
 
-    public void setShouyiByMonth(String shouyiByMonth) {
+    public void setShouyiByMonth(double shouyiByMonth) {
         this.shouyiByMonth = shouyiByMonth;
     }
 

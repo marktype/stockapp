@@ -65,7 +65,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
     private TextView mTarget,mMostGetMoney,mMostLose,mTradeNum,mLastTime,
             mLimitMoney,mStartMoney,mType,mStartType,mMuJiTime,mRunTime,
             mAdvice,mNiurenName,mNoDataImgTiaoCang,mNoDataImgChiCang,
-            mTitleCelue,mSeeHistory,mNoDataGentou;
+            mTitleCelue,mSeeHistory,mNoDataGentou,mTargetShouyi,mStopLine;
     private String LiangHuaId;    //量化id
     private String LiangHuaName;   //量化name
     private String LianghuaStatus;  //结束状态
@@ -125,7 +125,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         mTitle.setText(LiangHuaName);
 
         mTitleCelue = (TextView) findViewById(R.id.title_one);   //量化策略名字
-        mTarget = (TextView) findViewById(R.id.goal_shouyi);    //目标收益
+        mTarget = (TextView) findViewById(R.id.goal_shouyi);    //当前收益
         mMostGetMoney = (TextView) findViewById(R.id.max_long_time);   //最大收益
         mMostLose = (TextView) findViewById(R.id.zhishunxian_txt);   //最大亏损
         mTradeNum = (TextView) findViewById(R.id.shouyi_txt);   //交易次数
@@ -137,6 +137,9 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         mStartType = (TextView) findViewById(R.id.start_type);    //跟投类型
         mMuJiTime = (TextView) findViewById(R.id.muji_time_txt);   //募集时间
         mRunTime = (TextView) findViewById(R.id.run_time_txt);    //运行时间
+
+        mTargetShouyi = (TextView) findViewById(R.id.target_shouyi_txt);  //目标收益
+        mStopLine = (TextView) findViewById(R.id.stop_line_txt);   //止损线
 
         mAdvice = (TextView) findViewById(R.id.advice_content);   //描述
         headImg = (CircleImageView) findViewById(R.id.advice_image_txt);   //牛人头像
@@ -382,11 +385,12 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 mTiaoCangList.setAdapter(tiaoCangAdapter);
                 if (tiaoCang.size() == 0){
                     mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
-                    mNoDataImgTiaoCang.setText("");
+                    mNoDataImgTiaoCang.setText("暂无数据");
                 }
                 mSeeHistory.setVisibility(View.VISIBLE);
             }else {
                 mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
+                mNoDataImgTiaoCang.setText("需要登录才可以查看，立即登录");
                 mSeeHistory.setVisibility(View.GONE);
             }
 
@@ -411,9 +415,10 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 mChiCnagList.setAdapter(chiCangAdapter);
                 if (chicangList.size() == 0){
                     mNoDataImgChiCang.setVisibility(View.VISIBLE);
-                    mNoDataImgChiCang.setText("");
+                    mNoDataImgChiCang.setText("暂无数据");
                 }
             }else {
+                mNoDataImgChiCang.setText("需要登录才可以查看，立即登录");
                 mNoDataImgChiCang.setVisibility(View.VISIBLE);
             }
 
@@ -468,6 +473,9 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 mTarget.setTextColor(getResources().getColor(R.color.green_color));
             }
             mTarget.setText(df.format(infoBean.getTotleReturns())+"%");
+
+            mTargetShouyi.setText(df.format(infoBean.getTargetReturns())+"%");
+            mStopLine.setText(df.format(infoBean.getStopLoss())+"%");
 
 //            double tradeTime = infoBean.getAverageTrading();   //判断是int 还是double
             mTradeNum.setText((int)infoBean.getAverageTrading()+"");   //取整
@@ -610,7 +618,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         dataSet.setCircleColor(getResources().getColor(R.color.quxian_nan));
         if (BenchmarkImgData.size() == 1){
             dataSet.setDrawCircles(true);
-            dataSet.setCircleSize(2f);
+            dataSet.setCircleSize(1f);
         }else {
             dataSet.setDrawCircles(false);
         }
@@ -621,7 +629,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         LineDataSet dataSet1 = new LineDataSet(yValue, "组合收益(%)");
         if (ImgData.size() == 1){
             dataSet1.setDrawCircles(true);
-            dataSet1.setCircleSize(2f);
+            dataSet1.setCircleSize(1f);
         }else {
             dataSet1.setDrawCircles(false);
         }

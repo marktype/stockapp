@@ -143,14 +143,18 @@ public class TrendsAdapter extends BaseAdapter {
                 if (info.getLikes()){
                     callBack.setCollectOrLikes(i,"3");    //取消点赞
                     viewHolder.likes.setImageResource(R.mipmap.zan);
-                    viewHolder.goodNum.setText((Integer.parseInt(viewHolder.goodNum.getText().toString())-1)+"");
+                    int num = (Integer.parseInt(viewHolder.goodNum.getText().toString())-1);
+                    viewHolder.goodNum.setText(num+"");
                     info.setLikes(false);
+                    info.setGoodNum(num);
                     list.set(i,info);
                 }else {
                     callBack.setCollectOrLikes(i,"2");    //点赞
                     viewHolder.likes.setImageResource(R.mipmap.y_dianzan);
-                    viewHolder.goodNum.setText((Integer.parseInt(viewHolder.goodNum.getText().toString())+1)+"");
+                    int num = (Integer.parseInt(viewHolder.goodNum.getText().toString())+1);
+                    viewHolder.goodNum.setText(num+"");
                     info.setLikes(true);
+                    info.setGoodNum(num);
                     list.set(i,info);
                 }
             }

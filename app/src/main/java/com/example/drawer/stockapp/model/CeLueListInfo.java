@@ -95,7 +95,7 @@ public class CeLueListInfo {
 
         public static class StrategiesBean {
             private String Id;
-            private String Recruitment;
+            private double Recruitment;
             private String Name;
             private Object Desc;
             private double TargetReturns;
@@ -142,11 +142,11 @@ public class CeLueListInfo {
                 this.Id = Id;
             }
 
-            public String getRecruitment() {
+            public double getRecruitment() {
                 return Recruitment;
             }
 
-            public void setRecruitment(String Recruitment) {
+            public void setRecruitment(double Recruitment) {
                 this.Recruitment = Recruitment;
             }
 

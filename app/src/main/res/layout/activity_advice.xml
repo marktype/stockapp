@@ -27,29 +27,29 @@
             android:textSize="@dimen/title_text_size"/>
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/name_txt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/title_text_size"
-        android:layout_below="@id/advice_can_title"
-        style="@style/MyContentStyle"
-        android:padding="@dimen/margin_10dp"
-        android:background="@color/write_color"
-        android:textColorHint="@color/quan_off_txt"
-        android:hint="留下您的姓名吧"/>
+    <!--<EditText-->
+        <!--android:id="@+id/name_txt"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="@dimen/title_text_size"-->
+        <!--android:layout_below="@id/advice_can_title"-->
+        <!--style="@style/MyContentStyle"-->
+        <!--android:padding="@dimen/margin_10dp"-->
+        <!--android:background="@color/write_color"-->
+        <!--android:textColorHint="@color/quan_off_txt"-->
+        <!--android:hint="留下您的姓名吧"/>-->
 
-    <EditText
-        android:id="@+id/phone_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/title_text_size"
-        android:layout_below="@id/name_txt"
-        style="@style/MyContentStyle"
-        android:padding="@dimen/margin_10dp"
-        android:background="@color/write_color"
-        android:textColorHint="@color/quan_off_txt"
-        android:hint="留下您的电话吧"/>
+    <!--<EditText-->
+        <!--android:id="@+id/phone_text"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="@dimen/title_text_size"-->
+        <!--android:layout_below="@id/name_txt"-->
+        <!--style="@style/MyContentStyle"-->
+        <!--android:padding="@dimen/margin_10dp"-->
+        <!--android:background="@color/write_color"-->
+        <!--android:textColorHint="@color/quan_off_txt"-->
+        <!--android:hint="留下您的电话吧"/>-->
     <!--<EditText-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
@@ -60,20 +60,32 @@
         <!--android:background="@color/write_color"-->
         <!--android:textColorHint="@color/quan_off_txt"-->
         <!--android:hint="留下您的建议吧"/>-->
+    <LinearLayout
+        android:layout_below="@id/advice_can_title"
+        style="@style/MyContentStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/write_color"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_10dp"
+            android:textColor="@android:color/black"
+            android:text="亲爱的猫友："/>
     <EditText
         android:id="@+id/edit_txt"
-        android:hint="留下您的建议吧"
+        android:hint="您好！为了给您提供更好的服务，请留下您的宝贵建议。"
         android:textColorHint="@color/quan_off_txt"
         android:layout_width="match_parent"
-        style="@style/MyContentStyle"
         android:textCursorDrawable="@null"
         android:gravity="top"
-        android:layout_below="@id/phone_text"
-        android:textSize="@dimen/title_text_size"
-        android:padding="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
         android:background="@color/write_color"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:textSize="@dimen/title_text_size"
         android:layout_height="250dp" />
-
+    </LinearLayout>
     <TextView
         android:id="@+id/send_txt"
         android:layout_width="match_parent"

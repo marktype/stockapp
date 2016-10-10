@@ -228,10 +228,12 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
                         mZanImg.setImageResource(R.mipmap.zan);
                     }
                     mImage = resultBean.getImgUrl();
-                    if (!TextUtils.isEmpty(mImage)){
-                        Picasso.with(MyDynamicActivity.this).load(mImage).into(head);
+                        Picasso.with(MyDynamicActivity.this).load(mImage).placeholder(R.mipmap.usericon).into(head);
+                    if (resultBean.getNickName() != null&&!TextUtils.isEmpty(resultBean.getNickName())){
+                        name.setText(resultBean.getNickName());
+                    }else {
+                        name.setText(R.string.user_name);
                     }
-                    name.setText(resultBean.getNickName());
                     content.setText(resultBean.getContent());
                     time.setText(resultBean.getUpdateTime());
                     mZhuanFa.setText(resultBean.getForward()+"");

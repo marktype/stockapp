@@ -59,7 +59,7 @@ public class DynamicInfoAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         TrendsInfo info = (TrendsInfo) getItem(i);
-        Picasso.with(context).load(info.getFriendImage()).placeholder(R.mipmap.img_place).into(viewHolder.image);
+        Picasso.with(context).load(info.getFriendImage()).placeholder(R.mipmap.usericon).into(viewHolder.image);
         if (info.getFriendName() != null&& !TextUtils.isEmpty(info.getFriendName())){
             viewHolder.titleTxt.setText(info.getFriendName());
         }else {

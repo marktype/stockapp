@@ -22,16 +22,20 @@
             android:textColor="@android:color/background_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_20dp"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:layout_marginRight="@dimen/margin_10dp"
             android:layout_toRightOf="@id/friend_image"
-            android:text="股神" />
+            android:maxEms="3"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="" />
         <TextView
             android:id="@+id/comment_content_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20dp"
             android:layout_toRightOf="@id/friend_name"
-            android:text="dsfsdfjsdfhjdsjkfhjkd" />
+            android:text="" />
         <!--<ImageView-->
             <!--android:id="@+id/collect_info_img"-->
             <!--android:layout_width="wrap_content"-->

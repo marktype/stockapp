@@ -107,6 +107,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
 //        mLayout.setVisibility(View.GONE);
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
+        TextView mSend = (TextView) findViewById(R.id.send_comment);  //发送
         mCommentEdit = (EditText) findViewById(R.id.dongtai_comment_edit);
 //        mTxt = (TextView) findViewById(R.id.test_txt);   //文本展示
         mZhuanFa = (TextView) findViewById(R.id.dongtai_zhuanfa);
@@ -126,6 +127,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         mComment.setOnClickListener(this);
         layout.setOnClickListener(this);
         mShare.setOnClickListener(this);
+        mSend.setOnClickListener(this);
         mCommentEdit.setOnKeyListener(onKeyListener);
 
         mTitle = (TextView) findViewById(R.id.back_txt);
@@ -187,6 +189,19 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                 break;
             case R.id.share_img:
                 showShare(mTitle.getText().toString(),"");
+                break;
+            case R.id.send_comment:
+                //点击进行逻辑处理
+                String key = mCommentEdit.getText().toString().trim();
+                LikeOrForwordAsyn likeOrForwordAsyn = new LikeOrForwordAsyn();
+                if (type == 2){
+                    Toast.makeText(getApplicationContext(),"该功能还在完善",Toast.LENGTH_SHORT).show();
+//                        likeOrForwordAsyn.execute(urlId,"Forward",key,mToken,HttpManager.News_Comment_URL);    //完善之后放开
+                }else if (!TextUtils.isEmpty(key)){
+                    likeOrForwordAsyn.execute(urlId,"Comment",key,mToken,HttpManager.News_Comment_URL);
+                }else {
+                    Toast.makeText(getApplicationContext(),"请输入要发表的内容",Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package com.example.drawer.stockapp.activity;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -43,12 +44,12 @@ public class AdviceActivity extends BascActivity implements View.OnClickListener
         mTitleRelat.setLayoutParams(params);
         mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
 
-        mName = (EditText) findViewById(R.id.name_txt);   //姓名
-        mPhone = (EditText) findViewById(R.id.phone_text);  //电话
+//        mName = (EditText) findViewById(R.id.name_txt);   //姓名
+//        mPhone = (EditText) findViewById(R.id.phone_text);  //电话
         mContent = (EditText) findViewById(R.id.edit_txt);   //内容
 
-        mName.setBackgroundColor(getResources().getColor(R.color.write_color));
-        mPhone.setBackgroundColor(getResources().getColor(R.color.write_color));
+//        mName.setBackgroundColor(getResources().getColor(R.color.write_color));
+//        mPhone.setBackgroundColor(getResources().getColor(R.color.write_color));
         mContent.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         TextView mApply = (TextView) findViewById(R.id.send_txt);   //提交
@@ -73,14 +74,16 @@ public class AdviceActivity extends BascActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.send_txt:
-                String name = mName.getText().toString().trim();
-                String phone = mPhone.getText().toString().trim();
+                SharedPreferences sp = ShapePreferenceManager.getMySharedPreferences(this);
+                String name = sp.getString(ShapePreferenceManager.USER_NMAE,null);
+                String phone = sp.getString(ShapePreferenceManager.PHONE,null);
                 String content = mContent.getText().toString().trim();
-                if (TextUtils.isEmpty(name)){
-                    Toast.makeText(getApplicationContext(),"姓名忘写啦",Toast.LENGTH_SHORT).show();
-                }else if (TextUtils.isEmpty(phone)||phone.length() != 11){
-                    Toast.makeText(getApplicationContext(),"请输入正确的电话哦",Toast.LENGTH_SHORT).show();
-                }else if (TextUtils.isEmpty(content)){
+//                if (TextUtils.isEmpty(name)){
+//                    Toast.makeText(getApplicationContext(),"姓名忘写啦",Toast.LENGTH_SHORT).show();
+//                }else if (TextUtils.isEmpty(phone)||phone.length() != 11){
+//                    Toast.makeText(getApplicationContext(),"请输入正确的电话哦",Toast.LENGTH_SHORT).show();
+//                }else
+                if (TextUtils.isEmpty(content)){
                     Toast.makeText(getApplicationContext(),"写点建议吧",Toast.LENGTH_SHORT).show();
                 }else {
                     SendApplyAsyn applyAsyn = new SendApplyAsyn();

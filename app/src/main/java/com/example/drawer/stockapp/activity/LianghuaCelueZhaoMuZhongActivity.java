@@ -53,7 +53,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
     private TextView mLimitMoney,mStartMoney,mType,mStartType,
             mMuJiTime,mRunTime,mAdvice,mNiurenName,mParsent
             ,mZuHeName,mRunDay,mZhisunXian,mGentouMoney,mStartEndMoney,
-            mTargetMoney,mfenchengMoney,mTitle,mFenCheng,mNoDataGentou;
+            mTargetMoney,mfenchengMoney,mTitle,mFenCheng,mNoDataGentou,mTargetShouyi,mStopLine;
     private CircleImageView headImg;
     private GenTouAdapter genTouAdapter;
     private MyListView mGenTouLiat;
@@ -130,6 +130,9 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         mMuJiTime = (TextView) findViewById(R.id.muji_time_txt);   //募集时间
         mRunTime = (TextView) findViewById(R.id.run_time_txt);    //运行时间
 
+        mTargetShouyi = (TextView) findViewById(R.id.target_shouyi_txt);  //目标收益
+        mStopLine = (TextView) findViewById(R.id.stop_line_txt);   //止损线
+
         mAdvice = (TextView) findViewById(R.id.advice_content);   //描述
         headImg = (CircleImageView) findViewById(R.id.advice_image_txt);   //牛人头像
         mNiurenName = (TextView) findViewById(R.id.niuren_name);    //牛人名字
@@ -180,6 +183,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                 }else {
                     money = 0;
                 }
+                mWriteGentouMoney.setSelection(mWriteGentouMoney.getText().length());   //让光标一直显示在最后
                 if (money>totalMoney){
 //                    mGentouMoney.setText("0 元");
                     money = totalMoney;
@@ -431,6 +435,10 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
 
             Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
             mParsent.setText(infoBean.getTargetReturns()+"%");
+
+            mTargetShouyi.setText(df.format(infoBean.getTargetReturns())+"%");
+            mStopLine.setText(df.format(infoBean.getStopLoss())+"%");
+
             targetshouyi = infoBean.getTargetReturns();
             fengchengRate = infoBean.getShareRatio();   //分成率
             setCanvasData(canvasViewThree, Double.parseDouble(infoBean.getTargetReturns()+""));
@@ -479,7 +487,10 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                             in.setAction(AutoWisdomFragment.BROAD_TYPE);
                             //发送广播,销毁此界面
                             sendBroadcast(in);
-                            finish();
+//                            finish();
+                            //刷新跟投记录
+                            FollowAsyn followAsyn = new FollowAsyn();
+                            followAsyn.execute(LiangHuaId);
                         }else {
                             Toast.makeText(getApplicationContext(),head.getString("Msg"),Toast.LENGTH_SHORT).show();
                         }

@@ -406,6 +406,11 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             TextView mMan = (TextView) contentView.findViewById(R.id.man_txt);
             TextView mWoman = (TextView) contentView.findViewById(R.id.woman_txt);
             TextView cancel = (TextView) contentView.findViewById(R.id.cancel_txt);
+
+            mMan.setBackgroundColor(getResources().getColor(R.color.write_color));
+            mWoman.setBackgroundColor(getResources().getColor(R.color.write_color));
+            cancel.setBackgroundColor(getResources().getColor(R.color.write_color));
+
             mWoman.setOnClickListener(this);
             cancel.setOnClickListener(this);
             mMan.setOnClickListener(this);
@@ -497,6 +502,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 mUserNameNext.setText(userInfo.getResult().getNickName()+"");
             }else {
                 mUserName.setText(R.string.user_name);
+                mUserNameNext.setText(R.string.user_name);
             }
             if (userInfo.getResult().getAvatar() != null&&!TextUtils.isEmpty(userInfo.getResult().getAvatar()+"")){
                 Picasso.with(getActivity()).load(userInfo.getResult().getAvatar()+"").into(circleImageView);

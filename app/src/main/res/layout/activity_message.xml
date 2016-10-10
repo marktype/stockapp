@@ -27,11 +27,7 @@
 
 
     </RelativeLayout>
-    <!--<ListView-->
-        <!--android:layout_below="@id/all_message_title"-->
-        <!--android:id="@+id/message_listview"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"/>-->
+
     <RelativeLayout
         android:id="@+id/system_message"
         android:layout_below="@+id/all_message_title"

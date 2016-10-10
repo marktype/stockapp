@@ -29,7 +29,7 @@
             android:textSize="@dimen/title_text_size"
             android:textColor="@android:color/background_dark"
             android:layout_toRightOf="@id/dongtai_image"
-            android:text="股神" />
+            android:text="" />
         <TextView
             android:id="@+id/dongtai_time"
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
             android:textSize="@dimen/title_text_size"
             android:layout_toRightOf="@id/dongtai_image"
             android:layout_below="@id/dongtai_name"
-            android:text="6月6号 08:36" />
+            android:text="" />
         <!--<ImageView-->
             <!--android:id="@+id/collect_info_img"-->
             <!--android:layout_width="wrap_content"-->
@@ -64,7 +64,7 @@
             android:textSize="@dimen/my_txt_size"
             android:maxLines="3"
             android:ellipsize="end"
-            android:text="股神" />
+            android:text="" />
 
         <com.example.drawer.stockapp.customview.MyGridView
             android:layout_width="fill_parent"
@@ -112,7 +112,7 @@
             android:padding="@dimen/margin_10dp"
             android:drawableLeft="@mipmap/pinglun"
             android:drawablePadding="@dimen/margin_5dp"
-            android:text="2" />
+            android:text="0" />
 
         <RelativeLayout
             android:id="@+id/zan_relate"

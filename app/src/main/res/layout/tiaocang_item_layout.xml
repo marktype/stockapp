@@ -53,6 +53,6 @@
         android:text=""
         android:visibility="gone"
         android:layout_centerHorizontal="true"
-        android:drawableTop="@mipmap/nodata"/>
+        android:drawableTop="@mipmap/img"/>
 
 </RelativeLayout>

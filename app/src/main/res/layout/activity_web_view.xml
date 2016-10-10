@@ -18,6 +18,15 @@
             android:padding="@dimen/margin_15dp"
             android:src="@mipmap/share_img" />
 
+        <TextView
+            android:id="@+id/send_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/black"
+            android:padding="@dimen/margin_10dp"
+            android:layout_centerVertical="true"
+            android:text="发送"/>
         <EditText
             android:id="@+id/dongtai_comment_edit"
             android:layout_width="match_parent"
@@ -25,6 +34,7 @@
             android:layout_margin="@dimen/margin_10dp"
             android:textCursorDrawable="@null"
             android:layout_toRightOf="@id/share_img"
+            android:layout_toLeftOf="@+id/send_comment"
             android:background="@drawable/rect_circle_gray_shape"
             android:gravity="center"
             android:textSize="@dimen/title_text_size"

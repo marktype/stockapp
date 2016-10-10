@@ -625,16 +625,16 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 String message = (String) o;
                 if (!TextUtils.isEmpty(message)) {
                     Gson gson = new Gson();
-                    niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
+                    NiuRenListInfo niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
                     if (niuRenListInfo.getHead().getStatus() == 0) {
                         ArrayList<NiuRenInfo> niurenInfoList = setNiuRenData(niuRenListInfo);
+
                         niuRenListInfoSave = niuRenListInfo;
                         if (niurenPage == 0){
                             niuRenInfosSave = niurenInfoList;
                             niuRenAdapter.setData(niurenInfoList);
                             niurenList.setAdapter(niuRenAdapter);
                         }else if (niurenPage >0&&niurenInfoList.size()>0){
-                            niuRenInfosSave.addAll(niurenInfoList);
                             niuRenAdapter.addData(niurenInfoList);
                         }else {
                             Toast.makeText(getActivity(),"没有更多了",Toast.LENGTH_SHORT).show();
@@ -782,20 +782,20 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             if (ben.isIsNotStartRecruit()){
                 info.setType(4);
             }else if (ben.isIsStartRecruit()){   //招募中
-                info.setCeluePersent(ben.getRecruitment()+"");
+                info.setCeluePersent(df.format(ben.getRecruitment()));
                 info.setType(2);
                 ceLueInfos.add(info);
             }else if (ben.isIsStartInvestment()&&!ben.isIsStartRun()){   //待运行
-                info.setCeluePersent(ben.getRecruitment()+"");
+                info.setCeluePersent(df.format(ben.getRecruitment()));
                 info.setType(5);
                 ceLueInfos.add(info);
             }else if (ben.isIsStartInvestment()&&ben.isIsStartRun()&&ben.getRunEndDay() == null){//运行中
-                info.setCeluePersent(ben.getTotalReturn()+"");
+                info.setCeluePersent(df.format(ben.getTotalReturn()));
                 info.setRunTime(ben.getRunStartDay());
                 info.setType(1);
                 ceLueInfos.add(info);
             }else if (ben.isIsEndInvestment()||ben.getRunEndDay() != null){   //已结束
-                info.setCeluePersent(ben.getTotalReturn()+"");
+                info.setCeluePersent(df.format(ben.getTotalReturn()));
                 info.setEndStatus(ben.getRunEndState());
                 info.setType(3);
                 ceLueInfos.add(info);
@@ -810,9 +810,9 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
      *
      * @return
      */
-    public ArrayList<NiuRenInfo> setNiuRenData(NiuRenListInfo niuRenListInfo) {
+    public ArrayList<NiuRenInfo> setNiuRenData(NiuRenListInfo niuRenListInfolist) {
         ArrayList<NiuRenInfo> niuRenInfos = new ArrayList<>();
-        List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfo.getResult().getStrategies();
+        List<NiuRenListInfo.ResultBean.StrategiesBean> starPorfolioBeen = niuRenListInfolist.getResult().getStrategies();
         for (int i = 0; i < starPorfolioBeen.size(); i++) {
             NiuRenListInfo.ResultBean.StrategiesBean ben = starPorfolioBeen.get(i);
             NiuRenInfo info = new NiuRenInfo();
@@ -822,7 +822,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             info.setNiurenRoundImage("http://img2.imgtn.bdimg.com/it/u=1689964256,2679873424&fm=21&gp=0.jpg");
             info.setShouyiRate(Double.parseDouble(df.format(ben.getTotleReturns())));
             info.setVictorRate(ben.getWinRatio() + "%");
-            info.setShouyiByMonth(df.format(ben.getMonthlyAverage()) + "%");
+            info.setShouyiByMonth(ben.getMonthlyAverage());
             info.setStockNum(ben.getHolding());
             info.setCangweiRate(df.format(ben.getPosition()) + "%");
             info.setDayNum(ben.getAveragePosition());
@@ -864,7 +864,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 }else if (nowTime>ManagerUtil.getTime(ben.getRecuitmentStartTime())&&nowTime>ManagerUtil.getTime(ben.getRunStartDay())&&nowTime>ManagerUtil.getTime(ben.getRunEndDay())){
                     info.setType(2);   //已结束
                 }
-
+            Log.d("tag","ben.getId()------"+ben.getId());
             }else {
                 info.setZuheType(2);   //2和3全是创建
             }

@@ -720,7 +720,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         dataSet.setLineWidth(2f);
         if (BenchmarkImgData.size() == 1){
             dataSet.setDrawCircles(true);
-            dataSet.setCircleSize(2f);
+            dataSet.setCircleSize(1f);
         }else {
             dataSet.setDrawCircles(false);
         }
@@ -731,7 +731,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
 
         if (ImgData.size() == 1){
             dataSet1.setDrawCircles(true);
-            dataSet1.setCircleSize(2f);
+            dataSet1.setCircleSize(1f);
         }else {
             dataSet1.setDrawCircles(false);
         }
