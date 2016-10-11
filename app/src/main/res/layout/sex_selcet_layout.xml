@@ -6,6 +6,19 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/sex_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/layout_selector"
+        android:padding="@dimen/margin_15dp"
+        android:text="请选择您的性别"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/quan_off_txt"/>
+
+    <TextView
         android:id="@+id/man_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,6 +26,10 @@
         android:background="@drawable/layout_selector"
         android:padding="@dimen/margin_15dp"
         android:text="男" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/quan_off_txt"/>
     <TextView
         android:id="@+id/woman_txt"
         android:layout_width="match_parent"

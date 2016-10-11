@@ -2,7 +2,6 @@ package com.example.drawer.stockapp.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,11 +74,23 @@ public class SetUpZuHeAdapter extends BaseAdapter{
         }
 
         HeadIndex index = (HeadIndex) getItem(i);
-
+        if (index.getType() == 2){
+            viewHolder.delete.setVisibility(View.VISIBLE);
+        }else {
+            viewHolder.delete.setVisibility(View.INVISIBLE);
+        }
         if (index.getIndexPersent() != null&& !TextUtils.isEmpty(index.getIndexPersent())){
                 viewHolder.seekBar.setProgress(Integer.parseInt(index.getIndexPersent()));
             viewHolder.num.setText(index.getIndexPersent()+"%");
         }
+        viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                list.remove(i);
+                notifyDataSetChanged();
+            }
+        });
+
         viewHolder.name.setText(index.getIndexName());
         viewHolder.number.setText(index.getIndexNum());
         viewHolder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

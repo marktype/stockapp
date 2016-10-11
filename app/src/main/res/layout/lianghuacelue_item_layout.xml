@@ -80,6 +80,7 @@
         android:textSize="14sp"
         android:ellipsize="end"
         android:maxLines="2"
+        android:text=""
         android:layout_toLeftOf="@id/status_celue"
         android:layout_marginTop="@dimen/margin_10dp"
         android:layout_below="@id/celue_title"
@@ -87,7 +88,7 @@
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/run_time_txt"
-        android:text=""
+        android:text="1111111111"
         android:layout_marginRight="@dimen/margin_10dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/celue_content"
@@ -100,7 +101,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="@dimen/margin_10dp"
-        android:layout_below="@id/celue_circle"
+        android:layout_below="@id/run_time_txt"
         android:background="@android:color/darker_gray"/>
     <LinearLayout
         android:id="@+id/celue_three_item_relat"

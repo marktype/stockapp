@@ -2,10 +2,14 @@ package com.example.drawer.stockapp.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +17,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -39,6 +44,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -51,7 +58,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
     private int type;     //跳转类型
     private EditText mCommentEdit;
     private DynamicInfoAdapter adapter;
-    private String mToken;
+    private String mToken,titleName;
     private MyListView mList;
     private CommnetInfo commnetInfo;
     private MyDialog dialog;
@@ -100,6 +107,8 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         webView.getSettings().setBuiltInZoomControls(false);//zoom
         webView.getSettings().setUseWideViewPort(false); //auto adjust screen
         webView.getSettings().setLoadWithOverviewMode(true);
+        //设置Web视图
+        webView.setWebViewClient(new webViewClient ());
         webView.setWebChromeClient(new WebChromeClientInfo());
 
         RelativeLayout mLayout = (RelativeLayout) findViewById(R.id.pinglun_relat);    //评论选项
@@ -131,6 +140,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         mCommentEdit.setOnKeyListener(onKeyListener);
 
         mTitle = (TextView) findViewById(R.id.back_txt);
+        mTitle.setText("学堂详情");
     }
 
     @Override
@@ -188,7 +198,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                 }
                 break;
             case R.id.share_img:
-                showShare(mTitle.getText().toString(),"");
+                showShare(titleName,"");
                 break;
             case R.id.send_comment:
                 //点击进行逻辑处理
@@ -291,13 +301,13 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                     ClassDetial.ResultBean.CourseInfoBean infoBean = newsDetial.getResult().getCourseInfo();
                     if (infoBean.getTargetUrl() != null&&!TextUtils.isEmpty(infoBean.getTargetUrl())){
                         shareUrl = infoBean.getTargetUrl();
-                        webView.loadUrl(infoBean.getTargetUrl()+"&isApp=true");
+                        webView.loadUrl(infoBean.getTargetUrl());     //"&isApp=true"
                     }else if (bean.getContent() != null&&!TextUtils.isEmpty(bean.getContent())){
                         shareUrl = "";
                         webView.loadDataWithBaseURL("about:blank", Html.fromHtml(bean.getContent()).toString(), "text/html", "utf-8",null);
                     }
-
-                    mTitle.setText(infoBean.getName());
+                    titleName = infoBean.getName();
+//                    mTitle.setText(infoBean.getName());
                     mZhuanFa.setText(infoBean.getForward()+"");
                     mComment.setText(infoBean.getComments()+"");
                     mLikes.setText(infoBean.getLikes()+"");
@@ -499,5 +509,73 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                 dialog.dismiss();
             }
         }
+    }
+
+    private long timeout = 10000;
+
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch(msg.what){
+                case 1:
+                    //这里对已经显示出页面且加载超时的情况不做处理
+                    dialog.dismiss();
+                    break ;
+
+            }
+        }
+    };
+
+    private Timer timer;
+    /**
+     *  /Web视图
+     */
+    private class webViewClient extends WebViewClient {
+//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//            view.loadUrl(url);
+//            return true;
+//        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            timer = new Timer();
+            TimerTask tt = new TimerTask() {
+                @Override
+                public void run() {
+                        /*
+                         * 超时后,首先判断页面加载进度,超时并且进度小于100,就执行超时后的动作
+                         */
+                    webView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (WebViewUpTitleActivity.this.webView.getProgress() < 100) {
+                                Log.d("testTimeout", "timeout...........");
+                                Message msg = new Message();
+                                msg.what = 1;
+                                mHandler.sendMessage(msg);
+                                timer.cancel();
+                                timer.purge();
+                            }
+                        }
+                    });
+
+                }
+            };
+            timer.schedule(tt, timeout, 1);
+        }
+
+        /**
+         * onPageFinished指页面加载完成,完成后取消计时器
+         */
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            // TODO Auto-generated method stub
+            super.onPageFinished(view, url);
+            timer.cancel();
+            timer.purge();
+        }
+
     }
 }

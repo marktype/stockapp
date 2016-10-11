@@ -406,10 +406,12 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             TextView mMan = (TextView) contentView.findViewById(R.id.man_txt);
             TextView mWoman = (TextView) contentView.findViewById(R.id.woman_txt);
             TextView cancel = (TextView) contentView.findViewById(R.id.cancel_txt);
+            TextView select = (TextView) contentView.findViewById(R.id.sex_select);
 
             mMan.setBackgroundColor(getResources().getColor(R.color.write_color));
             mWoman.setBackgroundColor(getResources().getColor(R.color.write_color));
             cancel.setBackgroundColor(getResources().getColor(R.color.write_color));
+            select.setBackgroundColor(getResources().getColor(R.color.write_color));
 
             mWoman.setOnClickListener(this);
             cancel.setOnClickListener(this);
@@ -504,15 +506,19 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 mUserName.setText(R.string.user_name);
                 mUserNameNext.setText(R.string.user_name);
             }
+            if (userInfo.getResult().getSex() == 1){
+                mSexTxt.setText("女");
+            }else {
+                mSexTxt.setText("男");
+            }
             if (userInfo.getResult().getAvatar() != null&&!TextUtils.isEmpty(userInfo.getResult().getAvatar()+"")){
                 Picasso.with(getActivity()).load(userInfo.getResult().getAvatar()+"").into(circleImageView);
             }else {
-                Picasso.with(getActivity()).load(R.mipmap.img_place).into(circleImageView);
+                Picasso.with(getActivity()).load(R.mipmap.usericon).into(circleImageView);
             }
             mNologin.setVisibility(View.GONE);
         }else {
             userInfo = null;
-//            Toast.makeText(getContext(),"获取信息失败,请重新登录",Toast.LENGTH_SHORT).show();
             mNologin.setVisibility(View.VISIBLE);
         }
     }

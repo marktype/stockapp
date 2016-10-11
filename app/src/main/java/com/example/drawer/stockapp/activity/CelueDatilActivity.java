@@ -147,9 +147,13 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mDataNum.setText(df.format(porfolioInfoBean.getReturn())+"%");
         mMonthNum.setText(df.format(porfolioInfoBean.getMonthlyAverage())+"%");
         mJingZhi.setText(df.format(porfolioInfoBean.getNetValue()/100000)+"");
-        mAdavce.setText(porfolioInfoBean.getDesc());
+        if (porfolioInfoBean.getDesc() != null&&!TextUtils.isEmpty(porfolioInfoBean.getDesc())){
+            mAdavce.setText(porfolioInfoBean.getDesc());
+        }else {
+            mAdavce.setText("主理人未留下组合投资建议");
+        }
 //        if (porfolioInfoBean.getUserImgUrl() != null&&!TextUtils.isEmpty(porfolioInfoBean.getUserImgUrl())){
-            Picasso.with(this).load(porfolioInfoBean.getUserImgUrl()).placeholder(R.mipmap.img_place).into(mStarImage);
+            Picasso.with(this).load(porfolioInfoBean.getUserImgUrl()).placeholder(R.mipmap.usericon).into(mStarImage);
 //        }
 
         if (porfolioInfoBean.getNickName() != null&&!TextUtils.isEmpty(porfolioInfoBean.getNickName())){
@@ -429,7 +433,6 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
          * 用来描述该雷达图是什么用途
          */
         mChart.setDescription("");
-
         mChart.setWebLineWidth(1.5f);
         mChart.setWebLineWidthInner(0.75f);
         mChart.setWebAlpha(50);
@@ -457,7 +460,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         xAxis.setTextSize(9f);
 
         YAxis yAxis = mChart.getYAxis();
-        yAxis.setLabelCount(0, true);
+        yAxis.setLabelCount(5, false);
         yAxis.setTextSize(9f);
         yAxis.setAxisMinValue(0f);
 
@@ -506,6 +509,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
 //        list.add(222);
 //        list.add(333);
         for (int i = 0; i < list.size(); i++) {
+            Log.d("tag","list.get(i).getPercent()-------"+list.get(i).getPercent());
             yVals2.add(new Entry(list.get(i).getPercent(), i));
         }
         ArrayList<String> xVals = new ArrayList<String>();
@@ -513,12 +517,12 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         for (int i = 0; i < list.size(); i++)
             xVals.add(list.get(i % list.size()).getName());
 
-        RadarDataSet set1 = new RadarDataSet(yVals1, "");
-        set1.setVisible(false);
-        set1.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
-        set1.setFillColor(ColorTemplate.VORDIPLOM_COLORS[0]);
-        set1.setDrawFilled(true);
-        set1.setLineWidth(2f);
+//        RadarDataSet set1 = new RadarDataSet(yVals1, "");
+//        set1.setVisible(false);
+//        set1.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
+//        set1.setFillColor(ColorTemplate.VORDIPLOM_COLORS[0]);
+//        set1.setDrawFilled(true);
+//        set1.setLineWidth(2f);
 
         RadarDataSet set2 = new RadarDataSet(yVals2, "");
         set2.setColor(ColorTemplate.VORDIPLOM_COLORS[4]);
@@ -532,7 +536,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
 
         //
         ArrayList<IRadarDataSet> sets = new ArrayList<IRadarDataSet>();
-        sets.add(set1);
+//        sets.add(set1);
         sets.add(set2);
 
         RadarData data = new RadarData(xVals, sets);
@@ -541,8 +545,6 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         data.setHighlightEnabled(true);
 
         mChart.setSkipWebLineCount(5);      //设置蜘蛛网的连接线
-
-
         mChart.setData(data);
 
 

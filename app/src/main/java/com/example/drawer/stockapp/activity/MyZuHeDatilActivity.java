@@ -152,7 +152,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         }else {
             mAdavce.setText("主理人未留下组合投资建议");
         }
-        Picasso.with(this).load(porfolioInfoBean.getUserImgUrl()).placeholder(R.mipmap.img_place).into(mStarImage);
+        Picasso.with(this).load(porfolioInfoBean.getUserImgUrl()).placeholder(R.mipmap.usericon).into(mStarImage);
 
         remainMoney = porfolioInfoBean.getCash();   //可用余额
         zuheName = porfolioInfoBean.getTitle();
@@ -508,11 +508,11 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         for (int i = 0; i < list.size(); i++)
             xVals.add(list.get(i % list.size()).getName());
 
-        RadarDataSet set1 = new RadarDataSet(yVals1, "");
-        set1.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
-        set1.setFillColor(ColorTemplate.VORDIPLOM_COLORS[0]);
-        set1.setDrawFilled(true);
-        set1.setLineWidth(2f);
+//        RadarDataSet set1 = new RadarDataSet(yVals1, "");
+//        set1.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
+//        set1.setFillColor(ColorTemplate.VORDIPLOM_COLORS[0]);
+//        set1.setDrawFilled(true);
+//        set1.setLineWidth(2f);
 
         RadarDataSet set2 = new RadarDataSet(yVals2, "");
         set2.setColor(ColorTemplate.VORDIPLOM_COLORS[4]);
@@ -526,7 +526,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
 
         //
         ArrayList<IRadarDataSet> sets = new ArrayList<IRadarDataSet>();
-        sets.add(set1);
+//        sets.add(set1);
         sets.add(set2);
 
         RadarData data = new RadarData(xVals, sets);

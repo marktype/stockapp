@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.MessageTiaoCangAdapter;
@@ -51,7 +52,10 @@ public class MessageActivity extends BascActivity{
         //读取消息缓存
         String  fileName = Environment.getExternalStorageDirectory() +"/catInfo.txt";
         String str = ManagerUtil.readFileSdcardFile(fileName);
-        strs = str.trim().split(" ");
+
+        if (str != null&&!TextUtils.isEmpty(str)){
+            strs = str.trim().split(" ");
+        }
         initWight();
         getMyListData();
     }
@@ -72,6 +76,7 @@ public class MessageActivity extends BascActivity{
         layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
+        TextView mNoInfo = (TextView) findViewById(R.id.no_info_txt);
 
         mBackImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,8 +90,11 @@ public class MessageActivity extends BascActivity{
 
         adapter = new MessageTiaoCangAdapter(this);
         if (strs != null&&strs.length>0){
+            mNoInfo.setVisibility(View.GONE);
             ArrayAdapter systemInfo = new ArrayAdapter(this,R.layout.txt_item_layout,strs);
             mList.setAdapter(systemInfo);
+        }else {
+            mNoInfo.setVisibility(View.VISIBLE);
         }
 //        mList.setOnItemClickListener(this);
 

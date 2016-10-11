@@ -93,7 +93,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         View headRelat = LayoutInflater.from(this).inflate(R.layout.dongtai_item_layout,null);
 
         mCommentEdit = (EditText) findViewById(R.id.dongtai_comment_edit);
-
+        TextView mSend = (TextView) findViewById(R.id.send_comment);  //发送
         RelativeLayout layout = (RelativeLayout) headRelat.findViewById(R.id.zan_relate);
         head = (ImageView) headRelat.findViewById(R.id.dongtai_image);
         name = (TextView) headRelat.findViewById(R.id.dongtai_name);
@@ -143,6 +143,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         mZhuanFa.setOnClickListener(this);
         mComment.setOnClickListener(this);
         layout.setOnClickListener(this);
+        mSend.setOnClickListener(this);
 //        mShare.setOnClickListener(this);
 //        mCollect.setOnClickListener(this);
     }
@@ -196,6 +197,22 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
 //            case R.id.share_img:
 //                showShare(name.getText().toString(),mImage);
 //                break;
+            case R.id.send_comment:
+                //点击进行逻辑处理
+                String key = mCommentEdit.getText().toString().trim();
+                if (type == 2){
+                    Toast.makeText(getApplicationContext(),"该功能还在完善",Toast.LENGTH_SHORT).show();
+//                    mZhuanFa.setText((Integer.parseInt(mZhuanFa.getText().toString())+1)+"");
+//                    likeOrForwordAsyn.execute(shareBean.getId(),"Forward",key,mToken,HttpManager.Comment_URL);
+                }else if (!TextUtils.isEmpty(key)){
+                    dialog = ManagerUtil.getDiaLog(MyDynamicActivity.this);
+                    LikeOrForwordAsyn likeOrForwordAsyn = new LikeOrForwordAsyn();
+                    mComment.setText((Integer.parseInt(mComment.getText().toString())+1)+"");
+                    likeOrForwordAsyn.execute(id,"Comment",key,mToken,HttpManager.Comment_URL);
+                }else {
+                    Toast.makeText(getApplicationContext(),"请输入要发表的内容",Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 

@@ -209,6 +209,12 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
             getSliderLayoutView(images, strings);
         }
 
+        if (trendsInfosSave != null){
+            trendsAdapter.setData(trendsInfosSave);
+            mDongTaiList.setAdapter(trendsAdapter);
+        }
+
+
         return mView;
     }
 

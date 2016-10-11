@@ -53,7 +53,7 @@
     <string name="hot_search_txt">热门搜索</string>
     <string name="attention_txt">关注</string>
     <string name="send_dynamic_txt">发布动态</string>
-    <string name="send_dynamic_sure_txt">确定发布</string>
+    <string name="send_dynamic_sure_txt">发布</string>
     <string name="celue_title_one_txt">收益走势</string>
     <string name="celue_title_txt">实盈量化投资组合第一期</string>
     <string name="fencheng_txt">分成费: 若组合在运行期间内到成预期目标，平台将收取一定的费用作为收益分成费（分成费=跟投金额×目标收益×分成比例），若未达成目标收益则全额退还。</string>

@@ -89,17 +89,17 @@ public class CeLueAdapter extends BaseAdapter {
             viewHolder.runTime.setText(info.getRunTime().substring(0,10)+" 开始运行");
         }else if (info.getType() == 2||info.getType() == 5){
             viewHolder.status.setText("招募中");
-            viewHolder.runTime.setVisibility(View.GONE);
+            viewHolder.runTime.setVisibility(View.INVISIBLE);
             viewHolder.nowGen.setVisibility(View.GONE);
             viewHolder.zhaomuName.setText("招募进度");
         }else if (info.getType() == 3){
             viewHolder.status.setText("已结束");
-            viewHolder.runTime.setVisibility(View.GONE);
+            viewHolder.runTime.setVisibility(View.INVISIBLE);
             viewHolder.nowGen.setVisibility(View.GONE);
             viewHolder.zhaomuName.setText("实现收益");
         }else {
             viewHolder.status.setText("");
-            viewHolder.runTime.setVisibility(View.GONE);
+            viewHolder.runTime.setVisibility(View.INVISIBLE);
             viewHolder.nowGen.setVisibility(View.GONE);
         }
         viewHolder.titleLayout.setBackgroundColor(context.getResources().getColor(R.color.write_color));

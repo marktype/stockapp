@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.SearchAdapter;
@@ -95,12 +94,12 @@ public class SerchActivity extends BascActivity implements View.OnClickListener,
         mEditTxt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                Log.d("tag","beforeTextChanged------"+charSequence);
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                Log.d("tag","charSonTextChangedequence------"+charSequence);
             }
 
             @Override
@@ -220,7 +219,7 @@ public class SerchActivity extends BascActivity implements View.OnClickListener,
                     searchAdapter.setData(list);
                     mList.setAdapter(searchAdapter);
                 }else {
-                    Toast.makeText(getApplicationContext(),"亲，没有找到新闻哦",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),"亲，没有找到新闻哦",Toast.LENGTH_SHORT).show();
                 }
             }
         }

@@ -488,6 +488,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                             //发送广播,销毁此界面
                             sendBroadcast(in);
 //                            finish();
+                            mWriteGentouMoney.setText("");   //跟投金额清0
                             //刷新跟投记录
                             FollowAsyn followAsyn = new FollowAsyn();
                             followAsyn.execute(LiangHuaId);

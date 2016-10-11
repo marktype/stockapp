@@ -14,7 +14,7 @@ public class HeadIndex implements Parcelable {
     private String indexPersent;    //百分比     （评论人数）（由谁推荐）（我的组合添加，百分数）
     private double price;    //股票价格
     private int stockNum;    //股票数量
-    private int type;     //老仓位和新仓位判断   1、老，2、新
+    private int type;     //老仓位和新仓位判断   1、老，2、新      //是否创建  3
     private String xuetangId;    //学堂id
 
     public String getXuetangId() {

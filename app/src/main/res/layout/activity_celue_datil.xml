@@ -286,10 +286,10 @@
                     android:layout_below="@id/stock_quxian"
                     android:src="@mipmap/nodata"/>
             </RelativeLayout>
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="100dp"-->
-                <!--android:layout_below="@id/set_quxian" />-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@id/set_quxian" />
         </RelativeLayout>
 
     </com.example.drawer.stockapp.customview.MyScrollView>
