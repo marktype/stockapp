@@ -26,29 +26,34 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class MyReceiver extends BroadcastReceiver {
 	private static final String TAG = "JPush";
+	private static Boolean isSelfInfo = false;    //是否是自定义消息
+	private static Boolean isSaveToFile = false;  //是否保存到文件  (多条信息可能会出问题)
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
+
 		
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
             Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
             //send the Registration Id to your server...
                         
-        } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-        	Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
-        	processCustomMessage(context, bundle);
-        
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
+			isSaveToFile = false;
+
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
         	
-        } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
+        } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
+			isSelfInfo = true;
+			Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
+			processCustomMessage(context, bundle);
+
+		} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
-            
+			isSaveToFile = true;
         	//打开自定义的Activity
         	Intent i = new Intent(context, MessageActivity.class);
         	i.putExtras(bundle);
@@ -66,6 +71,7 @@ public class MyReceiver extends BroadcastReceiver {
         } else {
         	Log.d(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
         }
+		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
 	}
 
 	// 打印所有的 intent extra 数据
@@ -81,7 +87,6 @@ public class MyReceiver extends BroadcastReceiver {
 					Log.i(TAG, "This message has no Extra data");
 					continue;
 				}
-
 				try {
 					JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
 					Iterator<String> it =  json.keys();
@@ -96,7 +101,7 @@ public class MyReceiver extends BroadcastReceiver {
 
 			} else {
 				sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
-				if (key.equals(JPushInterface.EXTRA_ALERT)){
+				if (key.equals(JPushInterface.EXTRA_ALERT)&&!isSelfInfo&&!isSaveToFile){
 					//写入文件
 					String  fileName = Environment.getExternalStorageDirectory() +"/catInfo.txt";
 					String info = bundle.getString(key)+" ";

@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -99,7 +98,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         RelativeLayout layoutFour = (RelativeLayout) findViewById(R.id.zuhe_detial_relat);
         RelativeLayout layoutFive = (RelativeLayout) findViewById(R.id.tiaocang_relat);
         RelativeLayout layoutSix = (RelativeLayout) findViewById(R.id.gentou_relat);
-        LinearLayout layoutSeven = (LinearLayout) findViewById(R.id.hint_info_lin);
+//        LinearLayout layoutSeven = (LinearLayout) findViewById(R.id.hint_info_lin);
 
         layoutOne.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
@@ -107,7 +106,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         layoutFour.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutFive.setBackgroundColor(getResources().getColor(R.color.write_color));
         layoutSix.setBackgroundColor(getResources().getColor(R.color.write_color));
-        layoutSeven.setBackgroundColor(getResources().getColor(R.color.write_color));
+//        layoutSeven.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         mTitle = (TextView) findViewById(R.id.back_txt);   //招募中题目
         canvasViewThree = (CanvasViewThree) findViewById(R.id.chart1);
@@ -118,6 +117,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         mFenCheng = (TextView) findViewById(R.id.fencheng_money);  //分成费
         mGentouMoney = (TextView) findViewById(R.id.gentou_money);   //跟投金额
         TextView mFencheng = (TextView) findViewById(R.id.fengcheng_detial);   //分成信息
+        TextView mYujiGenTou = (TextView) findViewById(R.id.gentou_txt);   //预计跟投
 //        mStartEndMoney = (TextView) findViewById(R.id.gentou_qujian);   //跟投区间
         mWriteGentouMoney = (EditText) findViewById(R.id.write_start_money);   //输入跟投金额
         mTargetMoney = (TextView) findViewById(R.id.target_money);   //目标收益
@@ -159,6 +159,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
 
         mBackimg.setOnClickListener(this);
         mFencheng.setOnClickListener(this);
+        mYujiGenTou.setOnClickListener(this);
         mGentou.setOnClickListener(this);
         mDeleteImg.setOnClickListener(this);
 
@@ -236,6 +237,9 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                 break;
             case R.id.changjianwenti_txt:
                 initPopView(view);
+                break;
+            case R.id.gentou_txt:
+                getDiaLogInfoGenTou();
                 break;
         }
     }
@@ -332,6 +336,26 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
      */
     private void getDiaLogInfo(){
         final MyDialog dialog = new MyDialog(this, 250, 200,R.layout.fencheng_detial_layout,R.style.MyDialogStyleDia);
+        dialog.setCancelable(true);
+        dialog.show();
+
+        View view = dialog.getView();
+        view.setBackgroundColor(getResources().getColor(R.color.write_color));
+        TextView ok = (TextView) view.findViewById(R.id.fencheng_sure);
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 跟投说明
+     */
+    private void getDiaLogInfoGenTou(){
+        final MyDialog dialog = new MyDialog(this, 250, 200,R.layout.gentou_detial_layout,R.style.MyDialogStyleDia);
         dialog.setCancelable(true);
         dialog.show();
 
@@ -475,14 +499,14 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             dialog.dismiss();
-            Log.d("tag","sss----跟投---"+s);
             if (!TextUtils.isEmpty(s)){
                 if (s.contains("Head")){
                     try {
                         JSONObject object = new JSONObject(s);
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getInt("Status") == 0){
-                            Toast.makeText(getApplicationContext(),"跟投成功",Toast.LENGTH_SHORT).show();
+                            getGenTouSuccess();
+//                            Toast.makeText(getApplicationContext(),"跟投成功，组合开始运行后系统将推送调仓通知，请及时关注！",Toast.LENGTH_SHORT).show();
                             Intent in = new Intent();
                             in.setAction(AutoWisdomFragment.BROAD_TYPE);
                             //发送广播,销毁此界面
@@ -502,6 +526,26 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                 }
             }
         }
+    }
+
+    /**
+     * 跟投成功提示消息
+     */
+    private void getGenTouSuccess(){
+        final MyDialog dialog = new MyDialog(this, 250, 200,R.layout.activity_gentou_my_layout,R.style.MyDialogStyleDia);
+        dialog.setCancelable(true);
+        dialog.show();
+
+        View view = dialog.getView();
+        view.setBackgroundColor(getResources().getColor(R.color.write_color));
+        TextView ok = (TextView) view.findViewById(R.id.positiveButton);
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 
     /**

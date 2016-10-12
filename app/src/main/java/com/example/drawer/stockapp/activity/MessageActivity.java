@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.MessageTiaoCangAdapter;
@@ -76,7 +76,7 @@ public class MessageActivity extends BascActivity{
         layoutTwo.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
-        TextView mNoInfo = (TextView) findViewById(R.id.no_info_txt);
+//        TextView mNoInfo = (TextView) findViewById(R.id.no_info_txt);
 
         mBackImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,11 +90,9 @@ public class MessageActivity extends BascActivity{
 
         adapter = new MessageTiaoCangAdapter(this);
         if (strs != null&&strs.length>0){
-            mNoInfo.setVisibility(View.GONE);
+//            mNoInfo.setVisibility(View.GONE);
             ArrayAdapter systemInfo = new ArrayAdapter(this,R.layout.txt_item_layout,strs);
             mList.setAdapter(systemInfo);
-        }else {
-            mNoInfo.setVisibility(View.VISIBLE);
         }
 //        mList.setOnItemClickListener(this);
 
@@ -111,14 +109,17 @@ public class MessageActivity extends BascActivity{
         layoutOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isOpen){
-                    mList.setVisibility(View.VISIBLE);
-                    isOpen = true;
+                if (strs != null){
+                    if (!isOpen){
+                        mList.setVisibility(View.VISIBLE);
+                        isOpen = true;
+                    }else {
+                        mList.setVisibility(View.GONE);
+                        isOpen = false;
+                    }
                 }else {
-                    mList.setVisibility(View.GONE);
-                    isOpen = false;
+                    Toast.makeText(getApplicationContext(),"暂无消息",Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 

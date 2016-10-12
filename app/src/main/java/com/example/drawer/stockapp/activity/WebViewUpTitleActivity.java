@@ -2,6 +2,7 @@ package com.example.drawer.stockapp.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -62,15 +63,17 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
     private MyListView mList;
     private CommnetInfo commnetInfo;
     private MyDialog dialog;
-    private TextView mTitle;
+    private TextView mTitle,mSend;
+    private TextView mLogin;
     private ImageView mZanImg;
     private Boolean flag;    //是否点赞
+    private SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
         tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
-        mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
+        sp = ShapePreferenceManager.getMySharedPreferences(this);
         urlId = getIntent().getStringExtra(URLID);
         initWight();
         NewsInfoAsyn newsInfoAsyn = new NewsInfoAsyn();
@@ -116,7 +119,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
 //        mLayout.setVisibility(View.GONE);
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
-        TextView mSend = (TextView) findViewById(R.id.send_comment);  //发送
+        mSend = (TextView) findViewById(R.id.send_comment);  //发送
         mCommentEdit = (EditText) findViewById(R.id.dongtai_comment_edit);
 //        mTxt = (TextView) findViewById(R.id.test_txt);   //文本展示
         mZhuanFa = (TextView) findViewById(R.id.dongtai_zhuanfa);
@@ -125,6 +128,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         mZanImg = (ImageView) findViewById(R.id.dianzan_img);
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.zan_relate);
         ImageView mShare = (ImageView) findViewById(R.id.share_img);   //分享
+        mLogin = (TextView) findViewById(R.id.login_btn);    //登录
 
         mList = (MyListView) findViewById(R.id.dynamic_list);
         adapter = new DynamicInfoAdapter(this);
@@ -146,6 +150,15 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
     @Override
     protected void onResume() {
         super.onResume();
+        mToken = sp.getString(ShapePreferenceManager.TOKEN,null);
+
+        if (!TextUtils.isEmpty(mToken)){
+            mLogin.setVisibility(View.GONE);
+            mSend.setVisibility(View.VISIBLE);
+        }else {
+            mSend.setVisibility(View.GONE);
+            mLogin.setVisibility(View.VISIBLE);
+        }
         SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
         ManagerUtil.setStataBarColor(this,tintManager);
     }

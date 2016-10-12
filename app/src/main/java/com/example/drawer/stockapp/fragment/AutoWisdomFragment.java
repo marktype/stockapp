@@ -864,7 +864,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 }else if (nowTime>ManagerUtil.getTime(ben.getRecuitmentStartTime())&&nowTime>ManagerUtil.getTime(ben.getRunStartDay())&&nowTime>ManagerUtil.getTime(ben.getRunEndDay())){
                     info.setType(2);   //已结束
                 }
-            Log.d("tag","ben.getId()------"+ben.getId());
             }else {
                 info.setZuheType(2);   //2和3全是创建
             }

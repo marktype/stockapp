@@ -56,7 +56,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
     private String urlId;    //新闻id
     private WebView webView;
     private TextView mTxt,mZhuanFa,mComment,mLikes,mTitle;
-    private TextView mLogin;
+    private TextView mLogin,mSend;
     private int type;     //跳转类型
     private EditText mCommentEdit;
     private DynamicInfoAdapter adapter;
@@ -124,7 +124,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
 //        mTxt = (TextView) findViewById(R.id.test_txt);   //文本展示
-        TextView mSend = (TextView) findViewById(R.id.send_comment);  //发送
+        mSend = (TextView) findViewById(R.id.send_comment);  //发送
         mCommentEdit = (EditText) findViewById(R.id.dongtai_comment_edit);
         mZhuanFa = (TextView) findViewById(R.id.dongtai_zhuanfa);
         mComment = (TextView) findViewById(R.id.dongtai_pinglun);
@@ -158,7 +158,9 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
 
         if (!TextUtils.isEmpty(mToken)){
             mLogin.setVisibility(View.GONE);
+            mSend.setVisibility(View.VISIBLE);
         }else {
+            mSend.setVisibility(View.GONE);
             mLogin.setVisibility(View.VISIBLE);
         }
 

@@ -39,7 +39,6 @@
     <com.example.drawer.stockapp.customview.MyListView
         android:id="@+id/tiaocang_listview"
         android:focusable="false"
-        android:focusableInTouchMode="false"
         android:layout_below="@id/tiaocang_line"
         android:listSelector="@android:color/transparent"
         android:layout_width="match_parent"

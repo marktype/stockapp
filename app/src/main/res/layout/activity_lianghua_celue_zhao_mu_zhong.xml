@@ -242,7 +242,7 @@
                     android:textSize="@dimen/my_txt_size"
                     android:textColor="@android:color/black"
                     android:id="@+id/gentou_txt"
-                    android:text="跟投金额"/>
+                    android:text="预计跟投?"/>
                 <!--<TextView-->
                     <!--android:id="@+id/gentou_qujian"-->
                     <!--android:layout_centerHorizontal="true"-->
