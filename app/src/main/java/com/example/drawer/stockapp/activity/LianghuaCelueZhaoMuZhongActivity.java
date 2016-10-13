@@ -349,21 +349,34 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                 dialog.dismiss();
             }
         });
+
+
     }
 
     /**
      * 跟投说明
      */
     private void getDiaLogInfoGenTou(){
-        final MyDialog dialog = new MyDialog(this, 250, 200,R.layout.gentou_detial_layout,R.style.MyDialogStyleDia);
-        dialog.setCancelable(true);
+//        final MyDialog dialog = new MyDialog(this, 250, 200,R.layout.gentou_detial_layout,R.style.MyDialogStyleDia);
+//        dialog.setCancelable(true);
+//        dialog.show();
+//
+//        View view = dialog.getView();
+//        view.setBackgroundColor(getResources().getColor(R.color.write_color));
+//        TextView ok = (TextView) view.findViewById(R.id.fencheng_sure);
+//
+//        ok.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dialog.dismiss();
+//            }
+//        });
+
+        final CustomDialog dialog = new CustomDialog(LianghuaCelueZhaoMuZhongActivity.this);
+        dialog.setMessageText(getResources().getString(R.string.gentou_txt));
+        dialog.setNegativeGone();
         dialog.show();
-
-        View view = dialog.getView();
-        view.setBackgroundColor(getResources().getColor(R.color.write_color));
-        TextView ok = (TextView) view.findViewById(R.id.fencheng_sure);
-
-        ok.setOnClickListener(new View.OnClickListener() {
+        dialog.setOnPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
@@ -532,15 +545,11 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
      * 跟投成功提示消息
      */
     private void getGenTouSuccess(){
-        final MyDialog dialog = new MyDialog(this, 250, 200,R.layout.activity_gentou_my_layout,R.style.MyDialogStyleDia);
-        dialog.setCancelable(true);
+        final CustomDialog dialog = new CustomDialog(LianghuaCelueZhaoMuZhongActivity.this);
+        dialog.setMessageText("跟投成功，组合开始运行后系统将推送调仓通知，请及时关注！");
+        dialog.setNegativeGone();
         dialog.show();
-
-        View view = dialog.getView();
-        view.setBackgroundColor(getResources().getColor(R.color.write_color));
-        TextView ok = (TextView) view.findViewById(R.id.positiveButton);
-
-        ok.setOnClickListener(new View.OnClickListener() {
+        dialog.setOnPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();

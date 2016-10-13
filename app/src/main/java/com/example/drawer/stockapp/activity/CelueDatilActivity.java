@@ -460,6 +460,8 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         xAxis.setTextSize(9f);
 
         YAxis yAxis = mChart.getYAxis();
+        yAxis.setDrawTopYLabelEntry(false);
+        yAxis.setDrawLabels(false);    //隐藏刻度数据
         yAxis.setLabelCount(5, false);
         yAxis.setTextSize(9f);
         yAxis.setAxisMinValue(0f);
@@ -509,7 +511,6 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
 //        list.add(222);
 //        list.add(333);
         for (int i = 0; i < list.size(); i++) {
-            Log.d("tag","list.get(i).getPercent()-------"+list.get(i).getPercent());
             yVals2.add(new Entry(list.get(i).getPercent(), i));
         }
         ArrayList<String> xVals = new ArrayList<String>();
@@ -764,7 +765,6 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
 
             StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean dataBean = ImgData.get(i);
             yValue.add(new Entry(Float.parseFloat(df.format(dataBean.getCumulativeReturn())), i));
-            Log.d("tag","Float.parseFloat(df.format(dataBean.getCumulativeReturn())----"+Float.parseFloat(df.format(dataBean.getCumulativeReturn())));
         }
 
 
@@ -775,7 +775,6 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         for (int i = 0; i < BenchmarkImgData.size(); i++) {
             StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean benchmarkImgDataBean = BenchmarkImgData.get(i);
             yValue1.add(new Entry(Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())), i));
-            Log.d("tag","Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn()))----"+Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())));
         }
 
         //构建一个LineDataSet 代表一组Y轴数据

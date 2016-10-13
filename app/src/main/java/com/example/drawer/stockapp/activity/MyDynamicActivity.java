@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -138,7 +139,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
 
         mList.addHeaderView(headRelat);
 
-        mCommentEdit.setOnKeyListener(onKeyListener);
+//        mCommentEdit.setOnKeyListener(onKeyListener);
         mBackimg.setOnClickListener(this);
         mZhuanFa.setOnClickListener(this);
         mComment.setOnClickListener(this);
@@ -233,6 +234,7 @@ public class MyDynamicActivity extends BascActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            Log.d("tag","sss-------"+s);
             if (!TextUtils.isEmpty(s)){
                 Gson gson = new Gson();
                 DynamicDetialInfo newsDetial = gson.fromJson(s,DynamicDetialInfo.class);

@@ -51,7 +51,8 @@
             android:layout_alignParentRight="true"
             android:textColor="@android:color/black"
             android:padding="@dimen/margin_10dp"
-            android:background="@color/content_bg"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:background="@drawable/rect_blue_shape"
             android:layout_centerVertical="true"
             android:text="发送"/>
         <EditText

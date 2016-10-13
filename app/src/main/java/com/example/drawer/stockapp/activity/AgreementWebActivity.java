@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class AgreementWebActivity extends BascActivity {
         mTitleRelat.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         WebView webView = (WebView) findViewById(R.id.web_view);
+//        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadsImagesAutomatically(true);//auto load images
         webView.getSettings().setSupportZoom(false);
@@ -45,6 +47,14 @@ public class AgreementWebActivity extends BascActivity {
         webView.getSettings().setUseWideViewPort(false); //auto adjust screen
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.setWebChromeClient(new WebChromeClientInfo());
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                lodurl(view, url);
+                return false;
+            }
+        });
 
         ImageView mBackImg = (ImageView) findViewById(R.id.back_img);
         mBackImg.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +73,7 @@ public class AgreementWebActivity extends BascActivity {
             mTxt.setText("爱猫爪用户注册协议");
             webView.loadUrl("http://www.imaozhua.com/service.html");
         }else if (type == 3){
-            mTxt.setText("新闻");
+            mTxt.setText("");
             webView.loadUrl(url);
         }
     }
@@ -88,4 +98,14 @@ public class AgreementWebActivity extends BascActivity {
             }
         }
     }
+
+    public void lodurl(final WebView webView, final String url) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                webView.loadUrl(url);
+            }
+        });
+    }
+
 }

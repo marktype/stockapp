@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -180,40 +181,43 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 //        if (headMassageInfo == null) {
+        if (mView == null) {
             mView = inflater.inflate(R.layout.fragment_first_news, container, false);
+        }
             initWight();
             initData();
-        if (headMassageInfo == null) {
-            listInfoSave = new ArrayList<>();   //保存数据，下次进入时不必加载
-            //新闻列表加载
-            GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
-            getNewsListAsyn.execute(page + "");
+            if (headMassageInfo == null) {
+                listInfoSave = new ArrayList<>();   //保存数据，下次进入时不必加载
+                //新闻列表加载
+                GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
+                getNewsListAsyn.execute(page + "");
             } else {
 
-            indexAdapter.setData(listInfoSave);
-            mlist.setAdapter(indexAdapter);
+                indexAdapter.setData(listInfoSave);
+                mlist.setAdapter(indexAdapter);
             }
-        if (MarketDataSave == null){
-            //指数加载
-            IndexAsyn indexAsyn = new IndexAsyn();
-            indexAsyn.execute();
-        }else {
-            initListData(MarketDataSave);
-        }
+            if (MarketDataSave == null) {
+                //指数加载
+                IndexAsyn indexAsyn = new IndexAsyn();
+                indexAsyn.execute();
+            } else {
+                initListData(MarketDataSave);
+            }
 
-        if (images == null){
-            //banner加载
-            GetBannerInfo getBannerInfo = new GetBannerInfo();
-            getBannerInfo.execute();
-        }else {
-            getSliderLayoutView(images, strings);
-        }
+            if (images == null) {
+                //banner加载
+                GetBannerInfo getBannerInfo = new GetBannerInfo();
+                getBannerInfo.execute();
+            } else {
+                getSliderLayoutView(images, strings);
+            }
 
-        if (trendsInfosSave != null){
-            trendsAdapter.setData(trendsInfosSave);
-            mDongTaiList.setAdapter(trendsAdapter);
-        }
+            if (trendsInfosSave != null) {
+                trendsAdapter.setData(trendsInfosSave);
+                mDongTaiList.setAdapter(trendsAdapter);
+            } else {
 
+            }
 
         return mView;
     }
@@ -276,10 +280,8 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mSendImg = (ImageView) mView.findViewById(R.id.send_dynamic);   //发送动态
         mSendImg.setVisibility(View.GONE);
 
-
-
         tabs = (PagerSlidingTabStrip) mView.findViewById(R.id.first_group);
-
+        Log.d("tag","tabs----1111--"+tabs.getFadeEnabled());
 
         mPager = (ViewPager) mView.findViewById(R.id.zixun_content_pager);   //viewpager
 
@@ -795,6 +797,8 @@ class ItemRecod {
     int top = 0;
 }
 
+
+
     /**
      * 页卡改变事件
      */
@@ -850,7 +854,7 @@ class ItemRecod {
         @Override
         public void setDongTaiType(int i,int type) {
             Intent intent = new Intent(getActivity(), MyDynamicActivity.class);
-            intent.putExtra(MyDynamicActivity.DYNAMICINFO,dynamicsInfo.getResult().getShare().get(i));
+            intent.putExtra(MyDynamicActivity.DYNAMICINFO,dynamicsInfo.getResult().getShare().get(i).getId());
             intent.putExtra(MyDynamicActivity.TYPE,type);
             startActivity(intent);
         }

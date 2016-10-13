@@ -47,6 +47,10 @@ public class CustomDialog extends Dialog {
     public void setTitle(String text){
         title.setText(text);
     }
+
+    public void setNegativeGone(){    //隐藏取消按钮
+        negativeButton.setVisibility(View.GONE);
+    }
     @Override
     public void setContentView(int layoutResID) {
     }
@@ -58,6 +62,8 @@ public class CustomDialog extends Dialog {
     @Override
     public void setContentView(View view) {
     }
+
+
 
     /**
      * 确定键监听器 

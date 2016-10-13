@@ -282,6 +282,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
             case R.id.man_txt:
                 UpdataUserIfoAsyn asyn = new UpdataUserIfoAsyn();
                 asyn.execute("Man",token);
+                userInfo.getResult().setSex(0);
                 mSexTxt.setText("男");
                 Drawable rightDrawable = getResources().getDrawable(R.mipmap.man);
                 rightDrawable.setBounds(0, 0, rightDrawable.getMinimumWidth(), rightDrawable.getMinimumHeight());
@@ -292,6 +293,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 asyn = new UpdataUserIfoAsyn();
                 asyn.execute("Woman",token);
                 mSexTxt.setText("女");
+                userInfo.getResult().setSex(1);
                 rightDrawable = getResources().getDrawable(R.mipmap.woman);
                 rightDrawable.setBounds(0, 0, rightDrawable.getMinimumWidth(), rightDrawable.getMinimumHeight());
                 mUserName.setCompoundDrawables(null, null, rightDrawable, null);

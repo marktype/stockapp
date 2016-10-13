@@ -141,7 +141,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         layout.setOnClickListener(this);
         mShare.setOnClickListener(this);
         mSend.setOnClickListener(this);
-        mCommentEdit.setOnKeyListener(onKeyListener);
+//        mCommentEdit.setOnKeyListener(onKeyListener);
 
         mTitle = (TextView) findViewById(R.id.back_txt);
         mTitle.setText("学堂详情");

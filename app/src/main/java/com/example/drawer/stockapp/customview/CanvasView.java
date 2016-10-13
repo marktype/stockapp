@@ -98,8 +98,8 @@ public class CanvasView extends View {
                 Map<String,Object> map = data.get(i);
                 String title = (String) map.get(CanvasView.TITLE);
                 String name = null;
-                if (title.length()>4){   //考虑字段过长的问题
-                    name = title.substring(0,4);
+                if (title.length()>8){   //考虑字段过长的问题
+                    name = title.substring(0,8);
                 }else {
                     name = title;
                 }

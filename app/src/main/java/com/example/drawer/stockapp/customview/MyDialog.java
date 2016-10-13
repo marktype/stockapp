@@ -27,6 +27,7 @@ public class MyDialog extends Dialog {
     public MyDialog(Context context, int layout, int style) {
         this(context, default_width, default_height, layout, style);
         mView = LayoutInflater.from(context).inflate(layout,null);
+        setContentView(mView);
     }
 
     public MyDialog(Context context, int width, int height, int layout, int style) {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.drawer.stockapp.R;
 import com.example.drawer.stockapp.adapter.TiaoCangHistoryAdapter;
@@ -98,6 +99,8 @@ public class HistoryRecordActivity extends BascActivity {
                 Gson gson = new Gson();
                 HistoryInfoList historyInfoList = gson.fromJson(s,HistoryInfoList.class);
                 parseData(historyInfoList);
+            }else {
+                Toast.makeText(getApplicationContext(),"获取信息失败",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -131,6 +134,8 @@ public class HistoryRecordActivity extends BascActivity {
             }
             adapter.setData(historyList);
             mList.setAdapter(adapter);
+        }else {
+            Toast.makeText(getApplicationContext(),"暂无数据",Toast.LENGTH_SHORT).show();
         }
 
     }

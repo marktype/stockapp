@@ -72,7 +72,7 @@ public class NiuRenAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         NiuRenInfo info = (NiuRenInfo) getItem(i);
-        Picasso.with(context).load(info.getNiurenHead()).placeholder(R.mipmap.img_place).into(viewHolder.head);
+        Picasso.with(context).load(info.getNiurenHead()).placeholder(R.mipmap.usericon).into(viewHolder.head);
         viewHolder.name.setText(info.getNiurenName());
         viewHolder.layoutTitle.setBackgroundColor(context.getResources().getColor(R.color.write_color));
 //        Picasso.with(context).load(info.getNiurenRoundImage()).into(viewHolder.tradeImage);

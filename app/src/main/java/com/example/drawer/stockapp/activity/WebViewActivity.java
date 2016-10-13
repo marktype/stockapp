@@ -147,7 +147,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         layout.setOnClickListener(this);
         mLogin.setOnClickListener(this);
         mSend.setOnClickListener(this);
-        mCommentEdit.setOnKeyListener(onKeyListener);
+//        mCommentEdit.setOnKeyListener(onKeyListener);
 
     }
 

@@ -89,8 +89,9 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
         //使用fragment代替activity转换实现
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("status","1");
+//        Bundle bundle = new Bundle();
+//        bundle.putString("status","1");
+
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(setTabMenu("资讯", R.drawable.tab_item1_selector)), FirstNewsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(setTabMenu("智能投顾", R.drawable.tab_item2_selector)), AutoWisdomFragment.class, null);
 //        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(setTabMenu("自选股", R.drawable.tab_item3_selector)), AutoStockFragment.class, null);   //暂时隐藏
@@ -118,6 +119,7 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
                 }
             }
         });
+
 
     }
 

@@ -152,35 +152,38 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_auto_wisdom, container, false);
-        sp = ShapePreferenceManager.getMySharedPreferences(getContext());
-        imageSp = ShapePreferenceManager.getImageSharePreference(getContext());
-        initWight();
-        initData();
-        if (ceLueListInfo == null){
-            ceLueInfosSave = new ArrayList<>();
-            getCelueInfo(page);
-        }else {
-            ceLueAdapter.setData(ceLueInfosSave);
-            listView.setAdapter(ceLueAdapter);
+        if (mView == null) {
+            mView = inflater.inflate(R.layout.fragment_auto_wisdom, container, false);
         }
-        if (niuRenListInfoSave == null){
-            niuRenInfosSave = new ArrayList<>();
-            getNiuRenListData(niurenPage);
-        }else {
-            niuRenAdapter.setData(niuRenInfosSave);
-            niurenList.setAdapter(niuRenAdapter);
-        }
+            sp = ShapePreferenceManager.getMySharedPreferences(getContext());
+            imageSp = ShapePreferenceManager.getImageSharePreference(getContext());
+            initWight();
+            initData();
+            if (ceLueListInfo == null){
+                ceLueInfosSave = new ArrayList<>();
+                getCelueInfo(page);
+            }else {
+                ceLueAdapter.setData(ceLueInfosSave);
+                listView.setAdapter(ceLueAdapter);
+            }
+            if (niuRenListInfoSave == null){
+                niuRenInfosSave = new ArrayList<>();
+                getNiuRenListData(niurenPage);
+            }else {
+                niuRenAdapter.setData(niuRenInfosSave);
+                niurenList.setAdapter(niuRenAdapter);
+            }
 
-        if (images == null){
-            //banner加载
-            GetBannerInfo getBannerInfo = new GetBannerInfo();
-            getBannerInfo.execute();
-        }else {
-            getSliderLayoutView(images, strings);
-            getSliderLayoutViewTwo(images, strings);
-            getSliderLayoutViewThree(images, strings);
-        }
+            if (images == null){
+                //banner加载
+                GetBannerInfo getBannerInfo = new GetBannerInfo();
+                getBannerInfo.execute();
+            }else {
+                getSliderLayoutView(images, strings);
+                getSliderLayoutViewTwo(images, strings);
+                getSliderLayoutViewThree(images, strings);
+            }
+
 
         return mView;
     }
@@ -272,7 +275,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         mSearch = (ImageView) mView.findViewById(R.id.pop_item_img);
 
         tabs = (PagerSlidingTabStrip) mView.findViewById(R.id.wisdom_group);
-
+        Log.d("tag","tabs----2222--"+tabs.getFadeEnabled());
 
         mPager = (ViewPager) mView.findViewById(R.id.wisdom_content_pager);   //viewpager
         mPager.setOffscreenPageLimit(1);
