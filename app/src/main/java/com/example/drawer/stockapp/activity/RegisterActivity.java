@@ -24,6 +24,7 @@ import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -234,12 +235,9 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
                 e.printStackTrace();
             }
             if (stutas.equals("0")){
-//                String token = null;
-//                try {
-//                    token = reault.getString("Token");
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+
+                MobclickAgent.onEvent(getApplicationContext(),"Reg");
+
                 Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_SHORT).show();
 //                SharedPreferences sharedPreferences = ShapePreferenceManager.getMySharedPreferences(RegisterActivity.this);
 //                SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -253,7 +251,6 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
                 in.setAction(LoginActivity.isFlishType);
                 //发送广播,销毁此界面
                 sendBroadcast(in);
-//                finish();
             }else if (stutas.equals("1")){
                 Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
             }
@@ -284,6 +281,7 @@ public class RegisterActivity extends BascActivity implements View.OnClickListen
                 Gson gson = new Gson();
                 UserInfo userInfo = gson.fromJson(message,UserInfo.class);
                 if (userInfo.getHead().getStatus()==0){
+                    MobclickAgent.onEvent(getApplicationContext(),"Login");
                     SharedPreferences sharedPreferences = ShapePreferenceManager.getMySharedPreferences(RegisterActivity.this);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(ShapePreferenceManager.TOKEN,userInfo.getResult().getToken());

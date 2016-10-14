@@ -25,6 +25,7 @@ import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
 
@@ -186,6 +187,7 @@ public class LoginActivity extends BascActivity implements View.OnClickListener{
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(message,UserInfo.class);
                     if (userInfo.getHead().getStatus()==0){
+                        MobclickAgent.onEvent(getApplicationContext(),"Login");
                         SharedPreferences sharedPreferences = ShapePreferenceManager.getMySharedPreferences(LoginActivity.this);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(ShapePreferenceManager.TOKEN,userInfo.getResult().getToken());

@@ -189,6 +189,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1px"
+                    android:layout_marginTop="@dimen/margin_10dp"
                     android:background="@color/circle_con_bg"
                     android:layout_below="@id/zuhe_detial_one"
                     android:id="@+id/zuhe_line_two"/>
@@ -216,8 +217,10 @@
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/advice_txt_t"
+                        android:layout_toLeftOf="@+id/advice_image_txt"
                         android:layout_marginLeft="@dimen/margin_15dp"
-                        android:textSize="@dimen/my_txt_size"
+                        android:layout_marginRight="@dimen/margin_30dp"
+                        android:textSize="@dimen/title_text_size"
                         android:text="司法环境的恢复技术及" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -236,15 +239,16 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_below="@id/advice_image_txt"
-                        android:textSize="@dimen/my_txt_size"
+                        android:textSize="@dimen/min_txt_size"
                         android:textColor="@android:color/black"
-                        android:layout_marginRight="@dimen/margin_20dp"
+                        android:layout_marginRight="@dimen/margin_15dp"
                         android:text="牛人" />
                 </RelativeLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1px"
+                    android:layout_marginTop="@dimen/margin_10dp"
                     android:background="@color/circle_con_bg"
                     android:layout_below="@id/advice_txt"
                     android:id="@+id/zuhe_line_three"/>

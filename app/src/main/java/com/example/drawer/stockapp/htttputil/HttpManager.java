@@ -38,8 +38,8 @@ public class HttpManager {
         return instance;
     }
 
-//    public static final String BASE_URL = "http://api.imaozhua.com:8914/";      //基地址
-    public static final String BASE_URL = "http://test.api.matrix.lab.supwin.com:9500/";      //基地址
+    public static final String BASE_URL = "http://api.imaozhua.com:8914/";      //基地址
+//    public static final String BASE_URL = "http://test.api.matrix.lab.supwin.com:9500/";      //基地址
     public static final String UID = "5451221";
     public static final String LANG = "zh-cn";
     public static final MediaType JSON = MediaType.parse("application/json;charset=utf-8");   //数据传输类型

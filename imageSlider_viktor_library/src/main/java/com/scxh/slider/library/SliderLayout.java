@@ -120,7 +120,7 @@ public class SliderLayout extends RelativeLayout{
     /**
      * the duration between animation.
      */
-    private long mSliderDuration = 4000;
+    private long mSliderDuration = 5000;
 
     /**
      * Visibility of {@link com.scxh.slider.library.Indicators.PagerIndicator}

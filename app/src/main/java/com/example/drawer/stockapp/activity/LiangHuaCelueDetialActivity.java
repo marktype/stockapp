@@ -496,7 +496,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
             }else {
                 mNiurenName.setText("实盈量化策略");
             }
-            Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
+            Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.usericon).into(headImg);
 
 
             List<StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean> ImgData =  infoBean.getImgData();

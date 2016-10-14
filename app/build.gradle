@@ -49,4 +49,6 @@ dependencies {
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
     compile 'com.androidadvance:topsnackbar:1.1.1'
     compile files('libs/libammsdk.jar')
+    compile 'com.umeng.analytics:analytics:latest.integration'
+
 }

@@ -37,6 +37,7 @@ import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,6 +71,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MobclickAgent.onEvent(getApplicationContext(),"Combined page click");
         setContentView(R.layout.activity_lianghua_celue_zhao_mu_zhong);
         tintManager.setStatusBarTintResource(R.color.write_color);
         LiangHuaId = getIntent().getStringExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID);
@@ -470,7 +472,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                 mNiurenName.setText("实盈量化策略");
             }
 
-            Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.img_place).into(headImg);
+            Picasso.with(this).load(starInfoBean.getImgUrl()).placeholder(R.mipmap.usericon).into(headImg);
             mParsent.setText(infoBean.getTargetReturns()+"%");
 
             mTargetShouyi.setText(df.format(infoBean.getTargetReturns())+"%");
@@ -518,13 +520,13 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
                         JSONObject object = new JSONObject(s);
                         JSONObject head = object.getJSONObject("Head");
                         if (head.getInt("Status") == 0){
+                            MobclickAgent.onEvent(getApplicationContext(),"Following");
+
                             getGenTouSuccess();
-//                            Toast.makeText(getApplicationContext(),"跟投成功，组合开始运行后系统将推送调仓通知，请及时关注！",Toast.LENGTH_SHORT).show();
                             Intent in = new Intent();
                             in.setAction(AutoWisdomFragment.BROAD_TYPE);
                             //发送广播,销毁此界面
                             sendBroadcast(in);
-//                            finish();
                             mWriteGentouMoney.setText("");   //跟投金额清0
                             //刷新跟投记录
                             FollowAsyn followAsyn = new FollowAsyn();

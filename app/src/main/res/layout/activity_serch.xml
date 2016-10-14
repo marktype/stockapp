@@ -44,7 +44,7 @@
         android:drawablePadding="@dimen/margin_10dp"
         android:padding="@dimen/margin_5dp"
         android:textColorHint="@android:color/darker_gray"
-        android:hint="搜索股票"
+        android:hint="输入股票代码"
         android:inputType="text"
         android:textSize="@dimen/title_text_size"
         android:layout_margin="@dimen/margin_10dp"

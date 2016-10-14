@@ -129,13 +129,13 @@ public class TrendsAdapter extends BaseAdapter {
                 callBack.setDongTaiType(i,2);
             }
         });
-        //评论
-        viewHolder.commentNum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callBack.setDongTaiType(i,1);
-            }
-        });
+//        //评论
+//        viewHolder.commentNum.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                callBack.setDongTaiType(i,1);
+//            }
+//        });
         //点赞
         viewHolder.mChick.setOnClickListener(new View.OnClickListener() {
             @Override

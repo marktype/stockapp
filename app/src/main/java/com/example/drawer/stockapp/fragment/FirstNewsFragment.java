@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -281,7 +280,6 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         mSendImg.setVisibility(View.GONE);
 
         tabs = (PagerSlidingTabStrip) mView.findViewById(R.id.first_group);
-        Log.d("tag","tabs----1111--"+tabs.getFadeEnabled());
 
         mPager = (ViewPager) mView.findViewById(R.id.zixun_content_pager);   //viewpager
 
@@ -518,7 +516,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                             trendsAdapter.setData(trendList);
                             mDongTaiList.setAdapter(trendsAdapter);
                         }else if (dongTaiPage >0 &&trendList.size()>0){
-                            trendsInfosSave.addAll(trendList);
+//                            trendsInfosSave.addAll(trendList);
                             trendsAdapter.addData(trendList);
                         }else {
                             Toast.makeText(getActivity(),"没有更多了哦",Toast.LENGTH_SHORT).show();

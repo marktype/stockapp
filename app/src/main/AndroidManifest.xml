@@ -61,6 +61,10 @@
                     android:scheme="lovecat" />
             </intent-filter>
         </activity>
+
+        <!--友盟数据统计-->
+        <meta-data android:value="57fefab067e58eb3db001d59" android:name="UMENG_APPKEY"></meta-data>
+        <meta-data android:value="love_cat" android:name="UMENG_CHANNEL"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -277,10 +281,6 @@
             android:theme="@style/MyAppTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.DetilCelueActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/MyAppTheme" />
-        <activity
             android:name=".activity.UserInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
@@ -353,10 +353,18 @@
             android:name=".activity.MyZuHeDatilActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
-        <activity android:name=".activity.AgreementWebActivity" />
-        <activity android:name=".activity.AlterPasswordActivity" />
-        <activity android:name=".activity.HistoryRecordActivity" />
-        <activity android:name=".activity.AdviceActivity"></activity>
+        <activity android:name=".activity.AgreementWebActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme"/>
+        <activity android:name=".activity.AlterPasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme"/>
+        <activity android:name=".activity.HistoryRecordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme"/>
+        <activity android:name=".activity.AdviceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme"/>
     </application>
 
 </manifest>

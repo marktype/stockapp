@@ -9,6 +9,7 @@ compile project(':oneKeyShareNew')    分享依赖1
 compile project(':shareSDK')    分享依赖2
 compile 'com.nineoldandroids:library:2.4.0'    动画库
 compile 'com.androidadvance:topsnackbar:1.1.1'   //顶部显示的toast（为了适配魅族不显示问题，TSnackbar  顶部显示   Snackbar  底部显示）
+compile 'com.umeng.analytics:analytics:latest.integration'    友盟统计数据
 
 Gson使用
 Gson gson = new Gson();

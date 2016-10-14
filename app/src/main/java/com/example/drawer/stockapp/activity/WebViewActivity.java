@@ -32,19 +32,17 @@ import com.example.drawer.stockapp.customview.MyListView;
 import com.example.drawer.stockapp.htttputil.HttpManager;
 import com.example.drawer.stockapp.model.CommnetInfo;
 import com.example.drawer.stockapp.model.NewsDetial;
-import com.example.drawer.stockapp.model.TrendsInfo;
 import com.example.drawer.stockapp.utils.DensityUtils;
 import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -72,6 +70,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
+        MobclickAgent.onEvent(getApplicationContext(),"Information page click");
         tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         sp = ShapePreferenceManager.getMySharedPreferences(this);
         mToken = sp.getString(ShapePreferenceManager.TOKEN,"");
@@ -80,8 +79,8 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         NewsInfoAsyn newsInfoAsyn = new NewsInfoAsyn();
         newsInfoAsyn.execute(urlId);
 
-        DynamicTask dynamicTask = new DynamicTask();
-        dynamicTask.execute(urlId);
+//        DynamicTask dynamicTask = new DynamicTask();
+//        dynamicTask.execute(urlId);
 
         initSoftWindow(type);
         // 切换页面
@@ -115,10 +114,11 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         webView.getSettings().setBuiltInZoomControls(false);//zoom
         webView.getSettings().setUseWideViewPort(false); //auto adjust screen
         webView.getSettings().setLoadWithOverviewMode(true);
-        webView.setWebChromeClient(new WebChromeClientInfo());
+
         //设置Web视图
         webView.setWebViewClient(new webViewClient ());
         webView.getSettings().setAllowFileAccess(true);//资源加载超时操作
+        webView.setWebChromeClient(new WebChromeClientInfo());
 
 
 
@@ -135,10 +135,10 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         mZanImg = (ImageView) findViewById(R.id.dianzan_img);
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.zan_relate);
 
-        mList = (MyListView) findViewById(R.id.dynamic_list);
-        adapter = new DynamicInfoAdapter(this);
+//        mList = (MyListView) findViewById(R.id.dynamic_list);
+//        adapter = new DynamicInfoAdapter(this);
 
-        mList.setBackgroundColor(getResources().getColor(R.color.write_color));
+//        mList.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         mBackImg.setOnClickListener(this);
         mShare.setOnClickListener(this);
@@ -346,52 +346,52 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         }
     }
 
-    /**
-     * 获取新闻评论
-     */
-    private class DynamicTask extends AsyncTask<String,Void,String>{
-
-        @Override
-        protected String doInBackground(String... strings) {
-
-            HashMap<String,Object> hashMap = new HashMap<>();
-            HashMap<String,String> map = new HashMap<>();
-            map.put("PageIndex", "0");
-            map.put("PageCount", "0");
-            map.put("PageSize", "10000");
-            hashMap.put("PageInfo",map);
-            hashMap.put("Id",strings[0]);
-            hashMap.put("Type","Comment");
-            String message = HttpManager.newInstance().getHttpDataByThreeLayer("",hashMap,HttpManager.CommentsList_URL);
-            return message;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            String message = s;
-            if (!TextUtils.isEmpty(message)){
-                Gson gson = new Gson();
-                commnetInfo = gson.fromJson(message,CommnetInfo.class);
-                parseData(commnetInfo);
-            }
-        }
-    }
-
-    public void parseData(CommnetInfo commnetInfo){
-        List<CommnetInfo.ResultBean.DataBean> data = commnetInfo.getResult().getData();
-        ArrayList<TrendsInfo> list = new ArrayList<>();
-        for (int i = 0;i<data.size();i++){
-            CommnetInfo.ResultBean.DataBean dataBean = data.get(i);
-            TrendsInfo info = new TrendsInfo();
-            info.setFriendName(dataBean.getNickName());
-            info.setFriendContent(dataBean.getContent());
-            info.setFriendImage(dataBean.getImgUrl());
-            list.add(info);
-        }
-        adapter.setData(list);
-        mList.setAdapter(adapter);
-    }
+//    /**
+//     * 获取新闻评论
+//     */
+//    private class DynamicTask extends AsyncTask<String,Void,String>{
+//
+//        @Override
+//        protected String doInBackground(String... strings) {
+//
+//            HashMap<String,Object> hashMap = new HashMap<>();
+//            HashMap<String,String> map = new HashMap<>();
+//            map.put("PageIndex", "0");
+//            map.put("PageCount", "0");
+//            map.put("PageSize", "10000");
+//            hashMap.put("PageInfo",map);
+//            hashMap.put("Id",strings[0]);
+//            hashMap.put("Type","Comment");
+//            String message = HttpManager.newInstance().getHttpDataByThreeLayer("",hashMap,HttpManager.CommentsList_URL);
+//            return message;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+//            String message = s;
+//            if (!TextUtils.isEmpty(message)){
+//                Gson gson = new Gson();
+//                commnetInfo = gson.fromJson(message,CommnetInfo.class);
+//                parseData(commnetInfo);
+//            }
+//        }
+//    }
+//
+//    public void parseData(CommnetInfo commnetInfo){
+//        List<CommnetInfo.ResultBean.DataBean> data = commnetInfo.getResult().getData();
+//        ArrayList<TrendsInfo> list = new ArrayList<>();
+//        for (int i = 0;i<data.size();i++){
+//            CommnetInfo.ResultBean.DataBean dataBean = data.get(i);
+//            TrendsInfo info = new TrendsInfo();
+//            info.setFriendName(dataBean.getNickName());
+//            info.setFriendContent(dataBean.getContent());
+//            info.setFriendImage(dataBean.getImgUrl());
+//            list.add(info);
+//        }
+//        adapter.setData(list);
+//        mList.setAdapter(adapter);
+//    }
     /**
      * 软键盘监听
      */
@@ -470,8 +470,9 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                             Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_SHORT).show();
                             mComment.setText((Integer.parseInt(mComment.getText().toString())+1)+"");
                             mCommentEdit.setText("");
-                            DynamicTask dynamicTask = new DynamicTask();
-                            dynamicTask.execute(urlId);
+//                            DynamicTask dynamicTask = new DynamicTask();
+//                            dynamicTask.execute(urlId);
+                            webView.reload();
                         }
                     }
                 } catch (JSONException e) {
@@ -557,10 +558,10 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
      *  /Web视图
      */
     private class webViewClient extends WebViewClient {
-//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//            view.loadUrl(url);
-//            return true;
-//        }
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {

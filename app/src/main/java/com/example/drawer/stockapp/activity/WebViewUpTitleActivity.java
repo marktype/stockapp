@@ -38,6 +38,7 @@ import com.example.drawer.stockapp.utils.ManagerUtil;
 import com.example.drawer.stockapp.utils.ShapePreferenceManager;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,6 +73,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
+        MobclickAgent.onEvent(getApplicationContext(),"Lesson page click");
         tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         sp = ShapePreferenceManager.getMySharedPreferences(this);
         urlId = getIntent().getStringExtra(URLID);
@@ -79,8 +81,8 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         NewsInfoAsyn newsInfoAsyn = new NewsInfoAsyn();
         newsInfoAsyn.execute(urlId);
 
-        DynamicTask dynamicTask = new DynamicTask();
-        dynamicTask.execute(urlId);
+//        DynamicTask dynamicTask = new DynamicTask();
+//        dynamicTask.execute(urlId);
 
         // 切换页面
         dialog = ManagerUtil.getDiaLog(this);
@@ -130,15 +132,16 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         ImageView mShare = (ImageView) findViewById(R.id.share_img);   //分享
         mLogin = (TextView) findViewById(R.id.login_btn);    //登录
 
-        mList = (MyListView) findViewById(R.id.dynamic_list);
-        adapter = new DynamicInfoAdapter(this);
+//        mList = (MyListView) findViewById(R.id.dynamic_list);
+//        adapter = new DynamicInfoAdapter(this);
 
-        mList.setBackgroundColor(getResources().getColor(R.color.write_color));
+//        mList.setBackgroundColor(getResources().getColor(R.color.write_color));
 
         mBackImg.setOnClickListener(this);
         mZhuanFa.setOnClickListener(this);
         mComment.setOnClickListener(this);
         layout.setOnClickListener(this);
+        mLogin.setOnClickListener(this);
         mShare.setOnClickListener(this);
         mSend.setOnClickListener(this);
 //        mCommentEdit.setOnKeyListener(onKeyListener);
@@ -169,6 +172,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
             case R.id.back_img:
                 finish();
                 break;
+
             case R.id.dongtai_zhuanfa:
                 Toast.makeText(getApplicationContext(),"该功能还在完善",Toast.LENGTH_SHORT).show();
                 if (!TextUtils.isEmpty(mToken)){
@@ -225,6 +229,10 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                 }else {
                     Toast.makeText(getApplicationContext(),"请输入要发表的内容",Toast.LENGTH_SHORT).show();
                 }
+                break;
+            case R.id.login_btn:
+                Intent intent = new Intent(this,LoginActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -460,9 +468,10 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
                             Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_SHORT).show();
                             mComment.setText((Integer.parseInt(mComment.getText().toString())+1)+"");
                             mCommentEdit.setText("");
-                            DynamicTask dynamicTask = new DynamicTask();
-                            dynamicTask.execute(urlId);
-                            finish();
+//                            DynamicTask dynamicTask = new DynamicTask();
+//                            dynamicTask.execute(urlId);
+//                            finish();
+                            webView.reload();
                         }
                     }
                 } catch (JSONException e) {
@@ -545,10 +554,10 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
      *  /Web视图
      */
     private class webViewClient extends WebViewClient {
-//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//            view.loadUrl(url);
-//            return true;
-//        }
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {

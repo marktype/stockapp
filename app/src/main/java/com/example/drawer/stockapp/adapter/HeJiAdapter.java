@@ -58,7 +58,7 @@ public class HeJiAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         HeadIndex info = (HeadIndex) getItem(i);
-        Picasso.with(context).load(info.getIndexImage()).into(viewHolder.imageView);
+        Picasso.with(context).load(info.getIndexImage()).placeholder(R.mipmap.img_replace).into(viewHolder.imageView);
 //        viewHolder.txtClass.setText(info.getIndexName());
 
         return view;
