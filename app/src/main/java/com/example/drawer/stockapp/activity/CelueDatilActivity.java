@@ -4,10 +4,14 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +74,7 @@ import java.util.List;
  */
 public class CelueDatilActivity extends BascActivity implements View.OnClickListener{
     public static final String ZUHE_ID = "zuheid";
-    private String[] colors = {"#FFF000","#74E7D3","#74D3E7","#51B4F3","#5173F3"};     //饼图颜色
+    private String[] colors = {"#6293d7","#ffb03d","#e08738","#51B4F3","#5173F3"};     //饼图颜色
     private String zuheId;
     private RadarChart mChart;
     private ArrayList<StockBean> list;
@@ -97,11 +101,10 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_celue_datil);
         tintManager.setStatusBarTintResource(R.color.write_color);
-//        tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         zuheId = getIntent().getStringExtra(ZUHE_ID);
 
         initWight();
-        getStargeDetialData(zuheId);
+
 
         dialog = ManagerUtil.getDiaLog(this);
     }
@@ -112,8 +115,8 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         super.onResume();
         SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
         ManagerUtil.setStataBarColorBlack(this,tintManager);
-
         mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
+        getStargeDetialData(zuheId);
     }
     /**
      * 设置数据
@@ -201,11 +204,17 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
             mListView.setAdapter(zuHeItemAdapter);
             if (listInfo.size() == 0){
                 mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
-                mNoDataImgTiaoCang.setText("暂无数据");
+                Drawable drawable = getResources().getDrawable(R.mipmap.nodata);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                mNoDataImgTiaoCang.setCompoundDrawables(null,drawable,null,null);
+            }else {
+                mNoDataImgTiaoCang.setVisibility(View.GONE);
             }
-            mSeeHistory.setVisibility(View.VISIBLE);
+//            mSeeHistory.setVisibility(View.VISIBLE);
         }else {
-            mNoDataImgTiaoCang.setText("需要登录才可以查看，立即登录");
+            SpannableString msp = new SpannableString("需要登录才可以查看，立即登录");
+            msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.see_history)), 10, 14, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+            mNoDataImgTiaoCang.setText(msp);
             mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
             mSeeHistory.setVisibility(View.GONE);
         }
@@ -254,10 +263,16 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
             mChiCnagList.setAdapter(chiCangAdapter);
             if (chicangList.size() == 0){
                 mNoDataImgChiCang.setVisibility(View.VISIBLE);
-                mNoDataImgChiCang.setText("暂无数据");
+                Drawable drawable = getResources().getDrawable(R.mipmap.nodata);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                mNoDataImgChiCang.setCompoundDrawables(null,drawable,null,null);
+            }else {
+                mNoDataImgChiCang.setVisibility(View.GONE);
             }
         }else {
-            mNoDataImgChiCang.setText("需要登录才可以查看，立即登录");
+            SpannableString msp = new SpannableString("需要登录才可以查看，立即登录");
+            msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.see_history)), 10, 14, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+            mNoDataImgChiCang.setText(msp);
             mNoDataImgChiCang.setVisibility(View.VISIBLE);
         }
 
@@ -367,6 +382,8 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         mGoOrder.setOnClickListener(this);
         mMore.setOnClickListener(this);
         mSeeHistory.setOnClickListener(this);
+        mNoDataImgTiaoCang.setOnClickListener(this);
+        mNoDataImgChiCang.setOnClickListener(this);
     }
 
     public void setCanvasData(ArrayList<ChartInfo> list){
@@ -585,6 +602,14 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
                 intent.putExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID,zuheId);
                 startActivity(intent);
                 break;
+            case R.id.no_data_img_chicang:
+                intent = new Intent(this,LoginActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.no_data_img:
+                intent = new Intent(this,LoginActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -748,7 +773,7 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         //设置描述文字
-        mLineChart.setDescription("收益率曲线图");
+        mLineChart.setDescription("");
 
 
         //模拟一个x轴的数据  12/1 12/2 ... 12/7

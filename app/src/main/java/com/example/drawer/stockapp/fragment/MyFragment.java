@@ -462,7 +462,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             String message = s;
-            if (!TextUtils.isEmpty(message)&&message.length()>10){
+            if (!TextUtils.isEmpty(message)&&!s.equals(HttpManager.FAILED)){
                 Gson gson = new Gson();
                 userInfo = gson.fromJson(message,UserInfo.class);   //获取用户信息
                 parseUserInfo();

@@ -341,7 +341,11 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
                         flag = false;
                         mZanImg.setImageResource(R.mipmap.zan);
                     }
+                }else {
+                 dialog.dismiss();
                 }
+            }else {
+                dialog.dismiss();
             }
         }
     }

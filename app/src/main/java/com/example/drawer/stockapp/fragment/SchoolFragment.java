@@ -466,7 +466,7 @@ public class SchoolFragment extends Fragment  implements AdapterView.OnItemClick
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (!TextUtils.isEmpty(s)&&s.length()>10){
+            if (!TextUtils.isEmpty(s)&&!s.equals(HttpManager.FAILED)){
                 Gson gson = new Gson();
                 FindInfo findInfo = gson.fromJson(s,FindInfo.class);
                 parseData(findInfo);

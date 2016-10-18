@@ -535,7 +535,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (!TextUtils.isEmpty(s)) {
+            if (!TextUtils.isEmpty(s)&&!s.equals(HttpManager.FAILED)) {
                 Gson gson = new Gson();
                 BannerInfo bannerInfo = gson.fromJson(s, BannerInfo.class);
                 if (bannerInfo.getHead().getStatus() == 0) {
@@ -626,7 +626,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 onLoadNiu();
 
                 String message = (String) o;
-                if (!TextUtils.isEmpty(message)) {
+                if (!TextUtils.isEmpty(message)&&!message.equals(HttpManager.FAILED)) {
                     Gson gson = new Gson();
                     NiuRenListInfo niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
                     if (niuRenListInfo.getHead().getStatus() == 0) {
@@ -670,7 +670,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 String message = (String) o;
-                if (!TextUtils.isEmpty(message)) {
+                if (!TextUtils.isEmpty(message)&&!message.equals(HttpManager.FAILED)) {
                     Gson gson = new Gson();
                     niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
                     if (niuRenListInfo.getHead().getStatus() == 0) {
@@ -712,7 +712,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                     super.onPostExecute(o);
                     onLoadMy();
                     String message = (String) o;
-                    if (!TextUtils.isEmpty(message)) {
+                    if (!TextUtils.isEmpty(message)&&!message.equals(HttpManager.FAILED)) {
                         Gson gson = new Gson();
                         niuRenListInfo = gson.fromJson(message, NiuRenListInfo.class);
                         if (niuRenListInfo.getHead().getStatus() == 0) {

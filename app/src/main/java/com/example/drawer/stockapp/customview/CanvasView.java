@@ -29,7 +29,7 @@ public class CanvasView extends View {
     private static final int DEFAULT_COLOR =  Color.parseColor("#DBFB44");
     private int defaultColor = DEFAULT_COLOR;//设置默认颜色，即即使数据没有占到100%，那么使用默认颜色构造圆环
 
-    private static final float DEFAULT_STROK_WIDTH = 50;
+    private static final float DEFAULT_STROK_WIDTH = 100;
     private float strokeWidth = DEFAULT_STROK_WIDTH;
 
     //数据map中的键  map.put(CanvasView.TITLE,"例如")
@@ -98,8 +98,9 @@ public class CanvasView extends View {
                 Map<String,Object> map = data.get(i);
                 String title = (String) map.get(CanvasView.TITLE);
                 String name = null;
-                if (title.length()>8){   //考虑字段过长的问题
-                    name = title.substring(0,8);
+                if (title.length()>4){   //考虑字段过长的问题
+                    name = title.substring(0,4)+"..";
+
                 }else {
                     name = title;
                 }
@@ -149,7 +150,7 @@ public class CanvasView extends View {
                 //已知中线计算基线位置
                 Paint.FontMetrics metrics = paint.getFontMetrics();
                 float baseLine  = cy - (metrics.bottom + metrics.top)/2;
-                canvas.drawText(name,txtX+130,baseLine,paint);
+                canvas.drawText(name,txtX+110,baseLine,paint);
             }
 
 

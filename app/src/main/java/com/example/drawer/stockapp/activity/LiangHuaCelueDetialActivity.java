@@ -2,9 +2,13 @@ package com.example.drawer.stockapp.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,8 +91,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         LianghuaStatus = intent.getStringExtra(LIANGHUA_STATUS);
         type = intent.getIntExtra(TYPE,0);
         initWight();
-        LiangHuaAsyn liangHuaAsyn = new LiangHuaAsyn();
-        liangHuaAsyn.execute(LiangHuaId);
+
         FollowAsyn followAsyn = new FollowAsyn();
         followAsyn.execute(LiangHuaId);
 
@@ -206,6 +209,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         mBackimg.setOnClickListener(this);
         mSeeHistory.setOnClickListener(this);
         mDeleteImg.setOnClickListener(this);
+        mNoDataImgTiaoCang.setOnClickListener(this);
+        mNoDataImgChiCang.setOnClickListener(this);
     }
 
     @Override
@@ -214,7 +219,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         SystemBarTintManager tintManager = ManagerUtil.newInstance(this);
         ManagerUtil.setStataBarColor(this,tintManager);
         mToken = ShapePreferenceManager.getMySharedPreferences(this).getString(ShapePreferenceManager.TOKEN,null);
-
+        LiangHuaAsyn liangHuaAsyn = new LiangHuaAsyn();
+        liangHuaAsyn.execute(LiangHuaId);
     }
 
 
@@ -231,6 +237,14 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 break;
             case R.id.changjianwenti_txt:
                 initPopView(view);
+                break;
+            case R.id.no_data_img:
+                intent = new Intent(this,LoginActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.no_data_img_chicang:
+                intent = new Intent(this,LoginActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -385,12 +399,20 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 mTiaoCangList.setAdapter(tiaoCangAdapter);
                 if (tiaoCang.size() == 0){
                     mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
-                    mNoDataImgTiaoCang.setText("暂无数据");
+//                    mNoDataImgTiaoCang.setText("暂无数据");
+                    Drawable drawable = getResources().getDrawable(R.mipmap.nodata);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    mNoDataImgTiaoCang.setCompoundDrawables(null,drawable,null,null);
+                }else {
+                    mNoDataImgTiaoCang.setVisibility(View.GONE);
                 }
-                mSeeHistory.setVisibility(View.VISIBLE);
+//                mSeeHistory.setVisibility(View.VISIBLE);
+
             }else {
                 mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
-                mNoDataImgTiaoCang.setText("需要登录才可以查看，立即登录");
+                SpannableString msp = new SpannableString("需要登录才可以查看，立即登录");
+                msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.see_history)), 10, 14, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为
+                mNoDataImgTiaoCang.setText(msp);
                 mSeeHistory.setVisibility(View.GONE);
             }
 
@@ -415,10 +437,17 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                 mChiCnagList.setAdapter(chiCangAdapter);
                 if (chicangList.size() == 0){
                     mNoDataImgChiCang.setVisibility(View.VISIBLE);
-                    mNoDataImgChiCang.setText("暂无数据");
+//                    mNoDataImgChiCang.setText("暂无数据");
+                    Drawable drawable = getResources().getDrawable(R.mipmap.nodata);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    mNoDataImgChiCang.setCompoundDrawables(null,drawable,null,null);
+                }else {
+                    mNoDataImgChiCang.setVisibility(View.GONE);
                 }
             }else {
-                mNoDataImgChiCang.setText("需要登录才可以查看，立即登录");
+                SpannableString msp = new SpannableString("需要登录才可以查看，立即登录");
+                msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.see_history)), 10, 14, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为
+                mNoDataImgChiCang.setText(msp);
                 mNoDataImgChiCang.setVisibility(View.VISIBLE);
             }
 

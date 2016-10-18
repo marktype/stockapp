@@ -50,7 +50,7 @@
         android:layout_below="@id/tiaocang_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
+        android:textSize="@dimen/min_txt_size"
         android:visibility="gone"
         android:layout_centerHorizontal="true"
         android:drawableTop="@mipmap/img"/>

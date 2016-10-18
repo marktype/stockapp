@@ -8,6 +8,7 @@
         android:id="@+id/celue_first_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
+
         android:background="@color/write_color">
 
         <ImageView
@@ -54,6 +55,7 @@
         android:layout_below="@+id/celue_first_title">
 
         <RelativeLayout
+            android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -155,6 +157,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
+                    android:textSize="@dimen/min_txt_size"
                     android:layout_centerHorizontal="true"
                     android:drawableTop="@mipmap/img"/>
             </RelativeLayout>

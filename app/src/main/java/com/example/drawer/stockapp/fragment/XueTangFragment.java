@@ -48,15 +48,18 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragent_xuetang_layout, container, false);
-        initWight();
-        if (findInfo == null){
-            listSave = new ArrayList<>();
-            SchoolFindAsyn asyn = new SchoolFindAsyn();
-            asyn.execute(page+"");
-        }else {
-            adapter.setData(listSave);
-            mList.setAdapter(adapter);
+
+        if (mView == null){
+            mView = inflater.inflate(R.layout.fragent_xuetang_layout, container, false);
+            initWight();
+            if (findInfo == null){
+                listSave = new ArrayList<>();
+                SchoolFindAsyn asyn = new SchoolFindAsyn();
+                asyn.execute(page+"");
+            }else {
+                adapter.setData(listSave);
+                mList.setAdapter(adapter);
+            }
         }
 
         return mView;
@@ -198,7 +201,7 @@ public class XueTangFragment extends Fragment implements View.OnClickListener{
                 adapter.setData(list);
                 mList.setAdapter(adapter);
             }else if (page >0&&list.size()>0){
-                listSave.addAll(list);
+//                listSave.addAll(list);
                 adapter.addData(list);
             }else {
                 Toast.makeText(getActivity(),"没有更多了哦",Toast.LENGTH_SHORT).show();

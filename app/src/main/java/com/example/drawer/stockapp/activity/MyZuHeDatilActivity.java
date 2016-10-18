@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -261,7 +262,9 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
             mChiCnagList.setAdapter(chiCangAdapter);
             if (chicangList.size() == 0){
                 mNoDataImgChiCang.setVisibility(View.VISIBLE);
-                mNoDataImgChiCang.setText("");
+                Drawable drawable = getResources().getDrawable(R.mipmap.nodata);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                mNoDataImgChiCang.setCompoundDrawables(null,drawable,null,null);
             }
         }else {
             mNoDataImgChiCang.setVisibility(View.VISIBLE);

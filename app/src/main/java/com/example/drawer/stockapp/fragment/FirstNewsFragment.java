@@ -881,7 +881,7 @@ class ItemRecod {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (!TextUtils.isEmpty(s)){
+            if (!TextUtils.isEmpty(s)&&!s.equals(HttpManager.FAILED)){
                 try {
                     JSONObject object = new JSONObject(s);
                     if (object.has("Head")){
@@ -949,7 +949,7 @@ class ItemRecod {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (!TextUtils.isEmpty(s)){
+            if (!TextUtils.isEmpty(s)&&!s.equals(HttpManager.FAILED)){
                 Gson gson = new Gson();
                 IndexMarkInfo indexMarkInfo = gson.fromJson(s,IndexMarkInfo.class);
                 if (indexMarkInfo.getHead().getStatus() == 0){
@@ -978,7 +978,7 @@ class ItemRecod {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (!TextUtils.isEmpty(s)) {
+            if (!TextUtils.isEmpty(s)&&!s.equals(HttpManager.FAILED)) {
                 Gson gson = new Gson();
                 BannerInfo bannerInfo = gson.fromJson(s, BannerInfo.class);
                 if (bannerInfo.getHead().getStatus() == 0) {
@@ -1017,7 +1017,7 @@ class ItemRecod {
             super.onPostExecute(s);
             onLoadZx();
 
-            if (!TextUtils.isEmpty(s)) {
+            if (!TextUtils.isEmpty(s)&&!s.equals(HttpManager.FAILED)) {
                 Gson gson = new Gson();
                 headMassageInfo = gson.fromJson(s, HeadMassageInfo.class);
                 if (headMassageInfo.getHead().getStatus() == 0) {
