@@ -31,6 +31,8 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class MessageActivity extends BascActivity{
     private ListView mList,tiaocangList;
     private String mToken;
     private String[] strs;
+    private List list;
     private Boolean isOpen = false;
     private MessageTiaoCangAdapter adapter;
     private ArrayList<HistoryTiaoCangInfo> historyList = new ArrayList<>();
@@ -54,7 +57,9 @@ public class MessageActivity extends BascActivity{
         String str = ManagerUtil.readFileSdcardFile(fileName);
 
         if (str != null&&!TextUtils.isEmpty(str)){
-            strs = str.trim().split(" ");
+            strs = str.trim().split("&");
+            list= Arrays.asList(strs);
+            Collections.reverse(list);
         }
         initWight();
         getMyListData();
@@ -91,7 +96,7 @@ public class MessageActivity extends BascActivity{
         adapter = new MessageTiaoCangAdapter(this);
         if (strs != null&&strs.length>0){
 //            mNoInfo.setVisibility(View.GONE);
-            ArrayAdapter systemInfo = new ArrayAdapter(this,R.layout.txt_item_layout,strs);
+            ArrayAdapter systemInfo = new ArrayAdapter(this,R.layout.txt_item_layout,list);
             mList.setAdapter(systemInfo);
         }
 //        mList.setOnItemClickListener(this);

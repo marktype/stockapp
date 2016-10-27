@@ -441,7 +441,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 public void onSliderClick(BaseSliderView slider) {
                     Intent intent = new Intent(getContext(), AgreementWebActivity.class);
                     intent.putExtra(AgreementWebActivity.URLTYPE,3);
-                    intent.putExtra(AgreementWebActivity.URL,mString.get(finalI));
+                    intent.putExtra(AgreementWebActivity.URL,mString.get(finalI)+"&isApp=true");
                     startActivity(intent);
                 }
             });
@@ -473,7 +473,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 public void onSliderClick(BaseSliderView slider) {
                     Intent intent = new Intent(getContext(), AgreementWebActivity.class);
                     intent.putExtra(AgreementWebActivity.URLTYPE,3);
-                    intent.putExtra(AgreementWebActivity.URL,mString.get(finalI));
+                    intent.putExtra(AgreementWebActivity.URL,mString.get(finalI)+"&isApp=true");
                     startActivity(intent);
                 }
             });
@@ -505,7 +505,7 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                 public void onSliderClick(BaseSliderView slider) {
                     Intent intent = new Intent(getContext(), AgreementWebActivity.class);
                     intent.putExtra(AgreementWebActivity.URLTYPE,3);
-                    intent.putExtra(AgreementWebActivity.URL,mString.get(finalI));
+                    intent.putExtra(AgreementWebActivity.URL,mString.get(finalI)+"&isApp=true");
                     startActivity(intent);
                 }
             });

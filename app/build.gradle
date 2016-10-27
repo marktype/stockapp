@@ -50,5 +50,5 @@ dependencies {
     compile 'com.androidadvance:topsnackbar:1.1.1'
     compile files('libs/libammsdk.jar')
     compile 'com.umeng.analytics:analytics:latest.integration'
-
+    compile files('libs/tmassistantsdk_selfupdate_v1.0_20160713125345.jar')
 }

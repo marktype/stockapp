@@ -365,6 +365,10 @@
         <activity android:name=".activity.AdviceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme"/>
+
+        <service   android:name="com.tencent.tmdownloader.TMAssistantDownloadService"
+            android:exported="false"
+            android:process=":TMAssistantDownloadSDKService" />
     </application>
 
 </manifest>

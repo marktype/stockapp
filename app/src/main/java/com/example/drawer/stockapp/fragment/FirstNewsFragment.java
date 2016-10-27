@@ -415,7 +415,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         layout.removeAllViews();
         DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
 
-        for (int i = 0;i<MarketData.size();i++){
+        for (int i = 0;i<MarketData.size()&&getContext() != null;i++){
             double addOrDec = Double.parseDouble(df.format(MarketData.get(i).getVariabilityPoints()));
             LinearLayout layout1 = new LinearLayout(getContext());
             LinearLayout.LayoutParams lay = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);

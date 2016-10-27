@@ -104,7 +104,7 @@ public class MyReceiver extends BroadcastReceiver {
 				if (key.equals(JPushInterface.EXTRA_ALERT)&&!isSelfInfo&&!isSaveToFile){
 					//写入文件
 					String  fileName = Environment.getExternalStorageDirectory() +"/catInfo.txt";
-					String info = bundle.getString(key)+" ";
+					String info = bundle.getString(key)+"&";
 					ManagerUtil.writeFileSdcardFile(fileName,info);
 				}
 			}

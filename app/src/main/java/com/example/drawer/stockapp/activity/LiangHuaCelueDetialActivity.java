@@ -407,7 +407,6 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
                     mNoDataImgTiaoCang.setVisibility(View.GONE);
                 }
 //                mSeeHistory.setVisibility(View.VISIBLE);
-
             }else {
                 mNoDataImgTiaoCang.setVisibility(View.VISIBLE);
                 SpannableString msp = new SpannableString("需要登录才可以查看，立即登录");
