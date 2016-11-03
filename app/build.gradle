@@ -15,8 +15,8 @@ android {
         applicationId "com.example.drawer.stockapp"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 4
-        versionName "1.4"
+        versionCode 8
+        versionName "1.8.8"
     }
     buildTypes {
         release {
@@ -50,5 +50,6 @@ dependencies {
     compile 'com.androidadvance:topsnackbar:1.1.1'
     compile files('libs/libammsdk.jar')
     compile 'com.umeng.analytics:analytics:latest.integration'
-    compile files('libs/tmassistantsdk_selfupdate_v1.0_20160713125345.jar')
+    compile files('libs/jce.jar')
+    compile files('libs/TMAssistantSDK_selfUpdate_201407240950.jar')
 }

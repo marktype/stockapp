@@ -71,7 +71,7 @@ public class LianghuaCelueZhaoMuZhongActivity extends BascActivity implements Vi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MobclickAgent.onEvent(getApplicationContext(),"Combined page click");
+        MobclickAgent.onEvent(getApplicationContext(),"CombinedPageClick");
         setContentView(R.layout.activity_lianghua_celue_zhao_mu_zhong);
         tintManager.setStatusBarTintResource(R.color.write_color);
         LiangHuaId = getIntent().getStringExtra(LiangHuaCelueDetialActivity.LIANGHUA_ID);

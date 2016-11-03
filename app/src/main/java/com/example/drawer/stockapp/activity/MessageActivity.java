@@ -208,7 +208,6 @@ public class MessageActivity extends BascActivity{
                 }else if (nowTime>ManagerUtil.getTime(ben.getRecuitmentStartTime())&&nowTime>ManagerUtil.getTime(ben.getRunStartDay())&&nowTime>ManagerUtil.getTime(ben.getRunEndDay())){
                     info.setType(2);   //已结束
                 }
-                Log.d("tag","ben.getId()------"+ben.getId());
                 myInfoList.add(info);
                 LastTradeAsyn lastTradeAsyn = new LastTradeAsyn();
                 lastTradeAsyn.execute(ben.getId(),ben.getTitle());

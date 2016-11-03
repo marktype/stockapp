@@ -503,29 +503,31 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
                 super.onPostExecute(o);
 
                 onLoadDt();
-
                 String message = (String) o;
                 if (!TextUtils.isEmpty(message)){
-                    Gson gson = new Gson();
-                    dynamicsInfo = gson.fromJson(message, DynamicsInfo.class);
-                    if (dynamicsInfo.getHead().getStatus()==0){
-                        mBackgroud.setVisibility(View.GONE);
-                        ArrayList<TrendsInfo> trendList = initdongtaiData();
-                        if (dongTaiPage == 0){
-                            trendsInfosSave=trendList;
-                            trendsAdapter.setData(trendList);
-                            mDongTaiList.setAdapter(trendsAdapter);
-                        }else if (dongTaiPage >0 &&trendList.size()>0){
-//                            trendsInfosSave.addAll(trendList);
-                            trendsAdapter.addData(trendList);
-                        }else {
-                            Toast.makeText(getActivity(),"没有更多了哦",Toast.LENGTH_SHORT).show();
-                        }
-
+                    if (message.contains("token")||message.contains("Token")){
+                        Toast.makeText(getContext(),"账号已过期，请重新登陆",Toast.LENGTH_SHORT).show();
                     }else {
-                        mBackgroud.setVisibility(View.VISIBLE);
-                    }
+                        Gson gson = new Gson();
+                        dynamicsInfo = gson.fromJson(message, DynamicsInfo.class);
+                        if (dynamicsInfo.getHead().getStatus()==0){
+                            mBackgroud.setVisibility(View.GONE);
+                            ArrayList<TrendsInfo> trendList = initdongtaiData();
+                            if (dongTaiPage == 0){
+                                trendsInfosSave=trendList;
+                                trendsAdapter.setData(trendList);
+                                mDongTaiList.setAdapter(trendsAdapter);
+                            }else if (dongTaiPage >0 &&trendList.size()>0){
+//                            trendsInfosSave.addAll(trendList);
+                                trendsAdapter.addData(trendList);
+                            }else {
+                                Toast.makeText(getActivity(),"没有更多了哦",Toast.LENGTH_SHORT).show();
+                            }
 
+                        }else {
+                            mBackgroud.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }else {
                     loadingFailedDongtai.setVisibility(View.VISIBLE);
                 }

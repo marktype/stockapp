@@ -26,7 +26,7 @@ public class HomeLauncherActivity extends BascActivity {
 
     private void initWidget() {
         ImageView homeLauncherImageView = (ImageView) findViewById(R.id.home_launcher_imageview);
-        Picasso.with(this).load(R.mipmap.start).into(homeLauncherImageView);
+        Picasso.with(this).load(R.mipmap.start1).into(homeLauncherImageView);
         Timer timer = new Timer();
         timer.schedule(new MyTask(), 3000);
     }

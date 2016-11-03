@@ -410,7 +410,7 @@ public class ManagerUtil {
         dialog.setOnPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                downLoadApk();
+                downLoadApk(info.getUrl());
                 dialog.dismiss();
             }
         });
@@ -424,7 +424,7 @@ public class ManagerUtil {
     /*
      * 从服务器中下载APK
      */
-    protected void downLoadApk() {
+    public void downLoadApk(final String url) {
         final ProgressDialog pd;    //进度条对话框
         pd = new  ProgressDialog(context);
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -437,7 +437,7 @@ public class ManagerUtil {
             @Override
             public void run() {
                 try {
-                    File file = DownLoadManager.getFileFromServer(info.getUrl(), pd);
+                    File file = DownLoadManager.getFileFromServer(url, pd);
                     sleep(3000);
                     installApk(file);
                     pd.dismiss(); //结束掉进度条对话框

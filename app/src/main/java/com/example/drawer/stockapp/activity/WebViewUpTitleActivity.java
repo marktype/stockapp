@@ -73,7 +73,7 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        MobclickAgent.onEvent(getApplicationContext(),"Lesson page click");
+        MobclickAgent.onEvent(getApplicationContext(),"LessonPageClick");
         tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         sp = ShapePreferenceManager.getMySharedPreferences(this);
         urlId = getIntent().getStringExtra(URLID);
@@ -315,29 +315,33 @@ public class WebViewUpTitleActivity extends BascActivity implements View.OnClick
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (!TextUtils.isEmpty(s)){
-                Gson gson = new Gson();
-                ClassDetial newsDetial = gson.fromJson(s,ClassDetial.class);
-                if (newsDetial.getHead().getStatus() == 0){
-                    ClassDetial.ResultBean.CourseDetailBean bean = newsDetial.getResult().getCourseDetail();
-                    ClassDetial.ResultBean.CourseInfoBean infoBean = newsDetial.getResult().getCourseInfo();
-                    if (infoBean.getTargetUrl() != null&&!TextUtils.isEmpty(infoBean.getTargetUrl())){
-                        shareUrl = infoBean.getTargetUrl();
-                        webView.loadUrl(infoBean.getTargetUrl());     //"&isApp=true"
-                    }else if (bean.getContent() != null&&!TextUtils.isEmpty(bean.getContent())){
-                        shareUrl = "";
-                        webView.loadDataWithBaseURL("about:blank", Html.fromHtml(bean.getContent()).toString(), "text/html", "utf-8",null);
-                    }
-                    titleName = infoBean.getName();
+                if (s.contains("token")||s.contains("Token")){
+                    Toast.makeText(getApplicationContext(),"账号已过期，请重新登陆",Toast.LENGTH_SHORT).show();
+                }else {
+                    Gson gson = new Gson();
+                    ClassDetial newsDetial = gson.fromJson(s,ClassDetial.class);
+                    if (newsDetial.getHead().getStatus() == 0){
+                        ClassDetial.ResultBean.CourseDetailBean bean = newsDetial.getResult().getCourseDetail();
+                        ClassDetial.ResultBean.CourseInfoBean infoBean = newsDetial.getResult().getCourseInfo();
+                        if (infoBean.getTargetUrl() != null&&!TextUtils.isEmpty(infoBean.getTargetUrl())){
+                            shareUrl = infoBean.getTargetUrl();
+                            webView.loadUrl(infoBean.getTargetUrl());     //"&isApp=true"
+                        }else if (bean.getContent() != null&&!TextUtils.isEmpty(bean.getContent())){
+                            shareUrl = "";
+                            webView.loadDataWithBaseURL("about:blank", Html.fromHtml(bean.getContent()).toString(), "text/html", "utf-8",null);
+                        }
+                        titleName = infoBean.getName();
 //                    mTitle.setText(infoBean.getName());
-                    mZhuanFa.setText(infoBean.getForward()+"");
-                    mComment.setText(infoBean.getComments()+"");
-                    mLikes.setText(infoBean.getLikes()+"");
-                    if (infoBean.getHasLike()){
-                        flag= true;
-                        mZanImg.setImageResource(R.mipmap.y_dianzan);
-                    }else {
-                        flag = false;
-                        mZanImg.setImageResource(R.mipmap.zan);
+                        mZhuanFa.setText(infoBean.getForward()+"");
+                        mComment.setText(infoBean.getComments()+"");
+                        mLikes.setText(infoBean.getLikes()+"");
+                        if (infoBean.getHasLike()){
+                            flag= true;
+                            mZanImg.setImageResource(R.mipmap.y_dianzan);
+                        }else {
+                            flag = false;
+                            mZanImg.setImageResource(R.mipmap.zan);
+                        }
                     }
                 }
             }

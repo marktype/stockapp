@@ -39,6 +39,7 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:hardwareAccelerated="false"
         android:theme="@style/MyAppTheme">
         <activity
             android:name=".activity.MyLauncherActivity"
@@ -64,7 +65,7 @@
 
         <!--友盟数据统计-->
         <meta-data android:value="57fefab067e58eb3db001d59" android:name="UMENG_APPKEY"></meta-data>
-        <meta-data android:value="love_cat" android:name="UMENG_CHANNEL"/>
+        <meta-data android:value="yingyongbao" android:name="UMENG_CHANNEL"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -366,9 +367,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme"/>
 
-        <service   android:name="com.tencent.tmdownloader.TMAssistantDownloadService"
+        <service
+            android:name="com.tencent.tmassistantsdk.downloadservice.TMAssistantDownloadSDKService"
             android:exported="false"
             android:process=":TMAssistantDownloadSDKService" />
+
     </application>
 
 </manifest>

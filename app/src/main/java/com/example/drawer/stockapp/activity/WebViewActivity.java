@@ -70,7 +70,7 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        MobclickAgent.onEvent(getApplicationContext(),"Information page click");
+        MobclickAgent.onEvent(getApplicationContext(),"InformationPageClick");
         tintManager.setStatusBarTintColor(getResources().getColor(R.color.write_color));
         sp = ShapePreferenceManager.getMySharedPreferences(this);
         mToken = sp.getString(ShapePreferenceManager.TOKEN,"");
@@ -317,33 +317,38 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (!TextUtils.isEmpty(s)){
-                Gson gson = new Gson();
-                NewsDetial newsDetial = gson.fromJson(s,NewsDetial.class);
-                if (newsDetial.getHead().getStatus() == 0){
-                    NewsDetial.ResultBean bean = newsDetial.getResult();
-                    if (bean.getTargetUrl() != null&&!TextUtils.isEmpty(bean.getTargetUrl())){
-                        shareUrl = bean.getTargetUrl();
-                        webView.loadUrl(bean.getTargetUrl()+"&isApp=true");     //?isApp=true去掉头和底部
-                    }else if (bean.getContent() != null&&!TextUtils.isEmpty(bean.getContent())){
-                        shareUrl = "";
-                        webView.loadDataWithBaseURL("about:blank", Html.fromHtml(bean.getContent()).toString(), "text/html", "utf-8",null);
-                    }
-                    title = bean.getTitle();
-//                    mTitle.setText(bean.getTitle());
-                    mZhuanFa.setText(bean.getForward()+"");
-                    mComment.setText(bean.getComments()+"");
-                    mLikes.setText(bean.getLikes()+"");
-
-                    if (bean.isHasLike()){
-                        flag= true;
-                        mZanImg.setImageResource(R.mipmap.y_dianzan);
-                    }else {
-                        flag = false;
-                        mZanImg.setImageResource(R.mipmap.zan);
-                    }
+                if (s.contains("token")||s.contains("Token")){
+                    Toast.makeText(getApplicationContext(),"账号已过期，请重新登陆",Toast.LENGTH_SHORT).show();
                 }else {
-                 dialog.dismiss();
+                    Gson gson = new Gson();
+                    NewsDetial newsDetial = gson.fromJson(s,NewsDetial.class);
+                    if (newsDetial.getHead().getStatus() == 0){
+                        NewsDetial.ResultBean bean = newsDetial.getResult();
+                        if (bean.getTargetUrl() != null&&!TextUtils.isEmpty(bean.getTargetUrl())){
+                            shareUrl = bean.getTargetUrl();
+                            webView.loadUrl(bean.getTargetUrl()+"&isApp=true");     //?isApp=true去掉头和底部
+                        }else if (bean.getContent() != null&&!TextUtils.isEmpty(bean.getContent())){
+                            shareUrl = "";
+                            webView.loadDataWithBaseURL("about:blank", Html.fromHtml(bean.getContent()).toString(), "text/html", "utf-8",null);
+                        }
+                        title = bean.getTitle();
+//                    mTitle.setText(bean.getTitle());
+                        mZhuanFa.setText(bean.getForward()+"");
+                        mComment.setText(bean.getComments()+"");
+                        mLikes.setText(bean.getLikes()+"");
+
+                        if (bean.isHasLike()){
+                            flag= true;
+                            mZanImg.setImageResource(R.mipmap.y_dianzan);
+                        }else {
+                            flag = false;
+                            mZanImg.setImageResource(R.mipmap.zan);
+                        }
+                    }else {
+                        dialog.dismiss();
+                    }
                 }
+
             }else {
                 dialog.dismiss();
             }
