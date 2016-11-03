@@ -100,7 +100,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     private int mDongTaiType;   //动态跳转类型
     private SharedPreferences sharedPreferences;
     private ApplyHttpThread thread;
-    private ArrayList<NewsInfo> listInfoSave;
+//    private ArrayList<NewsInfo> listInfoSave;
     private ArrayList<TrendsInfo> trendsInfosSave;
     private List<IndexMarkInfo.ResultBean.MarketDataBean> MarketDataSave;
 
@@ -182,42 +182,19 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
 //        if (headMassageInfo == null) {
         if (mView == null) {
             mView = inflater.inflate(R.layout.fragment_first_news, container, false);
-        }
             initWight();
             initData();
-            if (headMassageInfo == null) {
-                listInfoSave = new ArrayList<>();   //保存数据，下次进入时不必加载
                 //新闻列表加载
                 GetNewsListAsyn getNewsListAsyn = new GetNewsListAsyn();
                 getNewsListAsyn.execute(page + "");
-            } else {
-
-                indexAdapter.setData(listInfoSave);
-                mlist.setAdapter(indexAdapter);
-            }
-            if (MarketDataSave == null) {
-                //指数加载
+//                //指数加载
                 IndexAsyn indexAsyn = new IndexAsyn();
                 indexAsyn.execute();
-            } else {
-                initListData(MarketDataSave);
-            }
 
-            if (images == null) {
                 //banner加载
                 GetBannerInfo getBannerInfo = new GetBannerInfo();
                 getBannerInfo.execute();
-            } else {
-                getSliderLayoutView(images, strings);
-            }
-
-            if (trendsInfosSave != null) {
-                trendsAdapter.setData(trendsInfosSave);
-                mDongTaiList.setAdapter(trendsAdapter);
-            } else {
-
-            }
-
+        }
         return mView;
     }
 
@@ -394,7 +371,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
     public void getDataZixun(){
         ArrayList<NewsInfo> listInfo = setNewsInfo();
         if (page == 0){
-            listInfoSave.clear();
+//            listInfoSave.clear();
             indexAdapter.setData(listInfo);
             mlist.setAdapter(indexAdapter);
         }else if (page>0&&listInfo.size()>0){
@@ -402,7 +379,7 @@ public class FirstNewsFragment extends Fragment implements View.OnClickListener,
         }else {
             Toast.makeText(getActivity(),"已经到底了哦",Toast.LENGTH_SHORT).show();
         }
-        listInfoSave.addAll(listInfo);
+//        listInfoSave.addAll(listInfo);
 
     }
     /**

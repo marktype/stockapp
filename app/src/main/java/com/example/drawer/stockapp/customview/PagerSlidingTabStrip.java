@@ -752,7 +752,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (null != pageListener && this.pager != null)
-            this.pager.removeOnPageChangeListener(pageListener);
+//        if (null != pageListener && this.pager != null)
+//            this.pager.removeOnPageChangeListener(pageListener);
     }
 }

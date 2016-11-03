@@ -85,11 +85,11 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
     private ImageView mMessage, mSearch;
     private String mToken;
     private ImageView mLogin,mImageNoDataOne,mImageNoDataTwo,mImageNoDataThree;
-    private SharedPreferences sp,imageSp;
+    private SharedPreferences sp;
     private ArrayList<CeLueInfo> ceLueInfosSave;
     private NiuRenAdapter niuRenAdapter;
     private int page,niurenPage;
-    DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
+    private DecimalFormat df =new DecimalFormat("#0.00");   //保留两位小数
     private String tokenOld;   //刚进入时的token；与在次进入时比较，看是否刷新
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -154,37 +154,17 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
                              Bundle savedInstanceState) {
         if (mView == null) {
             mView = inflater.inflate(R.layout.fragment_auto_wisdom, container, false);
-        }
             sp = ShapePreferenceManager.getMySharedPreferences(getContext());
-            imageSp = ShapePreferenceManager.getImageSharePreference(getContext());
             initWight();
             initData();
-            if (ceLueListInfo == null){
                 ceLueInfosSave = new ArrayList<>();
                 getCelueInfo(page);
-            }else {
-                ceLueAdapter.setData(ceLueInfosSave);
-                listView.setAdapter(ceLueAdapter);
-            }
-            if (niuRenListInfoSave == null){
                 niuRenInfosSave = new ArrayList<>();
                 getNiuRenListData(niurenPage);
-            }else {
-                niuRenAdapter.setData(niuRenInfosSave);
-                niurenList.setAdapter(niuRenAdapter);
-            }
-
-            if (images == null){
                 //banner加载
                 GetBannerInfo getBannerInfo = new GetBannerInfo();
                 getBannerInfo.execute();
-            }else {
-                getSliderLayoutView(images, strings);
-                getSliderLayoutViewTwo(images, strings);
-                getSliderLayoutViewThree(images, strings);
-            }
-
-
+        }
         return mView;
     }
 
@@ -275,7 +255,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         mSearch = (ImageView) mView.findViewById(R.id.pop_item_img);
 
         tabs = (PagerSlidingTabStrip) mView.findViewById(R.id.wisdom_group);
-        Log.d("tag","tabs----2222--"+tabs.getFadeEnabled());
 
         mPager = (ViewPager) mView.findViewById(R.id.wisdom_content_pager);   //viewpager
         mPager.setOffscreenPageLimit(1);
@@ -328,13 +307,6 @@ public class AutoWisdomFragment extends Fragment implements AdapterView.OnItemCl
         mPager.setAdapter(adapter);
         tabs.setViewPager(mPager);
 
-//        Set<String> imagesSet = imageSp.getStringSet(ShapePreferenceManager.IMAGE_CELUE,null);
-//        images = new ArrayList<>();
-//        if (imagesSet != null&&imagesSet.size()>0){
-//            for (String str : imagesSet) {
-//                images.add(str);
-//            }
-//        }
 
         //量化策略
         listView = (XListView) liangHuaZuHeView.findViewById(R.id.lianghuacelue_list);
