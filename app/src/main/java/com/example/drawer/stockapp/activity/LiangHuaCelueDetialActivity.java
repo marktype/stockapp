@@ -45,6 +45,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.gson.Gson;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,6 +84,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MobclickAgent.onEvent(getApplicationContext(),"CombinedPageClick");
         setContentView(R.layout.celue_detial_first_layout);
         Intent intent = getIntent();
         tintManager.setStatusBarTintResource(R.color.write_color);
