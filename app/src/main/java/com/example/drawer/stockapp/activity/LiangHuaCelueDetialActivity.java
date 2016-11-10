@@ -597,6 +597,8 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         //取消缩放
         mLineChart.setScaleEnabled(false);
         mLineChart.setDoubleTapToZoomEnabled(false);
+//        mLineChart.setMaxVisibleValueCount(1000);
+//        mLineChart.setAutoScaleMinMaxEnabled(true);
 
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));
@@ -617,10 +619,10 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         //设置描述文字
         mLineChart.setDescription("");
 
-
+        int size = ImgData.size()>BenchmarkImgData.size()?BenchmarkImgData.size():ImgData.size();
         //模拟一个x轴的数据  12/1 12/2 ... 12/7
         ArrayList<String> xValues = new ArrayList<>();
-        for (int i = 0; i < ImgData.size(); i++) {
+        for (int i = 0; i < size; i++) {
             StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean dataBean = ImgData.get(i);
             xValues.add(dataBean.getDate().substring(5,10));
         }
@@ -628,7 +630,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         //模拟一组y轴数据(存放y轴数据的是一个Entry的ArrayList) 他是构建LineDataSet的参数之一
 
         ArrayList<Entry> yValue = new ArrayList<>();
-        for (int i = 0; i < ImgData.size(); i++) {
+        for (int i = 0; i < size; i++) {
             StargDetial.ResultBean.PorfolioInfoBean.ImgDataBean dataBean = ImgData.get(i);
             yValue.add(new Entry(Float.parseFloat(df.format(dataBean.getCumulativeReturn())), i));
         }
@@ -638,7 +640,7 @@ public class LiangHuaCelueDetialActivity extends BascActivity implements View.On
         //模拟第二组组y轴数据(存放y轴数据的是一个Entry的ArrayList) 他是构建LineDataSet的参数之一
 
         ArrayList<Entry> yValue1 = new ArrayList<>();
-        for (int i = 0; i < BenchmarkImgData.size(); i++) {
+        for (int i = 0; i < size; i++) {
             StargDetial.ResultBean.PorfolioInfoBean.BenchmarkImgDataBean benchmarkImgDataBean = BenchmarkImgData.get(i);
             yValue1.add(new Entry(Float.parseFloat(df.format(benchmarkImgDataBean.getCumulativeReturn())), i));
         }

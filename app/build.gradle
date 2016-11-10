@@ -15,8 +15,8 @@ android {
         applicationId "com.example.drawer.stockapp"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 8
-        versionName "1.8.8"
+        versionCode 9
+        versionName "1.8.9"
     }
     buildTypes {
         release {
