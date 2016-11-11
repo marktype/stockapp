@@ -420,7 +420,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         }.execute();
     }
     /**
-     * 设置雷达图数据
+     * 设置雷达图图数据
      */
     public void setChartData(StargDetial.ResultBean.AchievemntBean achievemntBean){
         /**
@@ -450,14 +450,14 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
                 Easing.EasingOption.EaseInOutQuad,
                 Easing.EasingOption.EaseInOutQuad);
 
-
         XAxis xAxis = mChart.getXAxis();
         xAxis.setTextSize(9f);
 
         YAxis yAxis = mChart.getYAxis();
-        yAxis.setLabelCount(0, true);
+//        yAxis.setDrawTopYLabelEntry(false);
+        yAxis.setDrawLabels(false);    //隐藏刻度数据
+        yAxis.setLabelCount(5, true);
         yAxis.setTextSize(9f);
-        yAxis.setAxisMinValue(0f);
 
         Legend l = mChart.getLegend();
         ArrayList<Integer> colors = new ArrayList<>();
@@ -499,7 +499,7 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         list.add(new StockBean((int) achievemntBean.getDispersion(), "持股分散度"));
         list.add(new StockBean((int) achievemntBean.getReplication(), "可复制性"));
 
-        //设置星星数量
+
         mRating.setRating((float) (achievemntBean.getProfitability()+achievemntBean.getAntiRiskAbility()+achievemntBean.getStability()+achievemntBean.getDispersion()+achievemntBean.getReplication())/100);
 //        list.add(222);
 //        list.add(333);
@@ -508,10 +508,12 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         }
         ArrayList<String> xVals = new ArrayList<String>();
 
-        for (int i = 0; i < list.size(); i++)
+        for (int i = 0; i < list.size(); i++){
             xVals.add(list.get(i % list.size()).getName());
+        }
 
 //        RadarDataSet set1 = new RadarDataSet(yVals1, "");
+//        set1.setVisible(false);
 //        set1.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
 //        set1.setFillColor(ColorTemplate.VORDIPLOM_COLORS[0]);
 //        set1.setDrawFilled(true);
@@ -538,8 +540,6 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         data.setHighlightEnabled(true);
 
         mChart.setSkipWebLineCount(5);      //设置蜘蛛网的连接线
-
-
         mChart.setData(data);
 
 
@@ -671,7 +671,6 @@ public class MyZuHeDatilActivity extends BascActivity implements View.OnClickLis
         //取消缩放
         mLineChart.setScaleEnabled(false);
         mLineChart.setDoubleTapToZoomEnabled(false);
-
 
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setAxisLineColor(getResources().getColor(android.R.color.transparent));

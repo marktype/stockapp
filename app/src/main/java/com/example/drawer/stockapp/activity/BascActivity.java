@@ -63,4 +63,9 @@ public class BascActivity extends AppCompatActivity {
         MobclickAgent.onPause(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.gc();
+    }
 }

@@ -477,11 +477,11 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         xAxis.setTextSize(9f);
 
         YAxis yAxis = mChart.getYAxis();
-        yAxis.setDrawTopYLabelEntry(false);
+//        yAxis.setDrawTopYLabelEntry(false);
         yAxis.setDrawLabels(false);    //隐藏刻度数据
         yAxis.setLabelCount(5, false);
         yAxis.setTextSize(9f);
-        yAxis.setAxisMinValue(0f);
+//        yAxis.setAxisMinValue(0f);
 
         Legend l = mChart.getLegend();
         ArrayList<Integer> colors = new ArrayList<>();
@@ -564,7 +564,6 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
 
         mChart.setSkipWebLineCount(5);      //设置蜘蛛网的连接线
         mChart.setData(data);
-
 
         mChart.invalidate();
     }

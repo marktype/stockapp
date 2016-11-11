@@ -81,11 +81,11 @@
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/advice_image_txt"
                     android:textSize="@dimen/min_txt_size"
-                    android:maxEms="3"
+                    android:maxEms="4"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:layout_marginRight="@dimen/margin_20dp"
-                    android:text="" />
+                    android:layout_marginRight="@dimen/margin_25dp"
+                    android:text="1111" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -127,6 +127,7 @@
                     android:layout_height="wrap_content">
                 <com.github.mikephil.charting.charts.RadarChart
                     android:id="@+id/chart1"
+                    android:layout_centerHorizontal="true"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                      />
@@ -145,7 +146,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_margin="@dimen/margin_5dp"
                     android:numStars="5"
-                    android:rating="3.5" />
+                    android:stepSize="1"
+                    />
                 </RelativeLayout>
                 <ImageView
                     android:id="@+id/nodata_img_two"
