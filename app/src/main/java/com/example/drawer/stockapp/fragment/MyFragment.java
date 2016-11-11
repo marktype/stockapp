@@ -637,7 +637,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 Uri originalUri = data.getData();        //获得图片的uri
 
                 Bitmap bitmap = getBitmapFromUri(originalUri);
-                bitmap = reduce(bitmap, 720, 720, true);
+                bitmap = reduce(bitmap, 300, 300, true);
                 sendImageToServer(bitmap);
             }
         }else if (requestCode == CROP_REQUST_CODE) {

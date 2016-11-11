@@ -183,7 +183,7 @@ public class SendDynamicActivity extends BascActivity implements View.OnClickLis
             if (data != null){
                 Uri contentUri = data.getData();
                 Bitmap bitmap = getBitmapFromUri(contentUri);
-                bitmap = reduce(bitmap, 720, 720, true);
+                bitmap = reduce(bitmap, 300, 300, true);
                 if (!bitmapList.contains(bitmap)) {
                     bitmapList.add(bitmap);
                 }
