@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -32,7 +31,6 @@ import com.tencent.tmassistantsdk.selfUpdateSDK.TMSelfUpdateSDK;
 import com.tencent.tmassistantsdk.selfUpdateSDK.TMSelfUpdateSDKUpdateInfo;
 
 public class MainActivity extends BascActivity implements OnFragmentInteractionListener,View.OnClickListener {
-    private DrawerLayout mDrawerLayout;
     private FragmentTabHost tabHost;
     public static Boolean isFirst = false;   //判断是否跳转回首页的标记
     @Override
@@ -40,8 +38,6 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
         super.onCreate(savedInstanceState);
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         setContentView(R.layout.activity_main);
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED); //关闭手势滑动
         initTab();
 //        initWight();
         String  fileName = Environment.getExternalStorageDirectory() +"/icon.png"  ;
@@ -78,38 +74,13 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
             tabHost.setCurrentTab(0);
             isFirst = false;
         }
-
-//        if (isHave){
-//            try {
-//                selfUpdateManager.onActivityResume();
-//            } catch (Throwable e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-
-///**
-// * select广播
-// */
-//        IntentFilter filter2 = new IntentFilter();
-//        // 向过滤器中添加action
-//        filter2.addAction("com.ymhd.select");
-//        // 注册广播
-//        registerReceiver(select, filter2);
     }
 
     public void initTab(){
         tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-//        //设置距离顶部状态栏高度
-//        DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT,
-//                DrawerLayout.LayoutParams.MATCH_PARENT);
-//        params.setMargins(0,getStatusBarHeight(this),0,0);
-//        tabHost.setLayoutParams(params);
         //使用fragment代替activity转换实现
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
-//        Bundle bundle = new Bundle();
-//        bundle.putString("status","1");
 
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(setTabMenu("资讯", R.drawable.tab_item1_selector)), FirstNewsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(setTabMenu("智能投顾", R.drawable.tab_item2_selector)), AutoWisdomFragment.class, null);
@@ -161,7 +132,6 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
     }
     @Override
     public void onFragmentInteraction() {
-//        mDrawerLayout.openDrawer(Gravity.LEFT);
     }
 
 
@@ -169,9 +139,6 @@ public class MainActivity extends BascActivity implements OnFragmentInteractionL
     @Override
     protected void onStop() {
         super.onStop();
-//        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-//            mDrawerLayout.closeDrawer(Gravity.LEFT);
-//        }
 
     }
 

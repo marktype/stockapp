@@ -503,16 +503,6 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         ArrayList<Entry> yVals2 = new ArrayList<Entry>();
 
-        // IMPORTANT: In a PieChart, no values (Entry) should have the same
-        // xIndex (even if from different DataSets), since no values can be
-        // drawn above each other.
-//        for (int i = 0; i < cnt; i++) {
-//            yVals1.add(new Entry((float) (Math.random() * mult) + mult / 2, i));
-//        }
-
-//        for (int i = 0; i < cnt; i++) {
-//            yVals2.add(new Entry((float) (Math.random() * mult) + mult / 2, i));
-//        }
         /**
          * 这里讲list里面的值赋给yvals2
          */
@@ -525,8 +515,6 @@ public class CelueDatilActivity extends BascActivity implements View.OnClickList
 
 
         mRating.setRating((float) (achievemntBean.getProfitability()+achievemntBean.getAntiRiskAbility()+achievemntBean.getStability()+achievemntBean.getDispersion()+achievemntBean.getReplication())/100);
-//        list.add(222);
-//        list.add(333);
         for (int i = 0; i < list.size(); i++) {
             yVals2.add(new Entry(list.get(i).getPercent(), i));
         }
