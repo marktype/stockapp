@@ -355,52 +355,6 @@ public class WebViewActivity extends BascActivity implements View.OnClickListene
         }
     }
 
-//    /**
-//     * 获取新闻评论
-//     */
-//    private class DynamicTask extends AsyncTask<String,Void,String>{
-//
-//        @Override
-//        protected String doInBackground(String... strings) {
-//
-//            HashMap<String,Object> hashMap = new HashMap<>();
-//            HashMap<String,String> map = new HashMap<>();
-//            map.put("PageIndex", "0");
-//            map.put("PageCount", "0");
-//            map.put("PageSize", "10000");
-//            hashMap.put("PageInfo",map);
-//            hashMap.put("Id",strings[0]);
-//            hashMap.put("Type","Comment");
-//            String message = HttpManager.newInstance().getHttpDataByThreeLayer("",hashMap,HttpManager.CommentsList_URL);
-//            return message;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String s) {
-//            super.onPostExecute(s);
-//            String message = s;
-//            if (!TextUtils.isEmpty(message)){
-//                Gson gson = new Gson();
-//                commnetInfo = gson.fromJson(message,CommnetInfo.class);
-//                parseData(commnetInfo);
-//            }
-//        }
-//    }
-//
-//    public void parseData(CommnetInfo commnetInfo){
-//        List<CommnetInfo.ResultBean.DataBean> data = commnetInfo.getResult().getData();
-//        ArrayList<TrendsInfo> list = new ArrayList<>();
-//        for (int i = 0;i<data.size();i++){
-//            CommnetInfo.ResultBean.DataBean dataBean = data.get(i);
-//            TrendsInfo info = new TrendsInfo();
-//            info.setFriendName(dataBean.getNickName());
-//            info.setFriendContent(dataBean.getContent());
-//            info.setFriendImage(dataBean.getImgUrl());
-//            list.add(info);
-//        }
-//        adapter.setData(list);
-//        mList.setAdapter(adapter);
-//    }
     /**
      * 软键盘监听
      */

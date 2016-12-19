@@ -19,9 +19,6 @@ public class HomeLauncherActivity extends BascActivity {
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         setContentView(R.layout.activity_home_launcher);
         initWidget();
-
-//        handler.postDelayed(runnable, 1000); //每隔1s执行
-
     }
 
     private void initWidget() {
