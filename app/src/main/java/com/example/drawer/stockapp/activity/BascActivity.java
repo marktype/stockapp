@@ -21,7 +21,6 @@ public class BascActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         //设置状态栏的颜色
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setTranslucentStatus(true);
@@ -68,4 +67,5 @@ public class BascActivity extends AppCompatActivity {
         super.onDestroy();
         System.gc();
     }
+
 }

@@ -16,6 +16,8 @@ public class HomeLauncherActivity extends BascActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         tintManager.setStatusBarTintResource(android.R.color.transparent);
         setContentView(R.layout.activity_home_launcher);
         initWidget();
@@ -37,5 +39,7 @@ public class HomeLauncherActivity extends BascActivity {
             finish();
         }
     }
+
+
 
 }
